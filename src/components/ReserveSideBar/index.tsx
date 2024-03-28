@@ -116,7 +116,7 @@ const ReserveSideBar = ({ roomData }: ReserveSideBarProps) => {
               }
             >
               <span>Two-Bedroom Superior Apartment</span>
-              <span>US${price}</span>
+              <span>VND{price}</span>
             </div>
             <div
               className={
@@ -124,7 +124,7 @@ const ReserveSideBar = ({ roomData }: ReserveSideBarProps) => {
               }
             >
               <span>5 % VAT</span>
-              <span>US${price && (price * 0.05).toFixed(2)}</span>
+              <span>VND{price && (price * 0.05).toFixed(2)}</span>
             </div>
           </div>
           <div
@@ -133,7 +133,7 @@ const ReserveSideBar = ({ roomData }: ReserveSideBarProps) => {
             }
           >
             <span>Price</span>
-            <span>US${price && price + price * 0.05} *</span>
+            <span>VND{price && price + price * 0.05} *</span>
           </div>
           <div
             className={
@@ -151,7 +151,7 @@ const ReserveSideBar = ({ roomData }: ReserveSideBarProps) => {
               }
             >
               <span>City tax</span>
-              <span>US$8</span>
+              <span>VND8</span>
             </div>
             <div
               className={
@@ -163,7 +163,7 @@ const ReserveSideBar = ({ roomData }: ReserveSideBarProps) => {
               <span>
                 Damage deposit <b>Fully refundable</b>
               </span>
-              <span>US$156 *</span>
+              <span>VND156 *</span>
             </div>
           </div>
           <hr />
@@ -173,7 +173,7 @@ const ReserveSideBar = ({ roomData }: ReserveSideBarProps) => {
             }
           >
             <span>
-              {`* This price is converted to show you the approximate cost in US$. You'll pay in`}{' '}
+              {`* This price is converted to show you the approximate cost in VND. You'll pay in`}{' '}
               <b>€</b> {`or`} <b>HUF</b>
               {`. The exchange rate may change before you pay.`}
             </span>

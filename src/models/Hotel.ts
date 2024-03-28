@@ -13,4 +13,13 @@ export interface Hotel {
   cheapestPrice: number;
   featured: boolean;
   tags: string[];
+  comment: Comment[];
+}
+
+
+export interface Comment {
+  comment: string;
+  created: string;
+  rating: number;
+  username: string;
 }

@@ -1,36 +1,57 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import styles from './Register.module.scss';
 import Navbar from '../../components/Navbar';
 
 const Register = () => {
-  const [credentials, setCredentials] = useState({
-    username: '',
-    password: '',
-    email: '',
-    country: '',
-    city: '',
-    phone: '',
-  });
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [country, setCountry] = useState('');
+  const [city, setCity] = useState('');
+  const [phone, setPhone] = useState('');
+
   const [step, setStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
-  const handleInputChange = (e) => {
-    setCredentials((prev) => ({ ...prev, [e.target.id]: e.target.value }));
+  const handleInputChangeUsername = (e:any) => {
+    setUsername(() => e.target.value);
   };
+  const handleInputChangePassword = (e:any) => {
+    setPassword(() => e.target.value);
+  }
+  const handleInputChangeEmail = (e:any) => {
+    setEmail(() => e.target.value);
+  }
+  const handleInputChangeCountry = (e:any) => {
+    setCountry(() => e.target.value);
+  }
+  const handleInputChangeCity = (e:any) => {
+    setCity(() => e.target.value);
+  }
+  const handleInputChangePhone = (e:any) => {
+    setPhone(() => e.target.value);
+  }
 
-  const handleRegister = async (e) => {
-    e.preventDefault();
+  const handleRegister = async (e:any) => {
+    e.preventDefault();//co can khong
     setIsLoading(true);
 
     try {
       await axios.post(
         `${process.env.REACT_APP_API_ENDPOINT}/auth/register`,
-        credentials,
+        {
+          username: username,
+          password: password,
+          email: email,
+          country: country,
+          city: city,
+          phone: phone,
+        },
       );
 
       navigate('/login');
@@ -58,17 +79,15 @@ const Register = () => {
             <input
               type="email"
               placeholder="Email"
-              value={credentials.email}
-              id="email"
-              onChange={handleInputChange}
+              value={email}
+              onChange={handleInputChangeEmail}
               className={styles['register__container__input']}
             />
             <input
               type="password"
               placeholder="Password"
-              value={credentials.password}
-              id="password"
-              onChange={handleInputChange}
+              value={password}
+              onChange={handleInputChangePassword}
               className={styles['register__container__input']}
             />
             <button
@@ -90,33 +109,29 @@ const Register = () => {
             <input
               type="text"
               placeholder="Full Name *"
-              value={credentials.username}
-              id="username"
-              onChange={handleInputChange}
+              value={username}
+              onChange={handleInputChangeUsername}
               className={styles['register__container__input']}
             />
             <input
               type="text"
               placeholder="Country *"
-              value={credentials.country}
-              id="country"
-              onChange={handleInputChange}
+              value={country}
+              onChange={handleInputChangeCountry}
               className={styles['register__container__input']}
             />
             <input
               type="text"
               placeholder="City *"
-              value={credentials.city}
-              id="city"
-              onChange={handleInputChange}
+              value={city}
+              onChange={handleInputChangeCity}
               className={styles['register__container__input']}
             />
             <input
               type="number"
               placeholder="Phone Number *"
-              value={credentials.phone}
-              id="phone"
-              onChange={handleInputChange}
+              value={phone}
+              onChange={handleInputChangePhone}
               className={styles['register__container__input']}
             />
             <button
@@ -130,12 +145,12 @@ const Register = () => {
               onClick={handleRegister}
               disabled={
                 isLoading ||
-                !credentials.username ||
-                !credentials.password ||
-                !credentials.email ||
-                !credentials.country ||
-                !credentials.city ||
-                !credentials.phone
+                !username ||
+                !password ||
+                !email ||
+                !country ||
+                !city ||
+                !phone
               }
             >
               Register

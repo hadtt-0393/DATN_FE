@@ -4,7 +4,7 @@
   align-items: center;
   margin: 20px 0;
   gap: 20px;
-
+  
   &__btn {
     width: 100%;
     background-color: #0071c2;
@@ -54,15 +54,19 @@
         flex: 3;
         margin-left: 0;
       }
+
       &__item:nth-child(2) {
         flex: 2;
+
         @media screen and (max-width: 768px) {
           margin-left: 0;
         }
       }
+
       &__item:last-child {
         flex: 1;
         padding: 0;
+
         @media screen and (max-width: 768px) {
           margin-left: 0;
           width: 100%;
@@ -177,6 +181,7 @@
       border-top: 1px solid #e7e7e7;
       padding: 20px 0;
       margin-top: 20px;
+
       h3 {
         font-size: 14px;
       }
@@ -314,6 +319,7 @@
             display: flex;
             align-items: center;
             gap: 2px;
+
             &__icon {
               color: #008009;
             }
@@ -337,22 +343,28 @@
         h1 {
           font-size: 18px;
           color: #555;
+
           @media screen and (max-width: 768px) {
             font-size: 16px;
           }
         }
+
         span {
           font-size: 14px;
+
           @media screen and (max-width: 768px) {
             font-size: 12px;
           }
         }
+
         h2 {
           font-weight: 500;
+
           @media screen and (max-width: 768px) {
             font-size: 22px;
           }
         }
+
         button {
           border: none;
           padding: 10px 20px;

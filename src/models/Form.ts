@@ -14,4 +14,5 @@ export interface Form {
   roomIds: string;
   startDate: Date;
   endDate: Date;
+  isComment: boolean;
 }

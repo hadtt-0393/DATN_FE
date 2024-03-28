@@ -5,12 +5,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import styles from './Navbar.module.scss';
 import logo from '../../logo.png';
-import { mt } from 'date-fns/locale';
 interface NavbarProps {
   type?: string;
 }
 
-const Navbar = ({ type }: NavbarProps) => {
+const Navbar = ({type}: NavbarProps) => {
   const { user, dispatch } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -27,8 +26,7 @@ const Navbar = ({ type }: NavbarProps) => {
     navigate('/');
   };
 
-  console.log(process.env.REACT_APP_API_ENDPOINT);
-
+  //Responsive for mobile
   const [width, setWidth] = useState(
     window.innerWidth > 768 ? 'laptop' : 'mobile',
   );
@@ -39,6 +37,7 @@ const Navbar = ({ type }: NavbarProps) => {
 
     window.addEventListener('resize', handleResize);
   }, [window.innerWidth]);
+  //Responsive for mobile
 
   return (
     <div className={styles['navbar']}>
@@ -58,7 +57,7 @@ const Navbar = ({ type }: NavbarProps) => {
           <div className={styles['navbar__container__items']}>
             <button
               className={styles['navbar__container__items__info-btn']}
-              onClick={() => navigate('/')}
+              onClick={() => navigate('/reservations')}
             >
               {width === 'laptop' ? (
                 'List your reservations'

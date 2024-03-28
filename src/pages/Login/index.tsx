@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import { toast } from 'react-toastify';
@@ -7,26 +7,30 @@ import styles from './Login.module.scss';
 import Navbar from '../../components/Navbar';
 
 const Login = () => {
-  const [credentials, setCredentials] = useState({
-    email: '',
-    password: '',
-  });
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const { loading, error, dispatch } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
-  const handleInputChange = (e) => {
-    setCredentials((prev) => ({ ...prev, [e.target.id]: e.target.value }));
+  const handleInputChangeEmail = (e:any) => {
+    setEmail(() => e.target.value);
   };
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
+  const handleInputChangePassword = (e:any) => {
+    setPassword(() => e.target.value);
+  };
+
+  const handleLogin = async (e:any) => {
     dispatch && dispatch({ type: 'LOGIN_START' });
     try {
       const res = await axios.post(
-        `${process.env.REACT_APP_API_ENDPOINT}/auth/login`,
-        credentials,
+        `${process.env.REACT_APP_API_ENDPOINT}/auth/login/`,
+        {
+          email: email,
+          password: password,
+        }
       );
       dispatch &&
         dispatch({ type: 'LOGIN_SUCCESS', payload: res.data.details });
@@ -37,7 +41,7 @@ const Login = () => {
     }
   };
 
-  const handleNavigate = () => {
+  const handleRegister = () => {
     navigate('/register');
   };
 
@@ -54,15 +58,13 @@ const Login = () => {
           <input
             type="text"
             placeholder="Email"
-            id="email"
-            onChange={handleInputChange}
+            onChange={handleInputChangeEmail}
             className={styles['login__container__input']}
           />
           <input
             type="password"
             placeholder="Password"
-            id="password"
-            onChange={handleInputChange}
+            onChange={handleInputChangePassword}
             className={styles['login__container__input']}
           />
           <button
@@ -72,7 +74,7 @@ const Login = () => {
           >
             Sign in
           </button>
-          <span className={styles['signup-btn']} onClick={handleNavigate}>
+          <span className={styles['signup-btn']} onClick={handleRegister}>
             Create a new account
           </span>
         </div>

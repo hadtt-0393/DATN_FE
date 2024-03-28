@@ -481,7 +481,7 @@ const ReserveDetails = ({
         </div>
         <button
           onClick={() => {
-            setStep(1);
+            setStep(2);
           }}
           className={styles['reserve__btn']}
         >

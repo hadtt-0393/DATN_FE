@@ -45,6 +45,7 @@ const ReservePage = () => {
     roomIds: selectedRooms.toString(),
     startDate: dates[0].startDate,
     endDate: dates[0].endDate,
+    isComment: false,
   });
 
   return (

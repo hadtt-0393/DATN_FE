@@ -8,7 +8,7 @@ import styles from './FeaturedCity.module.scss';
 const FeaturedCity = () => {
   const navigate = useNavigate();
   const { data, loading, error } = useFetch<CountByCity[]>(
-    `${process.env.REACT_APP_API_ENDPOINT}/hotels/count/byCity?cities=Krakow,New York,Madrid,Ha Noi,Nha Trang`,
+    `${process.env.REACT_APP_API_ENDPOINT}/hotels/count/byCity?cities=Da Lat,Hai Phong,Quang Ninh,Ha Noi,Nha Trang`,
   );
   if (error) {
     return <div>{error.message}</div>;
@@ -16,13 +16,13 @@ const FeaturedCity = () => {
 
   const dummy_featured_1 = [
     {
-      src: 'https://cf.bstatic.com/xdata/images/city/600x600/688831.jpg?k=7b999c7babe3487598fc4dd89365db2c4778827eac8cb2a47d48505c97959a78&o=',
-      city: 'Krakow',
+      src: 'https://wnfdiary.com/wp-content/uploads/2021/11/Dalat-vietnam-7.jpg',
+      city: 'Da Lat',//Krakow
       propertyCount: data && data[0],
     },
     {
-      src: 'https://cf.bstatic.com/xdata/images/city/600x600/688831.jpg?k=7b999c7babe3487598fc4dd89365db2c4778827eac8cb2a47d48505c97959a78&o=',
-      city: 'New York',
+      src: 'https://asialegend.travel/wp-content/uploads/2023/12/The-springtime-of-Hai-Phong-City-is-bright-and-enjoyable-making-it-the-best-occasion-to-visit.jpg',
+      city: 'Hai Phong',//New York
       propertyCount: data && data[1],
     },
   ];
@@ -30,7 +30,7 @@ const FeaturedCity = () => {
   const dummy_featured_2 = [
     {
       src: 'https://cf.bstatic.com/xdata/images/city/500x400/689422.webp?k=2595c93e7e067b9ba95f90713f80ba6e5fa88a66e6e55600bd27a5128808fdf2&o=',
-      city: 'Madrid',
+      city: 'Quang Ninh',//Madrid
       propertyCount: data && data[2],
     },
     {

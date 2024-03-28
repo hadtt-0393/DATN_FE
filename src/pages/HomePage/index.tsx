@@ -9,7 +9,7 @@ import styles from './HomePage.module.scss';
 
 const HomePage = () => {
   return (
-    <div>
+    <div className='homepage'>
       <Navbar />
       <Header />
       <div className={styles['home-page__container']}>

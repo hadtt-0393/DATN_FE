@@ -5,11 +5,13 @@ import {
   faPerson,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Avatar, Box, Button, Card, CardActions, CardContent, CardHeader, CardMedia, IconButton, Typography, colors } from '@mui/material';
 import { format } from 'date-fns';
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { DateRange } from 'react-date-range';
 import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import Footer from '../../components/Footer';
 import Header, { DatesInterface } from '../../components/Header';
 import HotelImageSlider from '../../components/HotelImageSlider';
@@ -20,9 +22,13 @@ import MailList from '../../components/MailList';
 import Navbar from '../../components/Navbar';
 import { SearchContext } from '../../context/SearchContext';
 import useFetch from '../../hooks/useFetch';
-import { Hotel } from '../../models/Hotel';
+import { Hotel, Comment } from '../../models/Hotel';
 import { dayDifference } from '../../services/utils';
 import styles from './HotelItem.module.scss';
+import { Navigation } from 'swiper';
+import { Star, ArrowCircleLeft, ArrowCircleRight } from '@mui/icons-material';
+import 'swiper/css';
+import 'swiper/css/navigation';
 
 const HotelItem = () => {
   const {
@@ -93,6 +99,7 @@ const HotelItem = () => {
             photos={data?.photos}
             setIsOpenSlider={setIsOpenSlider}
           />
+
         )}
         <div className={styles['hotel__container__wrapper']}>
           {loading ? (
@@ -153,7 +160,7 @@ const HotelItem = () => {
                 <p
                   className={
                     styles[
-                      'hotel__container__wrapper__detail__text__description'
+                    'hotel__container__wrapper__detail__text__description'
                     ]
                   }
                 >
@@ -169,7 +176,7 @@ const HotelItem = () => {
                     <div
                       className={
                         styles[
-                          'hotel__container__wrapper__detail__text__tags__item'
+                        'hotel__container__wrapper__detail__text__tags__item'
                         ]
                       }
                       key={index}
@@ -178,7 +185,7 @@ const HotelItem = () => {
                         icon={faCheck}
                         className={
                           styles[
-                            'hotel__container__wrapper__detail__text__tags__item__icon'
+                          'hotel__container__wrapper__detail__text__tags__item__icon'
                           ]
                         }
                       />
@@ -221,7 +228,7 @@ const HotelItem = () => {
                         direction="horizontal"
                         className={
                           styles[
-                            'hotel__container__wrapper__search__item__date'
+                          'hotel__container__wrapper__search__item__date'
                           ]
                         }
                       />
@@ -250,21 +257,21 @@ const HotelItem = () => {
                       <div
                         className={
                           styles[
-                            'hotel__container__wrapper__search__item__options'
+                          'hotel__container__wrapper__search__item__options'
                           ]
                         }
                       >
                         <div
                           className={
                             styles[
-                              'hotel__container__wrapper__search__item__options__item'
+                            'hotel__container__wrapper__search__item__options__item'
                             ]
                           }
                         >
                           <span
                             className={
                               styles[
-                                'hotel__container__wrapper__search__item__options__item__text'
+                              'hotel__container__wrapper__search__item__options__item__text'
                               ]
                             }
                           >
@@ -273,14 +280,14 @@ const HotelItem = () => {
                           <div
                             className={
                               styles[
-                                'hotel__container__wrapper__search__item__options__item__counter-container'
+                              'hotel__container__wrapper__search__item__options__item__counter-container'
                               ]
                             }
                           >
                             <button
                               className={
                                 styles[
-                                  'hotel__container__wrapper__search__item__options__item__counter-btn'
+                                'hotel__container__wrapper__search__item__options__item__counter-btn'
                                 ]
                               }
                               onClick={() => handleOption('adult', 'd')}
@@ -291,7 +298,7 @@ const HotelItem = () => {
                             <span
                               className={
                                 styles[
-                                  'hotel__container__wrapper__search__item__options__item__counter-number'
+                                'hotel__container__wrapper__search__item__options__item__counter-number'
                                 ]
                               }
                             >
@@ -300,7 +307,7 @@ const HotelItem = () => {
                             <button
                               className={
                                 styles[
-                                  'hotel__container__wrapper__search__item__options__item__counter-btn'
+                                'hotel__container__wrapper__search__item__options__item__counter-btn'
                                 ]
                               }
                               onClick={() => handleOption('adult', 'i')}
@@ -312,14 +319,14 @@ const HotelItem = () => {
                         <div
                           className={
                             styles[
-                              'hotel__container__wrapper__search__item__options__item'
+                            'hotel__container__wrapper__search__item__options__item'
                             ]
                           }
                         >
                           <span
                             className={
                               styles[
-                                'hotel__container__wrapper__search__item__options__item__text'
+                              'hotel__container__wrapper__search__item__options__item__text'
                               ]
                             }
                           >
@@ -328,14 +335,14 @@ const HotelItem = () => {
                           <div
                             className={
                               styles[
-                                'hotel__container__wrapper__search__item__options__item__counter-container'
+                              'hotel__container__wrapper__search__item__options__item__counter-container'
                               ]
                             }
                           >
                             <button
                               className={
                                 styles[
-                                  'hotel__container__wrapper__search__item__options__item__counter-btn'
+                                'hotel__container__wrapper__search__item__options__item__counter-btn'
                                 ]
                               }
                               onClick={() => handleOption('children', 'd')}
@@ -346,7 +353,7 @@ const HotelItem = () => {
                             <span
                               className={
                                 styles[
-                                  'hotel__container__wrapper__search__item__options__item__counter-number'
+                                'hotel__container__wrapper__search__item__options__item__counter-number'
                                 ]
                               }
                             >
@@ -355,7 +362,7 @@ const HotelItem = () => {
                             <button
                               className={
                                 styles[
-                                  'hotel__container__wrapper__search__item__options__item__counter-btn'
+                                'hotel__container__wrapper__search__item__options__item__counter-btn'
                                 ]
                               }
                               onClick={() => handleOption('children', 'i')}
@@ -367,14 +374,14 @@ const HotelItem = () => {
                         <div
                           className={
                             styles[
-                              'hotel__container__wrapper__search__item__options__item'
+                            'hotel__container__wrapper__search__item__options__item'
                             ]
                           }
                         >
                           <span
                             className={
                               styles[
-                                'hotel__container__wrapper__search__item__options__item__text'
+                              'hotel__container__wrapper__search__item__options__item__text'
                               ]
                             }
                           >
@@ -383,14 +390,14 @@ const HotelItem = () => {
                           <div
                             className={
                               styles[
-                                'hotel__container__wrapper__search__item__options__item__counter-container'
+                              'hotel__container__wrapper__search__item__options__item__counter-container'
                               ]
                             }
                           >
                             <button
                               className={
                                 styles[
-                                  'hotel__container__wrapper__search__item__options__item__counter-btn'
+                                'hotel__container__wrapper__search__item__options__item__counter-btn'
                                 ]
                               }
                               onClick={() => handleOption('room', 'd')}
@@ -401,7 +408,7 @@ const HotelItem = () => {
                             <span
                               className={
                                 styles[
-                                  'hotel__container__wrapper__search__item__options__item__counter-number'
+                                'hotel__container__wrapper__search__item__options__item__counter-number'
                                 ]
                               }
                             >
@@ -410,7 +417,7 @@ const HotelItem = () => {
                             <button
                               className={
                                 styles[
-                                  'hotel__container__wrapper__search__item__options__item__counter-btn'
+                                'hotel__container__wrapper__search__item__options__item__counter-btn'
                                 ]
                               }
                               onClick={() => handleOption('room', 'i')}
@@ -450,6 +457,55 @@ const HotelItem = () => {
             <h3>Book this apartment</h3>
             <HotelRoomList hotelId={hotelId} />
           </div>
+        </div>
+        <div style={{ width: "100%", maxWidth: '1140px', marginBottom:"20px"}}>
+          <h3 style={{ marginBottom: "30px" }}>See what guests loved the most:</h3>
+          {data?.comment.length ?
+            <Swiper
+              slidesPerView={3}
+              spaceBetween={30}
+              navigation={{ prevEl: '.swiper-button-prev', nextEl: '.swiper-button-next' }}
+              modules={[Navigation]}
+            >
+              {data?.comment.map((item: Comment) => (
+
+                <SwiperSlide style={{marginBottom:"20px"}}>
+                  <Card sx={{ width: '100%',maxHeight:"500px" }}>
+                    <CardHeader
+                      avatar={
+                        <Avatar sx={{ bgcolor: "red" }} aria-label="recipe">
+                          {item.username.charAt(0)}
+                        </Avatar>
+                      }
+                      action={
+                        <Typography sx={{ display: 'flex', alignItems: 'center' }} >{item.rating} <Star sx={{ color: "#FAAF00" }} /></Typography>
+                      }
+                      title={item.username}
+                      subheader={new Date(item.created).toLocaleString("en-GB", { timeZone: "UTC" })}
+                    />
+                    <CardMedia
+                      component="img"
+                      height="194"
+                      image="https://static.vecteezy.com/system/resources/previews/023/506/852/non_2x/cute-kawaii-mushroom-chibi-mascot-cartoon-style-vector.jpg"
+                      alt="Paella dish"
+                    />
+                    <CardContent>
+                      <Typography variant="body2" color="text.secondary">
+                        {item.comment}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </SwiperSlide>
+              ))}
+              <div className="swiper-button-prev" style={{ color: 'red' }}>
+                {/* <ArrowCircleLeft /> */}
+              </div>
+              <div className="swiper-button-next" style={{ color: 'red' }}>
+                {/* <ArrowCircleRight /> */}
+              </div>
+            </Swiper>
+            : <h4 style={{ color: "orange", fontStyle: "italic" }}>There are no comments yet</h4>
+          }
         </div>
         <MailList />
         <Footer />
