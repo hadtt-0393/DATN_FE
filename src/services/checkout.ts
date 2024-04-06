@@ -17,7 +17,7 @@ export const checkout = async ({ lineItems }) => {
   await stripe.redirectToCheckout({
     mode: 'payment',
     lineItems,
-    successUrl: `${window.location.origin}`,
-    cancelUrl: `${window.location.origin}`,
+    successUrl: 'http://localhost:3000/reservations',
+    cancelUrl: 'http://localhost:3000/reservations',
   });
 };

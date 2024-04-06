@@ -20,12 +20,13 @@ export const AuthContext = createContext<AuthContextProps>(INITIAL_STATE);
 const AuthReducer = (state:any, action:any) => {
   switch (action.type) {
     case 'LOGIN_START':
+      console.log('start')
       return { user: null, loading: true, error: null };
     case 'LOGIN_SUCCESS': {
       toast.success('Login Succeeded', { toastId: 'LOGIN_SUCCESS' });
       return { user: action.payload, loading: false, error: null };
     }
-    case 'LOGIN_FAILURE': {
+    case 'LOGIN_FAIL': {
       return { user: null, loading: false, error: action.payload };
     }
     case 'LOGOUT': {

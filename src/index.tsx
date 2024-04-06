@@ -7,14 +7,12 @@ import { SearchContextProvider } from './context/SearchContext';
 import './styles/global.scss';
 
 ReactDOM.render(
-  <React.StrictMode>
     <AuthContextProvider>
       <SearchContextProvider>
         <ReserveContextProvider>
           <App />
         </ReserveContextProvider>
       </SearchContextProvider>
-    </AuthContextProvider>
-  </React.StrictMode>,
+    </AuthContextProvider>,
   document.getElementById('root'),
 );

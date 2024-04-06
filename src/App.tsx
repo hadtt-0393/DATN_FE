@@ -5,7 +5,7 @@ import 'react-loading-skeleton/dist/skeleton.css';
 import HomePage from './pages/HomePage';
 import HotelItem from './pages/HotelItem';
 import HotelList from './pages/HotelList';
-import Login from './pages/Login';
+import Signin from './pages/Signin';
 import Register from './pages/Register';
 import ReservePage from './pages/ReservePage';
 import AllHotelPage from './pages/AllHotelPage';
@@ -20,7 +20,7 @@ const App = () => {
         <Route path="/hotels" element={<HotelList />} />
         <Route path="/hotels/:id" element={<HotelItem />} />
         <Route path="/reserve/:id" element={<ReservePage />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Signin />} />
         <Route path="/register" element={<Register />} />
         <Route path="/reservations" element={<UserReservationsPage />} />
         <Route path="/reservations/:id" element={<UserReservationDetails />} />
