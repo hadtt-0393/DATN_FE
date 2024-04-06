@@ -6,11 +6,12 @@ import HomePage from './pages/HomePage';
 import HotelItem from './pages/HotelItem';
 import HotelList from './pages/HotelList';
 import Signin from './pages/Signin';
-import Register from './pages/Register';
+import Signup from './pages/Signup';
 import ReservePage from './pages/ReservePage';
 import AllHotelPage from './pages/AllHotelPage';
 import UserReservationsPage from './pages/UserReservationsPage';
 import UserReservationDetails from './pages/UserReservationDetails';
+import Login from './pages/Login_ver2';
 
 const App = () => {
   return (
@@ -20,8 +21,8 @@ const App = () => {
         <Route path="/hotels" element={<HotelList />} />
         <Route path="/hotels/:id" element={<HotelItem />} />
         <Route path="/reserve/:id" element={<ReservePage />} />
-        <Route path="/login" element={<Signin />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/signin" element={<Signin />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="/reservations" element={<UserReservationsPage />} />
         <Route path="/reservations/:id" element={<UserReservationDetails />} />
 

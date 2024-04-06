@@ -42,7 +42,7 @@ const Login = () => {
   };
 
   const handleRegister = () => {
-    navigate('/register');
+    navigate('/signup');
   };
 
   if (error) {

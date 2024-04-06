@@ -14,11 +14,11 @@ const Navbar = ({type}: NavbarProps) => {
   const navigate = useNavigate();
 
   const handleLogin = () => {
-    navigate('/login');
+    navigate('/signin');
   };
 
   const handleRegister = () => {
-    navigate('/register');
+    navigate('/signup');
   };
 
   const handleLogout = () => {

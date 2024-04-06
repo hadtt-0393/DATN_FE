@@ -26,7 +26,7 @@ const Header = ({ type }: HeaderProps) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate('/login');
+    navigate('/signin');
   };
 
   return (

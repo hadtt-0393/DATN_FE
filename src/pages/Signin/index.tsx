@@ -25,14 +25,14 @@ const Signin = () => {
     const { loading, error, dispatch } = useContext(AuthContext)
     const navigate = useNavigate()
 
-    const handleInputChangeEmail = ((e: any) => {
+    const handleChangeInputEmail = ((e: any) => {
         setEmail(e.target.value)
         if (e.target.value) {
             setErrEmail(false)
         }
     })
 
-    const handleInputChangePassword = ((e: any) => {
+    const handleChangeInputPassword = ((e: any) => {
         setPassword(e.target.value)
         if (e.target.value) {
             setErrPassword(false)
@@ -123,7 +123,7 @@ const Signin = () => {
                                 name="email"
                                 autoComplete="email"
                                 autoFocus
-                                onChange={handleInputChangeEmail}
+                                onChange={handleChangeInputEmail}
                             />
                             <TextField
                                 margin="normal"
@@ -135,18 +135,17 @@ const Signin = () => {
                                 label="Password"
                                 type="password"
                                 autoComplete="current-password"
-                                onChange={handleInputChangePassword}
+                                onChange={handleChangeInputPassword}
                             />
                             <FormControlLabel
                                 control={<Checkbox value="remember" color="error" />}
-                                label="Remember me"
+                                label="Remember me "
                             />
                             <Button
                                 type="submit"
                                 fullWidth
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2 }}
-                                // onClick={handleSignin}
                                 disabled={loading}
                             >
                                 Sign In
@@ -158,7 +157,7 @@ const Signin = () => {
                                     </Link>
                                 </Grid>
                                 <Grid item>
-                                    <Link href="/register" variant="body2" >
+                                    <Link href="/signup" variant="body2" >
                                         {"New User ? Create an Account"}
                                     </Link>
                                 </Grid>
