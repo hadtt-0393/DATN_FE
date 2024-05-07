@@ -34,7 +34,7 @@ const AllHotelListItem = ({ item }: AllHotelListItemProps) => {
           <div
             className={styles['hotel-list-item__content__description__price']}
           >
-            USD ${item.cheapestPrice}
+             ${item.cheapestPrice} VND
           </div>
           <span>For tonight</span>
         </div>

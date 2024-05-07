@@ -1,6 +1,6 @@
 import { loadStripe } from '@stripe/stripe-js';
 
-export const checkout = async ({ lineItems }) => {
+export const checkout = async ({ lineItems, res }) => {
   let stripePromise: any = null;
 
   // Load Stripe
@@ -16,8 +16,8 @@ export const checkout = async ({ lineItems }) => {
   // Redirect to Stripe checkout page
   await stripe.redirectToCheckout({
     mode: 'payment',
-    lineItems,
-    successUrl: 'http://localhost:3000/reservations',
-    cancelUrl: 'http://localhost:3000/reservations',
+    lineItems: lineItems,
+    successUrl: `http://localhost:3000/reservations/${res.data._id}`,
+    cancelUrl: 'http://localhost:3000',
   });
 };

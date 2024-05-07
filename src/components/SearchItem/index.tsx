@@ -53,7 +53,7 @@ const SearchItem = ({ item }: SearchItemProps) => {
         </div>
         <div className={styles['search-item__detail__text']}>
           <span className={styles['search-item__detail__text__price']}>
-            VND{item.cheapestPrice}
+            {item.cheapestPrice} VND
           </span>
           <span className={styles['search-item__detail__text__tax-option']}>
             Include taxes and fees

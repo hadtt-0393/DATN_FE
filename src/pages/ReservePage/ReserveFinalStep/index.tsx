@@ -1,4 +1,4 @@
-import {} from '@fortawesome/free-regular-svg-icons';
+import { } from '@fortawesome/free-regular-svg-icons';
 import {
   faParking,
   faUtensils,
@@ -55,12 +55,12 @@ const ReserveFinalStep = ({
   useEffect(() => {
     setIsDisabled(
       !formData.firstName ||
-        !formData.lastName ||
-        !formData.email ||
-        !formData.country ||
-        !formData.phoneNumber ||
-        !formData.hotelId ||
-        !formData.roomIds,
+      !formData.lastName ||
+      !formData.email ||
+      !formData.country ||
+      !formData.phoneNumber ||
+      !formData.hotelId ||
+      !formData.roomIds,
     );
   }, [formData]);
 
@@ -80,14 +80,10 @@ const ReserveFinalStep = ({
 
   const handleReserve = async () => {
     try {
-      try {
-        await axios.post(
-          `${process.env.REACT_APP_API_ENDPOINT}/forms`,
-          formData,
-        );
-      } catch (err) {
-        console.log('Create Form err', err);
-      }
+      const res = await axios.post(
+        `${process.env.REACT_APP_API_ENDPOINT}/forms`,
+        formData,
+      );
 
       await Promise.all(
         selectedRooms.map((roomId) => {
@@ -98,14 +94,18 @@ const ReserveFinalStep = ({
         }),
       );
 
+
       // Redirect to Stripe
       const lineItems: any = [];
+      console.log("lineItems:", lineItems);
+      
       lineItems.push({
-        price: 'price_1P0LYpP3mxqok9yXpUuqTXnb',
+        price: 'price_1P3FKzP3mxqok9yX1Q5pzI19',
         quantity: options.room,
       }),
         checkout({
           lineItems,
+          res
         });
 
       toast.success('Reserve Hotel Succeeded');
@@ -141,14 +141,14 @@ const ReserveFinalStep = ({
               <div
                 className={
                   styles[
-                    'reserve__personal__container__hotel__container__details'
+                  'reserve__personal__container__hotel__container__details'
                   ]
                 }
               >
                 <div
                   className={
                     styles[
-                      'reserve__personal__container__hotel__container__details__title'
+                    'reserve__personal__container__hotel__container__details__title'
                     ]
                   }
                 >
@@ -161,7 +161,7 @@ const ReserveFinalStep = ({
                 <span
                   className={
                     styles[
-                      'reserve__personal__container__hotel__container__details__review'
+                    'reserve__personal__container__hotel__container__details__review'
                     ]
                   }
                 >
@@ -170,7 +170,7 @@ const ReserveFinalStep = ({
                 <div
                   className={
                     styles[
-                      'reserve__personal__container__hotel__container__details__rating'
+                    'reserve__personal__container__hotel__container__details__rating'
                     ]
                   }
                 >
@@ -180,14 +180,14 @@ const ReserveFinalStep = ({
                 <div
                   className={
                     styles[
-                      'reserve__personal__container__hotel__container__details__service'
+                    'reserve__personal__container__hotel__container__details__service'
                     ]
                   }
                 >
                   <div
                     className={
                       styles[
-                        'reserve__personal__container__hotel__container__details__service__item'
+                      'reserve__personal__container__hotel__container__details__service__item'
                       ]
                     }
                   >
@@ -197,7 +197,7 @@ const ReserveFinalStep = ({
                   <div
                     className={
                       styles[
-                        'reserve__personal__container__hotel__container__details__service__item'
+                      'reserve__personal__container__hotel__container__details__service__item'
                       ]
                     }
                   >
@@ -207,7 +207,7 @@ const ReserveFinalStep = ({
                   <div
                     className={
                       styles[
-                        'reserve__personal__container__hotel__container__details__service__item'
+                      'reserve__personal__container__hotel__container__details__service__item'
                       ]
                     }
                   >
@@ -217,7 +217,7 @@ const ReserveFinalStep = ({
                   <div
                     className={
                       styles[
-                        'reserve__personal__container__hotel__container__details__service__item'
+                      'reserve__personal__container__hotel__container__details__service__item'
                       ]
                     }
                   >
@@ -254,7 +254,7 @@ const ReserveFinalStep = ({
                 <div
                   className={
                     styles[
-                      'reserve__personal__container__details__form__data__country'
+                    'reserve__personal__container__details__form__data__country'
                     ]
                   }
                 >
@@ -269,7 +269,7 @@ const ReserveFinalStep = ({
                 <div
                   className={
                     styles[
-                      'reserve__personal__container__details__form__data__phone'
+                    'reserve__personal__container__details__form__data__phone'
                     ]
                   }
                 >
@@ -293,7 +293,7 @@ const ReserveFinalStep = ({
                 <div
                   className={
                     styles[
-                      'reserve__personal__container__details__form__info__name'
+                    'reserve__personal__container__details__form__info__name'
                     ]
                   }
                 >
@@ -307,7 +307,7 @@ const ReserveFinalStep = ({
                 <div
                   className={
                     styles[
-                      'reserve__personal__container__details__form__info__email'
+                    'reserve__personal__container__details__form__info__email'
                     ]
                   }
                 >

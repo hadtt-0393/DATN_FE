@@ -5,9 +5,22 @@ import Header from '../../components/Header';
 import MailList from '../../components/MailList';
 import Navbar from '../../components/Navbar';
 import PropertyList from '../../components/PropertyList';
+import Box from '@mui/material/Box';
+import ChatOutlinedIcon from '@mui/icons-material/ChatOutlined';
 import styles from './HomePage.module.scss';
+import BoxChat from '../../components/BoxChat';
+import { useState } from 'react';
 
 const HomePage = () => {
+  const [openBoxChat, setOpenBotChat] = useState(false)
+  const handleOpenBoxChat = () => {
+    setOpenBotChat(true)
+  }
+
+  const onClose = () => {
+    setOpenBotChat(false)
+  }
+
   return (
     <div className='homepage'>
       <Navbar />
@@ -43,6 +56,12 @@ const HomePage = () => {
           </h1>
           <FeaturedProperties type="Hotel" />
         </div>
+        {!openBoxChat &&
+          <Box sx={{ position: 'absolute', bottom: 50, right: 50, zIndex: 1000 }} onClick={handleOpenBoxChat} >
+            {/* <ChatOutlinedIcon/> */}
+            <img src="https://img.icons8.com/bubbles/500w/facebook-messenger.png" alt="icon_chat" style={{ width: "100px" }} />
+          </Box>}
+        {openBoxChat && <BoxChat close={onClose} />}
         <MailList />
         <Footer />
       </div>

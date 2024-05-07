@@ -105,7 +105,7 @@ const UserReservationsListItem = ({ item }: UserReservationsListItemProps) => {
                 </div>
               </div>
               <div className={styles['reservation-list-item__container__subcontainer__price']}>
-                VND{price && price + price * 0.05}
+                {price && price + price * 0.05} VND
               </div>
             </div>
 

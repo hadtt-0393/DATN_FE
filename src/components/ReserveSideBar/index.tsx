@@ -116,7 +116,7 @@ const ReserveSideBar = ({ roomData }: ReserveSideBarProps) => {
               }
             >
               <span>Two-Bedroom Superior Apartment</span>
-              <span>VND{price}</span>
+              <span>{price} VND</span>
             </div>
             <div
               className={
@@ -124,7 +124,7 @@ const ReserveSideBar = ({ roomData }: ReserveSideBarProps) => {
               }
             >
               <span>5 % VAT</span>
-              <span>VND{price && (price * 0.05).toFixed(2)}</span>
+              <span>{price && (price * 0.05).toFixed(2)} VND</span>
             </div>
           </div>
           <div
@@ -133,7 +133,7 @@ const ReserveSideBar = ({ roomData }: ReserveSideBarProps) => {
             }
           >
             <span>Price</span>
-            <span>VND{price && price + price * 0.05} *</span>
+            <span>{price && price + price * 0.05} VND</span>
           </div>
           <div
             className={
@@ -151,7 +151,7 @@ const ReserveSideBar = ({ roomData }: ReserveSideBarProps) => {
               }
             >
               <span>City tax</span>
-              <span>VND8</span>
+              <span>8 VND</span>
             </div>
             <div
               className={
@@ -163,7 +163,7 @@ const ReserveSideBar = ({ roomData }: ReserveSideBarProps) => {
               <span>
                 Damage deposit <b>Fully refundable</b>
               </span>
-              <span>VND156 *</span>
+              <span>156 VND</span>
             </div>
           </div>
           <hr />

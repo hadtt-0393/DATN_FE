@@ -129,12 +129,12 @@ const HotelRoomList = ({ hotelId }: ReserveProps) => {
             </td>
             <td width="20%">
               <div className={styles['hotel-room__table__price']}>
-                <div>VND{item.price}</div>
+                <div>{item.price} VND</div>
                 <span className={styles['hotel-room__table__price__tax']}>
                   Includes taxes and charges
                 </span>
                 <span className={styles['hotel-room__table__price__credit']}>
-                  Earn VND{Math.floor(item.price * 0.05)} Credits (5%)
+                  Earn {Math.floor(item.price * 0.05)} VND Credits (5%)
                 </span>
               </div>
             </td>

@@ -150,7 +150,7 @@ const UserReservationDetailsContent = ({
                 }
               >
                 <span>1 apartment</span>
-                <span>VND{reservationData.price.toFixed(2)}</span>
+                <span>{reservationData.price.toFixed(2)} VND</span>
               </div>
               <div
                 className={
@@ -159,7 +159,7 @@ const UserReservationDetailsContent = ({
               >
                 {' '}
                 <span>8% VAT</span>
-                <span>VND{(reservationData.price * 0.08).toFixed(2)}</span>
+                <span>{(reservationData.price * 0.08).toFixed(2)} VND</span>
               </div>
             </div>
             <div
@@ -172,7 +172,7 @@ const UserReservationDetailsContent = ({
               >
                 <span>Price</span>
                 <span>
-                  approx. VND{(reservationData.price * 1.08).toFixed(2)}
+                  approx. {(reservationData.price * 1.08).toFixed(2)} VND
                 </span>
               </div>
               <div
