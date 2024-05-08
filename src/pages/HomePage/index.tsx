@@ -6,10 +6,11 @@ import MailList from '../../components/MailList';
 import Navbar from '../../components/Navbar';
 import PropertyList from '../../components/PropertyList';
 import Box from '@mui/material/Box';
-import ChatOutlinedIcon from '@mui/icons-material/ChatOutlined';
 import styles from './HomePage.module.scss';
 import BoxChat from '../../components/BoxChat';
 import { useState } from 'react';
+import Fab from '@mui/material/Fab';
+import MarkUnreadChatAltIcon from '@mui/icons-material/MarkUnreadChatAlt';
 
 const HomePage = () => {
   const [openBoxChat, setOpenBotChat] = useState(false)
@@ -58,8 +59,10 @@ const HomePage = () => {
         </div>
         {!openBoxChat &&
           <Box sx={{ position: 'absolute', bottom: 50, right: 50, zIndex: 1000 }} onClick={handleOpenBoxChat} >
-            {/* <ChatOutlinedIcon/> */}
-            <img src="https://img.icons8.com/bubbles/500w/facebook-messenger.png" alt="icon_chat" style={{ width: "100px" }} />
+            <Fab variant="extended" color="primary" sx={{fontWeight: 700}}>
+              <MarkUnreadChatAltIcon sx={{ mr: 1 }} />
+              Chat with Bot
+            </Fab>
           </Box>}
         {openBoxChat && <BoxChat close={onClose} />}
         <MailList />
