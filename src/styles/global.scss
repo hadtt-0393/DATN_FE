@@ -13,3 +13,12 @@ body {
 input {
   font-family: inherit;
 }
+
+a {
+  text-decoration: none
+}
+
+a.active * {
+  color: #F9B90F;
+
+}

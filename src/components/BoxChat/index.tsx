@@ -77,7 +77,6 @@ export default function BoxChat({ close }) {
                         sx={{ m: 0.5 }}
                         placeholder="Aa"
                     />
-
                 </Box>
             </Box>
         </>

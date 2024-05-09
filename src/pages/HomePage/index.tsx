@@ -11,6 +11,9 @@ import BoxChat from '../../components/BoxChat';
 import { useState } from 'react';
 import Fab from '@mui/material/Fab';
 import MarkUnreadChatAltIcon from '@mui/icons-material/MarkUnreadChatAlt';
+import Navbar2 from '../../components/Navbar2';
+import Header2 from '../../components/Header2'
+import Slider from '../../components/Slider';
 
 const HomePage = () => {
   const [openBoxChat, setOpenBotChat] = useState(false)
@@ -24,9 +27,13 @@ const HomePage = () => {
 
   return (
     <div className='homepage'>
-      <Navbar />
-      <Header />
-      <div className={styles['home-page__container']}>
+      {/* <Navbar /> */}
+      <Navbar2/>
+      {/* <Header /> */}
+      <Header2/>
+      <Slider/>
+      
+      {/* <div className={styles['home-page__container']}>
         <div className={styles['home-page__container__property-list']}>
           <h1 className={styles['home-page__container__property-list__title']}>
             Browse by property type
@@ -67,7 +74,7 @@ const HomePage = () => {
         {openBoxChat && <BoxChat close={onClose} />}
         <MailList />
         <Footer />
-      </div>
+      </div> */}
     </div>
   );
 };

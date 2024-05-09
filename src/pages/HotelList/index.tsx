@@ -17,6 +17,7 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { City } from '../../models/City';
 import Skeleton from 'react-loading-skeleton';
 import HotelFilter from '../../components/HotelFilter';
+import Header2 from '../../components/Header2';
 
 interface OptionsInterface {
   adult: number;
@@ -93,7 +94,8 @@ const HotelList = () => {
   return (
     <div>
       <Navbar />
-      <Header type="list" />
+      {/* <Header type="list" /> */}
+      <Header2/>
       <div className="listContainer">
         <div className="listWrapper">
           <div className="listSearch">
