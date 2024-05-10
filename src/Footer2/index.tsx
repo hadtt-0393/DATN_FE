@@ -1,0 +1,18 @@
+import Box from "@mui/material/Box";
+import StarRateRoundedIcon from '@mui/icons-material/StarRateRounded';
+import Typography from "@mui/material/Typography"
+
+export default function Footer2() {
+    return (
+        <Box width="100%" display="flex" flexDirection="column" m="60px auto" height="500px" bgcolor="error">
+            <Box display="flex" alignItems="center" margin="0 auto" maxWidth="1224px" flexDirection="column" width="92%">
+                <Box m="10px">
+                    <StarRateRoundedIcon fontSize="small" sx={{ color: "#D0DBDB" }} /><StarRateRoundedIcon fontSize="medium" sx={{ color: "#F9B90F" }} /><StarRateRoundedIcon fontSize="small" sx={{ color: "#D0DBDB" }} />
+                </Box>
+                <Typography sx={{ fontSize: "24px", fontWeight: "700", fontFamily: "Nunito,sans-serif", color: "#18458B" }}>Về Chúng Tôi</Typography>
+                <Box width="5%" bgcolor="#3AACED" height="4px" borderRadius="2px" m="25px 0" />
+                <Typography sx={{ color: "#878C9F", mb: "30px", fontSize: "13px" }}>Hãy trải nghiệm những địa điểm nổi bật này cùng EasyBook</Typography>
+            </Box>
+        </Box>
+    )
+}

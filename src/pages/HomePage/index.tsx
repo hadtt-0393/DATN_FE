@@ -14,6 +14,11 @@ import MarkUnreadChatAltIcon from '@mui/icons-material/MarkUnreadChatAlt';
 import Navbar2 from '../../components/Navbar2';
 import Header2 from '../../components/Header2'
 import Slider from '../../components/Slider';
+import PopularPlaces from '../../components/PopularPlaces';
+import HighestScoreProperties from '../../components/HighestScoreProperties';
+import NewestProperties from '../../components/NewestProperties';
+import BecomeOwner from '../../components/BecomeOwner';
+import Footer2 from '../../Footer2';
 
 const HomePage = () => {
   const [openBoxChat, setOpenBotChat] = useState(false)
@@ -28,11 +33,16 @@ const HomePage = () => {
   return (
     <div className='homepage'>
       {/* <Navbar /> */}
-      <Navbar2/>
+      <Navbar2 />
       {/* <Header /> */}
-      <Header2/>
-      <Slider/>
-      
+      <Header2 />
+      <Slider />
+      <PopularPlaces />
+      <HighestScoreProperties/>
+      <NewestProperties/>
+      <BecomeOwner/>
+      <Footer2 />
+
       {/* <div className={styles['home-page__container']}>
         <div className={styles['home-page__container__property-list']}>
           <h1 className={styles['home-page__container__property-list__title']}>

@@ -19,11 +19,11 @@ export default function Slider() {
     const [value, setValue] = useState('');
 
     return (
-        <Box sx={{ mt: "110px", height: "600px", width: "100%" }}>
+        <Box sx={{ mt: "110px", height: "600px", width: "100%", position: "relative" }}>
             <img src="https://easybook.demotheme.matbao.support/wp-content/uploads/2018/10/22.jpg" alt="slider-image" style={{ width: "100%", height: "600px", objectFit: "cover" }} />
             <Box sx={{
                 position: "absolute",
-                top: 110,
+                top: 0,
                 width: " 100%",
                 height: "600px",
                 backgroundColor: "rgba(0, 0, 0, 0.5)",
@@ -34,7 +34,7 @@ export default function Slider() {
             }}>
                 <Box width="92%" height="50%" display="flex" alignItems="center" margin="0 auto" maxWidth="1224px" justifyContent="center" flexDirection="column">
                     <Box m="10px">
-                        <StarRateRoundedIcon fontSize="small" sx={{ color: "white" }} /><StarRateRoundedIcon fontSize="medium" sx={{ color: "#F9B90F" }} /><StarRateRoundedIcon fontSize="small" sx={{ color: "white" }} />
+                        <StarRateRoundedIcon fontSize="small" sx={{ color: "#D0DBDB" }} /><StarRateRoundedIcon fontSize="medium" sx={{ color: "#F9B90F" }} /><StarRateRoundedIcon fontSize="small" sx={{ color: "#D0DBDB" }} />
                     </Box>
                     <Typography sx={{ fontSize: "44px", fontWeight: "700", fontFamily: "Nunito,sans-serif", color: "white" }}>Hệ Thống Đặt Phòng Khách Sạn EasyBook </Typography>
                     <Box width="5%" bgcolor="#F9B90F" height="4px" borderRadius="2px" m="15px" />
@@ -60,17 +60,17 @@ export default function Slider() {
                                 <Groups2OutlinedIcon fontSize="small" sx={{ color: "#F9B90F", pl: 2, pr: 2 }} />
                                 <FormControl variant="standard" sx={{ flex: 1, mr: 1, backgroundColor: "#EEE" }}>
                                     <Select disableUnderline value={value} label="Child" sx={{ fontSize: "13px", flex: "1", height: "100%", backgroundColor: "#EEE" }}>
-                                        <MenuItem value="Người lớn" sx={{display:"flex", alignItems:"center", justifyContent:"space-between"}}>
+                                        <MenuItem value="Người lớn" sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                                             <Typography fontSize="13px">Người lớn</Typography>
-                                            <TextField type="number" sx={{width:"70px"}}></TextField>
+                                            <TextField type="number" sx={{ width: "70px" }}></TextField>
                                         </MenuItem>
-                                        <MenuItem value="Trẻ em" sx={{display:"flex", alignItems:"center", justifyContent:"space-between"}}>
+                                        <MenuItem value="Trẻ em" sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                                             <Typography fontSize="13px">Trẻ em</Typography>
-                                            <TextField type="number" sx={{width:"70px"}}></TextField>
+                                            <TextField type="number" sx={{ width: "70px" }}></TextField>
                                         </MenuItem>
-                                        <MenuItem value="Phòng" sx={{display:"flex", alignItems:"center", justifyContent:"space-between"}} >
+                                        <MenuItem value="Phòng" sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }} >
                                             <Typography fontSize="13px">Phòng</Typography>
-                                            <TextField type="number" sx={{width:"70px"}}></TextField>
+                                            <TextField type="number" sx={{ width: "70px" }}></TextField>
                                         </MenuItem>
                                     </Select>
                                 </FormControl>
