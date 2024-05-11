@@ -25,7 +25,7 @@ import useFetch from '../../hooks/useFetch';
 import { Hotel, Comment } from '../../models/Hotel';
 import { dayDifference } from '../../services/utils';
 import styles from './HotelItem.module.scss';
-import { Navigation } from 'swiper';
+import { Navigation } from 'swiper/modules';
 import { Star, ArrowCircleLeft, ArrowCircleRight } from '@mui/icons-material';
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -458,19 +458,19 @@ const HotelItem = () => {
             <HotelRoomList hotelId={hotelId} />
           </div>
         </div>
-        <div style={{ width: "100%", maxWidth: '1140px', marginBottom:"20px"}}>
+        <div style={{ width: "100%", maxWidth: '1140px', marginBottom: "20px" }}>
           <h3 style={{ marginBottom: "30px" }}>See what guests loved the most:</h3>
           {data?.comment.length ?
             <Swiper
               slidesPerView={3}
               spaceBetween={30}
               navigation={{ prevEl: '.swiper-button-prev', nextEl: '.swiper-button-next' }}
-              modules={[Navigation]}
+             modules={[Navigation]}
             >
               {data?.comment.map((item: Comment) => (
 
-                <SwiperSlide style={{marginBottom:"20px"}}>
-                  <Card sx={{ width: '100%',maxHeight:"500px" }}>
+                <SwiperSlide style={{ marginBottom: "20px" }}>
+                  <Card sx={{ width: '100%', maxHeight: "500px" }}>
                     <CardHeader
                       avatar={
                         <Avatar sx={{ bgcolor: "red" }} aria-label="recipe">
