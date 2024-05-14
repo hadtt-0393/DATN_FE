@@ -60,7 +60,7 @@ export default function Slider() {
                                 <Groups2OutlinedIcon fontSize="small" sx={{ color: "#F9B90F", pl: 2, pr: 2 }} />
                                 <FormControl variant="standard" sx={{ flex: 1, mr: 1, backgroundColor: "#EEE" }}>
                                     <Select disableUnderline value={value} label="Child" sx={{ fontSize: "13px", flex: "1", height: "100%", backgroundColor: "#EEE" }}>
-                                        <MenuItem value="Người lớn" sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                                        <MenuItem value="Người lớn" sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }} onClick={(e)=>e.preventDefault}>
                                             <Typography fontSize="13px">Người lớn</Typography>
                                             <TextField type="number" sx={{ width: "70px" }}></TextField>
                                         </MenuItem>

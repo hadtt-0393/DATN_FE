@@ -1,0 +1,56 @@
+.container {
+    .becomeAHotel {
+        button {
+            width: 280px;
+            border-radius: 50px;
+            background-color: #f9b90f;
+            border: none;
+            height: 80px;
+
+            h6 {
+                animation: button 1s infinite;
+                font-size: 25px;
+                color: white;
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+        }
+    }
+
+
+}
+
+@keyframes button {
+    0% {
+        transform: scale(1) rotate(-4deg);
+    }
+
+    50% {
+        transform: scale(1.1) rotate(4deg);
+    }
+
+    60% {
+        transform: rotate(0deg);
+    }
+
+    70% {
+        transform: rotate(-4deg);
+    }
+
+    80% {
+        transform: rotate(0deg);
+    }
+
+    90% {
+        transform: rotate(4deg);
+    }
+
+    100% {
+        transform: scale(1.05) rotate(-4deg);
+    }
+}
+
+button:hover {
+    opacity: 0.8;
+    cursor: pointer;
+}

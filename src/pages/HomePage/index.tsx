@@ -18,7 +18,7 @@ import PopularPlaces from '../../components/PopularPlaces';
 import HighestScoreProperties from '../../components/HighestScoreProperties';
 import NewestProperties from '../../components/NewestProperties';
 import BecomeOwner from '../../components/BecomeOwner';
-import Footer2 from '../../Footer2';
+import Footer2 from '../../components/Footer2';
 
 const HomePage = () => {
   const [openBoxChat, setOpenBotChat] = useState(false)
@@ -31,7 +31,7 @@ const HomePage = () => {
   }
 
   return (
-    <div className='homepage'>
+    <Box>
       {/* <Navbar /> */}
       <Navbar2 />
       {/* <Header /> */}
@@ -42,7 +42,15 @@ const HomePage = () => {
       <NewestProperties/>
       <BecomeOwner/>
       <Footer2 />
-
+      {!openBoxChat &&
+          <Box sx={{ position: 'absolute', bottom: 50, right: 50, zIndex: 1000 }} onClick={handleOpenBoxChat} >
+            <Fab variant="extended" color="primary" sx={{fontWeight: 700}}>
+              <MarkUnreadChatAltIcon sx={{ mr: 1 }} />
+              Chat với Bot
+            </Fab>
+          </Box>}
+        {openBoxChat && <BoxChat close={onClose} />}
+        
       {/* <div className={styles['home-page__container']}>
         <div className={styles['home-page__container__property-list']}>
           <h1 className={styles['home-page__container__property-list__title']}>
@@ -85,7 +93,7 @@ const HomePage = () => {
         <MailList />
         <Footer />
       </div> */}
-    </div>
+    </Box>
   );
 };
 
