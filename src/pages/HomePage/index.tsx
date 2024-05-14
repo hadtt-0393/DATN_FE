@@ -42,14 +42,14 @@ const HomePage = () => {
       <NewestProperties/>
       <BecomeOwner/>
       <Footer2 />
-      {!openBoxChat &&
+      {/* {!openBoxChat &&
           <Box sx={{ position: 'absolute', bottom: 50, right: 50, zIndex: 1000 }} onClick={handleOpenBoxChat} >
             <Fab variant="extended" color="primary" sx={{fontWeight: 700}}>
               <MarkUnreadChatAltIcon sx={{ mr: 1 }} />
               Chat với Bot
             </Fab>
           </Box>}
-        {openBoxChat && <BoxChat close={onClose} />}
+        {openBoxChat && <BoxChat close={onClose} />} */}
         
       {/* <div className={styles['home-page__container']}>
         <div className={styles['home-page__container__property-list']}>
