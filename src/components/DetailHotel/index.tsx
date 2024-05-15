@@ -23,7 +23,23 @@ import { DateRangeCalendar } from '@mui/x-date-pickers-pro/DateRangeCalendar';
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import styled from 'styled-components';
 import TextField from "@mui/material//TextField";
+import Slider from '@mui/material/Slider';
+import { Avatar, Card, CardActions, CardContent, CardHeader, CardMedia, IconButton, colors } from '@mui/material';
+import { Star } from "@mui/icons-material";
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import Footer2 from "../Footer2";
 
+const VisuallyHiddenInput = styled('input')({
+    clip: 'rect(0 0 0 0)',
+    clipPath: 'inset(50%)',
+    height: 1,
+    overflow: 'hidden',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    whiteSpace: 'nowrap',
+    width: 1,
+});
 
 const itemData = [
     {
@@ -247,7 +263,7 @@ export default function DetailHotel() {
 
                             </Box>
                         </Box>
-                        {/* <Box bgcolor="white" mt="30px" borderRadius="5px">
+                        <Box bgcolor="white" mt="30px" borderRadius="5px">
                             <Box m="0px 30px" borderBottom="#EEE 1px solid">
                                 <Typography fontWeight="600" color="#183C7D" fontSize="18px" padding="25px 0">
                                     Ngày có thể đặt phòng
@@ -265,7 +281,7 @@ export default function DetailHotel() {
                                 </LocalizationProvider>
 
                             </Box>
-                        </Box> */}
+                        </Box>
                         <Box bgcolor="white" mt="30px" borderRadius="5px">
                             <Box m="0px 30px" borderBottom="#EEE 1px solid">
                                 <Typography fontWeight="600" color="#183C7D" fontSize="18px" padding="25px 0">
@@ -561,26 +577,179 @@ export default function DetailHotel() {
                             </Box>
                         </Box>
                         <Box bgcolor="white" mt="30px" borderRadius="5px" pb="30px">
-                            <Box m="0px 30px" borderBottom="#EEE 1px solid">
+                            <Box m="0px 30px" borderBottom="#EEE 1px solid" display="flex" flexDirection="row" gap={1}>
                                 <Typography fontWeight="600" color="#183C7D" fontSize="18px" padding="25px 0">
                                     Nhận xét từ người dùng
                                 </Typography>
+                                <Typography fontWeight="600" color="#183C7D" fontSize="18px" padding="25px 0">
+                                    -
+                                </Typography>
+                                <Typography fontWeight="600" color="#3AACED" fontSize="18px" padding="25px 0">
+                                    10
+                                </Typography>
                             </Box>
-                            <Box m="30px " display="flex" justifyContent="center" alignItems="center" >
-                                <Box borderBottom="#EEE 1px solid" width="100%"> aaa</Box>
+                            <Box m="30px" display="flex" justifyContent="center" alignItems="center" flexDirection="column" >
+                                <Box borderBottom="#EEE 1px solid" width="100%" paddingBottom="25px" flexDirection="row" gap={1} display="flex">
+                                    <Box display="flex" flex={1} flexDirection="column" justifyContent="center"  >
+                                        <Box sx={{ display: "flex", flexDirection: "column", margin: "5px", fontSize: "13px", textTransform: "unset", textWrap: "nowrap", borderRadius: "10px 10px 0px 10px", height: "130px", backgroundColor: "#18458B", width: "160px", alignItems: "center", justifyContent: "center" }} >
+                                            <Typography sx={{ fontSize: "34px", color: "white", fontWeight: "600", }}>4.5</Typography>
+                                            <Typography sx={{ fontSize: "16px", color: "white", fontWeight: "600", mt: "5px" }}>Tốt</Typography>
+                                        </Box>
+                                        <Box width="160px" m="15px 5px">
+                                            <Button variant="contained" sx={{ width: "100%", backgroundColor: "#F9C941", fontWeight: "600", boxShadow: "none", "&:hover": { boxShadow: "none", opacity: "0.8", backgroundColor: "#F9C941" } }} >Nhận xét</Button>
+                                        </Box>
+                                    </Box>
+                                    <Box flex={2.8}>
+                                        <Box sx={{ display: "flex", flexDirection: "column", mt: "5px" }}>
+                                            <Typography sx={{ fontSize: "12px", color: "#666", fontWeight: "600" }}>Vệ sinh</Typography>
+                                            <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "20px" }}>
+                                                <Slider defaultValue={4.5} aria-label="Default" valueLabelDisplay="auto" min={1} max={5} sx={{ height: "8px", color: "#3AACED", p: "0" }} />
+                                                <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", mb: "6px" }}>4.5</Typography>
+                                            </Box>
+                                        </Box>
+                                        <Box sx={{ display: "flex", flexDirection: "column", mt: "5px" }}>
+                                            <Typography sx={{ fontSize: "12px", color: "#666", fontWeight: "600" }}>Độ thoải mái</Typography>
+                                            <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "20px" }}>
+                                                <Slider defaultValue={4.5} aria-label="Default" valueLabelDisplay="auto" min={1} max={5} sx={{ height: "8px", color: "#3AACED", p: "0" }} />
+                                                <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", mb: "6px" }}>4.5</Typography>
+                                            </Box>
+                                        </Box>
+                                        <Box sx={{ display: "flex", flexDirection: "column", mt: "5px" }}>
+                                            <Typography sx={{ fontSize: "12px", color: "#666", fontWeight: "600" }}>Thái độ nhân viên</Typography>
+                                            <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "20px" }}>
+                                                <Slider defaultValue={4.5} aria-label="Default" valueLabelDisplay="auto" min={1} max={5} sx={{ height: "8px", color: "#3AACED", p: "0" }} />
+                                                <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", mb: "6px" }}>4.5</Typography>
+                                            </Box>
+                                        </Box>
+                                        <Box sx={{ display: "flex", flexDirection: "column", mt: "5px" }}>
+                                            <Typography sx={{ fontSize: "12px", color: "#666", fontWeight: "600" }}>Cơ sở vật chất</Typography>
+                                            <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "20px" }}>
+                                                <Slider defaultValue={4.5} aria-label="Default" valueLabelDisplay="auto" min={1} max={5} sx={{ height: "8px", color: "#3AACED", p: "0" }} />
+                                                <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", mb: "6px" }}>4.5</Typography>
+                                            </Box>
+                                        </Box>
 
+
+                                    </Box>
+                                </Box>
+                                <Box borderBottom="#CCC 1px dashed">
+                                    <Box display="flex" flexDirection="row" m="30px 0px" width="100%" padding="20px 0px" bgcolor="#ECF6F8" borderRadius="10px">
+                                        <Box flex={1} display="flex" flexDirection="column" justifyContent="start" alignItems="center" gap={2}>
+                                            <Avatar sx={{ width: "80px", height: "80px", m: "5px" }} />
+                                            <Typography sx={{ fontSize: "18px", color: "#333", fontWeight: "600", }}>Thu Ha</Typography>
+                                            <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", }}>11/01/2024</Typography>
+                                        </Box>
+                                        <Box flex={3} display="flex" flexDirection="column" >
+                                            <Box display="flex" flexDirection="row" alignItems="start" justifyContent="space-between">
+                                                <Box>
+                                                    <Typography sx={{ fontSize: "14px", color: "#878CB8", mt: "5px" }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc posuere convallis purus non cursus. Cras metus neque, gravida sodales massa ut. </Typography>
+                                                </Box>
+                                                <Box display="flex" justifyContent="end">
+                                                    <Box sx={{ display: "flex", flexDirection: "column", margin: "5px 30px", fontSize: "13px", textTransform: "unset", textWrap: "nowrap", borderRadius: "10px 10px 10px 0px", height: "60px", backgroundColor: "#18458B", width: "60px", alignItems: "center", justifyContent: "center" }} >
+                                                        <Typography sx={{ fontSize: "18px", color: "white", fontWeight: "600", }}>4.5</Typography>
+                                                        <Typography sx={{ fontSize: "12px", color: "white", fontWeight: "600", mt: "5px" }}>Tốt</Typography>
+                                                    </Box>
+                                                </Box>
+                                            </Box>
+
+                                            <Box display="flex" justifyContent="start" alignItems="center" mt="20px">
+                                                <Box width="200px" overflow="hidden" borderRadius="10px" >
+                                                    <Image src="https://static.vecteezy.com/system/resources/previews/023/506/852/non_2x/cute-kawaii-mushroom-chibi-mascot-cartoon-style-vector.jpg" alt="image-comment" />
+                                                </Box>
+                                            </Box>
+
+                                        </Box>
+                                    </Box>
+                                </Box>
+
+                                <Box borderBottom="#CCC 1px dashed">
+                                    <Box display="flex" flexDirection="row" m="30px 0px" width="100%" padding="20px 0px" bgcolor="#ECF6F8" borderRadius="10px">
+                                        <Box flex={1} display="flex" flexDirection="column" justifyContent="start" alignItems="center" gap={2}>
+                                            <Avatar sx={{ width: "80px", height: "80px", m: "5px" }} />
+                                            <Typography sx={{ fontSize: "18px", color: "#333", fontWeight: "600", }}>Thu Ha</Typography>
+                                            <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", }}>11/01/2024</Typography>
+                                        </Box>
+                                        <Box flex={3} display="flex" flexDirection="column" >
+                                            <Box display="flex" flexDirection="row" alignItems="start" justifyContent="space-between">
+                                                <Box>
+                                                    <Typography sx={{ fontSize: "14px", color: "#878CB8", mt: "5px" }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc posuere convallis purus non cursus. Cras metus neque, gravida sodales massa ut. </Typography>
+                                                </Box>
+                                                <Box display="flex" justifyContent="end">
+                                                    <Box sx={{ display: "flex", flexDirection: "column", margin: "5px 30px", fontSize: "13px", textTransform: "unset", textWrap: "nowrap", borderRadius: "10px 10px 10px 0px", height: "60px", backgroundColor: "#18458B", width: "60px", alignItems: "center", justifyContent: "center" }} >
+                                                        <Typography sx={{ fontSize: "18px", color: "white", fontWeight: "600", }}>4.5</Typography>
+                                                        <Typography sx={{ fontSize: "12px", color: "white", fontWeight: "600", mt: "5px" }}>Tốt</Typography>
+                                                    </Box>
+                                                </Box>
+                                            </Box>
+
+                                            <Box display="flex" justifyContent="start" alignItems="center" mt="20px">
+                                                <Box width="200px" overflow="hidden" borderRadius="10px" >
+                                                    <Image src="https://static.vecteezy.com/system/resources/previews/023/506/852/non_2x/cute-kawaii-mushroom-chibi-mascot-cartoon-style-vector.jpg" alt="image-comment" />
+                                                </Box>
+                                            </Box>
+
+                                        </Box>
+                                    </Box>
+                                </Box>
                             </Box>
+
                         </Box>
                         <Box bgcolor="white" mt="30px" borderRadius="5px" pb="30px">
                             <Box m="0px 30px" borderBottom="#EEE 1px solid">
                                 <Typography fontWeight="600" color="#183C7D" fontSize="18px" padding="25px 0">
-                                    Hãy để lại nhận xét của bạn
+                                    Nhận xét của bạn
                                 </Typography>
                             </Box>
-                            <Box m="30px " display="flex" justifyContent="center" alignItems="center" >
-                                <Box borderBottom="#EEE 1px solid" width="100%"> aaa</Box>
-
+                            <Box m="30px " display="flex" justifyContent="center" alignItems="center" gap={5} height="100%" borderBottom="#DDD 1px dashed" paddingBottom="20px">
+                                <Box width="100%" flex={2} display="flex" gap={2} flexDirection="column"  >
+                                    <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "50px" }}>
+                                        <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", mb: "6px", whiteSpace: "nowrap", minWidth: "125px" }}>Vệ sinh</Typography>
+                                        <Slider defaultValue={4.5} aria-label="Default" valueLabelDisplay="auto" min={1} max={5} sx={{ height: "8px", color: "#3AACED", p: "0" }} />
+                                    </Box>
+                                    <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "50px" }}>
+                                        <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", mb: "6px", whiteSpace: "nowrap", minWidth: "125px" }}>Độ thoải mái</Typography>
+                                        <Slider defaultValue={4.5} aria-label="Default" valueLabelDisplay="auto" min={1} max={5} sx={{ height: "8px", color: "#3AACED", p: "0" }} />
+                                    </Box>
+                                    <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "50px" }}>
+                                        <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", mb: "6px", whiteSpace: "nowrap", minWidth: "125px" }}>Thái độ nhân viên</Typography>
+                                        <Slider defaultValue={4.5} aria-label="Default" valueLabelDisplay="auto" min={1} max={5} sx={{ height: "8px", color: "#3AACED", p: "0" }} />
+                                    </Box>
+                                    <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "50px" }}>
+                                        <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", mb: "6px", whiteSpace: "nowrap", minWidth: "125px" }}>Cơ sở vật chất</Typography>
+                                        <Slider defaultValue={4.5} aria-label="Default" valueLabelDisplay="auto" min={1} max={5} sx={{ height: "8px", color: "#3AACED", p: "0" }} />
+                                    </Box>
+                                </Box>
+                                <Box display="flex" flex={1} height="150px">
+                                    <Box bgcolor={"#f7f9fb"} height="100%" display="flex" justifyContent="center" alignItems="center" flexDirection="column" width="100%" border="#EEE 1px solid" borderRadius="10px">
+                                        <Typography color="#3AACED" fontSize="25px" fontWeight="600">4.5</Typography>
+                                        <Typography color="#66686B" fontSize="15px" fontWeight="600" mt="10px">Điểm của bạn</Typography>
+                                    </Box>
+                                </Box>
                             </Box>
+                            <Box m="30px" sx={{ textAlign: "center" }} borderBottom="#DDD 1px dashed" pb="30px">
+                                <TextField minRows={4} sx={{ width: "100%" }} placeholder="Nhập nhận xét của bạn" multiline />
+                            </Box>
+                            <Box sx={{ textAlign: "center" }} borderBottom="#DDD 1px dashed" pb="15px">
+                                <Button
+                                    component="label"
+                                    role={undefined}
+                                    variant="contained"
+                                    tabIndex={-1}
+                                    startIcon={<CloudUploadIcon />}
+                                    sx={{ mb: 2, backgroundColor: "#3AACED", fontWeight: 600, fontSize: "14px", "&:hover": { backgroundColor: "#3AACED", opacity: "0.8" } }}
+                                    size='large'
+
+                                >
+                                    Chọn ảnh
+                                    <VisuallyHiddenInput type="file" />
+                                </Button>
+                            </Box>
+                            <Box display="flex" alignItems="center" justifyContent="center">
+                                <Box width="200px" m="30px 0 0 0" >
+                                    <Button variant="contained" sx={{ width: "100%", backgroundColor: "#F9C941", fontWeight: "600", fontSize: "16px", boxShadow: "none", "&:hover": { boxShadow: "none", opacity: "0.8", backgroundColor: "#F9C941" } }} >Gửi nhận xét</Button>
+                                </Box>
+                            </Box>
+
                         </Box>
                     </Box>
                     <Box flex="1" width="350px" height="460px">
@@ -683,8 +852,8 @@ export default function DetailHotel() {
 
                 </Box>
             </Box>
-
-        </Box>
+            <Footer2 />
+        </Box >
 
     )
 }
