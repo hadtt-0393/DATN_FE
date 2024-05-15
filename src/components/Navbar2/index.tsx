@@ -10,11 +10,11 @@ import Avatar from "@mui/material/Avatar";
 
 export default function Navbar2() {
     return (
-        <Box sx={{ backgroundColor: "#18458B", position:"fixed", zIndex:10, top:0, width:"100%" }}>
-            <Box sx={{ display: "flex", width: "92%", height: "60px", margin: "0 auto", alignItems: "center", maxWidth: "1224px", justifyContent: "space-between "}}>
+        <Box sx={{ backgroundColor: "#18458B", position: "fixed", zIndex: 10, top: 0, width: "100%" }}>
+            <Box sx={{ display: "flex", width: "92%", height: "60px", margin: "0 auto", alignItems: "center", maxWidth: "1224px", justifyContent: "space-between " }}>
                 <img src="https://easybook.demotheme.matbao.support/wp-content/uploads/2018/08/logo.png" alt="logo" style={{ height: "35px", width: "133px" }} />
                 <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexDirection: "row", "&:hover": { cursor: "pointer" } }}>
-                    <Fab variant="extended" sx={{ fontWeight: 700, fontSize: "12px", backgroundColor: "#F9B90F", color: "white", marginRight: "25px", "&:hover": { backgroundColor: "#FAC73F" } }} size="small" >
+                    <Fab variant="extended" sx={{ fontWeight: 700, fontSize: "12px", backgroundColor: "#F9B90F", color: "white", marginRight: "25px", boxShadow: "none", "&:hover": { backgroundColor: "#FAC73F", boxShadow: "none" } }} size="small" >
                         <ListAltIcon sx={{ mr: 1, fontSize: "14px" }} />
                         Danh sách phòng
                     </Fab>

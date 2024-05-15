@@ -13,6 +13,7 @@ import UserReservationsPage from './pages/UserReservationsPage';
 import UserReservationDetails from './pages/UserReservationDetails';
 import Login from './pages/Login_ver2';
 import DetailHotel from './components/DetailHotel';
+import SearchResults from './components/ResultSearch';
 
 const App = () => {
   return (
@@ -28,6 +29,7 @@ const App = () => {
         <Route path="/reservations/:id" element={<UserReservationDetails />} />
         <Route path="/detail-hotel" element={<DetailHotel />} />
         <Route path="/all-hotels" element={<AllHotelPage type={'Hotel'} />} />
+        <Route path="/search-results" element={<SearchResults />} />
         <Route
           path="/all-apartments"
           element={<AllHotelPage type={'Apartment'} />}

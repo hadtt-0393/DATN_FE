@@ -60,17 +60,47 @@ export default function Slider() {
                                 <Groups2OutlinedIcon fontSize="small" sx={{ color: "#F9B90F", pl: 2, pr: 2 }} />
                                 <FormControl variant="standard" sx={{ flex: 1, mr: 1, backgroundColor: "#EEE" }}>
                                     <Select disableUnderline value={value} label="Child" sx={{ fontSize: "13px", flex: "1", height: "100%", backgroundColor: "#EEE" }}>
-                                        <MenuItem value="Người lớn" sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }} onClick={(e)=>e.preventDefault}>
+                                        <MenuItem value="Người lớn" sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }} onClick={(e) => e.preventDefault}>
                                             <Typography fontSize="13px">Người lớn</Typography>
-                                            <TextField type="number" sx={{ width: "70px" }}></TextField>
+                                            <Box display="flex" flexDirection="row" >
+                                                <Input disableUnderline sx={{ width: "50px", height: "43px", border: "1px #EEE solid", padding: "0 10px", borderBottomLeftRadius: "5px", borderTopLeftRadius: "5px" }} />
+                                                <Box display="flex" flexDirection="column" width="20px" bgcolor="#F9F9F9">
+                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderTopRightRadius: "5px" }} >
+                                                        <Typography fontSize="14px">+</Typography>
+                                                    </Box>
+                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderTop: "none", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderBottomRightRadius: "5px" }}>
+                                                        <Typography fontSize="14px">-</Typography>
+                                                    </Box>
+                                                </Box>
+                                            </Box>
                                         </MenuItem>
                                         <MenuItem value="Trẻ em" sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                                             <Typography fontSize="13px">Trẻ em</Typography>
-                                            <TextField type="number" sx={{ width: "70px" }}></TextField>
+                                            <Box display="flex" flexDirection="row" >
+                                                <Input disableUnderline sx={{ width: "50px", height: "43px", border: "1px #EEE solid", padding: "0 10px", borderBottomLeftRadius: "5px", borderTopLeftRadius: "5px" }} />
+                                                <Box display="flex" flexDirection="column" width="20px" bgcolor="#F9F9F9">
+                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderTopRightRadius: "5px" }} >
+                                                        <Typography fontSize="14px">+</Typography>
+                                                    </Box>
+                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderTop: "none", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderBottomRightRadius: "5px" }}>
+                                                        <Typography fontSize="14px">-</Typography>
+                                                    </Box>
+                                                </Box>
+                                            </Box>
                                         </MenuItem>
                                         <MenuItem value="Phòng" sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }} >
                                             <Typography fontSize="13px">Phòng</Typography>
-                                            <TextField type="number" sx={{ width: "70px" }}></TextField>
+                                            <Box display="flex" flexDirection="row" >
+                                                <Input disableUnderline sx={{ width: "50px", height: "43px", border: "1px #EEE solid", padding: "0 10px", borderBottomLeftRadius: "5px", borderTopLeftRadius: "5px" }} />
+                                                <Box display="flex" flexDirection="column" width="20px" bgcolor="#F9F9F9">
+                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderTopRightRadius: "5px" }} >
+                                                        <Typography fontSize="14px">+</Typography>
+                                                    </Box>
+                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderTop: "none", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderBottomRightRadius: "5px" }}>
+                                                        <Typography fontSize="14px">-</Typography>
+                                                    </Box>
+                                                </Box>
+                                            </Box>
                                         </MenuItem>
                                     </Select>
                                 </FormControl>

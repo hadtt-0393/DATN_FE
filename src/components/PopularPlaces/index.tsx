@@ -50,7 +50,7 @@ export default function PopularPlaces() {
                     <Box width="5%" bgcolor="#3AACED" height="4px" borderRadius="2px" m="25px 0" />
                     <Typography sx={{ color: "#878C9F", mb: "30px", fontSize: "13px" }}>Hãy trải nghiệm những địa điểm nổi bật này cùng EasyBook</Typography>
                 </Box>
-                <Box sx={{ height: "900px", flex: 1, width: "99%", margin: "10px" }}>
+                <Box sx={{ height: "900px", flex: 1, width: "95%", margin: "10px auto" }}>
                     <Grid container >
                         <Grid xs={4}>
                             <Box display="flex" alignItems="center" justifyContent="center" height="460px" marginRight="10px" overflow="hidden" borderRadius="10px" position="relative" >
@@ -65,17 +65,11 @@ export default function PopularPlaces() {
                                     pointerEvents: "none",
                                     display: "flex",
                                     flexDirection: "column",
-                                    justifyContent: "space-between",
+                                    justifyContent: "end",
 
                                 }}>
-                                    <Box width="81px" height="40px" bgcolor="rgba(255, 255, 255, 0.25)" borderRadius="10px" m="20px">
-                                        <Button variant="contained" size="small" sx={{ margin: "5px", fontSize: "13px", textTransform: "unset", textWrap: "nowrap" }} >10 Hotel</Button>
-                                        {/* <Box>
-                                            <Typography fontSize="13px" color="white">10 Hotel</Typography>
-                                        </Box> */}
-                                    </Box>
                                     <Box marginLeft="20px" >
-                                        <Link sx={{ color: "white", fontWeight: "500", fontSize: "24px", }}> Đà Lạt</Link>
+                                        <Link sx={{ color: "white", fontWeight: "500", fontSize: "24px", textDecoration: "none" }}> Đà Lạt</Link>
                                         <Typography sx={{ color: "#F9F9FA", mb: "30px", fontSize: "13px", marginTop: "20px" }}>Hãy trải nghiệm những địa điểm nổi bật này cùng EasyBook</Typography>
                                     </Box>
 
@@ -93,19 +87,13 @@ export default function PopularPlaces() {
                                     backgroundColor: "rgba(0, 0, 0, 0.1)",
                                     display: "flex",
                                     flexDirection: "column",
-                                    justifyContent: "space-between",
+                                    justifyContent: "end",
                                     zIndex: 1,
                                     pointerEvents: "none",
-                                    
+
                                 }}>
-                                    <Box width="81px" height="40px" bgcolor="rgba(255, 255, 255, 0.25)" borderRadius="10px" m="20px">
-                                        <Button variant="contained" size="small" sx={{ margin: "5px", fontSize: "13px", textTransform: "unset", textWrap: "nowrap" }} >10 Hotel</Button>
-                                        {/* <Box>
-                                            <Typography fontSize="13px" color="white">10 Hotel</Typography>
-                                        </Box> */}
-                                    </Box>
                                     <Box marginLeft="20px" >
-                                        <Link sx={{ color: "white", fontWeight: "500", fontSize: "24px", }}>Hải Phòng</Link>
+                                        <Link sx={{ color: "white", fontWeight: "500", fontSize: "24px", textDecoration: "none" }}>Hải Phòng</Link>
                                         <Typography sx={{ color: "#F9F9FA", mb: "30px", fontSize: "13px", marginTop: "20px" }}>Hãy trải nghiệm những địa điểm nổi bật này cùng EasyBook</Typography>
                                     </Box>
                                 </Box>
@@ -123,18 +111,12 @@ export default function PopularPlaces() {
                                     backgroundColor: "rgba(0, 0, 0, 0.1)",
                                     display: "flex",
                                     flexDirection: "column",
-                                    justifyContent: "space-between",
+                                    justifyContent: "end",
                                     zIndex: 1,
                                     pointerEvents: "none",
                                 }}>
-                                    <Box width="81px" height="40px" bgcolor="rgba(255, 255, 255, 0.25)" borderRadius="10px" m="20px">
-                                        <Button variant="contained" size="small" sx={{ margin: "5px", fontSize: "13px", textTransform: "unset", textWrap: "nowrap" }} >10 Hotel</Button>
-                                        {/* <Box>
-                                            <Typography fontSize="13px" color="white">10 Hotel</Typography>
-                                        </Box> */}
-                                    </Box>
                                     <Box marginLeft="20px" >
-                                        <Link sx={{ color: "white", fontWeight: "500", fontSize: "24px", }}>Quảng Ninh</Link>
+                                        <Link sx={{ color: "white", fontWeight: "500", fontSize: "24px", textDecoration: "none" }}>Quảng Ninh</Link>
                                         <Typography sx={{ color: "#F9F9FA", mb: "30px", fontSize: "13px", marginTop: "20px" }}>Hãy trải nghiệm những địa điểm nổi bật này cùng EasyBook</Typography>
                                     </Box>
                                 </Box>
@@ -151,18 +133,12 @@ export default function PopularPlaces() {
                                     backgroundColor: "rgba(0, 0, 0, 0.1)",
                                     display: "flex",
                                     flexDirection: "column",
-                                    justifyContent: "space-between",
+                                    justifyContent: "end",
                                     zIndex: 1,
                                     pointerEvents: "none",
                                 }}>
-                                    <Box width="81px" height="40px" bgcolor="rgba(255, 255, 255, 0.25)" borderRadius="10px" m="20px">
-                                        <Button variant="contained" size="small" sx={{ margin: "5px", fontSize: "13px", textTransform: "unset", textWrap: "nowrap" }} >10 Hotel</Button>
-                                        {/* <Box>
-                                            <Typography fontSize="13px" color="white">10 Hotel</Typography>
-                                        </Box> */}
-                                    </Box>
                                     <Box marginLeft="20px" >
-                                        <Link sx={{ color: "white", fontWeight: "500", fontSize: "24px", }}>Hà Nội</Link>
+                                        <Link sx={{ color: "white", fontWeight: "500", fontSize: "24px", textDecoration: "none" }}>Hà Nội</Link>
                                         <Typography sx={{ color: "#F9F9FA", mb: "30px", fontSize: "13px", marginTop: "20px" }}>Hãy trải nghiệm những địa điểm nổi bật này cùng EasyBook</Typography>
                                     </Box>
                                 </Box>
@@ -179,18 +155,12 @@ export default function PopularPlaces() {
                                     backgroundColor: "rgba(0, 0, 0, 0.1)",
                                     display: "flex",
                                     flexDirection: "column",
-                                    justifyContent: "space-between",
+                                    justifyContent: "end",
                                     zIndex: 1,
                                     pointerEvents: "none",
                                 }}>
-                                    <Box width="81px" height="40px" bgcolor="rgba(255, 255, 255, 0.25)" borderRadius="10px" m="20px">
-                                        <Button variant="contained" size="small" sx={{ margin: "5px", fontSize: "13px", textTransform: "unset", textWrap: "nowrap" }} >10 Hotel</Button>
-                                        {/* <Box>
-                                            <Typography fontSize="13px" color="white">10 Hotel</Typography>
-                                        </Box> */}
-                                    </Box>
                                     <Box marginLeft="20px" >
-                                        <Link sx={{ color: "white", fontWeight: "500", fontSize: "24px", }}>Nha Trang</Link>
+                                        <Link sx={{ color: "white", fontWeight: "500", fontSize: "24px", textDecoration: "none" }}>Nha Trang</Link>
                                         <Typography sx={{ color: "#F9F9FA", mb: "30px", fontSize: "13px", marginTop: "20px" }}>Hãy trải nghiệm những địa điểm nổi bật này cùng EasyBook</Typography>
                                     </Box>
                                 </Box>

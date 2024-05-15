@@ -28,6 +28,7 @@ import { Avatar, Card, CardActions, CardContent, CardHeader, CardMedia, IconButt
 import { Star } from "@mui/icons-material";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import Footer2 from "../Footer2";
+import { useEffect } from "react";
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -118,7 +119,7 @@ const Image = styled.img`
 },`
 
 export default function DetailHotel() {
-    const value = 4
+    const value = 4;
     return (
         <Box>
             <Navbar2 />
@@ -752,11 +753,11 @@ export default function DetailHotel() {
 
                         </Box>
                     </Box>
-                    <Box flex="1" width="350px" height="460px">
-                        <Box bgcolor="white" borderRadius="5px" p="10px 0" position="sticky" zIndex={10} top="120px" >
+                    <Box flex="1" width="350px" >
+                        <Box bgcolor="white" borderRadius="5px" p="10px 0" >
                             <Box m="20px 30px">
                                 <Box paddingBottom="20px" border="1px solid #EEEEEE" borderTop="none" borderLeft="none" borderRight="none" >
-                                    <Typography fontSize="16px" fontWeight="600" color="#183C7D">Đặt Phòng Khách Sạn</Typography>
+                                    <Typography fontSize="16px" fontWeight="600" color="#183C7D">Đặt phòng khách sạn</Typography>
                                 </Box>
                                 <Box paddingBottom="20px" borderBottom="1px solid #EEEEEE" mt="20px" >
                                     <Typography fontSize="13px" color="#878C9F" mb="10px">Ngày</Typography>
@@ -773,7 +774,7 @@ export default function DetailHotel() {
                                     </Box>
                                     <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between" mt="20px" sx={{ flexWrap: "wrap" }}>
                                         <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between">
-                                            <Typography fontSize="12px" color="#878C9F" mr="10px">Người lớn</Typography>
+                                            <Typography fontSize="12px" color="#878C9F" mr="10px" minWidth="60px">Người lớn</Typography>
                                             <Box display="flex" flexDirection="row" >
                                                 <Input disableUnderline sx={{ width: "50px", height: "43px", border: "1px #EEE solid", padding: "0 10px", borderBottomLeftRadius: "5px", borderTopLeftRadius: "5px" }} />
                                                 <Box display="flex" flexDirection="column" width="20px" bgcolor="#F9F9F9">
@@ -788,7 +789,7 @@ export default function DetailHotel() {
 
                                         </Box>
                                         <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between">
-                                            <Typography fontSize="12px" color="#878C9F" mr="10px">Trẻ em</Typography>
+                                            <Typography fontSize="12px" color="#878C9F" mr="10px" minWidth="60px">Trẻ em</Typography>
                                             <Box display="flex" flexDirection="row" >
                                                 <Input disableUnderline sx={{ width: "50px", height: "43px", border: "1px #EEE solid", padding: "0 10px", borderBottomLeftRadius: "5px", borderTopLeftRadius: "5px" }} />
                                                 <Box display="flex" flexDirection="column" width="20px" bgcolor="#F9F9F9">
@@ -802,20 +803,22 @@ export default function DetailHotel() {
                                             </Box>
 
                                         </Box>
-                                        {/* <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between">
-                                        <Typography fontSize="12px" color="#878C9F" mr="10px">Phòng</Typography>
-                                        <Box display="flex" flexDirection="row" >
-                                            <Input disableUnderline sx={{ width: "40px", height: "43px", border: "1px #EEE solid", padding: "0 10px", borderBottomLeftRadius: "5px", borderTopLeftRadius: "5px" }} />
-                                            <Box display="flex" flexDirection="column" width="20px" bgcolor="#F9F9F9">
-                                                <Box sx={{ height: "20px", border: "1px #EEE solid", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderTopRightRadius: "5px" }} >
-                                                    <Typography fontSize="14px">+</Typography>
-                                                </Box>
-                                                <Box sx={{ height: "20px", border: "1px #EEE solid", borderTop: "none", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderBottomRightRadius: "5px" }}>
-                                                    <Typography fontSize="14px">-</Typography>
+                                       
+                                        <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between" mt="30px">
+                                            <Typography fontSize="12px" color="#878C9F" mr="10px" minWidth="60px">Phòng</Typography>
+                                            <Box display="flex" flexDirection="row" >
+                                                <Input disableUnderline sx={{ width: "50px", height: "43px", border: "1px #EEE solid", padding: "0 10px", borderBottomLeftRadius: "5px", borderTopLeftRadius: "5px" }} />
+                                                <Box display="flex" flexDirection="column" width="20px" bgcolor="#F9F9F9">
+                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderTopRightRadius: "5px" }} >
+                                                        <Typography fontSize="14px">+</Typography>
+                                                    </Box>
+                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderTop: "none", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderBottomRightRadius: "5px" }}>
+                                                        <Typography fontSize="14px">-</Typography>
+                                                    </Box>
                                                 </Box>
                                             </Box>
+
                                         </Box>
-                                    </Box> */}
                                     </Box>
                                 </Box>
                                 <Box padding="20px 0" display="flex" justifyContent="space-between" alignItems="center" >
@@ -849,7 +852,6 @@ export default function DetailHotel() {
                             </Box>
                         </Box>
                     </Box>
-
                 </Box>
             </Box>
             <Footer2 />
