@@ -13,7 +13,8 @@ import UserReservationsPage from './pages/UserReservationsPage';
 import UserReservationDetails from './pages/UserReservationDetails';
 import Login from './pages/Login_ver2';
 import DetailHotel from './components/DetailHotel';
-import SearchResults from './components/ResultSearch';
+import SearchResultsPage from './components/ResultSearch';
+import ReservationsPage from './components/ListReservations';
 
 const App = () => {
   return (
@@ -25,11 +26,12 @@ const App = () => {
         <Route path="/reserve/:id" element={<ReservePage />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/reservations" element={<UserReservationsPage />} />
+        {/* <Route path="/reservations" element={<UserReservationsPage />} /> */}
         <Route path="/reservations/:id" element={<UserReservationDetails />} />
         <Route path="/detail-hotel" element={<DetailHotel />} />
         <Route path="/all-hotels" element={<AllHotelPage type={'Hotel'} />} />
-        <Route path="/search-results" element={<SearchResults />} />
+        <Route path="/search-results" element={<SearchResultsPage />} />
+        <Route path="/reservations" element={<ReservationsPage/>} />
         <Route
           path="/all-apartments"
           element={<AllHotelPage type={'Apartment'} />}

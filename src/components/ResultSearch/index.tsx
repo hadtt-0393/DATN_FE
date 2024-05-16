@@ -1,39 +1,23 @@
+import EventAvailableOutlinedIcon from '@mui/icons-material/EventAvailableOutlined';
+import LocationOnRoundedIcon from '@mui/icons-material/LocationOnRounded';
+import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
+import SupportAgentRoundedIcon from '@mui/icons-material/SupportAgentRounded';
+import { Card, CardActionArea, CardContent, Rating } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography"
-import EventAvailableOutlinedIcon from '@mui/icons-material/EventAvailableOutlined';
-import Input from "@mui/material/Input";
-import { FormControlLabel, Rating, Switch } from "@mui/material";
-import Navbar2 from '../../components/Navbar2';
-import Header2 from '../../components/Header2'
-import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
-import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
-import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined';
-import PhoneOutlinedIcon from '@mui/icons-material/PhoneOutlined';
-import ImageList from '@mui/material/ImageList';
-import ImageListItem from '@mui/material/ImageListItem';
-import HotelOutlinedIcon from '@mui/icons-material/HotelOutlined';
-import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
-import DirectionsCarOutlinedIcon from '@mui/icons-material/DirectionsCarOutlined';
-import dayjs from 'dayjs';
-import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DateRangeCalendar } from '@mui/x-date-pickers-pro/DateRangeCalendar';
-import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
-import styled from 'styled-components';
-import TextField from "@mui/material//TextField";
-import Sliders from '../../components/Slider';
-import { Card, CardActionArea, CardContent } from '@mui/material';
-import { Star } from "@mui/icons-material";
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import Footer2 from "../Footer2";
-import { useState, useEffect } from "react";
-import LocationOnRoundedIcon from '@mui/icons-material/LocationOnRounded';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import SupportAgentRoundedIcon from '@mui/icons-material/SupportAgentRounded';
+import Checkbox from '@mui/material/Checkbox';
 import Grid from '@mui/material/Grid';
+import Input from "@mui/material/Input";
 import Slider from '@mui/material/Slider';
+import Stack from '@mui/material/Stack';
+import Typography from "@mui/material/Typography";
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { useState } from "react";
+import styled from 'styled-components';
+import Header2 from '../../components/Header2';
+import Navbar2 from '../../components/Navbar2';
+import Sliders from '../../components/Slider';
+import { useNavigate } from 'react-router-dom';
 
 const Image = styled.img`
     width: 100%;
@@ -70,15 +54,17 @@ const theme = createTheme({
 
 
 
-function valuetext(value: number) {
-    return `${value}°C`;
-}
-export default function SearchResults() {
-    const [values, setValues] = useState<number[]>([20, 37]);
+
+export default function SearchResultsPage() {
+    const [values, setValues] = useState<number[]>([50000, 300000]);
     const value = 4
     const handleChange = (event: Event, newValue: number | number[]) => {
         setValues(newValue as number[]);
     };
+    function valuetext(value: number) {
+        return `${value}VND`;
+    }
+    const navigate = useNavigate()
     return (
         <Box>
             <Navbar2 />
@@ -115,10 +101,10 @@ export default function SearchResults() {
                                             <Box display="flex" flexDirection="row" >
                                                 <Input disableUnderline sx={{ width: "50px", height: "43px", border: "1px #EEE solid", padding: "0 10px", borderBottomLeftRadius: "5px", borderTopLeftRadius: "5px" }} />
                                                 <Box display="flex" flexDirection="column" width="20px" bgcolor="#F9F9F9">
-                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderTopRightRadius: "5px" }} >
+                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderTopRightRadius: "5px", "&:hover": { cursor: "pointer" } }} >
                                                         <Typography fontSize="14px">+</Typography>
                                                     </Box>
-                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderTop: "none", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderBottomRightRadius: "5px" }}>
+                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderTop: "none", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderBottomRightRadius: "5px", "&:hover": { cursor: "pointer" } }}>
                                                         <Typography fontSize="14px">-</Typography>
                                                     </Box>
                                                 </Box>
@@ -130,10 +116,10 @@ export default function SearchResults() {
                                             <Box display="flex" flexDirection="row" >
                                                 <Input disableUnderline sx={{ width: "50px", height: "43px", border: "1px #EEE solid", padding: "0 10px", borderBottomLeftRadius: "5px", borderTopLeftRadius: "5px" }} />
                                                 <Box display="flex" flexDirection="column" width="20px" bgcolor="#F9F9F9">
-                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderTopRightRadius: "5px" }} >
+                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderTopRightRadius: "5px", "&:hover": { cursor: "pointer" } }} >
                                                         <Typography fontSize="14px">+</Typography>
                                                     </Box>
-                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderTop: "none", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderBottomRightRadius: "5px" }}>
+                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderTop: "none", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderBottomRightRadius: "5px", "&:hover": { cursor: "pointer" } }}>
                                                         <Typography fontSize="14px">-</Typography>
                                                     </Box>
                                                 </Box>
@@ -146,10 +132,10 @@ export default function SearchResults() {
                                             <Box display="flex" flexDirection="row" >
                                                 <Input disableUnderline sx={{ width: "50px", height: "43px", border: "1px #EEE solid", padding: "0 10px", borderBottomLeftRadius: "5px", borderTopLeftRadius: "5px" }} />
                                                 <Box display="flex" flexDirection="column" width="20px" bgcolor="#F9F9F9">
-                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderTopRightRadius: "5px" }} >
+                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderTopRightRadius: "5px", "&:hover": { cursor: "pointer" } }} >
                                                         <Typography fontSize="14px">+</Typography>
                                                     </Box>
-                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderTop: "none", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderBottomRightRadius: "5px" }}>
+                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderTop: "none", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderBottomRightRadius: "5px", "&:hover": { cursor: "pointer" } }}>
                                                         <Typography fontSize="14px">-</Typography>
                                                     </Box>
                                                 </Box>
@@ -157,19 +143,148 @@ export default function SearchResults() {
 
                                         </Box>
                                     </Box>
-                                    <Typography fontSize="13px" color="#878C9F" mb="10px" mt="20px">Khoảng giá</Typography>
-                                    <Box display="flex" alignItems="center" border="#EEE solid 1px" height="45px" justifyContent="space-between" borderRadius="8px" bgcolor="#F9F9F9" mb="20px">
-                                        <EventAvailableOutlinedIcon fontSize="small" sx={{ color: "#F9B90F", pl: 2, pr: 2 }} />
-                                    </Box>
+                                    <Typography fontSize="13px" color="#878C9F" mb="10px" mt="20px">Khoảng giá (VND)</Typography>
+                                    <Stack spacing={2} direction="row" alignItems="center" justifyContent="space-between">
+                                        <Typography fontSize="12px" >0</Typography>
+
+                                        <Typography fontSize="12px">500.000</Typography>
+                                    </Stack>
                                     <Slider
                                         getAriaLabel={() => 'Temperature range'}
                                         value={values}
                                         onChange={handleChange}
                                         valueLabelDisplay="auto"
+                                        max={500000}
+                                        step={50000}
+                                        marks
                                         getAriaValueText={valuetext}
-                                    />
-                                </Box>
 
+                                    />
+                                    <Typography fontSize="13px" color="#878C9F" mb="10px" mt="20px">Dịch vụ khách sạn</Typography>
+                                    <Box >
+                                        <Grid container>
+                                            <Grid item xs={6} display="flex" flexDirection="row" alignItems="center" justifyContent="start">
+                                                <Checkbox sx={{
+                                                    color: "#CCCCCC", width: "12px", height: "12px",
+                                                    '&.Mui-checked': {
+                                                        bgcolor: "#3AACED",
+                                                        color: "#FFF",
+                                                        border: "1px solid #CCC",
+                                                        fill: "#3AACED"
+                                                    },
+
+                                                }} />
+                                                {/* <Checkbox sx={{ color: "#CCCCCC", width: "12px" }} /> */}
+                                                <Typography fontSize="13px" color="#878C9F" whiteSpace="nowrap" ml="10px">Điều hòa</Typography>
+                                            </Grid>
+                                            <Grid item xs={6} display="flex" flexDirection="row" alignItems="center" justifyContent="start">
+                                                <Checkbox sx={{
+                                                    color: "#CCCCCC", width: "12px", height: "12px",
+                                                    '&.Mui-checked': {
+                                                        bgcolor: "#3AACED",
+                                                        color: "#FFF",
+                                                        border: "1px solid #CCC",
+                                                        fill: "#3AACED"
+                                                    },
+
+                                                }} />
+                                                {/* <Checkbox sx={{ color: "#CCCCCC", width: "12px" }} /> */}
+                                                <Typography fontSize="13px" color="#878C9F" whiteSpace="nowrap" ml="10px">Quầy đồ ăn sáng </Typography>
+                                            </Grid>
+                                            <Grid item xs={6} display="flex" flexDirection="row" alignItems="center" justifyContent="start">
+                                                <Checkbox sx={{
+                                                    color: "#CCCCCC", width: "12px", height: "12px",
+                                                    '&.Mui-checked': {
+                                                        bgcolor: "#3AACED",
+                                                        color: "#FFF",
+                                                        border: "1px solid #CCC",
+                                                        fill: "#3AACED"
+                                                    },
+
+                                                }} />
+                                                {/* <Checkbox sx={{ color: "#CCCCCC", width: "12px" }} /> */}
+                                                <Typography fontSize="13px" color="#878C9F" whiteSpace="nowrap" ml="10px">Bể bơi</Typography>
+                                            </Grid>
+                                            <Grid item xs={6} display="flex" flexDirection="row" alignItems="center" justifyContent="start">
+                                                <Checkbox sx={{
+                                                    color: "#CCCCCC", width: "12px", height: "12px",
+                                                    '&.Mui-checked': {
+                                                        bgcolor: "#3AACED",
+                                                        color: "#FFF",
+                                                        border: "1px solid #CCC",
+                                                        fill: "#3AACED"
+                                                    },
+
+                                                }} />
+                                                {/* <Checkbox sx={{ color: "#CCCCCC", width: "12px" }} /> */}
+                                                <Typography fontSize="13px" color="#878C9F" whiteSpace="nowrap" ml="10px">Phòng hút thuốc</Typography>
+                                            </Grid>
+                                        </Grid>
+
+                                    </Box>
+                                    <Typography fontSize="13px" color="#878C9F" mb="10px" mt="20px">Dịch vụ phòng khách sạn</Typography>
+                                    <Box>
+                                        <Grid container>
+                                            <Grid item xs={6} display="flex" flexDirection="row" alignItems="center" justifyContent="start">
+                                                <Checkbox sx={{
+                                                    color: "#CCCCCC", width: "12px", height: "12px",
+                                                    '&.Mui-checked': {
+                                                        bgcolor: "#3AACED",
+                                                        color: "#FFF",
+                                                        border: "1px solid #CCC",
+                                                        fill: "#3AACED"
+                                                    },
+
+                                                }} />
+                                                {/* <Checkbox sx={{ color: "#CCCCCC", width: "12px" }} /> */}
+                                                <Typography fontSize="13px" color="#878C9F" whiteSpace="nowrap" ml="10px">Điều hòa</Typography>
+                                            </Grid>
+                                            <Grid item xs={6} display="flex" flexDirection="row" alignItems="center" justifyContent="start">
+                                                <Checkbox sx={{
+                                                    color: "#CCCCCC", width: "12px", height: "12px",
+                                                    '&.Mui-checked': {
+                                                        bgcolor: "#3AACED",
+                                                        color: "#FFF",
+                                                        border: "1px solid #CCC",
+                                                        fill: "#3AACED"
+                                                    },
+
+                                                }} />
+                                                {/* <Checkbox sx={{ color: "#CCCCCC", width: "12px" }} /> */}
+                                                <Typography fontSize="13px" color="#878C9F" whiteSpace="nowrap" ml="10px">Quầy đồ ăn sáng </Typography>
+                                            </Grid>
+                                            <Grid item xs={6} display="flex" flexDirection="row" alignItems="center" justifyContent="start">
+                                                <Checkbox sx={{
+                                                    color: "#CCCCCC", width: "12px", height: "12px",
+                                                    '&.Mui-checked': {
+                                                        bgcolor: "#3AACED",
+                                                        color: "#FFF",
+                                                        border: "1px solid #CCC",
+                                                        fill: "#3AACED"
+                                                    },
+
+                                                }} />
+                                                {/* <Checkbox sx={{ color: "#CCCCCC", width: "12px" }} /> */}
+                                                <Typography fontSize="13px" color="#878C9F" whiteSpace="nowrap" ml="10px">Bể bơi</Typography>
+                                            </Grid>
+                                            <Grid item xs={6} display="flex" flexDirection="row" alignItems="center" justifyContent="start">
+                                                <Checkbox sx={{
+                                                    color: "#CCCCCC", width: "12px", height: "12px",
+                                                    '&.Mui-checked': {
+                                                        bgcolor: "#3AACED",
+                                                        color: "#FFF",
+                                                        border: "1px solid #CCC",
+                                                        fill: "#3AACED"
+                                                    },
+
+                                                }} />
+                                                {/* <Checkbox sx={{ color: "#CCCCCC", width: "12px" }} /> */}
+                                                <Typography fontSize="13px" color="#878C9F" whiteSpace="nowrap" ml="10px">Phòng hút thuốc</Typography>
+                                            </Grid>
+                                        </Grid>
+
+                                    </Box>
+                                </Box>
 
                                 <Box width="100%" m="30px 0px 20px 0px ">
                                     <Button variant="contained" sx={{ width: "100%", backgroundColor: "#F9C941", fontWeight: "600", boxShadow: "none", "&:hover": { boxShadow: "none", opacity: "0.8", backgroundColor: "#F9C941" } }} >Tìm kiếm</Button>
@@ -183,8 +298,8 @@ export default function SearchResults() {
                             <Typography color="#3AACED" fontWeight="600" fontSize="20px">Hà Nội</Typography>
                         </Box>
                         <Box gap={2} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", flex: 1 }}>
-                            <Grid container  gap={.5}>
-                                <Grid xs={6} >
+                            <Grid container spacing={4}>
+                                <Grid item xs={6} >
                                     <Card sx={{ ml: .5, boxShadow: "none", border: "1px solid #EEE", mr: .5 }} >
                                         <CardActionArea sx={{}} >
                                             <Box overflow="hidden" borderRadius="5px" position="relative" height="50%">
@@ -273,14 +388,14 @@ export default function SearchResults() {
                                                             <Typography sx={{ fontSize: "13px", textTransform: "uppercase", color: "white" }} >Giá Rẻ Nhẩt/Đêm</Typography>
                                                             <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", marginLeft: "5px" }}>200.000VND</Typography>
                                                         </Box>
-                                                        <Button variant="contained" sx={{ fontSize: "13px", textTransform: "unset" }}>Xem chi tiết</Button>
+                                                        <Button variant="contained" sx={{ fontSize: "13px", textTransform: "unset" }} onClick={() => navigate("/detail-hotel")}>Xem chi tiết</Button>
                                                     </Box>
                                                 </ThemeProvider>
                                             </CardContent>
                                         </CardActionArea>
                                     </Card>
                                 </Grid>
-                                <Grid xs={6}>
+                                <Grid item xs={6}>
                                     <Card sx={{ ml: .5, boxShadow: "none", border: "1px solid #EEE", mr: .5 }} >
                                         <CardActionArea sx={{}} >
                                             <Box overflow="hidden" borderRadius="5px" position="relative" height="50%">
@@ -369,14 +484,14 @@ export default function SearchResults() {
                                                             <Typography sx={{ fontSize: "13px", textTransform: "uppercase", color: "white" }} >Giá Rẻ Nhẩt/Đêm</Typography>
                                                             <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", marginLeft: "5px" }}>200.000VND</Typography>
                                                         </Box>
-                                                        <Button variant="contained" sx={{ fontSize: "13px", textTransform: "unset" }}>Xem chi tiết</Button>
+                                                        <Button variant="contained" sx={{ fontSize: "13px", textTransform: "unset" }} onClick={() => navigate("/detail-hotel")}>Xem chi tiết</Button>
                                                     </Box>
                                                 </ThemeProvider>
                                             </CardContent>
                                         </CardActionArea>
                                     </Card>
                                 </Grid>
-                                <Grid xs={6}>
+                                <Grid item xs={6}>
                                     <Card sx={{ ml: .5, boxShadow: "none", border: "1px solid #EEE", mr: .5 }} >
                                         <CardActionArea sx={{}} >
                                             <Box overflow="hidden" borderRadius="5px" position="relative" height="50%">
@@ -465,7 +580,7 @@ export default function SearchResults() {
                                                             <Typography sx={{ fontSize: "13px", textTransform: "uppercase", color: "white" }} >Giá Rẻ Nhẩt/Đêm</Typography>
                                                             <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", marginLeft: "5px" }}>200.000VND</Typography>
                                                         </Box>
-                                                        <Button variant="contained" sx={{ fontSize: "13px", textTransform: "unset" }}>Xem chi tiết</Button>
+                                                        <Button variant="contained" sx={{ fontSize: "13px", textTransform: "unset" }} onClick={() => navigate("/detail-hotel")}>Xem chi tiết</Button>
                                                     </Box>
                                                 </ThemeProvider>
                                             </CardContent>

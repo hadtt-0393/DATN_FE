@@ -5,6 +5,7 @@ import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined';
 import PhoneOutlinedIcon from '@mui/icons-material/PhoneOutlined';
 import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
+import { Link } from "@mui/material";
 
 export default function Footer2() {
     return (

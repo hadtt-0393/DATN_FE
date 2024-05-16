@@ -7,14 +7,16 @@ import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import Fab from '@mui/material/Fab';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import Avatar from "@mui/material/Avatar";
+import { useNavigate } from "react-router-dom";
 
 export default function Navbar2() {
+    const navigate = useNavigate()
     return (
         <Box sx={{ backgroundColor: "#18458B", position: "fixed", zIndex: 10, top: 0, width: "100%" }}>
             <Box sx={{ display: "flex", width: "92%", height: "60px", margin: "0 auto", alignItems: "center", maxWidth: "1224px", justifyContent: "space-between " }}>
-                <img src="https://easybook.demotheme.matbao.support/wp-content/uploads/2018/08/logo.png" alt="logo" style={{ height: "35px", width: "133px" }} />
+                <img src="https://easybook.demotheme.matbao.support/wp-content/uploads/2018/08/logo.png" alt="logo" style={{ height: "35px", width: "133px", cursor:"pointer"  }} onClick={() => navigate("/")} />
                 <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexDirection: "row", "&:hover": { cursor: "pointer" } }}>
-                    <Fab variant="extended" sx={{ fontWeight: 700, fontSize: "12px", backgroundColor: "#F9B90F", color: "white", marginRight: "25px", boxShadow: "none", "&:hover": { backgroundColor: "#FAC73F", boxShadow: "none" } }} size="small" >
+                    <Fab variant="extended" sx={{ fontWeight: 700, fontSize: "12px", backgroundColor: "#F9B90F", color: "white", marginRight: "25px", boxShadow: "none", "&:hover": { backgroundColor: "#FAC73F", boxShadow: "none" } }} size="small" onClick={() => navigate("/reservations")}>
                         <ListAltIcon sx={{ mr: 1, fontSize: "14px" }} />
                         Danh sách phòng
                     </Fab>
@@ -26,13 +28,13 @@ export default function Navbar2() {
                         <LogoutIcon sx={{ color: "#3295d7", mr: 1, fontSize: "14px", }} />
                         <Typography sx={{ color: "#fff", fontSize: "14px", fontFamily: "Nunito, sans-serif", fontWeight: "600", "&:hover": { color: "#F9B90F" } }}>Đăng xuất</Typography>
                     </Box> */}
-                    <Box display="flex" flexDirection="row" alignItems="center" border="1px solid rgba(0, 0, 0, 0.21)" height="60px" p="0 25px" >
+                    <Box display="flex" flexDirection="row" alignItems="center" border="1px solid rgba(0, 0, 0, 0.21)" height="60px" p="0 25px" onClick={()=>navigate("/signin")}>
                         <LoginIcon sx={{ color: "#3295d7", mr: 1, fontSize: "14px", }} />
                         <Typography sx={{ color: "#fff", fontSize: "14px", fontFamily: "Nunito, sans-serif", fontWeight: "500", "&:hover": { color: "#F9B90F" } }}>Đăng nhập</Typography>
                     </Box>
                     <Box display="flex" flexDirection="row" alignItems="center" border=" 1px solid rgba(0, 0, 0, 0.21)" height="60px" p="0 25px" sx={{ borderLeft: 0 }}>
                         <PersonAddAltIcon sx={{ color: "#3295d7", mr: 1, fontSize: "14px", }} />
-                        <Typography sx={{ color: "#fff", fontSize: "14px", fontFamily: "Nunito, sans-serif", fontWeight: "500", "&:hover": { color: "#F9B90F" } }}>Đăng ký</Typography>
+                        <Typography sx={{ color: "#fff", fontSize: "14px", fontFamily: "Nunito, sans-serif", fontWeight: "500", "&:hover": { color: "#F9B90F" } }} onClick={()=>navigate("/signup")}>Đăng ký</Typography>
                     </Box>
 
                 </Box>

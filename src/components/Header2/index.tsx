@@ -11,6 +11,7 @@ import HouseIcon from '@mui/icons-material/House';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import { NavLink } from "react-router-dom";
+import Footer2 from "../Footer2";
 
 export default function Header2() {
     return (
@@ -27,7 +28,7 @@ export default function Header2() {
                     </Box>
                 </NavLink>
                 <NavLink to="/about-us">
-                    <Box display="flex" flexDirection="row" alignItems="center" height="50px" >
+                    <Box display="flex" flexDirection="row" alignItems="center" height="50px" onClick={() => <Footer2 />} >
                         <Typography sx={{ color: "#fff", fontSize: "14px", fontFamily: "Nunito, sans-serif", fontWeight: "600", "&:hover": { color: "#F9B90F", cursor: "pointer" } }}>Về chúng tôi</Typography>
                     </Box>
                 </NavLink>

@@ -604,28 +604,28 @@ export default function DetailHotel() {
                                         <Box sx={{ display: "flex", flexDirection: "column", mt: "5px" }}>
                                             <Typography sx={{ fontSize: "12px", color: "#666", fontWeight: "600" }}>Vệ sinh</Typography>
                                             <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "20px" }}>
-                                                <Slider defaultValue={4.5} aria-label="Default" valueLabelDisplay="auto" min={1} max={5} sx={{ height: "8px", color: "#3AACED", p: "0" }} />
+                                                <Slider defaultValue={4.5} aria-label="Default" valueLabelDisplay="auto" min={1} max={5} marks step={0.1} sx={{ height: "8px", color: "#3AACED", p: "0" }} />
                                                 <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", mb: "6px" }}>4.5</Typography>
                                             </Box>
                                         </Box>
                                         <Box sx={{ display: "flex", flexDirection: "column", mt: "5px" }}>
                                             <Typography sx={{ fontSize: "12px", color: "#666", fontWeight: "600" }}>Độ thoải mái</Typography>
                                             <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "20px" }}>
-                                                <Slider defaultValue={4.5} aria-label="Default" valueLabelDisplay="auto" min={1} max={5} sx={{ height: "8px", color: "#3AACED", p: "0" }} />
+                                                <Slider defaultValue={4.5} aria-label="Default" valueLabelDisplay="auto" min={1} max={5} marks step={0.1} sx={{ height: "8px", color: "#3AACED", p: "0" }} />
                                                 <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", mb: "6px" }}>4.5</Typography>
                                             </Box>
                                         </Box>
                                         <Box sx={{ display: "flex", flexDirection: "column", mt: "5px" }}>
                                             <Typography sx={{ fontSize: "12px", color: "#666", fontWeight: "600" }}>Thái độ nhân viên</Typography>
                                             <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "20px" }}>
-                                                <Slider defaultValue={4.5} aria-label="Default" valueLabelDisplay="auto" min={1} max={5} sx={{ height: "8px", color: "#3AACED", p: "0" }} />
+                                                <Slider defaultValue={4.5} aria-label="Default" valueLabelDisplay="auto" min={1} max={5} marks step={0.1} sx={{ height: "8px", color: "#3AACED", p: "0" }} />
                                                 <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", mb: "6px" }}>4.5</Typography>
                                             </Box>
                                         </Box>
                                         <Box sx={{ display: "flex", flexDirection: "column", mt: "5px" }}>
                                             <Typography sx={{ fontSize: "12px", color: "#666", fontWeight: "600" }}>Cơ sở vật chất</Typography>
                                             <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "20px" }}>
-                                                <Slider defaultValue={4.5} aria-label="Default" valueLabelDisplay="auto" min={1} max={5} sx={{ height: "8px", color: "#3AACED", p: "0" }} />
+                                                <Slider defaultValue={4.5} aria-label="Default" valueLabelDisplay="auto" min={1} max={5} marks step={0.1} sx={{ height: "8px", color: "#3AACED", p: "0" }} />
                                                 <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", mb: "6px" }}>4.5</Typography>
                                             </Box>
                                         </Box>
@@ -705,19 +705,19 @@ export default function DetailHotel() {
                                 <Box width="100%" flex={2} display="flex" gap={2} flexDirection="column"  >
                                     <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "50px" }}>
                                         <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", mb: "6px", whiteSpace: "nowrap", minWidth: "125px" }}>Vệ sinh</Typography>
-                                        <Slider defaultValue={4.5} aria-label="Default" valueLabelDisplay="auto" min={1} max={5} sx={{ height: "8px", color: "#3AACED", p: "0" }} />
+                                        <Slider defaultValue={4.5} aria-label="Default" valueLabelDisplay="auto" min={1} max={5} step={1} marks sx={{ height: "8px", color: "#3AACED", p: "0" }} />
                                     </Box>
                                     <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "50px" }}>
                                         <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", mb: "6px", whiteSpace: "nowrap", minWidth: "125px" }}>Độ thoải mái</Typography>
-                                        <Slider defaultValue={4.5} aria-label="Default" valueLabelDisplay="auto" min={1} max={5} sx={{ height: "8px", color: "#3AACED", p: "0" }} />
+                                        <Slider defaultValue={4.5} aria-label="Default" valueLabelDisplay="auto" min={1} max={5} step={1} marks sx={{ height: "8px", color: "#3AACED", p: "0" }} />
                                     </Box>
                                     <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "50px" }}>
                                         <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", mb: "6px", whiteSpace: "nowrap", minWidth: "125px" }}>Thái độ nhân viên</Typography>
-                                        <Slider defaultValue={4.5} aria-label="Default" valueLabelDisplay="auto" min={1} max={5} sx={{ height: "8px", color: "#3AACED", p: "0" }} />
+                                        <Slider defaultValue={4.5} aria-label="Default" valueLabelDisplay="auto" min={1} max={5} step={1} marks sx={{ height: "8px", color: "#3AACED", p: "0" }} />
                                     </Box>
                                     <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "50px" }}>
                                         <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", mb: "6px", whiteSpace: "nowrap", minWidth: "125px" }}>Cơ sở vật chất</Typography>
-                                        <Slider defaultValue={4.5} aria-label="Default" valueLabelDisplay="auto" min={1} max={5} sx={{ height: "8px", color: "#3AACED", p: "0" }} />
+                                        <Slider defaultValue={4.5} aria-label="Default" valueLabelDisplay="auto" min={1} max={5} step={1} marks sx={{ height: "8px", color: "#3AACED", p: "0" }} />
                                     </Box>
                                 </Box>
                                 <Box display="flex" flex={1} height="150px">
@@ -778,10 +778,10 @@ export default function DetailHotel() {
                                             <Box display="flex" flexDirection="row" >
                                                 <Input disableUnderline sx={{ width: "50px", height: "43px", border: "1px #EEE solid", padding: "0 10px", borderBottomLeftRadius: "5px", borderTopLeftRadius: "5px" }} />
                                                 <Box display="flex" flexDirection="column" width="20px" bgcolor="#F9F9F9">
-                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderTopRightRadius: "5px" }} >
+                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderTopRightRadius: "5px", "&:hover": { cursor: "pointer" } }} >
                                                         <Typography fontSize="14px">+</Typography>
                                                     </Box>
-                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderTop: "none", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderBottomRightRadius: "5px" }}>
+                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderTop: "none", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderBottomRightRadius: "5px", "&:hover": { cursor: "pointer" } }}>
                                                         <Typography fontSize="14px">-</Typography>
                                                     </Box>
                                                 </Box>
@@ -793,26 +793,26 @@ export default function DetailHotel() {
                                             <Box display="flex" flexDirection="row" >
                                                 <Input disableUnderline sx={{ width: "50px", height: "43px", border: "1px #EEE solid", padding: "0 10px", borderBottomLeftRadius: "5px", borderTopLeftRadius: "5px" }} />
                                                 <Box display="flex" flexDirection="column" width="20px" bgcolor="#F9F9F9">
-                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderTopRightRadius: "5px" }} >
+                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderTopRightRadius: "5px", "&:hover": { cursor: "pointer" } }} >
                                                         <Typography fontSize="14px">+</Typography>
                                                     </Box>
-                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderTop: "none", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderBottomRightRadius: "5px" }}>
+                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderTop: "none", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderBottomRightRadius: "5px", "&:hover": { cursor: "pointer" } }}>
                                                         <Typography fontSize="14px">-</Typography>
                                                     </Box>
                                                 </Box>
                                             </Box>
 
                                         </Box>
-                                       
+
                                         <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between" mt="30px">
                                             <Typography fontSize="12px" color="#878C9F" mr="10px" minWidth="60px">Phòng</Typography>
                                             <Box display="flex" flexDirection="row" >
                                                 <Input disableUnderline sx={{ width: "50px", height: "43px", border: "1px #EEE solid", padding: "0 10px", borderBottomLeftRadius: "5px", borderTopLeftRadius: "5px" }} />
                                                 <Box display="flex" flexDirection="column" width="20px" bgcolor="#F9F9F9">
-                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderTopRightRadius: "5px" }} >
+                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderTopRightRadius: "5px", "&:hover": { cursor: "pointer" } }} >
                                                         <Typography fontSize="14px">+</Typography>
                                                     </Box>
-                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderTop: "none", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderBottomRightRadius: "5px" }}>
+                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderTop: "none", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderBottomRightRadius: "5px", "&:hover": { cursor: "pointer" } }}>
                                                         <Typography fontSize="14px">-</Typography>
                                                     </Box>
                                                 </Box>

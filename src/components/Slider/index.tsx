@@ -14,9 +14,11 @@ import { SingleInputDateRangeField } from '@mui/x-date-pickers-pro/SingleInputDa
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { FormControl, MenuItem, Select } from "@mui/material";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Slider() {
     const [value, setValue] = useState('');
+    const navigate = useNavigate()
 
     return (
         <Box sx={{ mt: "110px", height: "600px", width: "100%", position: "relative" }}>
@@ -65,10 +67,10 @@ export default function Slider() {
                                             <Box display="flex" flexDirection="row" >
                                                 <Input disableUnderline sx={{ width: "50px", height: "43px", border: "1px #EEE solid", padding: "0 10px", borderBottomLeftRadius: "5px", borderTopLeftRadius: "5px" }} />
                                                 <Box display="flex" flexDirection="column" width="20px" bgcolor="#F9F9F9">
-                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderTopRightRadius: "5px" }} >
+                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderTopRightRadius: "5px", "&:hover": { cursor: "pointer" } }} >
                                                         <Typography fontSize="14px">+</Typography>
                                                     </Box>
-                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderTop: "none", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderBottomRightRadius: "5px" }}>
+                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderTop: "none", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderBottomRightRadius: "5px", "&:hover": { cursor: "pointer" } }}>
                                                         <Typography fontSize="14px">-</Typography>
                                                     </Box>
                                                 </Box>
@@ -79,10 +81,10 @@ export default function Slider() {
                                             <Box display="flex" flexDirection="row" >
                                                 <Input disableUnderline sx={{ width: "50px", height: "43px", border: "1px #EEE solid", padding: "0 10px", borderBottomLeftRadius: "5px", borderTopLeftRadius: "5px" }} />
                                                 <Box display="flex" flexDirection="column" width="20px" bgcolor="#F9F9F9">
-                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderTopRightRadius: "5px" }} >
+                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderTopRightRadius: "5px", "&:hover": { cursor: "pointer" } }} >
                                                         <Typography fontSize="14px">+</Typography>
                                                     </Box>
-                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderTop: "none", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderBottomRightRadius: "5px" }}>
+                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderTop: "none", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderBottomRightRadius: "5px", "&:hover": { cursor: "pointer" } }}>
                                                         <Typography fontSize="14px">-</Typography>
                                                     </Box>
                                                 </Box>
@@ -93,10 +95,10 @@ export default function Slider() {
                                             <Box display="flex" flexDirection="row" >
                                                 <Input disableUnderline sx={{ width: "50px", height: "43px", border: "1px #EEE solid", padding: "0 10px", borderBottomLeftRadius: "5px", borderTopLeftRadius: "5px" }} />
                                                 <Box display="flex" flexDirection="column" width="20px" bgcolor="#F9F9F9">
-                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderTopRightRadius: "5px" }} >
+                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderTopRightRadius: "5px", "&:hover": { cursor: "pointer" } }} >
                                                         <Typography fontSize="14px">+</Typography>
                                                     </Box>
-                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderTop: "none", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderBottomRightRadius: "5px" }}>
+                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderTop: "none", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderBottomRightRadius: "5px", "&:hover": { cursor: "pointer" } }}>
                                                         <Typography fontSize="14px">-</Typography>
                                                     </Box>
                                                 </Box>
@@ -106,7 +108,7 @@ export default function Slider() {
                                 </FormControl>
 
                             </Box>
-                            <Box display="flex" flex="1" height="100%" alignItems="center" justifyContent="center" sx={{ backgroundColor: "#F9B90F", m: "0 auto" }}>
+                            <Box display="flex" flex="1" height="100%" alignItems="center" justifyContent="center" sx={{ backgroundColor: "#F9B90F", m: "0 auto","&:hover":{cursor:"pointer", opacity:"0.8"} }} onClick={() => navigate('/search-results')}>
                                 <Typography sx={{ fontSize: "13px", color: "white" }}>Tìm kiếm</Typography>
                                 <ZoomInOutlinedIcon fontSize="small" sx={{ color: "white", pl: 1 }} />
                             </Box>
