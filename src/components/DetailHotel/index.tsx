@@ -29,6 +29,7 @@ import { Star } from "@mui/icons-material";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import Footer2 from "../Footer2";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -120,6 +121,7 @@ const Image = styled.img`
 
 export default function DetailHotel() {
     const value = 4;
+    const navigate = useNavigate()
     return (
         <Box>
             <Navbar2 />
@@ -831,7 +833,7 @@ export default function DetailHotel() {
 
                                 </Box>
                                 <Box width="100%" m="30px 0px 20px 0px ">
-                                    <Button variant="contained" sx={{ width: "100%", backgroundColor: "#F9C941", fontWeight: "600", boxShadow: "none", "&:hover": { boxShadow: "none", opacity: "0.8", backgroundColor: "#F9C941" } }} >Đặt phòng</Button>
+                                    <Button variant="contained" sx={{ width: "100%", backgroundColor: "#F9C941", fontWeight: "600", boxShadow: "none", "&:hover": { boxShadow: "none", opacity: "0.8", backgroundColor: "#F9C941" } }} onClick={() => navigate("/booking")}>Đặt phòng</Button>
                                 </Box>
                             </Box>
                         </Box>
