@@ -1,18 +1,26 @@
 import { Box, Button, Input, Typography } from "@mui/material";
 import Navbar2 from "../Navbar2";
 import Header2 from "../Header2";
-import EventAvailableOutlinedIcon from '@mui/icons-material/EventAvailableOutlined';
-import Person2OutlinedIcon from '@mui/icons-material/Person2Outlined';
-import TextField from "@mui/material//TextField";
-import Checkbox from '@mui/material/Checkbox';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
-import MailOutlineOutlinedIcon from '@mui/icons-material/MailOutlineOutlined';
-import PhoneOutlinedIcon from '@mui/icons-material/PhoneOutlined';
+import Person2OutlinedIcon from '@mui/icons-material/Person2Outlined';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
+import { useState } from "react";
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import MoneyIcon from '@mui/icons-material/Money';
+import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 import { useNavigate } from "react-router-dom";
 
-export default function BookingPage() {
-    
+export default function PaymentMethod() {
     const navigate = useNavigate()
+    const [value, setValue] = useState('female');
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setValue((event.target as HTMLInputElement).value);
+    };
     return (
         <Box>
             <Navbar2 />
@@ -20,63 +28,45 @@ export default function BookingPage() {
             <Box marginTop="150px" height="100vh" >
                 <Box width="92%" maxWidth="1224px" m="0 auto" >
                     <Box display="flex" flexDirection="row" justifyContent="start" gap={2} pb="20px" borderBottom="1px #EEE solid" border="none" >
-                        <Typography fontSize="20px" fontWeight="600" color="#888FA9">Đặt phòng tại: </Typography>
-                        <Typography fontSize="20px" fontWeight="600" color="#3AACED">Thu Ha Hotel</Typography>
+                        <Typography fontSize="20px" fontWeight="600" color="#888FA9">Thông tin đặt phòng</Typography>
                     </Box>
                     <Box display="flex" gap={3}>
                         <Box flex={2} bgcolor="#F7F9FB" border="1px #EEE solid" borderRadius="5px" height="">
                             <Box m="20px 30px"  >
-                                <Box paddingBottom="20px" paddingTop="10px" border="1px solid #EEEEEE" borderTop="none" borderLeft="none" borderRight="none">
-                                    <Typography fontSize="20px" fontWeight="600" color="#183C7D">Thông tin đặt phòng</Typography>
+                                <Box paddingBottom="20px" paddingTop="10px" border="1px solid #DDD" borderTop="none" borderLeft="none" borderRight="none">
+                                    <Typography fontSize="20px" fontWeight="600" color="#183C7D">Chọn phương thức thanh toán</Typography>
                                 </Box>
-                                <Box display="flex" flexDirection="row" gap={4} >
-                                    <Box flex={1}>
-                                        <Typography fontSize="14px" color="#000" mb="10px" mt="20px">Họ tên</Typography>
-                                        <Box display="flex" alignItems="center" border="#EEE solid 1px" height="45px" justifyContent="space-between" borderRadius="8px" bgcolor="#FFF">
-                                            <Person2OutlinedIcon fontSize="small" sx={{ color: "#F9B90F", pl: 2, pr: 2 }} />
-                                            <Input disableUnderline sx={{ fontSize: "13px", flex: "1" }} placeholder="Nguyễn Văn A" />
-                                        </Box>
-                                    </Box>
-                                    <Box flex={1}>
-                                        <Typography fontSize="14px" color="#000" mb="10px" mt="20px">Địa chỉ</Typography>
-                                        <Box display="flex" alignItems="center" border="#EEE solid 1px" height="45px" justifyContent="space-between" borderRadius="8px" bgcolor="#FFF">
-                                            <LocationOnOutlinedIcon fontSize="small" sx={{ color: "#F9B90F", pl: 2, pr: 2 }} />
-                                            <Input disableUnderline sx={{ fontSize: "13px", flex: "1" }} placeholder="Hà Nội" />
-                                        </Box>
-                                    </Box>
+                                <Box display="flex" flexDirection="column" gap={4} >
+                                    <FormControl>
+                                        {/* <FormLabel id="demo-controlled-radio-buttons-group">Gender</FormLabel> */}
+                                        <RadioGroup
+                                            aria-labelledby="demo-controlled-radio-buttons-group"
+                                            name="controlled-radio-buttons-group"
+                                            value={value}
+                                            onChange={handleChange}
+
+                                        >
+                                            <Box sx={{ display: "flex", gap: "3" }} mt="30px" pb="30px" borderBottom="1px #DDD dashed">
+                                                <FormControlLabel value="female" control={<Radio />} label="Thanh toán tiền mặt" />
+                                                <MoneyIcon sx={{ color: "#F9B90F", fontSize: "50px", ml: "30px" }} />
+                                            </Box>
+                                            <Box sx={{ display: "flex", gap: "3" }} mt="30px" pb="30px" borderBottom="1px #DDD solid" flexDirection="row" justifyContent="flex-start" alignItems="center">
+                                                <FormControlLabel value="male" control={<Radio />} label="Thanh toán qua thẻ" />
+                                                < AccountBalanceIcon sx={{ color: "#336699", fontSize: "50px", ml: "30px" }} />
+                                            </Box>
+                                        </RadioGroup>
+                                    </FormControl>
                                 </Box>
-                                <Box display="flex" flexDirection="row" gap={4} >
-                                    <Box flex={1}>
-                                        <Typography fontSize="14px" color="#000" mb="10px" mt="20px">Email</Typography>
-                                        <Box display="flex" alignItems="center" border="#EEE solid 1px" height="45px" justifyContent="space-between" borderRadius="8px" bgcolor="#FFF">
-                                            <MailOutlineOutlinedIcon fontSize="small" sx={{ color: "#F9B90F", pl: 2, pr: 2 }} />
-                                            <Input disableUnderline sx={{ fontSize: "13px", flex: "1" }} placeholder="nguyenvana@gmail.com" />
-                                        </Box>
-                                    </Box>
-                                    <Box flex={1}>
-                                        <Typography fontSize="14px" color="#000" mb="10px" mt="20px">Số điện thoại</Typography>
-                                        <Box display="flex" alignItems="center" border="#EEE solid 1px" height="45px" justifyContent="space-between" borderRadius="8px" bgcolor="#FFF">
-                                            <PhoneOutlinedIcon fontSize="small" sx={{ color: "#F9B90F", pl: 2, pr: 2 }} />
-                                            <Input disableUnderline sx={{ fontSize: "13px", flex: "1" }} placeholder="0987654321" />
-                                        </Box>
-                                    </Box>
-                                </Box>
-                                {/* <Box display="flex" alignItems="end" justifyContent="start" mt="10px" mb="10px">
-                                    <Typography fontSize="14px" color="#000" mb="10px" mt="20px" mr="20px">Bạn đặt phòng để đi công tác?</Typography>
-                                    <Checkbox />
-                                </Box> */}
-                                <Box>
-                                    <Typography fontSize="14px" color="#000" mb="10px" mt="20px">Ghi chú</Typography>
-                                    <Box sx={{ textAlign: "center" }} bgcolor="#FFF">
-                                        <TextField minRows={4} sx={{ width: "100%" }} placeholder="Nhập ghi chú của bạn" multiline />
+                                <Box mt="30px" display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" pb="10px">
+                                    <Box display="flex" flexDirection="row" justifyContent="start" alignItems="center" bgcolor="#F1C40F" padding="0 20px" borderRadius="5px" onClick={() => navigate("/booking")}>
+                                        <KeyboardReturnIcon sx={{ color: "white" }} />
+                                        <Button variant="contained" sx={{ bgcolor: "#F1C40F", boxShadow: "none", fontWeight: "600", "&:hover": { opacity: "0.8", bgcolor: "#F1C40F", boxShadow: "none", fontWeight: "600" } }}>Quay lại</Button>
                                     </Box>
 
-                                </Box>
-                                <Box width="40%" m="30px auto">
-                                    <Button variant="contained" sx={{ width: "100%", backgroundColor: "#F9C941", fontWeight: "600", boxShadow: "none", "&:hover": { boxShadow: "none", opacity: "0.8", backgroundColor: "#F9C941" } }} onClick={()=>navigate("/select-payment-method")}>Thanh toán</Button>
+                                    {/* Redirect Stripe */}
+                                    <Button variant="contained" sx={{ boxShadow: "none", fontWeight: "600", "&:hover": { fontWeight: "600", boxShadow: "none" } }}>Thanh toán</Button>
                                 </Box>
                             </Box>
-
                         </Box>
                         <Box flex="1" width="350px" >
                             <Box bgcolor="#F5F7EC" borderRadius="5px" p="10px 0" border="1px #EEE solid" >
@@ -161,8 +151,8 @@ export default function BookingPage() {
                             </Box>
                         </Box>
                     </Box>
-                </Box>
 
+                </Box>
             </Box>
         </Box>
     )

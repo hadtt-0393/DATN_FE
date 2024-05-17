@@ -16,8 +16,11 @@ import DetailHotel from './components/DetailHotel';
 import SearchResultsPage from './components/ResultSearch';
 import ReservationsPage from './components/ListReservations';
 import BookingPage from './components/Booking';
+import PaymentMethod from './components/PaymentMethod';
+import { useScrollToTop } from './hook/use-hook-to-top';
 
 const App = () => {
+  // useScrollToTop();
   return (
     <BrowserRouter>
       <Routes>
@@ -34,6 +37,7 @@ const App = () => {
         <Route path="/search-results" element={<SearchResultsPage />} />
         <Route path="/reservations" element={<ReservationsPage />} />
         <Route path="/booking" element={<BookingPage />} />
+        <Route path="/select-payment-method" element={<PaymentMethod />} />
         <Route
           path="/all-apartments"
           element={<AllHotelPage type={'Apartment'} />}
