@@ -788,7 +788,6 @@ export default function DetailHotel() {
                                                     </Box>
                                                 </Box>
                                             </Box>
-
                                         </Box>
                                         <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between">
                                             <Typography fontSize="12px" color="#878C9F" mr="10px" minWidth="60px">Trẻ em</Typography>
@@ -848,9 +847,23 @@ export default function DetailHotel() {
                                         <Typography color="#5ECFB3" fontWeight="600" fontSize="14px" ml="30px"> 100.000 VND - 1.000.000 VND</Typography>
                                     </Box>
                                 </Box>
-
-
-
+                            </Box>
+                        </Box>
+                        <Box bgcolor="white" mt="50px" borderRadius="5px" p="10px 0">
+                            <Box m="20px 30px">
+                                <Box paddingBottom="20px" border="1px solid #EEEEEE" borderTop="none" borderLeft="none" borderRight="none" >
+                                    <Typography fontSize="16px" fontWeight="600" color="#183C7D"> Thời gian checkin - checkout</Typography>
+                                </Box>
+                                <Box borderBottom="1px solid #EEEEEE"  >
+                                    <Box padding="20px 0" display="flex" justifyContent="start" alignItems="center" >
+                                        <Typography fontSize="14px" fontWeight="600" color="#878C9F" minWidth="100px">Giờ checkin:</Typography>
+                                        <Typography color="#5ECFB3" fontWeight="600" fontSize="14px" ml="10px"> 12 giờ trưa ngày đến </Typography>
+                                    </Box>
+                                    <Box padding="20px 0" display="flex" justifyContent="start" alignItems="center" >
+                                        <Typography fontSize="14px" fontWeight="600" color="#878C9F" minWidth="100px">Giờ checkout:</Typography>
+                                        <Typography color="#5ECFB3" fontWeight="600" fontSize="14px" ml="10px">10h sáng ngày đi</Typography>
+                                    </Box>
+                                </Box>
                             </Box>
                         </Box>
                     </Box>
