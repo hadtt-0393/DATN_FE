@@ -13,6 +13,7 @@ import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import MoneyIcon from '@mui/icons-material/Money';
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 import { useNavigate } from "react-router-dom";
+import { useScrollToTop } from "../../hook/use-hook-to-top";
 
 export default function PaymentMethod() {
     const navigate = useNavigate()
@@ -21,6 +22,7 @@ export default function PaymentMethod() {
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setValue((event.target as HTMLInputElement).value);
     };
+    useScrollToTop();
     return (
         <Box>
             <Navbar2 />

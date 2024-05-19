@@ -17,7 +17,10 @@ import styled from 'styled-components';
 import Header2 from '../../components/Header2';
 import Navbar2 from '../../components/Navbar2';
 import Sliders from '../../components/Slider';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+import useFetch from '../../hooks/useFetch';
+import { Hotel } from '../../models/Hotel';
 
 const Image = styled.img`
     width: 100%;
@@ -56,6 +59,11 @@ const theme = createTheme({
 
 
 export default function SearchResultsPage() {
+    const location = useLocation();
+    const city = location.pathname.split('/')[2];
+    const { data, loading, error } = useFetch<Hotel[]>(
+        `${process.env.REACT_APP_API_ENDPOINT}/hotel/count/${city}`,
+    );
     const [values, setValues] = useState<number[]>([50000, 300000]);
     const value = 4
     const handleChange = (event: Event, newValue: number | number[]) => {
@@ -65,6 +73,7 @@ export default function SearchResultsPage() {
         return `${value}VND`;
     }
     const navigate = useNavigate()
+
     return (
         <Box>
             <Navbar2 />
@@ -86,14 +95,6 @@ export default function SearchResultsPage() {
                                     <Typography fontSize="13px" color="#878C9F" mb="10px">Ngày</Typography>
                                     <Box display="flex" alignItems="center" border="#EEE solid 1px" height="45px" justifyContent="space-between" borderRadius="8px" bgcolor="#F9F9F9">
                                         <EventAvailableOutlinedIcon fontSize="small" sx={{ color: "#F9B90F", pl: 2, pr: 2 }} />
-                                        {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                            <DemoContainer components={['SingleInputDateRangeField']} >
-                                                <DateRangePicker
-                                                    slots={{ field: SingleInputDateRangeField }}
-                                                    name="allowedRange"
-                                                />
-                                            </DemoContainer>
-                                        </LocalizationProvider> */}
                                     </Box>
                                     <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between" mt="20px" sx={{ flexWrap: "wrap" }}>
                                         <Box display="flex" flexDirection="column" alignItems="start" justifyContent="space-between" gap={2}>
@@ -299,303 +300,110 @@ export default function SearchResultsPage() {
                         </Box>
                         <Box gap={2} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", flex: 1 }}>
                             <Grid container spacing={4}>
-                                <Grid item xs={6} >
-                                    <Card sx={{ ml: .5, boxShadow: "none", border: "1px solid #EEE", mr: .5 }} >
-                                        <CardActionArea sx={{}} >
-                                            <Box overflow="hidden" borderRadius="5px" position="relative" height="50%">
-                                                <Image src="http://res.cloudinary.com/di7a7sbbn/image/upload/v1668414040/upload/prirsonreuc6vkcjmxfi.jpg" />
-                                                <Box sx={{
-                                                    position: "absolute",
-                                                    top: 0,
-                                                    width: "100%",
-                                                    backgroundColor: "rgba(255, 255, 255, 0.1)",
-                                                    display: "flex",
-                                                    flexDirection: "column",
-                                                    justifyContent: "space-between",
-                                                    zIndex: 1,
-                                                    pointerEvents: "none",
-                                                    height: "100%",
-                                                }}>
-                                                    <Box display="flex" flexDirection="column">
-                                                        <Box width="110px" height="35px" sx={{ display: "flex", backgroundColor: "#5ECFB1", margin: "20px 20px 10px 0px", alignSelf: "end", alignItems: "center", justifyContent: "center" }}>
-                                                            <Typography sx={{ fontSize: "13px", color: "white", fontWeight: "600", }}>Giảm giá 30%</Typography>
-                                                        </Box>
-                                                        <Box width="110px" height="35px" sx={{ display: "flex", backgroundColor: "#FF0000", m: "0 20px", alignSelf: "end", alignItems: "center", justifyContent: "center" }}>
-                                                            <Typography sx={{ fontSize: "13px", color: "white", fontWeight: "600", }}>Đặc sắc</Typography>
-                                                        </Box>
-                                                    </Box>
-
-                                                    <Box
-                                                        sx={{
-                                                            display: 'flex',
-                                                            alignItems: 'start',
-                                                            height: "30%",
-                                                            m: 2,
-                                                            justifyContent: "space-between",
-                                                        }}
-                                                    >
-                                                        <Rating
-                                                            name="text-feedback"
-                                                            value={value}
-                                                            readOnly
-                                                            precision={0.5}
-                                                            emptyIcon={<StarBorderOutlinedIcon style={{ color: "#FAC73F", fontSize: "18px" }} />}
-                                                            sx={{ fontSize: "18px", color: "#FAC73F" }}
-                                                        />
-                                                        <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-                                                            <Box sx={{
-                                                                display: 'flex',
-                                                                alignItems: 'end',
-                                                                m: 1,
-                                                                flexDirection: "column"
-                                                            }}>
-                                                                <Typography sx={{ color: "#FEFEFE", fontSize: "13px", fontWeight: "600" }}>{labels[value]}</Typography>
-                                                                <Typography sx={{ color: "#FEFEFE", fontSize: "11px" }}>10 bình luận</Typography>
-
+                                {data && data.map((item) => (
+                                    <Grid item xs={6} >
+                                        <Card sx={{ ml: .5, boxShadow: "none", border: "1px solid #EEE", mr: .5 }} >
+                                            <CardActionArea sx={{}} >
+                                                <Box overflow="hidden" borderRadius="5px" position="relative" height="50%">
+                                                    <Image src="http://res.cloudinary.com/di7a7sbbn/image/upload/v1668414040/upload/prirsonreuc6vkcjmxfi.jpg" />
+                                                    <Box sx={{
+                                                        position: "absolute",
+                                                        top: 0,
+                                                        width: "100%",
+                                                        backgroundColor: "rgba(255, 255, 255, 0.1)",
+                                                        display: "flex",
+                                                        flexDirection: "column",
+                                                        justifyContent: "space-between",
+                                                        zIndex: 1,
+                                                        pointerEvents: "none",
+                                                        height: "100%",
+                                                    }}>
+                                                        <Box display="flex" flexDirection="column">
+                                                            <Box width="110px" height="35px" sx={{ display: "flex", backgroundColor: "#5ECFB1", margin: "20px 20px 10px 0px", alignSelf: "end", alignItems: "center", justifyContent: "center" }}>
+                                                                <Typography sx={{ fontSize: "13px", color: "white", fontWeight: "600", }}>Giảm giá 30%</Typography>
                                                             </Box>
-                                                            <Box bgcolor="rgba(255, 255, 255, 0.25)" borderRadius="10px 10px 10px 0px" margin="5px" flex={1}>
-                                                                <Box sx={{ display: "flex", margin: "5px", fontSize: "13px", textTransform: "unset", textWrap: "nowrap", borderRadius: "10px 10px 10px 0px", height: "50px", backgroundColor: "#18458B", width: "50px", alignItems: "center", justifyContent: "center" }} >
-                                                                    <Typography sx={{ fontSize: "13px", color: "white", fontWeight: "600", }}>4.5</Typography>
+                                                            <Box width="110px" height="35px" sx={{ display: "flex", backgroundColor: "#FF0000", m: "0 20px", alignSelf: "end", alignItems: "center", justifyContent: "center" }}>
+                                                                <Typography sx={{ fontSize: "13px", color: "white", fontWeight: "600", }}>Đặc sắc</Typography>
+                                                            </Box>
+                                                        </Box>
+
+                                                        <Box
+                                                            sx={{
+                                                                display: 'flex',
+                                                                alignItems: 'start',
+                                                                height: "30%",
+                                                                m: 2,
+                                                                justifyContent: "space-between",
+                                                            }}
+                                                        >
+                                                            <Rating
+                                                                name="text-feedback"
+                                                                value={value}
+                                                                readOnly
+                                                                precision={0.5}
+                                                                emptyIcon={<StarBorderOutlinedIcon style={{ color: "#FAC73F", fontSize: "18px" }} />}
+                                                                sx={{ fontSize: "18px", color: "#FAC73F" }}
+                                                            />
+                                                            <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+                                                                <Box sx={{
+                                                                    display: 'flex',
+                                                                    alignItems: 'end',
+                                                                    m: 1,
+                                                                    flexDirection: "column"
+                                                                }}>
+                                                                    <Typography sx={{ color: "#FEFEFE", fontSize: "13px", fontWeight: "600" }}>{labels[value]}</Typography>
+                                                                    <Typography sx={{ color: "#FEFEFE", fontSize: "11px" }}>10 bình luận</Typography>
+
+                                                                </Box>
+                                                                <Box bgcolor="rgba(255, 255, 255, 0.25)" borderRadius="10px 10px 10px 0px" margin="5px" flex={1}>
+                                                                    <Box sx={{ display: "flex", margin: "5px", fontSize: "13px", textTransform: "unset", textWrap: "nowrap", borderRadius: "10px 10px 10px 0px", height: "50px", backgroundColor: "#18458B", width: "50px", alignItems: "center", justifyContent: "center" }} >
+                                                                        <Typography sx={{ fontSize: "13px", color: "white", fontWeight: "600", }}>4.5</Typography>
+                                                                    </Box>
                                                                 </Box>
                                                             </Box>
                                                         </Box>
+
+                                                    </Box>
+                                                </Box>
+                                                <CardContent>
+                                                    <Typography gutterBottom component="div" sx={{ color: "#46A5DC", fontSize: "18px", fontWeight: "600" }}>
+                                                        {item.name}
+                                                    </Typography>
+                                                    <Box display="flex" flexDirection="row" alignItems="center" gap={1} mb={1.5}>
+                                                        <LocationOnRoundedIcon sx={{ color: "#F9B90F", fontSize: "16px" }} />
+                                                        <Typography sx={{ color: "#999", fontSize: "13px", }}>{item.address}</Typography>
+                                                    </Box>
+                                                    <Box sx={{ border: ".5px  #CCC dashed" }} />
+                                                    <Typography sx={{ color: "#999", fontSize: "13px", mt: "15px", mb: "12px" }}>Khach san dep, dich vu tot, nhan vien nhiet tinh</Typography>
+                                                    <Box display="flex" alignItems="center" justifyContent="start" mb="12px">
+                                                        <SupportAgentRoundedIcon sx={{ color: "red", fontSize: "16px" }} />
+                                                        <ul style={{ listStyleType: "none", padding: "0px", marginLeft: "10px", color: "#3AACED" }}>
+                                                            <li style={{ display: "inline-block", marginRight: "10px" }}>Wifi</li>
+                                                            <li style={{ display: "inline-block" }}>Shower</li>
+                                                        </ul>
                                                     </Box>
 
-                                                </Box>
-                                            </Box>
-                                            <CardContent>
-                                                <Typography gutterBottom component="div" sx={{ color: "#46A5DC", fontSize: "18px", fontWeight: "600" }}>
-                                                    Thu Ha Hotel
-                                                </Typography>
-                                                <Box display="flex" flexDirection="row" alignItems="center" gap={1} mb={1.5}>
-                                                    <LocationOnRoundedIcon sx={{ color: "#F9B90F", fontSize: "16px" }} />
-                                                    <Typography sx={{ color: "#999", fontSize: "13px", }}>Ta Quang Buu, Hai Ba Trung, Ha Noi</Typography>
-                                                </Box>
-                                                <Box sx={{ border: ".5px  #CCC dashed" }} />
-                                                <Typography sx={{ color: "#999", fontSize: "13px", mt: "15px", mb: "12px" }}>Khach san dep, dich vu tot, nhan vien nhiet tinh</Typography>
-                                                <Box display="flex" alignItems="center" justifyContent="start" mb="12px">
-                                                    <SupportAgentRoundedIcon sx={{ color: "red", fontSize: "16px" }} />
-                                                    <ul style={{ listStyleType: "none", padding: "0px", marginLeft: "10px", color: "#3AACED" }}>
-                                                        <li style={{ display: "inline-block", marginRight: "10px" }}>Wifi</li>
-                                                        <li style={{ display: "inline-block" }}>Shower</li>
-                                                    </ul>
-                                                </Box>
-
-                                                <Box sx={{ border: ".5px  #CCC dashed" }} />
-                                                <ThemeProvider theme={theme}>
-                                                    <Box display="flex" alignItems="center" justifyContent="space-between" mt="10px" >
-                                                        <Box bgcolor="#F9B90F" sx={{ fontSize: "13px", textTransform: "unset", boxShadow: "none", border: "0.5px solid #EEE", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: "5px 10px", borderRadius: "5px" }}>
-                                                            <Typography sx={{ fontSize: "13px", textTransform: "uppercase", color: "white" }} >Giá Rẻ Nhẩt/Đêm</Typography>
-                                                            <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", marginLeft: "5px" }}>200.000VND</Typography>
-                                                        </Box>
-                                                        <Button variant="contained" sx={{ fontSize: "13px", textTransform: "unset" }} onClick={() => navigate("/detail-hotel")}>Xem chi tiết</Button>
-                                                    </Box>
-                                                </ThemeProvider>
-                                            </CardContent>
-                                        </CardActionArea>
-                                    </Card>
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <Card sx={{ ml: .5, boxShadow: "none", border: "1px solid #EEE", mr: .5 }} >
-                                        <CardActionArea sx={{}} >
-                                            <Box overflow="hidden" borderRadius="5px" position="relative" height="50%">
-                                                <Image src="http://res.cloudinary.com/di7a7sbbn/image/upload/v1668414040/upload/prirsonreuc6vkcjmxfi.jpg" />
-                                                <Box sx={{
-                                                    position: "absolute",
-                                                    top: 0,
-                                                    width: "100%",
-                                                    backgroundColor: "rgba(255, 255, 255, 0.1)",
-                                                    display: "flex",
-                                                    flexDirection: "column",
-                                                    justifyContent: "space-between",
-                                                    zIndex: 1,
-                                                    pointerEvents: "none",
-                                                    height: "100%",
-                                                }}>
-                                                    <Box display="flex" flexDirection="column">
-                                                        <Box width="110px" height="35px" sx={{ display: "flex", backgroundColor: "#5ECFB1", margin: "20px 20px 10px 0px", alignSelf: "end", alignItems: "center", justifyContent: "center" }}>
-                                                            <Typography sx={{ fontSize: "13px", color: "white", fontWeight: "600", }}>Giảm giá 30%</Typography>
-                                                        </Box>
-                                                        <Box width="110px" height="35px" sx={{ display: "flex", backgroundColor: "#FF0000", m: "0 20px", alignSelf: "end", alignItems: "center", justifyContent: "center" }}>
-                                                            <Typography sx={{ fontSize: "13px", color: "white", fontWeight: "600", }}>Đặc sắc</Typography>
-                                                        </Box>
-                                                    </Box>
-
-                                                    <Box
-                                                        sx={{
-                                                            display: 'flex',
-                                                            alignItems: 'start',
-                                                            height: "30%",
-                                                            m: 2,
-                                                            justifyContent: "space-between",
-                                                        }}
-                                                    >
-                                                        <Rating
-                                                            name="text-feedback"
-                                                            value={value}
-                                                            readOnly
-                                                            precision={0.5}
-                                                            emptyIcon={<StarBorderOutlinedIcon style={{ color: "#FAC73F", fontSize: "18px" }} />}
-                                                            sx={{ fontSize: "18px", color: "#FAC73F" }}
-                                                        />
-                                                        <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-                                                            <Box sx={{
-                                                                display: 'flex',
-                                                                alignItems: 'end',
-                                                                m: 1,
-                                                                flexDirection: "column"
-                                                            }}>
-                                                                <Typography sx={{ color: "#FEFEFE", fontSize: "13px", fontWeight: "600" }}>{labels[value]}</Typography>
-                                                                <Typography sx={{ color: "#FEFEFE", fontSize: "11px" }}>10 bình luận</Typography>
-
+                                                    <Box sx={{ border: ".5px  #CCC dashed" }} />
+                                                    <ThemeProvider theme={theme}>
+                                                        <Box display="flex" alignItems="center" justifyContent="space-between" mt="10px" >
+                                                            <Box bgcolor="#F9B90F" sx={{ fontSize: "13px", textTransform: "unset", boxShadow: "none", border: "0.5px solid #EEE", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: "5px 10px", borderRadius: "5px" }}>
+                                                                <Typography sx={{ fontSize: "13px", textTransform: "uppercase", color: "white" }} >Giá Rẻ Nhẩt/Đêm</Typography>
+                                                                <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", marginLeft: "5px" }}>200.000VND</Typography>
                                                             </Box>
-                                                            <Box bgcolor="rgba(255, 255, 255, 0.25)" borderRadius="10px 10px 10px 0px" margin="5px" flex={1}>
-                                                                <Box sx={{ display: "flex", margin: "5px", fontSize: "13px", textTransform: "unset", textWrap: "nowrap", borderRadius: "10px 10px 10px 0px", height: "50px", backgroundColor: "#18458B", width: "50px", alignItems: "center", justifyContent: "center" }} >
-                                                                    <Typography sx={{ fontSize: "13px", color: "white", fontWeight: "600", }}>4.5</Typography>
-                                                                </Box>
-                                                            </Box>
+                                                            <Button variant="contained" sx={{ fontSize: "13px", textTransform: "unset" }} onClick={() => navigate(`/hotel/${item._id}`)}>Xem chi tiết</Button>
                                                         </Box>
-                                                    </Box>
-
-                                                </Box>
-                                            </Box>
-                                            <CardContent>
-                                                <Typography gutterBottom component="div" sx={{ color: "#46A5DC", fontSize: "18px", fontWeight: "600" }}>
-                                                    Thu Ha Hotel
-                                                </Typography>
-                                                <Box display="flex" flexDirection="row" alignItems="center" gap={1} mb={1.5}>
-                                                    <LocationOnRoundedIcon sx={{ color: "#F9B90F", fontSize: "16px" }} />
-                                                    <Typography sx={{ color: "#999", fontSize: "13px", }}>Ta Quang Buu, Hai Ba Trung, Ha Noi</Typography>
-                                                </Box>
-                                                <Box sx={{ border: ".5px  #CCC dashed" }} />
-                                                <Typography sx={{ color: "#999", fontSize: "13px", mt: "15px", mb: "12px" }}>Khach san dep, dich vu tot, nhan vien nhiet tinh</Typography>
-                                                <Box display="flex" alignItems="center" justifyContent="start" mb="12px">
-                                                    <SupportAgentRoundedIcon sx={{ color: "red", fontSize: "16px" }} />
-                                                    <ul style={{ listStyleType: "none", padding: "0px", marginLeft: "10px", color: "#3AACED" }}>
-                                                        <li style={{ display: "inline-block", marginRight: "10px" }}>Wifi</li>
-                                                        <li style={{ display: "inline-block" }}>Shower</li>
-                                                    </ul>
-                                                </Box>
-
-                                                <Box sx={{ border: ".5px  #CCC dashed" }} />
-                                                <ThemeProvider theme={theme}>
-                                                    <Box display="flex" alignItems="center" justifyContent="space-between" mt="10px" >
-                                                        <Box bgcolor="#F9B90F" sx={{ fontSize: "13px", textTransform: "unset", boxShadow: "none", border: "0.5px solid #EEE", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: "5px 10px", borderRadius: "5px" }}>
-                                                            <Typography sx={{ fontSize: "13px", textTransform: "uppercase", color: "white" }} >Giá Rẻ Nhẩt/Đêm</Typography>
-                                                            <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", marginLeft: "5px" }}>200.000VND</Typography>
-                                                        </Box>
-                                                        <Button variant="contained" sx={{ fontSize: "13px", textTransform: "unset" }} onClick={() => navigate("/detail-hotel")}>Xem chi tiết</Button>
-                                                    </Box>
-                                                </ThemeProvider>
-                                            </CardContent>
-                                        </CardActionArea>
-                                    </Card>
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <Card sx={{ ml: .5, boxShadow: "none", border: "1px solid #EEE", mr: .5 }} >
-                                        <CardActionArea sx={{}} >
-                                            <Box overflow="hidden" borderRadius="5px" position="relative" height="50%">
-                                                <Image src="http://res.cloudinary.com/di7a7sbbn/image/upload/v1668414040/upload/prirsonreuc6vkcjmxfi.jpg" />
-                                                <Box sx={{
-                                                    position: "absolute",
-                                                    top: 0,
-                                                    width: "100%",
-                                                    backgroundColor: "rgba(255, 255, 255, 0.1)",
-                                                    display: "flex",
-                                                    flexDirection: "column",
-                                                    justifyContent: "space-between",
-                                                    zIndex: 1,
-                                                    pointerEvents: "none",
-                                                    height: "100%",
-                                                }}>
-                                                    <Box display="flex" flexDirection="column">
-                                                        <Box width="110px" height="35px" sx={{ display: "flex", backgroundColor: "#5ECFB1", margin: "20px 20px 10px 0px", alignSelf: "end", alignItems: "center", justifyContent: "center" }}>
-                                                            <Typography sx={{ fontSize: "13px", color: "white", fontWeight: "600", }}>Giảm giá 30%</Typography>
-                                                        </Box>
-                                                        <Box width="110px" height="35px" sx={{ display: "flex", backgroundColor: "#FF0000", m: "0 20px", alignSelf: "end", alignItems: "center", justifyContent: "center" }}>
-                                                            <Typography sx={{ fontSize: "13px", color: "white", fontWeight: "600", }}>Đặc sắc</Typography>
-                                                        </Box>
-                                                    </Box>
-
-                                                    <Box
-                                                        sx={{
-                                                            display: 'flex',
-                                                            alignItems: 'start',
-                                                            height: "30%",
-                                                            m: 2,
-                                                            justifyContent: "space-between",
-                                                        }}
-                                                    >
-                                                        <Rating
-                                                            name="text-feedback"
-                                                            value={value}
-                                                            readOnly
-                                                            precision={0.5}
-                                                            emptyIcon={<StarBorderOutlinedIcon style={{ color: "#FAC73F", fontSize: "18px" }} />}
-                                                            sx={{ fontSize: "18px", color: "#FAC73F" }}
-                                                        />
-                                                        <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-                                                            <Box sx={{
-                                                                display: 'flex',
-                                                                alignItems: 'end',
-                                                                m: 1,
-                                                                flexDirection: "column"
-                                                            }}>
-                                                                <Typography sx={{ color: "#FEFEFE", fontSize: "13px", fontWeight: "600" }}>{labels[value]}</Typography>
-                                                                <Typography sx={{ color: "#FEFEFE", fontSize: "11px" }}>10 bình luận</Typography>
-
-                                                            </Box>
-                                                            <Box bgcolor="rgba(255, 255, 255, 0.25)" borderRadius="10px 10px 10px 0px" margin="5px" flex={1}>
-                                                                <Box sx={{ display: "flex", margin: "5px", fontSize: "13px", textTransform: "unset", textWrap: "nowrap", borderRadius: "10px 10px 10px 0px", height: "50px", backgroundColor: "#18458B", width: "50px", alignItems: "center", justifyContent: "center" }} >
-                                                                    <Typography sx={{ fontSize: "13px", color: "white", fontWeight: "600", }}>4.5</Typography>
-                                                                </Box>
-                                                            </Box>
-                                                        </Box>
-                                                    </Box>
-
-                                                </Box>
-                                            </Box>
-                                            <CardContent>
-                                                <Typography gutterBottom component="div" sx={{ color: "#46A5DC", fontSize: "18px", fontWeight: "600" }}>
-                                                    Thu Ha Hotel
-                                                </Typography>
-                                                <Box display="flex" flexDirection="row" alignItems="center" gap={1} mb={1.5}>
-                                                    <LocationOnRoundedIcon sx={{ color: "#F9B90F", fontSize: "16px" }} />
-                                                    <Typography sx={{ color: "#999", fontSize: "13px", }}>Ta Quang Buu, Hai Ba Trung, Ha Noi</Typography>
-                                                </Box>
-                                                <Box sx={{ border: ".5px  #CCC dashed" }} />
-                                                <Typography sx={{ color: "#999", fontSize: "13px", mt: "15px", mb: "12px" }}>Khach san dep, dich vu tot, nhan vien nhiet tinh</Typography>
-                                                <Box display="flex" alignItems="center" justifyContent="start" mb="12px">
-                                                    <SupportAgentRoundedIcon sx={{ color: "red", fontSize: "16px" }} />
-                                                    <ul style={{ listStyleType: "none", padding: "0px", marginLeft: "10px", color: "#3AACED" }}>
-                                                        <li style={{ display: "inline-block", marginRight: "10px" }}>Wifi</li>
-                                                        <li style={{ display: "inline-block" }}>Shower</li>
-                                                    </ul>
-                                                </Box>
-
-                                                <Box sx={{ border: ".5px  #CCC dashed" }} />
-                                                <ThemeProvider theme={theme}>
-                                                    <Box display="flex" alignItems="center" justifyContent="space-between" mt="10px" >
-                                                        <Box bgcolor="#F9B90F" sx={{ fontSize: "13px", textTransform: "unset", boxShadow: "none", border: "0.5px solid #EEE", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: "5px 10px", borderRadius: "5px" }}>
-                                                            <Typography sx={{ fontSize: "13px", textTransform: "uppercase", color: "white" }} >Giá Rẻ Nhẩt/Đêm</Typography>
-                                                            <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", marginLeft: "5px" }}>200.000VND</Typography>
-                                                        </Box>
-                                                        <Button variant="contained" sx={{ fontSize: "13px", textTransform: "unset" }} onClick={() => navigate("/detail-hotel")}>Xem chi tiết</Button>
-                                                    </Box>
-                                                </ThemeProvider>
-                                            </CardContent>
-                                        </CardActionArea>
-                                    </Card>
-                                </Grid>
-
+                                                    </ThemeProvider>
+                                                </CardContent>
+                                            </CardActionArea>
+                                        </Card>
+                                    </Grid>
+                                ))}
                             </Grid>
                         </Box>
 
 
 
                     </Box>
-
-
                 </Box>
             </Box>
 

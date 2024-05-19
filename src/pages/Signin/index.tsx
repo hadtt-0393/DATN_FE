@@ -50,21 +50,21 @@ const Signin = () => {
         dispatch && dispatch({ type: 'LOGIN_START' });
         try {
             const res = await axios.post(
-                `${process.env.REACT_APP_API_ENDPOINT}/auth/login/`,
+                `${process.env.REACT_APP_API_ENDPOINT}/auth/signin/`,
                 {
                     email: email,
                     password: password,
                 }
             );
             dispatch &&
-                dispatch({ type: 'LOGIN_SUCCESS', payload: res.data.details });
+                dispatch({ type: 'LOGIN_SUCCESS', payload: res.data.info });
             navigate('/');
         } catch (err: any) {
             dispatch &&
                 dispatch({ type: 'LOGIN_FAIL', payload: err.response.data });
             toast.error(`${err.response.data.message}`, { toastId: 'LOGIN_FAIL' });
         }
-        
+
     }
 
 
@@ -101,7 +101,7 @@ const Signin = () => {
                             </Grid>
                             <Grid item>
                                 <Link href="/" variant="body2" >
-                                    {"Back to Homepage"}
+                                    {"Trở lại trang chủ"}
                                 </Link>
                             </Grid>
                         </Grid>
@@ -109,8 +109,8 @@ const Signin = () => {
                         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                             <LockOutlinedIcon />
                         </Avatar>
-                        <Typography component="h1" variant="h5">
-                            Sign in
+                        <Typography component="h1" variant="h5" fontWeight="600">
+                            ĐẰNG NHẬP
                         </Typography>
                         <Box component="form" noValidate sx={{ mt: 1 }} onSubmit={handleSignin}>
                             <TextField
@@ -119,7 +119,7 @@ const Signin = () => {
                                 required
                                 // helperText="Incorrect email"
                                 fullWidth
-                                label="Email Address"
+                                label="Email"
                                 name="email"
                                 autoComplete="email"
                                 autoFocus
@@ -132,33 +132,33 @@ const Signin = () => {
                                 error={errPassword}
                                 // helperText="Incorrect password"
                                 name="password"
-                                label="Password"
+                                label="Mật khẩu"
                                 type="password"
                                 autoComplete="current-password"
                                 onChange={handleChangeInputPassword}
                             />
                             <FormControlLabel
                                 control={<Checkbox value="remember" color="error" />}
-                                label="Remember me "
+                                label="Hãy nhớ tôi"
                             />
                             <Button
                                 type="submit"
                                 fullWidth
                                 variant="contained"
-                                sx={{ mt: 3, mb: 2 }}
+                                sx={{ mt: 3, mb: 2, fontWeight: "600" }}
                                 disabled={loading}
                             >
-                                Sign In
+                                ĐĂNG NHẬP
                             </Button>
                             <Grid container>
                                 <Grid item xs>
                                     <Link href="#" variant="body2">
-                                        Forgot password?
+                                        Quên mật khẩu?
                                     </Link>
                                 </Grid>
                                 <Grid item>
                                     <Link href="/signup" variant="body2" >
-                                        {"New User ? Create an Account"}
+                                        {"Bạn là người dùng mới ? Hãy đăng ký tài khoản!"}
                                     </Link>
                                 </Grid>
                             </Grid>

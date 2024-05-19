@@ -30,7 +30,7 @@ const SearchBar = ({ component }: SearchBarProps) => {
   const { dispatch } = useContext(SearchContext);
 
   const { data: cityData } = useFetch<City[]>(
-    `${process.env.REACT_APP_API_ENDPOINT}/cities`,
+    `${process.env.REACT_APP_API_ENDPOINT}/city/getAllCity`,
   );
 
   const [destination, setDestination] = useState('');
@@ -82,7 +82,7 @@ const SearchBar = ({ component }: SearchBarProps) => {
   };
 
   const [searchTerm, setSearchTerm] = useState('');
-  const KEYS_TO_FILTERS = ['name', 'country'];
+  const KEYS_TO_FILTERS = ['name'];
   const filteredCity: any = cityData?.filter(
     createFilter(searchTerm, KEYS_TO_FILTERS),
   );
@@ -136,7 +136,7 @@ const SearchBar = ({ component }: SearchBarProps) => {
                             ]
                           }
                         >
-                          {city.country}
+                          {city.hotels.length} khách sạn
                         </div>
                       </div>
                     </div>

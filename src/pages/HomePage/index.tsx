@@ -19,6 +19,7 @@ import HighestScoreProperties from '../../components/HighestScoreProperties';
 import NewestProperties from '../../components/NewestProperties';
 import BecomeOwner from '../../components/BecomeOwner';
 import Footer2 from '../../components/Footer2';
+import { useScrollToTop } from '../../hook/use-hook-to-top';
 
 const HomePage = () => {
   const [openBoxChat, setOpenBotChat] = useState(false)
@@ -30,18 +31,22 @@ const HomePage = () => {
     setOpenBotChat(false)
   }
 
+  useScrollToTop();
+
   return (
     <Box>
-      {/* <Navbar /> */}
+
       <Navbar2 />
-      {/* <Header /> */}
       <Header2 />
       <Slider />
       <PopularPlaces />
       <HighestScoreProperties/>
-      <NewestProperties/>
-      <BecomeOwner/>
+      <NewestProperties />
+      <BecomeOwner />
       <Footer2 />
+      {/* <Navbar /> */}
+      {/* <Header /> */}
+
       {/* {!openBoxChat &&
           <Box sx={{ position: 'absolute', bottom: 50, right: 50, zIndex: 1000 }} onClick={handleOpenBoxChat} >
             <Fab variant="extended" color="primary" sx={{fontWeight: 700}}>

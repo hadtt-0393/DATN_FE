@@ -124,7 +124,7 @@ export default function PopularPlaces() {
                             </Box>
                         </Grid>
                         <Grid item xs={4}>
-                            <Box display="flex" alignItems="center" justifyContent="center" height="380px" overflow="hidden" borderRadius="10px" marginTop="-50px" position="relative" onClick={() => navigate("/search-results")}>
+                            <Box display="flex" alignItems="center" justifyContent="center" height="380px" overflow="hidden" borderRadius="10px" marginTop="-50px" position="relative" onClick={() => navigate("/count/Ha Noi")}>
                                 <Image src="https://q-xx.bstatic.com/xdata/images/city/500x400/688853.jpg?k=f6427c8fccdf777e4bbc75fcd245e7c66204280181bea23350388c76c57348d1&o=" alt="ha_noi" />
                                 <Box sx={{
                                     position: "absolute",

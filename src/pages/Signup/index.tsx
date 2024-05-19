@@ -111,7 +111,7 @@ const Signup = () => {
         setIsLoading(true)
         try {
             await axios.post(
-                `${process.env.REACT_APP_API_ENDPOINT}/auth/register`,
+                `${process.env.REACT_APP_API_ENDPOINT}/auth/signup`,
                 {
                     username: username,
                     email: email,
@@ -164,7 +164,7 @@ const Signup = () => {
                             </Grid>
                             <Grid item>
                                 <Link href="/" variant="body2" >
-                                    {"Back to Homepage"}
+                                    {"Trở lại trang chủ"}
                                 </Link>
                             </Grid>
                         </Grid>
@@ -172,8 +172,8 @@ const Signup = () => {
                         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                             <LockOutlinedIcon />
                         </Avatar>
-                        <Typography component="h1" variant="h5">
-                            Sign up
+                        <Typography component="h1" variant="h5" fontWeight="600">
+                            ĐĂNG KÝ
                         </Typography>
                         <Box component="form" noValidate sx={{ mt: 1 }} onSubmit={handleSignup}>
                             <TextField
@@ -182,7 +182,7 @@ const Signup = () => {
                                 required
                                 fullWidth
                                 name="username"
-                                label="Fullname"
+                                label="Tên đầy đủ"
                                 autoFocus
                                 autoComplete="username"
                                 onChange={handleChangeInputUsername}
@@ -192,7 +192,7 @@ const Signup = () => {
                                 error={errEmail}
                                 required
                                 fullWidth
-                                label="Email Address"
+                                label="Email"
                                 name="email"
                                 autoComplete="email"
                                 onChange={handleChangeInputEmail}
@@ -203,7 +203,7 @@ const Signup = () => {
                                 required
                                 fullWidth
                                 name="password"
-                                label="Password"
+                                label="Mật khẩu"
                                 type="password"
                                 autoComplete="current-password"
                                 onChange={handleChangeInputPassword}
@@ -214,7 +214,7 @@ const Signup = () => {
                                 required
                                 fullWidth
                                 name="confirm password"
-                                label="Confirm Password"
+                                label="Xác nhận lại mật khẩu"
                                 helperText={helperText ? 'Password and Confirm password are not the same' : undefined}
                                 type="password"
                                 autoComplete="current-password"
@@ -226,49 +226,35 @@ const Signup = () => {
                                 required
                                 fullWidth
                                 name="phone"
-                                label="Phone Number"
+                                label="Số điện thoại"
                                 autoComplete="phone"
                                 type="text"
                                 onChange={handleChangeInputPhone}
                             />
-                            <Grid container spacing={2}>
-                                <Grid item xs={12} sm={6}>
-                                    <TextField
-                                        margin="normal"
-                                        error={errCountry}
-                                        required
-                                        fullWidth
-                                        name="country"
-                                        label="Country"
-                                        autoComplete="country"
-                                        onChange={handleChangeInputCountry}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} sm={6}>
-                                    <TextField
-                                        margin="normal"
-                                        error={errCity}
-                                        required
-                                        fullWidth
-                                        name="city"
-                                        label="City"
-                                        autoComplete="city"
-                                        onChange={handleChangeInputCity}
-                                    />
-                                </Grid>
-                            </Grid>
+
+                            <TextField
+                                margin="normal"
+                                error={errCity}
+                                required
+                                fullWidth
+                                name="city"
+                                label="Thành phố"
+                                autoComplete="city"
+                                onChange={handleChangeInputCity}
+                            />
+
                             <FormControlLabel
                                 control={<Checkbox value="remember" color="error" />}
-                                label="Do you want to company?"
+                                label="Đăng ký là chủ khách sạn?"
                             />
                             <Button
                                 type="submit"
                                 fullWidth
                                 variant="contained"
-                                sx={{ mt: 3, mb: 2 }}
+                                sx={{ mt: 3, mb: 2, fontWeight:"600" }}
                                 disabled={isLoading}
                             >
-                                Sign Up
+                                Đăng ký
                             </Button>
                             <Grid container>
                                 <Grid item xs>
@@ -278,7 +264,7 @@ const Signup = () => {
                                 </Grid>
                                 <Grid item>
                                     <Link href="/signin" variant="body2" >
-                                        {"Already have an account? Sign in"}
+                                        {"Bạn đã có tài khoản? Đăng nhập ngay!"}
                                     </Link>
                                 </Grid>
                             </Grid>

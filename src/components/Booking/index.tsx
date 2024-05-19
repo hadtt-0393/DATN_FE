@@ -9,6 +9,7 @@ import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import MailOutlineOutlinedIcon from '@mui/icons-material/MailOutlineOutlined';
 import PhoneOutlinedIcon from '@mui/icons-material/PhoneOutlined';
 import { useNavigate } from "react-router-dom";
+import { useScrollToTop } from "../../hook/use-hook-to-top";
 
 export default function BookingPage() {
     

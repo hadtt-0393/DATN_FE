@@ -29,7 +29,9 @@ import { Star } from "@mui/icons-material";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import Footer2 from "../Footer2";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import useFetch from "../../hooks/useFetch";
+import { Hotel } from "../../models/Hotel";
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -120,105 +122,115 @@ const Image = styled.img`
 },`
 
 export default function DetailHotel() {
+    const location = useLocation();
+    const id = location.pathname.split('/')[2];
+
+    const { data, loading, error } = useFetch<Hotel>(
+        `${process.env.REACT_APP_API_ENDPOINT}/hotel/${id}`,
+    );
+
     const value = 4;
     const navigate = useNavigate()
     return (
         <Box>
             <Navbar2 />
             <Header2 />
-            <Box sx={{ mt: "110px", height: "600px", width: "100%", position: "relative" }}>
-                <img src="http://res.cloudinary.com/di7a7sbbn/image/upload/v1668414040/upload/prirsonreuc6vkcjmxfi.jpg" alt="slider-image" style={{ width: "100%", height: "600px", objectFit: "cover" }} />
-                <Box sx={{
-                    position: "absolute",
-                    top: 0,
-                    width: " 100%",
-                    height: "600px",
-                    backgroundColor: "rgba(0, 0, 0, 0.5)",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "end"
-                }}>
-                    <Box width="92%" height="50%" display="flex" alignItems="center" margin="0 auto" maxWidth="1224px" justifyContent="end" flexDirection="column" sx={{ maxWidth: "1224px" }}>
-                        <Box
-                            border="1px #999 solid"
-                            borderLeft="none"
-                            borderRight="none"
-                            borderTop="none"
-                            p="20px 0px"
-                            flexDirection="row"
-                            sx={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                height: "60%",
-                                m: 2,
-                                justifyContent: "space-between",
-                                width: "100%",
-                            }}
-                        >
-                            <Box>
-                                <Rating
-                                    name="text-feedback"
-                                    value={value}
-                                    readOnly
-                                    precision={0.5}
-                                    emptyIcon={<StarBorderOutlinedIcon style={{ color: "#FAC73F", fontSize: "18px" }} />}
-                                    sx={{ fontSize: "18px", color: "#FAC73F" }}
-                                />
-                                <Typography sx={{ color: "#FEFEFE", fontSize: "44px", fontWeight: "600", mt: "20px" }}>Thu Ha Hotel</Typography>
-                                <Box width="5%" bgcolor="#3AACED" height="4px" borderRadius="2px" m="20px 0" />
-                                <Box display="flex" flexDirection="row" alignItems="start" justifyContent="start" gap={2} width="100%" padding="20px 0">
-                                    <Box display="flex" flexDirection="row" alignItems="center" justifyContent="center">
-                                        <EmailOutlinedIcon sx={{ color: "#3A9FC3", mr: "10px" }} />
-                                        <Typography sx={{ color: "#C2D8D7", fontSize: "14px", fontWeight: "700", mr: "10px" }}>Email:  </Typography>
-                                        <Typography sx={{ color: "#C2D8D7", fontSize: "14px", fontWeight: "700" }}>easybook@thuhahust.eco.vn</Typography>
-                                    </Box>
-                                    <Box display="flex" flexDirection="row" alignItems="center" justifyContent="center">
-                                        <RoomOutlinedIcon sx={{ color: "#3A9FC3", mr: "10px" }} />
-                                        <Typography sx={{ color: "#C2D8D7", fontSize: "14px", fontWeight: "700", mr: "10px" }}>Địa chỉ:  </Typography>
-                                        <Typography sx={{ color: "#C2D8D7", fontSize: "14px", fontWeight: "700" }}>Số 1 - Đại Cồ Việt - Hai Bà Trưng - Hà Nội</Typography>
-                                    </Box>
-                                    <Box display="flex" flexDirection="row" alignItems="center" justifyContent="center">
-                                        <PhoneOutlinedIcon sx={{ color: "#3A9FC3", mr: "10px" }} />
-                                        <Typography sx={{ color: "#C2D8D7", fontSize: "14px", fontWeight: "700", mr: "10px" }}>Hotline:  </Typography>
-                                        <Typography sx={{ color: "#C2D8D7", fontSize: "14px", fontWeight: "700" }}>034 492 4268</Typography>
-                                    </Box>
-                                </Box>
-                            </Box>
-
-                            <Box >
-                                <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-                                    <Box sx={{
-                                        display: 'flex',
-                                        alignItems: 'end',
-                                        m: 1,
-                                        flexDirection: "column"
-                                    }}>
-                                        <Typography sx={{ color: "#FEFEFE", fontSize: "13px", fontWeight: "600" }}>{labels[value]}</Typography>
-                                        <Typography sx={{ color: "#FEFEFE", fontSize: "11px", mt: "10px" }}>10 bình luận</Typography>
-
-                                    </Box>
-                                    <Box bgcolor="rgba(255, 255, 255, 0.25)" borderRadius="10px 10px 10px 0px" margin="5px" flex={1}>
-                                        <Box sx={{ display: "flex", margin: "5px", fontSize: "13px", textTransform: "unset", textWrap: "nowrap", borderRadius: "10px 10px 10px 0px", height: "80px", backgroundColor: "#18458B", width: "80px", alignItems: "center", justifyContent: "center" }} >
-                                            <Typography sx={{ fontSize: "20px", color: "white", fontWeight: "600", }}>4.5</Typography>
+            {data && (
+                <Box sx={{ mt: "110px", height: "600px", width: "100%", position: "relative" }}>
+                    <img src="http://res.cloudinary.com/di7a7sbbn/image/upload/v1668414040/upload/prirsonreuc6vkcjmxfi.jpg" alt="slider-image" style={{ width: "100%", height: "600px", objectFit: "cover" }} />
+                    <Box sx={{
+                        position: "absolute",
+                        top: 0,
+                        width: " 100%",
+                        height: "600px",
+                        backgroundColor: "rgba(0, 0, 0, 0.5)",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "end"
+                    }}>
+                        <Box width="92%" height="50%" display="flex" alignItems="center" margin="0 auto" maxWidth="1224px" justifyContent="end" flexDirection="column" sx={{ maxWidth: "1224px" }}>
+                            <Box
+                                border="1px #999 solid"
+                                borderLeft="none"
+                                borderRight="none"
+                                borderTop="none"
+                                p="20px 0px"
+                                flexDirection="row"
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    height: "60%",
+                                    m: 2,
+                                    justifyContent: "space-between",
+                                    width: "100%",
+                                }}
+                            >
+                                <Box>
+                                    <Rating
+                                        name="text-feedback"
+                                        value={value}
+                                        readOnly
+                                        precision={0.5}
+                                        emptyIcon={<StarBorderOutlinedIcon style={{ color: "#FAC73F", fontSize: "18px" }} />}
+                                        sx={{ fontSize: "18px", color: "#FAC73F" }}
+                                    />
+                                    <Typography sx={{ color: "#FEFEFE", fontSize: "44px", fontWeight: "600", mt: "20px" }}>{data.name}</Typography>
+                                    <Box width="5%" bgcolor="#3AACED" height="4px" borderRadius="2px" m="20px 0" />
+                                    <Box display="flex" flexDirection="row" alignItems="start" justifyContent="start" gap={2} width="100%" padding="20px 0">
+                                        <Box display="flex" flexDirection="row" alignItems="center" justifyContent="center">
+                                            <EmailOutlinedIcon sx={{ color: "#3A9FC3", mr: "10px" }} />
+                                            <Typography sx={{ color: "#C2D8D7", fontSize: "14px", fontWeight: "700", mr: "10px" }}>Email:  </Typography>
+                                            <Typography sx={{ color: "#C2D8D7", fontSize: "14px", fontWeight: "700" }}>easybook@thuhahust.eco.vn</Typography>
+                                        </Box>
+                                        <Box display="flex" flexDirection="row" alignItems="center" justifyContent="center">
+                                            <RoomOutlinedIcon sx={{ color: "#3A9FC3", mr: "10px" }} />
+                                            <Typography sx={{ color: "#C2D8D7", fontSize: "14px", fontWeight: "700", mr: "10px" }}>Địa chỉ:  </Typography>
+                                            <Typography sx={{ color: "#C2D8D7", fontSize: "14px", fontWeight: "700" }}>{data.address}</Typography>
+                                        </Box>
+                                        <Box display="flex" flexDirection="row" alignItems="center" justifyContent="center">
+                                            <PhoneOutlinedIcon sx={{ color: "#3A9FC3", mr: "10px" }} />
+                                            <Typography sx={{ color: "#C2D8D7", fontSize: "14px", fontWeight: "700", mr: "10px" }}>Hotline:  </Typography>
+                                            <Typography sx={{ color: "#C2D8D7", fontSize: "14px", fontWeight: "700" }}>034 492 4268</Typography>
                                         </Box>
                                     </Box>
                                 </Box>
+
+                                <Box >
+                                    <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+                                        <Box sx={{
+                                            display: 'flex',
+                                            alignItems: 'end',
+                                            m: 1,
+                                            flexDirection: "column"
+                                        }}>
+                                            <Typography sx={{ color: "#FEFEFE", fontSize: "13px", fontWeight: "600" }}>{labels[value]}</Typography>
+                                            <Typography sx={{ color: "#FEFEFE", fontSize: "11px", mt: "10px" }}>10 bình luận</Typography>
+
+                                        </Box>
+                                        <Box bgcolor="rgba(255, 255, 255, 0.25)" borderRadius="10px 10px 10px 0px" margin="5px" flex={1}>
+                                            <Box sx={{ display: "flex", margin: "5px", fontSize: "13px", textTransform: "unset", textWrap: "nowrap", borderRadius: "10px 10px 10px 0px", height: "80px", backgroundColor: "#18458B", width: "80px", alignItems: "center", justifyContent: "center" }} >
+                                                <Typography sx={{ fontSize: "20px", color: "white", fontWeight: "600", }}>4.5</Typography>
+                                            </Box>
+                                        </Box>
+                                    </Box>
+                                </Box>
+
                             </Box>
 
                         </Box>
 
-                    </Box>
-
-                    <Box width="92%" maxWidth="1224px" display="flex" m="20px auto">
-                        <Box flex="1"></Box>
-                        <Box sx={{ fontSize: "13px", textTransform: "unset", boxShadow: "none", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: "5px 10px", borderRadius: "5px" }} alignSelf="end">
-                            <Typography sx={{ fontSize: "14px", textTransform: "uppercase", color: "white", fontWeight: "600" }} >Giá Rẻ Nhẩt/Đêm</Typography>
-                            <Typography sx={{ fontSize: "24px", color: "#5ECFB1", fontWeight: "600", marginLeft: "20px" }}>200.000VND</Typography>
+                        <Box width="92%" maxWidth="1224px" display="flex" m="20px auto">
+                            <Box flex="1"></Box>
+                            <Box sx={{ fontSize: "13px", textTransform: "unset", boxShadow: "none", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: "5px 10px", borderRadius: "5px" }} alignSelf="end">
+                                <Typography sx={{ fontSize: "14px", textTransform: "uppercase", color: "white", fontWeight: "600" }} >Giá Rẻ Nhẩt/Đêm</Typography>
+                                <Typography sx={{ fontSize: "24px", color: "#5ECFB1", fontWeight: "600", marginLeft: "20px" }}>200.000VND</Typography>
+                            </Box>
                         </Box>
                     </Box>
-                </Box>
-            </Box >
+                </Box >
+            )}
+
             <Box bgcolor="#ECF6F8" >
                 <Box width="92%" bgcolor="#ECF6F8" maxWidth="1224px" m="30px auto" display="flex" gap={5} padding="50px 0">
                     <Box flex="2" >
@@ -241,11 +253,11 @@ export default function DetailHotel() {
                         <Box display="flex" flexDirection="row" bgcolor="#FFF" height="105px" mt="50px" justifyContent="space-between" alignItems="center" borderRadius="5px">
                             <Box flex={1} height="100%" justifyContent="center" alignItems="center" display="flex" flexDirection="column">
                                 <HotelOutlinedIcon sx={{ color: "#3AACED", width: "60px", height: "50px", opacity: 0.7, mb: "10px" }} />
-                                <Typography color="#999EA5" fontSize="12px" fontWeight="600">15 Phòng</Typography>
+                                <Typography color="#999EA5" fontSize="12px" fontWeight="600">{data?.rooms.length} Phòng</Typography>
                             </Box>
                             <Box borderLeft="#E2E2E2 solid 1px" flex={1} height="100%" justifyContent="center" alignItems="center" display="flex" flexDirection="column">
                                 <GroupsOutlinedIcon sx={{ color: "#3AACED", width: "60px", height: "50px", opacity: 0.7, mb: "10px" }} />
-                                <Typography color="#999EA5" fontSize="12px" fontWeight="600">1000 Khách/Năm</Typography>
+                                <Typography color="#999EA5" fontSize="12px" fontWeight="600">1000 Lượt đặt phòng</Typography>
                             </Box>
                             <Box borderLeft="#E2E2E2 solid 1px" flex={1} height="100%" justifyContent="center" alignItems="center" display="flex" flexDirection="column">
                                 <DirectionsCarOutlinedIcon sx={{ color: "#3AACED", width: "60px", height: "50px", opacity: 0.7, mb: "10px" }} />
@@ -260,8 +272,7 @@ export default function DetailHotel() {
                             </Box>
                             <Box m="0px 30px" >
                                 <Typography color="#878C9F" fontSize="13px" padding="25px 0">
-                                    Ut euismod ultricies sollicitudin. Curabitur sed dapibus nulla. Nulla eget iaculis lectus. Mauris ac maximus neque. Nam in mauris quis libero sodales eleifend. Morbi varius, nulla sit amet rutrum elementum, est elit finibus tellus, ut tristique elit risus at metus.
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in pulvinar neque. Nulla finibus lobortis pulvinar. Donec a consectetur nulla. Nulla posuere sapien vitae lectus suscipit, et pulvinar nisi tincidunt. Aliquam erat volutpat. Curabitur convallis fringilla diam sed aliquam. Sed tempor iaculis massa faucibus feugiat. In fermentum facilisis massa, a consequat purus viverra.
+                                    {data?.description}
                                 </Typography>
 
                             </Box>
@@ -291,46 +302,13 @@ export default function DetailHotel() {
                                     Dịch vụ
                                 </Typography>
                             </Box>
-                            <Box m="30px" display="flex" justifyContent="start" alignItems="center" pb="30px" flexWrap="wrap" gap={3}  >
-                                <Box display="flex" flexDirection="row" lineHeight="1.3" alignItems="center" >
+                            <Box m="30px" display="flex" justifyContent="start" alignItems="center" pb="30px" flexWrap="wrap" gap={3}>
+                                {data?.tags && data?.tags.map((item) => (
+                                    <Box display="flex" flexDirection="row" lineHeight="1.3" alignItems="center" >
                                     <CheckOutlinedIcon sx={{ color: "#3AACEE", fontSize: "16px" }} />
-                                    <Typography fontSize="14px" fontWeight="600" color="#8894B5" ml="10px">Wifi</Typography>
+                                    <Typography fontSize="14px" fontWeight="600" color="#8894B5" ml="10px">{item}</Typography>
                                 </Box>
-                                <Box display="flex" flexDirection="row" lineHeight="1.3" alignItems="center" >
-                                    <CheckOutlinedIcon sx={{ color: "#3AACEE", fontSize: "16px" }} />
-                                    <Typography fontSize="14px" fontWeight="600" color="#8894B5" ml="10px">Wifi</Typography>
-                                </Box><Box display="flex" flexDirection="row" lineHeight="1.3" alignItems="center" >
-                                    <CheckOutlinedIcon sx={{ color: "#3AACEE", fontSize: "16px" }} />
-                                    <Typography fontSize="14px" fontWeight="600" color="#8894B5" ml="10px">Wifi</Typography>
-                                </Box><Box display="flex" flexDirection="row" lineHeight="1.3" alignItems="center" >
-                                    <CheckOutlinedIcon sx={{ color: "#3AACEE", fontSize: "16px" }} />
-                                    <Typography fontSize="14px" fontWeight="600" color="#8894B5" ml="10px">Wifi</Typography>
-                                </Box><Box display="flex" flexDirection="row" lineHeight="1.3" alignItems="center" >
-                                    <CheckOutlinedIcon sx={{ color: "#3AACEE", fontSize: "16px" }} />
-                                    <Typography fontSize="14px" fontWeight="600" color="#8894B5" ml="10px">Wifi</Typography>
-                                </Box><Box display="flex" flexDirection="row" lineHeight="1.3" alignItems="center" >
-                                    <CheckOutlinedIcon sx={{ color: "#3AACEE", fontSize: "16px" }} />
-                                    <Typography fontSize="14px" fontWeight="600" color="#8894B5" ml="10px">Wifi</Typography>
-                                </Box><Box display="flex" flexDirection="row" lineHeight="1.3" alignItems="center" >
-                                    <CheckOutlinedIcon sx={{ color: "#3AACEE", fontSize: "16px" }} />
-                                    <Typography fontSize="14px" fontWeight="600" color="#8894B5" ml="10px">Wifi</Typography>
-                                </Box><Box display="flex" flexDirection="row" lineHeight="1.3" alignItems="center" >
-                                    <CheckOutlinedIcon sx={{ color: "#3AACEE", fontSize: "16px" }} />
-                                    <Typography fontSize="14px" fontWeight="600" color="#8894B5" ml="10px">Wifi</Typography>
-                                </Box><Box display="flex" flexDirection="row" lineHeight="1.3" alignItems="center" >
-                                    <CheckOutlinedIcon sx={{ color: "#3AACEE", fontSize: "16px" }} />
-                                    <Typography fontSize="14px" fontWeight="600" color="#8894B5" ml="10px">Wifi</Typography>
-                                </Box><Box display="flex" flexDirection="row" lineHeight="1.3" alignItems="center" >
-                                    <CheckOutlinedIcon sx={{ color: "#3AACEE", fontSize: "16px" }} />
-                                    <Typography fontSize="14px" fontWeight="600" color="#8894B5" ml="10px">Wifi</Typography>
-                                </Box><Box display="flex" flexDirection="row" lineHeight="1.3" alignItems="center" >
-                                    <CheckOutlinedIcon sx={{ color: "#3AACEE", fontSize: "16px" }} />
-                                    <Typography fontSize="14px" fontWeight="600" color="#8894B5" ml="10px">Wifi</Typography>
-                                </Box>
-
-
-
-
+                                ))}
                             </Box>
                         </Box>
                         <Box bgcolor="white" mt="30px" borderRadius="5px" pb="30px">

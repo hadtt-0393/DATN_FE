@@ -15,6 +15,8 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { FormControl, MenuItem, Select } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import SearchBar from "../SearchBar";
+import SearchBar2 from "../SearchBar2";
 
 export default function Slider() {
     const [value, setValue] = useState('');
@@ -41,22 +43,17 @@ export default function Slider() {
                     <Typography sx={{ fontSize: "44px", fontWeight: "700", fontFamily: "Nunito,sans-serif", color: "white" }}>Hệ Thống Đặt Phòng Khách Sạn EasyBook </Typography>
                     <Box width="5%" bgcolor="#F9B90F" height="4px" borderRadius="2px" m="15px" />
                     <Typography variant="h6" sx={{ color: "white", mb: "30px" }}>Hãy bắt đầu khám phá Việt Nam cùng EasyBook</Typography>
+
+
                     <Box width="75%" bgcolor="rgba(255, 255, 255, 0.25)" borderRadius="10px">
-                        <Box maxWidth="1140px" bgcolor="#EEE" height="50px" display="flex" alignItems="center" justifyContent="space-between" m="10px">
+                        {/* <Box maxWidth="1140px" bgcolor="#EEE" height="50px" display="flex" alignItems="center" justifyContent="space-between" m="10px">
                             <Box display="flex" alignItems="center" borderRight="#ccc solid 1px" height="100%" sx={{ minWidth: "250px" }}>
                                 <NotListedLocationOutlinedIcon fontSize="small" sx={{ color: "#F9B90F", pl: 2, pr: 2 }} />
                                 <Input disableUnderline sx={{ fontSize: "13px", flex: "1" }} placeholder="Khách sạn, Thành phố..." />
                             </Box>
                             <Box display="flex" alignItems="center" borderRight="#ccc solid 1px" height="100%" sx={{ minWidth: "250px" }} justifyContent="space-between">
                                 <EventAvailableOutlinedIcon fontSize="small" sx={{ color: "#F9B90F", pl: 2, pr: 2 }} />
-                                {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                    <DemoContainer components={['SingleInputDateRangeField']} >
-                                        <DateRangePicker
-                                            slots={{ field: SingleInputDateRangeField }}
-                                            name="allowedRange"
-                                        />
-                                    </DemoContainer>
-                                </LocalizationProvider> */}
+                             
                             </Box>
                             <Box display="flex" alignItems="center" borderRight="#ccc solid 1px" height="100%" sx={{ minWidth: "250px" }} >
                                 <Groups2OutlinedIcon fontSize="small" sx={{ color: "#F9B90F", pl: 2, pr: 2 }} />
@@ -113,7 +110,9 @@ export default function Slider() {
                                 <ZoomInOutlinedIcon fontSize="small" sx={{ color: "white", pl: 1 }} />
                             </Box>
 
-                        </Box>
+                        </Box> */}
+                        <SearchBar />
+                        {/* <SearchBar2 /> */}
                     </Box>
 
                 </Box>
