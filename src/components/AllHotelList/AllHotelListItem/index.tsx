@@ -26,7 +26,7 @@ const AllHotelListItem = ({ item }: AllHotelListItemProps) => {
             <span>{item.address}</span>
           </div>
           <div className={styles['hotel-list-item__content__header__rating']}>
-            <button>{item.rating || 9.9}</button>
+            <button>{item.ratingAvg || 9.9}</button>
           </div>
         </div>
         <div className={styles['hotel-list-item__content__description']}>

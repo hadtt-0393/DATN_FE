@@ -172,7 +172,7 @@ const HotelItem = () => {
                     styles['hotel__container__wrapper__detail__text__tags']
                   }
                 >
-                  {data?.tags.map((tag, index) => (
+                  {data?.services.map((tag, index) => (
                     <div
                       className={
                         styles[
@@ -460,14 +460,14 @@ const HotelItem = () => {
         </div>
         <div style={{ width: "100%", maxWidth: '1140px', marginBottom: "20px" }}>
           <h3 style={{ marginBottom: "30px" }}>See what guests loved the most:</h3>
-          {data?.comment.length ?
+          {data?.comments.length ?
             <Swiper
               slidesPerView={3}
               spaceBetween={30}
               navigation={{ prevEl: '.swiper-button-prev', nextEl: '.swiper-button-next' }}
              modules={[Navigation]}
             >
-              {data?.comment.map((item: Comment) => (
+              {data?.comments.map((item: Comment) => (
 
                 <SwiperSlide style={{ marginBottom: "20px" }}>
                   <Card sx={{ width: '100%', maxHeight: "500px" }}>
@@ -491,7 +491,7 @@ const HotelItem = () => {
                     />
                     <CardContent>
                       <Typography variant="body2" color="text.secondary">
-                        {item.comment}
+                        {item.content}
                       </Typography>
                     </CardContent>
                   </Card>

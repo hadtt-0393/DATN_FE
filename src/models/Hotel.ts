@@ -8,18 +8,24 @@ export interface Hotel {
   photos: string[];
   title: string;
   description: string;
-  rating: number;
+  ratingAvg: number;
   rooms: string[];
   cheapestPrice: number;
   featured: boolean;
-  tags: string[];
-  comment: Comment[];
+  services: string[];
+  comments: Comment[];
+  discount: number;
 }
 
 
 export interface Comment {
-  comment: string;
+  content: string;
   created: string;
   rating: number;
   username: string;
+  image: string;
+  cleanliness:number;
+  comfort:number;
+  staff: number;
+  facilities: number;
 }

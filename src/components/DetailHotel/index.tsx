@@ -303,7 +303,7 @@ export default function DetailHotel() {
                                 </Typography>
                             </Box>
                             <Box m="30px" display="flex" justifyContent="start" alignItems="center" pb="30px" flexWrap="wrap" gap={3}>
-                                {data?.tags && data?.tags.map((item) => (
+                                {data?.services && data?.services.map((item) => (
                                     <Box display="flex" flexDirection="row" lineHeight="1.3" alignItems="center" >
                                     <CheckOutlinedIcon sx={{ color: "#3AACEE", fontSize: "16px" }} />
                                     <Typography fontSize="14px" fontWeight="600" color="#8894B5" ml="10px">{item}</Typography>

@@ -1,7 +1,6 @@
 import Box from "@mui/material/Box";
 import StarRateRoundedIcon from '@mui/icons-material/StarRateRounded';
 import Typography from "@mui/material/Typography"
-import { Button } from "@mui/material";
 import "./style.css"
 import { useNavigate } from "react-router-dom";
 

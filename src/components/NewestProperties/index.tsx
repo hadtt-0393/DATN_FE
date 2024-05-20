@@ -95,10 +95,10 @@ export default function NewestProperties() {
                                     }}>
                                         <Box display="flex" flexDirection="column">
                                             <Box width="110px" height="35px" sx={{ display: "flex", backgroundColor: "#5ECFB1", margin: "20px 20px 10px 0px", alignSelf: "end", alignItems: "center", justifyContent: "center" }}>
-                                                <Typography sx={{ fontSize: "13px", color: "white", fontWeight: "600", }}>Giảm giá 30%</Typography>
+                                                <Typography sx={{ fontSize: "13px", color: "white", fontWeight: "600", }}>Giảm giá {item.discount}%</Typography>
                                             </Box>
                                             <Box width="110px" height="35px" sx={{ display: "flex", backgroundColor: "#FF0000", m: "0 20px", alignSelf: "end", alignItems: "center", justifyContent: "center" }}>
-                                                <Typography sx={{ fontSize: "13px", color: "white", fontWeight: "600", }}>Đặc sắc</Typography>
+                                                <Typography sx={{ fontSize: "13px", color: "white", fontWeight: "600", }}>{item.featured}</Typography>
                                             </Box>
                                         </Box>
 
@@ -113,7 +113,7 @@ export default function NewestProperties() {
                                         >
                                             <Rating
                                                 name="text-feedback"
-                                                value={value}
+                                                value={item.ratingAvg}
                                                 readOnly
                                                 precision={0.5}
                                                 emptyIcon={<StarBorderOutlinedIcon style={{ color: "#FAC73F", fontSize: "18px" }} />}
@@ -127,12 +127,12 @@ export default function NewestProperties() {
                                                     flexDirection: "column"
                                                 }}>
                                                     <Typography sx={{ color: "#FEFEFE", fontSize: "13px", fontWeight: "600" }}>{labels[value]}</Typography>
-                                                    <Typography sx={{ color: "#FEFEFE", fontSize: "11px" }}>10 bình luận</Typography>
+                                                    <Typography sx={{ color: "#FEFEFE", fontSize: "11px" }}>{item.comments.length} bình luận</Typography>
 
                                                 </Box>
                                                 <Box bgcolor="rgba(255, 255, 255, 0.25)" borderRadius="10px 10px 10px 0px" margin="5px" flex={1}>
                                                     <Box sx={{ display: "flex", margin: "5px", fontSize: "13px", textTransform: "unset", textWrap: "nowrap", borderRadius: "10px 10px 10px 0px", height: "50px", backgroundColor: "#18458B", width: "50px", alignItems: "center", justifyContent: "center" }} >
-                                                        <Typography sx={{ fontSize: "13px", color: "white", fontWeight: "600", }}>4.5</Typography>
+                                                        <Typography sx={{ fontSize: "13px", color: "white", fontWeight: "600", }}>{item.ratingAvg}</Typography>
                                                     </Box>
                                                 </Box>
                                             </Box>
@@ -145,27 +145,27 @@ export default function NewestProperties() {
                                         {item.name}
                                     </Typography>
                                     <Box display="flex" flexDirection="row" alignItems="center" gap={1} mb={1.5}>
-                                        <LocationOnRoundedIcon sx={{ color: "#F9B90F", fontSize: "16px" }} />
-                                        <Typography sx={{ color: "#999", fontSize: "13px", }}>Ta Quang Buu, Hai Ba Trung, Ha Noi</Typography>
+                                        <LocationOnRoundedIcon sx={{ color: "#F9B90F", fontSize: "16px", mt: "5px" }} />
+                                        <Typography sx={{ color: "#999", fontSize: "13px", whiteSpace: "wrap", wordBreak: "break-word" }}>{item.address}</Typography>
                                     </Box>
                                     <Box sx={{ border: ".5px  #CCC dashed" }} />
-                                    <Typography sx={{ color: "#999", fontSize: "13px", mt: "15px", mb: "12px" }}>Khach san dep, dich vu tot, nhan vien nhiet tinh</Typography>
+                                    <Typography sx={{ color: "#999", fontSize: "13px", mt: "15px", mb: "12px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item.description}</Typography>
                                     <Box display="flex" alignItems="center" justifyContent="start" mb="12px">
                                         <SupportAgentRoundedIcon sx={{ color: "red", fontSize: "16px" }} />
                                         <ul style={{ listStyleType: "none", padding: "0px", marginLeft: "10px", color: "#3AACED" }}>
-                                            <li style={{ display: "inline-block", marginRight: "10px" }}>Wifi</li>
-                                            <li style={{ display: "inline-block" }}>Shower</li>
+                                            {item && item.services.map((service, key) => (
+                                                <li style={{ display: "inline-block", marginRight: "10px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} key={key}>service</li>
+                                            ))}
                                         </ul>
                                     </Box>
-
                                     <Box sx={{ border: ".5px  #CCC dashed" }} />
                                     <ThemeProvider theme={theme}>
                                         <Box display="flex" alignItems="center" justifyContent="space-between" mt="10px" >
                                             <Box bgcolor="#F9B90F" sx={{ fontSize: "13px", textTransform: "unset", boxShadow: "none", border: "0.5px solid #EEE", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: "5px 10px", borderRadius: "5px" }}>
                                                 <Typography sx={{ fontSize: "13px", textTransform: "uppercase", color: "white" }} >Giá Rẻ Nhẩt/Đêm</Typography>
-                                                <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", marginLeft: "5px" }}>200.000VND</Typography>
+                                                <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", marginLeft: "5px" }}>{item.cheapestPrice}VND</Typography>
                                             </Box>
-                                            <Button variant="contained" sx={{ fontSize: "13px", textTransform: "unset" }} onClick={() => navigate("/detail-hotel")}>Xem chi tiết</Button>
+                                            <Button variant="contained" sx={{ fontSize: "13px", textTransform: "unset" }} onClick={() => navigate("/detail-hotel")} disableRipple={true} disableFocusRipple={true} disableTouchRipple={true} >Xem chi tiết</Button>
                                         </Box>
                                     </ThemeProvider>
                                 </CardContent>
@@ -173,9 +173,6 @@ export default function NewestProperties() {
                         </Card>
                     </SwiperSlide>
                 ))}
-
-
-
                 <Box className="swiper-button-prev" style={{ color: '#18458B' }}>
                     {/* <ArrowCircleLeftIcon /> */}
                 </Box>
