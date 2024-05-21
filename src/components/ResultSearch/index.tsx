@@ -66,7 +66,7 @@ export default function SearchResultsPage() {
 
     const city = location.pathname.split('/')[2];
     const { data, loading, error } = useFetch<Hotel[]>(
-        `${process.env.REACT_APP_API_ENDPOINT}/hotel/count/${city}`,
+        `${process.env.REACT_APP_API_ENDPOINT}/hotel/count?city=${city}`,
     );
     const [values, setValues] = useState<number[]>([50000, 300000]);
     const value = 4
@@ -394,7 +394,7 @@ export default function SearchResultsPage() {
                                                                 <Typography sx={{ fontSize: "13px", textTransform: "uppercase", color: "white" }} >Giá Rẻ Nhẩt/Đêm</Typography>
                                                                 <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", marginLeft: "5px" }}>{item.cheapestPrice}VND</Typography>
                                                             </Box>
-                                                            <Button variant="contained" sx={{ fontSize: "13px", textTransform: "unset" }} onClick={() => navigate("/detail-hotel")} disableRipple={true} disableFocusRipple={true} disableTouchRipple={true} >Xem chi tiết</Button>
+                                                            <Button variant="contained" sx={{ fontSize: "13px", textTransform: "unset" }} onClick={() => navigate(`/hotel/${item._id}`)}>Xem chi tiết</Button>
                                                         </Box>
                                                     </ThemeProvider>
                                                 </CardContent>

@@ -15,7 +15,11 @@ import styles from './SearchBar.module.scss';
 import { format } from 'date-fns';
 import useFetch from '../../hooks/useFetch';
 import { City } from '../../models/City';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
+import ZoomInOutlinedIcon from '@mui/icons-material/ZoomInOutlined';
+import NotListedLocationOutlinedIcon from '@mui/icons-material/NotListedLocationOutlined';
+import Input from "@mui/material/Input";
+
 
 export interface DatesInterface {
   startDate: Date;
@@ -105,18 +109,22 @@ const SearchBar = ({ component }: SearchBarProps) => {
       }}> */}
       {component !== 'HotelItem' && (
         <Box display="flex" alignItems="center" borderRight="#ccc solid 1px" height="100%" sx={{ minWidth: "250px" }} flex={2}>
-          <FontAwesomeIcon
-            icon={faBed}
-            className={styles['search__item__icon']}
-          />
-          <SearchInput
+          <NotListedLocationOutlinedIcon fontSize="small" sx={{ color: "#F9B90F", pl: 2, pr: 2 }} />
+          {/* <SearchInput
             className={styles['search__item__input']}
-            placeholder="Where are you going?"
+
+            style={{ width: "100%", height: "100%", border: "none", outline:"none", padding:"0", cursor: "pointer"}}
+            placeholder="Nhập tên thành phố"
             onChange={(e: any) => {
               setSearchTerm(e);
             }}
             value={destination}
-          />
+          /> */}
+           <Input disableUnderline sx={{ fontSize: "13px", flex: "1" }} placeholder="Khách sạn, Thành phố..." 
+           onChange={(e: any) => {
+              setSearchTerm(e);
+            }}
+            value={destination} />
           {searchTerm !== '' && (
             <div className={styles['search__item__result']}>
               {filteredCity.length ? (
@@ -309,7 +317,7 @@ const SearchBar = ({ component }: SearchBarProps) => {
           </div>
         )}
       </Box>
-      <Box display="flex" alignItems="center" borderRight="#ccc solid 1px" height="100%" sx={{ minWidth: "250px" }} flex={1}>
+      {/* <Box display="flex" alignItems="center" borderRight="#ccc solid 1px" height="100%" sx={{ minWidth: "250px" }} flex={1}>
         <button
           className={styles['search__item__btn']}
           onClick={handleSearch}
@@ -317,6 +325,10 @@ const SearchBar = ({ component }: SearchBarProps) => {
         >
           Search
         </button>
+      </Box> */}
+      <Box display="flex" flex="1" height="100%" alignItems="center" justifyContent="center" sx={{ backgroundColor: "#F9B90F", m: "0 auto", "&:hover": { cursor: "pointer", opacity: "0.8" } }} onClick={() => navigate('/search-results')}>
+        <Typography sx={{ fontSize: "13px", color: "white" }}>Tìm kiếm</Typography>
+        <ZoomInOutlinedIcon fontSize="small" sx={{ color: "white", pl: 1 }} />
       </Box>
       {/* </Box> */}
     </Box>

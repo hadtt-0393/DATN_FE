@@ -165,8 +165,7 @@ export default function NewestProperties() {
                                                 <Typography sx={{ fontSize: "13px", textTransform: "uppercase", color: "white" }} >Giá Rẻ Nhẩt/Đêm</Typography>
                                                 <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", marginLeft: "5px" }}>{item.cheapestPrice}VND</Typography>
                                             </Box>
-                                            <Button variant="contained" sx={{ fontSize: "13px", textTransform: "unset" }} onClick={() => navigate("/detail-hotel")} disableRipple={true} disableFocusRipple={true} disableTouchRipple={true} >Xem chi tiết</Button>
-                                        </Box>
+                                            <Button variant="contained" sx={{ fontSize: "13px", textTransform: "unset" }} onClick={() => navigate(`/hotel/${item._id}`)}>Xem chi tiết</Button>                                        </Box>
                                     </ThemeProvider>
                                 </CardContent>
                             </CardActionArea>

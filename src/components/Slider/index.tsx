@@ -111,8 +111,8 @@ export default function Slider() {
                             </Box>
 
                         </Box> */}
-                        <SearchBar />
-                        {/* <SearchBar2 /> */}
+                        {/* <SearchBar /> */}
+                        <SearchBar2 />
                     </Box>
 
                 </Box>
