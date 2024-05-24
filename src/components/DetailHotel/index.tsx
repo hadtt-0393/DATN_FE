@@ -1,37 +1,29 @@
+import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import DirectionsCarOutlinedIcon from '@mui/icons-material/DirectionsCarOutlined';
+import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
+import EventAvailableOutlinedIcon from '@mui/icons-material/EventAvailableOutlined';
+import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
+import HotelOutlinedIcon from '@mui/icons-material/HotelOutlined';
+import PhoneOutlinedIcon from '@mui/icons-material/PhoneOutlined';
+import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined';
+import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
+import { Avatar, FormControlLabel, Rating, Switch } from "@mui/material";
+import TextField from "@mui/material//TextField";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography"
-import EventAvailableOutlinedIcon from '@mui/icons-material/EventAvailableOutlined';
-import Input from "@mui/material/Input";
-import { FormControlLabel, Rating, Switch } from "@mui/material";
-import Navbar2 from '../../components/Navbar2';
-import Header2 from '../../components/Header2'
-import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
-import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
-import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined';
-import PhoneOutlinedIcon from '@mui/icons-material/PhoneOutlined';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
-import HotelOutlinedIcon from '@mui/icons-material/HotelOutlined';
-import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
-import DirectionsCarOutlinedIcon from '@mui/icons-material/DirectionsCarOutlined';
-import dayjs from 'dayjs';
-import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DateRangeCalendar } from '@mui/x-date-pickers-pro/DateRangeCalendar';
-import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
-import styled from 'styled-components';
-import TextField from "@mui/material//TextField";
+import Input from "@mui/material/Input";
 import Slider from '@mui/material/Slider';
-import { Avatar, Card, CardActions, CardContent, CardHeader, CardMedia, IconButton, colors } from '@mui/material';
-import { Star } from "@mui/icons-material";
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import Footer2 from "../Footer2";
-import { useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import Typography from "@mui/material/Typography";
+import { useLocation, useNavigate } from "react-router-dom";
+import styled from 'styled-components';
+import Header2 from '../../components/Header2';
+import Navbar2 from '../../components/Navbar2';
 import useFetch from "../../hooks/useFetch";
 import { Hotel } from "../../models/Hotel";
+import Footer2 from "../Footer2";
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -44,57 +36,6 @@ const VisuallyHiddenInput = styled('input')({
     whiteSpace: 'nowrap',
     width: 1,
 });
-
-const itemData = [
-    {
-        img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-        title: 'Breakfast',
-        rows: 2,
-        cols: 2,
-    },
-    {
-        img: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
-        title: 'Burger',
-    },
-    {
-        img: 'https://images.unsplash.com/photo-1522770179533-24471fcdba45',
-        title: 'Camera',
-    },
-    {
-        img: 'https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c',
-        title: 'Coffee',
-        cols: 2,
-    },
-    {
-        img: 'https://images.unsplash.com/photo-1533827432537-70133748f5c8',
-        title: 'Hats',
-        cols: 2,
-    },
-    {
-        img: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62',
-        title: 'Honey',
-        author: '@arwinneil',
-        rows: 2,
-        cols: 2,
-    },
-    {
-        img: 'https://images.unsplash.com/photo-1516802273409-68526ee1bdd6',
-        title: 'Basketball',
-    },
-    {
-        img: 'https://images.unsplash.com/photo-1518756131217-31eb79b20e8f',
-        title: 'Fern',
-    },
-
-];
-
-function srcset(image: string, size: number, rows = 1, cols = 1) {
-    return {
-        src: `${image}?w=${size * cols}&h=${size * rows}&fit=crop&auto=format`,
-        srcSet: `${image}?w=${size * cols}&h=${size * rows
-            }&fit=crop&auto=format&dpr=2 2x`,
-    };
-}
 
 const labels: { [index: string]: string } = {
     0.5: 'Useless',
@@ -120,6 +61,50 @@ const Image = styled.img`
         transform: scale(1.2);
         cursor: pointer;
 },`
+
+ const images =[
+    {
+        img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
+        title: 'Breakfast',
+      },
+      {
+        img: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
+        title: 'Burger',
+      },
+      {
+        img: 'https://images.unsplash.com/photo-1522770179533-24471fcdba45',
+        title: 'Camera',
+      },
+      {
+        img: 'https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c',
+        title: 'Coffee',
+      },
+      {
+        img: 'https://images.unsplash.com/photo-1533827432537-70133748f5c8',
+        title: 'Hats',
+      },
+      {
+        img: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62',
+        title: 'Honey',
+      }
+]
+
+function ImagesList() {
+    return (
+        <ImageList cols={2} gap={5} rowHeight='auto'>
+            {images.map((item) => (
+                <ImageListItem key={item.img}>
+                    <img
+                        srcSet={`${item.img}`}
+                        src={`${item.img}`}
+                        alt={item.title}
+                        loading="lazy"
+                    />
+                </ImageListItem>
+            ))}
+        </ImageList>
+    );
+}
 
 export default function DetailHotel() {
     const location = useLocation();
@@ -234,22 +219,7 @@ export default function DetailHotel() {
             <Box bgcolor="#ECF6F8" >
                 <Box width="92%" bgcolor="#ECF6F8" maxWidth="1224px" m="30px auto" display="flex" gap={5} padding="50px 0">
                     <Box flex="2" >
-                        <ImageList
-                            sx={{ width: "100%" }}
-                            variant="quilted"
-                            cols={4}
-                            rowHeight={121}
-                        >
-                            {itemData.map((item) => (
-                                <ImageListItem key={item.img} cols={item.cols || 1} rows={item.rows || 1}>
-                                    <img
-                                        {...srcset(item.img, 121, item.rows, item.cols)}
-                                        alt={item.title}
-                                        loading="lazy"
-                                    />
-                                </ImageListItem>
-                            ))}
-                        </ImageList>
+                        <ImagesList/>
                         <Box display="flex" flexDirection="row" bgcolor="#FFF" height="105px" mt="50px" justifyContent="space-between" alignItems="center" borderRadius="5px">
                             <Box flex={1} height="100%" justifyContent="center" alignItems="center" display="flex" flexDirection="column">
                                 <HotelOutlinedIcon sx={{ color: "#3AACED", width: "60px", height: "50px", opacity: 0.7, mb: "10px" }} />
@@ -261,7 +231,7 @@ export default function DetailHotel() {
                             </Box>
                             <Box borderLeft="#E2E2E2 solid 1px" flex={1} height="100%" justifyContent="center" alignItems="center" display="flex" flexDirection="column">
                                 <DirectionsCarOutlinedIcon sx={{ color: "#3AACED", width: "60px", height: "50px", opacity: 0.7, mb: "10px" }} />
-                                <Typography color="#999EA5" fontSize="12px" fontWeight="600">Cách Trung Tâm Thành Phố 20Km</Typography>
+                                <Typography color="#999EA5" fontSize="12px" fontWeight="600">Cách Trung Tâm Thành Phố {data?.distance} Km</Typography>
                             </Box>
                         </Box>
                         <Box bgcolor="white" mt="30px" borderRadius="5px">
@@ -277,7 +247,7 @@ export default function DetailHotel() {
 
                             </Box>
                         </Box>
-                        <Box bgcolor="white" mt="30px" borderRadius="5px">
+                        {/* <Box bgcolor="white" mt="30px" borderRadius="5px">
                             <Box m="0px 30px" borderBottom="#EEE 1px solid">
                                 <Typography fontWeight="600" color="#183C7D" fontSize="18px" padding="25px 0">
                                     Ngày có thể đặt phòng
@@ -295,7 +265,7 @@ export default function DetailHotel() {
                                 </LocalizationProvider>
 
                             </Box>
-                        </Box>
+                        </Box> */}
                         <Box bgcolor="white" mt="30px" borderRadius="5px">
                             <Box m="0px 30px" borderBottom="#EEE 1px solid">
                                 <Typography fontWeight="600" color="#183C7D" fontSize="18px" padding="25px 0">
@@ -834,12 +804,12 @@ export default function DetailHotel() {
                                 </Box>
                                 <Box borderBottom="1px solid #EEEEEE"  >
                                     <Box padding="20px 0" display="flex" justifyContent="start" alignItems="center" >
-                                        <Typography fontSize="14px" fontWeight="600" color="#878C9F" minWidth="100px">Giờ checkin:</Typography>
-                                        <Typography color="#5ECFB3" fontWeight="600" fontSize="14px" ml="10px"> 12 giờ trưa ngày đến </Typography>
+                                        <Typography fontSize="14px" fontWeight="600" color="#878C9F" minWidth="116px">Giờ nhận phòng:</Typography>
+                                        <Typography color="#5ECFB3" fontWeight="600" fontSize="14px" ml="10px"> 12 giờ trưa ngày nhận phòng </Typography>
                                     </Box>
                                     <Box padding="20px 0" display="flex" justifyContent="start" alignItems="center" >
-                                        <Typography fontSize="14px" fontWeight="600" color="#878C9F" minWidth="100px">Giờ checkout:</Typography>
-                                        <Typography color="#5ECFB3" fontWeight="600" fontSize="14px" ml="10px">10h sáng ngày đi</Typography>
+                                        <Typography fontSize="14px" fontWeight="600" color="#878C9F" minWidth="116px">Giờ trả phòng:</Typography>
+                                        <Typography color="#5ECFB3" fontWeight="600" fontSize="14px" ml="10px">10h sáng ngày trả phòng</Typography>
                                     </Box>
                                 </Box>
                             </Box>

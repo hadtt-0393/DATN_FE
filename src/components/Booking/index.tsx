@@ -146,16 +146,16 @@ export default function BookingPage() {
                             <Box bgcolor="#ECF6F8" mt="50px" borderRadius="5px" p="10px 0" border="1px #EEE solid">
                                 <Box m="20px 30px">
                                     <Box paddingBottom="20px" border="1px solid #DDD" borderTop="none" borderLeft="none" borderRight="none" >
-                                        <Typography fontSize="16px" fontWeight="600" color="#183C7D"> Thời gian checkin - Thời gian checkout</Typography>
+                                        <Typography fontSize="16px" fontWeight="600" color="#183C7D"> Thời gian nhận phòng - Thời gian trả phòng</Typography>
                                     </Box>
                                     <Box borderBottom="1px solid #EEEEEE"  >
                                         <Box padding="20px 0" display="flex" justifyContent="start" alignItems="center" >
-                                            <Typography fontSize="14px" fontWeight="600" color="#878C9F" minWidth="100px">Giờ checkin:</Typography>
-                                            <Typography color="#5ECFB3" fontWeight="600" fontSize="14px" ml="10px"> 12 giờ trưa ngày đến </Typography>
+                                            <Typography fontSize="14px" fontWeight="600" color="#878C9F" minWidth="116px">Giờ nhận phòng:</Typography>
+                                            <Typography color="#5ECFB3" fontWeight="600" fontSize="14px" ml="10px"> 12 giờ trưa ngày nhận phòng </Typography>
                                         </Box>
                                         <Box padding="10px 0" display="flex" justifyContent="start" alignItems="center" >
-                                            <Typography fontSize="14px" fontWeight="600" color="#878C9F" minWidth="100px">Giờ checkout:</Typography>
-                                            <Typography color="#5ECFB3" fontWeight="600" fontSize="14px" ml="10px">10h sáng ngày đi</Typography>
+                                            <Typography fontSize="14px" fontWeight="600" color="#878C9F" minWidth="116px">Giờ trả phòng:</Typography>
+                                            <Typography color="#5ECFB3" fontWeight="600" fontSize="14px" ml="10px">10h sáng ngày trả phòng</Typography>
                                         </Box>
                                     </Box>
                                 </Box>

@@ -15,6 +15,8 @@ import styles from './SearchBar.module.scss';
 import { format } from 'date-fns';
 import useFetch from '../../hooks/useFetch';
 import { City } from '../../models/City';
+import { Box, Typography } from '@mui/material';
+import ZoomInOutlinedIcon from '@mui/icons-material/ZoomInOutlined';
 
 export interface DatesInterface {
   startDate: Date;
@@ -24,9 +26,10 @@ export interface DatesInterface {
 
 export interface SearchBarProps {
   component?: string;
+  display?: boolean;
 }
 
-const SearchBar = ({ component }: SearchBarProps) => {
+const SearchBar = ({ component, display }: SearchBarProps) => {
   const { dispatch } = useContext(SearchContext);
 
   const { data: cityData } = useFetch<City[]>(
@@ -78,10 +81,14 @@ const SearchBar = ({ component }: SearchBarProps) => {
         type: 'NEW_SEARCH',
         payload: { destination, dates, options },
       });
+    console.log('destination', destination);
+    console.log('dates', dates);
+    console.log('options', options);
     navigate('/hotels', { state: { destination, dates, options } });
   };
 
   const [searchTerm, setSearchTerm] = useState('');
+  const [closeFilter, setCloseFilter] = useState(false);
   const KEYS_TO_FILTERS = ['name'];
   const filteredCity: any = cityData?.filter(
     createFilter(searchTerm, KEYS_TO_FILTERS),
@@ -89,7 +96,7 @@ const SearchBar = ({ component }: SearchBarProps) => {
 
   return (
     <>
-      <div className={styles['search']}>
+      {display && (<div className={styles['search']}>
         {component !== 'HotelItem' && (
           <div className={styles['search__item']}>
             <FontAwesomeIcon
@@ -98,7 +105,7 @@ const SearchBar = ({ component }: SearchBarProps) => {
             />
             <SearchInput
               className={styles['search__item__input']}
-              placeholder="Where are you going?"
+              placeholder="Nhập tên thành phố"
               onChange={(e: any) => {
                 setSearchTerm(e);
               }}
@@ -132,7 +139,7 @@ const SearchBar = ({ component }: SearchBarProps) => {
                         <div
                           className={
                             styles[
-                              'search__item__result__item__wrapper__country'
+                            'search__item__result__item__wrapper__country'
                             ]
                           }
                         >
@@ -296,16 +303,11 @@ const SearchBar = ({ component }: SearchBarProps) => {
             </div>
           )}
         </div>
-        <div className={styles['search__item']}>
-          <button
-            className={styles['search__item__btn']}
-            onClick={handleSearch}
-            disabled={!destination}
-          >
-            Search
-          </button>
-        </div>
-      </div>
+        <Box display="flex" flex="1" height="100%" alignItems="center" justifyContent="center" sx={{ backgroundColor: "#F9B90F", m: "0 auto", "&:hover": { cursor: "pointer", opacity: "0.8" } }} onClick={() => handleSearch()}>
+          <Typography sx={{ fontSize: "13px", color: "white" }}>Tìm kiếm</Typography>
+          <ZoomInOutlinedIcon fontSize="small" sx={{ color: "white", pl: 1 }} />
+        </Box>
+      </div>)}
     </>
   );
 };

@@ -38,9 +38,9 @@ const HomePage = () => {
 
       <Navbar2 />
       <Header2 />
-      <Slider />
+      <Slider display={true} />
       <PopularPlaces />
-      <HighestScoreProperties/>
+      <HighestScoreProperties />
       <NewestProperties />
       <BecomeOwner />
       <Footer2 />
@@ -55,7 +55,7 @@ const HomePage = () => {
             </Fab>
           </Box>}
         {openBoxChat && <BoxChat close={onClose} />} */}
-        
+
       {/* <div className={styles['home-page__container']}>
         <div className={styles['home-page__container__property-list']}>
           <h1 className={styles['home-page__container__property-list__title']}>

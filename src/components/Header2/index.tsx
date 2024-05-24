@@ -32,9 +32,6 @@ export default function Header2() {
                         <Typography sx={{ color: "#fff", fontSize: "14px", fontFamily: "Nunito, sans-serif", fontWeight: "600", "&:hover": { color: "#F9B90F", cursor: "pointer" } }}>Về chúng tôi</Typography>
                     </Box>
                 </NavLink>
-
-
-
             </Box>
         </Box >
     )

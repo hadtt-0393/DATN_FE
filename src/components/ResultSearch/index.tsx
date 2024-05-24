@@ -62,7 +62,6 @@ export default function SearchResultsPage() {
 
     const location = useLocation();
     const { state } = location
-    console.log("state:", state);
 
     const city = location.pathname.split('/')[2];
     const { data, loading, error } = useFetch<Hotel[]>(
@@ -82,7 +81,7 @@ export default function SearchResultsPage() {
         <Box>
             <Navbar2 />
             <Header2 />
-            <Sliders />
+            <Sliders display={false} />
             <Box width="100%" bgcolor="#ECF6F8">
                 <Box width="92%" maxWidth="1224px" m="30px auto" display="flex" gap={3} padding="50px 0" >
                     <Box flex="1" width="350px">
@@ -302,7 +301,7 @@ export default function SearchResultsPage() {
                             <Typography color="#958DA0" fontWeight="600" fontSize="20px" mr="10px">Kết quả tìm kiếm cho:  </Typography>
                             <Typography color="#3AACED" fontWeight="600" fontSize="20px">{state.place}</Typography>
                         </Box>
-                        <Box gap={2} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", flex: 1 }}>
+                        <Box gap={2} sx={{ display: "flex", justifyContent: "space-between", alignItems: "start", flex: 1 }}>
                             <Grid container spacing={4}>
                                 {data && data.map((item) => (
                                     <Grid item xs={6} >
@@ -317,20 +316,18 @@ export default function SearchResultsPage() {
                                                         backgroundColor: "rgba(255, 255, 255, 0.1)",
                                                         display: "flex",
                                                         flexDirection: "column",
-                                                        justifyContent: "space-between",
+                                                        justifyContent: "end",
                                                         zIndex: 1,
                                                         pointerEvents: "none",
                                                         height: "100%",
-                                                    }}>
-                                                        <Box display="flex" flexDirection="column">
-                                                            <Box width="110px" height="35px" sx={{ display: "flex", backgroundColor: "#5ECFB1", margin: "20px 20px 10px 0px", alignSelf: "end", alignItems: "center", justifyContent: "center" }}>
-                                                                <Typography sx={{ fontSize: "13px", color: "white", fontWeight: "600", }}>Giảm giá {item.discount}%</Typography>
-                                                            </Box>
-                                                            <Box width="110px" height="35px" sx={{ display: "flex", backgroundColor: "#FF0000", m: "0 20px", alignSelf: "end", alignItems: "center", justifyContent: "center" }}>
-                                                                <Typography sx={{ fontSize: "13px", color: "white", fontWeight: "600", }}>{item.featured}</Typography>
-                                                            </Box>
-                                                        </Box>
 
+                                                    }}>
+                                                        {item.discount !== 0 && (
+                                                            <Box display="flex" flex={1} flexDirection="column" justifyContent="start" alignItems="start">
+                                                                <Box width="110px" height="35px" sx={{ display: "flex", backgroundColor: "#5ECFB1", margin: "20px 20px 10px 0px", alignSelf: "end", alignItems: "center", justifyContent: "center" }}>
+                                                                    <Typography sx={{ fontSize: "13px", color: "white", fontWeight: "600", }}>Giảm giá {item.discount}%</Typography>
+                                                                </Box>
+                                                            </Box>)}
                                                         <Box
                                                             sx={{
                                                                 display: 'flex',
@@ -374,8 +371,8 @@ export default function SearchResultsPage() {
                                                         {item.name}
                                                     </Typography>
                                                     <Box display="flex" flexDirection="row" alignItems="start" gap={1} mb={1.5}>
-                                                        <LocationOnRoundedIcon sx={{ color: "#F9B90F", fontSize: "16px", mt:"5px" }} />
-                                                        <Typography sx={{ color: "#999", fontSize: "13px", whiteSpace:"wrap", wordBreak: "break-word" }}>{item.address}</Typography>
+                                                        <LocationOnRoundedIcon sx={{ color: "#F9B90F", fontSize: "16px", mt: "5px" }} />
+                                                        <Typography sx={{ color: "#999", fontSize: "13px", whiteSpace: "wrap", wordBreak: "break-word" }}>{item.address}</Typography>
                                                     </Box>
                                                     <Box sx={{ border: ".5px  #CCC dashed" }} />
                                                     <Typography sx={{ color: "#999", fontSize: "13px", mt: "15px", mb: "12px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item.description}</Typography>
@@ -383,7 +380,7 @@ export default function SearchResultsPage() {
                                                         <SupportAgentRoundedIcon sx={{ color: "red", fontSize: "16px" }} />
                                                         <ul style={{ listStyleType: "none", padding: "0px", marginLeft: "10px", color: "#3AACED" }}>
                                                             {item && item.services.map((service, key) => (
-                                                                <li style={{ display: "inline-block", marginRight: "10px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} key={key}>service</li>
+                                                                <li style={{ display: "inline-block", marginRight: "10px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} key={key}>{service}</li>
                                                             ))}
                                                         </ul>
                                                     </Box>
