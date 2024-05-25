@@ -35,7 +35,7 @@ const App = () => {
         <Route path="/hotel/:id" element={<DetailHotel />} />
         <Route path="/all-hotels" element={<AllHotelPage type={'Hotel'} />} />
         <Route path="/search-results" element={<SearchResultsPage />} />
-        <Route path="/count/:city" element={<SearchResultsPage />} />
+        <Route path="/city" element={<SearchResultsPage />} />
         <Route path="/reservations" element={<ReservationsPage />} />
         <Route path="/booking" element={<BookingPage />} />
         <Route path="/select-payment-method" element={<PaymentMethod />} />

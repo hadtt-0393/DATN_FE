@@ -167,16 +167,16 @@ export default function NewestProperties() {
                                         {item.name}
                                     </Typography>
                                     <Box display="flex" flexDirection="row" alignItems="center" gap={1} mb={1.5}>
-                                        <LocationOnRoundedIcon sx={{ color: "#F9B90F", fontSize: "16px", mt: "5px" }} />
+                                        <LocationOnRoundedIcon sx={{ color: "#F9B90F", fontSize: "16px", mt: "2px" }} />
                                         <Typography sx={{ color: "#999", fontSize: "13px", whiteSpace: "wrap", wordBreak: "break-word" }}>{item.address}</Typography>
                                     </Box>
                                     <Box sx={{ border: ".5px  #CCC dashed" }} />
                                     <Typography sx={{ color: "#999", fontSize: "13px", mt: "15px", mb: "12px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item.description}</Typography>
                                     <Box display="flex" alignItems="center" justifyContent="start" mb="12px">
                                         <SupportAgentRoundedIcon sx={{ color: "red", fontSize: "16px" }} />
-                                        <ul style={{ listStyleType: "none", padding: "0px", marginLeft: "10px", color: "#3AACED" }}>
+                                        <ul style={{ listStyleType: "none", padding: "0px", marginLeft: "10px", color: "#3AACED", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                                             {item && item.services.map((service, key) => (
-                                                <li style={{ display: "inline-block", marginRight: "10px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} key={key}>service</li>
+                                                <li style={{ display: "inline-block", marginRight: "10px" }} key={key}>{service}</li>
                                             ))}
                                         </ul>
                                     </Box>

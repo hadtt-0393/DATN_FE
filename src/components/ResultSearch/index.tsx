@@ -21,6 +21,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import useFetch from '../../hooks/useFetch';
 import { Hotel } from '../../models/Hotel';
+import SearchBarFlexColumn from './SearchBarFlexColumn';
 
 const Image = styled.img`
     width: 100%;
@@ -62,10 +63,15 @@ export default function SearchResultsPage() {
 
     const location = useLocation();
     const { state } = location
-
-    const city = location.pathname.split('/')[2];
+    console.log("state:", state);
+    const startDate = state.dates[0].startDate.toLocaleDateString('en-US');
+    const endDate = state.dates[0].endDate.toLocaleDateString('en-US');
+    const city = state.destination;
+    const adult = state.options.adult;
+    const children = state.options.children;
+    const room = state.options.room;
     const { data, loading, error } = useFetch<Hotel[]>(
-        `${process.env.REACT_APP_API_ENDPOINT}/hotel/count?city=${city}`,
+        `${process.env.REACT_APP_API_ENDPOINT}/hotel/getHotelBySearch?city=${city}&adult=${adult}&children=${children}&roomNumber=${room}&startDate=${startDate}&endDate=${endDate}`,
     );
     const [values, setValues] = useState<number[]>([50000, 300000]);
     const value = 4
@@ -86,12 +92,15 @@ export default function SearchResultsPage() {
                 <Box width="92%" maxWidth="1224px" m="30px auto" display="flex" gap={3} padding="50px 0" >
                     <Box flex="1" width="350px">
                         <Box bgcolor="white" borderRadius="5px" p="10px 0" >
+                            <Box m="0px 15px">
+                                <SearchBarFlexColumn />
+                            </Box>
                             <Box m="20px 30px">
                                 <Box paddingBottom="20px" border="1px solid #EEEEEE" borderTop="none" borderLeft="none" borderRight="none" >
                                     <Typography fontSize="16px" fontWeight="600" color="#183C7D">Lọc</Typography>
                                 </Box>
                                 <Box paddingBottom="20px" borderBottom="1px solid #EEEEEE" mt="20px" >
-                                    <Typography fontSize="13px" color="#878C9F" mb="10px">Địa điểm</Typography>
+                                    {/* <Typography fontSize="13px" color="#878C9F" mb="10px">Địa điểm</Typography>
                                     <Box display="flex" alignItems="center" border="#EEE solid 1px" height="45px" justifyContent="space-between" borderRadius="8px" bgcolor="#F9F9F9" mb="20px">
                                         <EventAvailableOutlinedIcon fontSize="small" sx={{ color: "#F9B90F", pl: 2, pr: 2 }} />
                                     </Box>
@@ -146,24 +155,70 @@ export default function SearchResultsPage() {
                                             </Box>
 
                                         </Box>
-                                    </Box>
+                                    </Box> */}
+
                                     <Typography fontSize="13px" color="#878C9F" mb="10px" mt="20px">Khoảng giá (VND)</Typography>
                                     <Stack spacing={2} direction="row" alignItems="center" justifyContent="space-between">
                                         <Typography fontSize="12px" >0</Typography>
 
-                                        <Typography fontSize="12px">500.000</Typography>
+                                        <Typography fontSize="12px">1.000.000</Typography>
                                     </Stack>
                                     <Slider
                                         getAriaLabel={() => 'Temperature range'}
                                         value={values}
                                         onChange={handleChange}
                                         valueLabelDisplay="auto"
-                                        max={500000}
+                                        max={1000000}
                                         step={50000}
                                         marks
                                         getAriaValueText={valuetext}
 
                                     />
+                                    <Typography fontSize="13px" color="#878C9F" mb="10px" mt="10px">Khoảng cách đến trung tâm thành phố</Typography>
+                                    <Box >
+                                        <Grid container spacing={1}>
+                                            <Grid item xs={12} display="flex" flexDirection="row" alignItems="center" justifyContent="start">
+                                                <Checkbox sx={{
+                                                    color: "#CCCCCC", width: "12px", height: "12px",
+                                                    '&.Mui-checked': {
+                                                        bgcolor: "#3AACED",
+                                                        color: "#FFF",
+                                                        border: "1px solid #CCC",
+                                                        fill: "#3AACED"
+                                                    },
+
+                                                }} />
+                                                <Typography fontSize="13px" color="#878C9F" whiteSpace="nowrap" ml="10px">Dưới 5km</Typography>
+                                            </Grid>
+                                            <Grid item xs={12} display="flex" flexDirection="row" alignItems="center" justifyContent="start">
+                                                <Checkbox sx={{
+                                                    color: "#CCCCCC", width: "12px", height: "12px",
+                                                    '&.Mui-checked': {
+                                                        bgcolor: "#3AACED",
+                                                        color: "#FFF",
+                                                        border: "1px solid #CCC",
+                                                        fill: "#3AACED"
+                                                    },
+
+                                                }} />
+                                                <Typography fontSize="13px" color="#878C9F" whiteSpace="nowrap" ml="10px">Dưới 10km</Typography>
+                                            </Grid>
+                                            <Grid item xs={12} display="flex" flexDirection="row" alignItems="center" justifyContent="start">
+                                                <Checkbox sx={{
+                                                    color: "#CCCCCC", width: "12px", height: "12px",
+                                                    '&.Mui-checked': {
+                                                        bgcolor: "#3AACED",
+                                                        color: "#FFF",
+                                                        border: "1px solid #CCC",
+                                                        fill: "#3AACED"
+                                                    },
+
+                                                }} />
+                                                <Typography fontSize="13px" color="#878C9F" whiteSpace="nowrap" ml="10px">Dưới 15km</Typography>
+                                            </Grid>
+                                        </Grid>
+
+                                    </Box>
                                     <Typography fontSize="13px" color="#878C9F" mb="10px" mt="20px">Dịch vụ khách sạn</Typography>
                                     <Box >
                                         <Grid container spacing={1}>
@@ -178,7 +233,6 @@ export default function SearchResultsPage() {
                                                     },
 
                                                 }} />
-                                                {/* <Checkbox sx={{ color: "#CCCCCC", width: "12px" }} /> */}
                                                 <Typography fontSize="13px" color="#878C9F" whiteSpace="nowrap" ml="10px">Điều hòa</Typography>
                                             </Grid>
                                             <Grid item xs={6} display="flex" flexDirection="row" alignItems="center" justifyContent="start">
@@ -192,7 +246,6 @@ export default function SearchResultsPage() {
                                                     },
 
                                                 }} />
-                                                {/* <Checkbox sx={{ color: "#CCCCCC", width: "12px" }} /> */}
                                                 <Typography fontSize="13px" color="#878C9F" whiteSpace="nowrap" ml="10px">Quầy đồ ăn sáng </Typography>
                                             </Grid>
                                             <Grid item xs={6} display="flex" flexDirection="row" alignItems="center" justifyContent="start">
@@ -206,7 +259,6 @@ export default function SearchResultsPage() {
                                                     },
 
                                                 }} />
-                                                {/* <Checkbox sx={{ color: "#CCCCCC", width: "12px" }} /> */}
                                                 <Typography fontSize="13px" color="#878C9F" whiteSpace="nowrap" ml="10px">Bể bơi</Typography>
                                             </Grid>
                                             <Grid item xs={6} display="flex" flexDirection="row" alignItems="center" justifyContent="start">
@@ -220,7 +272,6 @@ export default function SearchResultsPage() {
                                                     },
 
                                                 }} />
-                                                {/* <Checkbox sx={{ color: "#CCCCCC", width: "12px" }} /> */}
                                                 <Typography fontSize="13px" color="#878C9F" whiteSpace="nowrap" ml="10px">Phòng hút thuốc</Typography>
                                             </Grid>
                                         </Grid>
@@ -240,7 +291,6 @@ export default function SearchResultsPage() {
                                                     },
 
                                                 }} />
-                                                {/* <Checkbox sx={{ color: "#CCCCCC", width: "12px" }} /> */}
                                                 <Typography fontSize="13px" color="#878C9F" whiteSpace="nowrap" ml="10px">Điều hòa</Typography>
                                             </Grid>
                                             <Grid item xs={6} display="flex" flexDirection="row" alignItems="center" justifyContent="start">
@@ -254,7 +304,6 @@ export default function SearchResultsPage() {
                                                     },
 
                                                 }} />
-                                                {/* <Checkbox sx={{ color: "#CCCCCC", width: "12px" }} /> */}
                                                 <Typography fontSize="13px" color="#878C9F" whiteSpace="nowrap" ml="10px">Quầy đồ ăn sáng </Typography>
                                             </Grid>
                                             <Grid item xs={6} display="flex" flexDirection="row" alignItems="center" justifyContent="start">
@@ -268,7 +317,6 @@ export default function SearchResultsPage() {
                                                     },
 
                                                 }} />
-                                                {/* <Checkbox sx={{ color: "#CCCCCC", width: "12px" }} /> */}
                                                 <Typography fontSize="13px" color="#878C9F" whiteSpace="nowrap" ml="10px">Bể bơi</Typography>
                                             </Grid>
                                             <Grid item xs={6} display="flex" flexDirection="row" alignItems="center" justifyContent="start">
@@ -282,7 +330,6 @@ export default function SearchResultsPage() {
                                                     },
 
                                                 }} />
-                                                {/* <Checkbox sx={{ color: "#CCCCCC", width: "12px" }} /> */}
                                                 <Typography fontSize="13px" color="#878C9F" whiteSpace="nowrap" ml="10px">Phòng hút thuốc</Typography>
                                             </Grid>
                                         </Grid>
@@ -291,7 +338,7 @@ export default function SearchResultsPage() {
                                 </Box>
 
                                 <Box width="100%" m="30px 0px 20px 0px ">
-                                    <Button variant="contained" sx={{ width: "100%", backgroundColor: "#F9C941", fontWeight: "600", boxShadow: "none", "&:hover": { boxShadow: "none", opacity: "0.8", backgroundColor: "#F9C941" } }} >Tìm kiếm</Button>
+                                    <Button variant="contained" sx={{ width: "100%", backgroundColor: "#F9C941", fontWeight: "600", boxShadow: "none", padding: "10px", "&:hover": { boxShadow: "none", opacity: "0.8", backgroundColor: "#F9C941" } }} >Tìm kiếm</Button>
                                 </Box>
                             </Box>
                         </Box>
@@ -299,7 +346,7 @@ export default function SearchResultsPage() {
                     <Box flex="2.5" display="flex" justifyContent="start" alignItems="start" flexDirection="column" >
                         <Box display="flex" flexDirection="row" mb="20px"  >
                             <Typography color="#958DA0" fontWeight="600" fontSize="20px" mr="10px">Kết quả tìm kiếm cho:  </Typography>
-                            <Typography color="#3AACED" fontWeight="600" fontSize="20px">{state.place}</Typography>
+                            <Typography color="#3AACED" fontWeight="600" fontSize="20px">{state.destination}</Typography>
                         </Box>
                         <Box gap={2} sx={{ display: "flex", justifyContent: "space-between", alignItems: "start", flex: 1 }}>
                             <Grid container spacing={4}>
@@ -382,8 +429,6 @@ export default function SearchResultsPage() {
 
                                                                     </Box>
                                                                 )
-
-
                                                         }
 
 
@@ -394,16 +439,16 @@ export default function SearchResultsPage() {
                                                         {item.name}
                                                     </Typography>
                                                     <Box display="flex" flexDirection="row" alignItems="start" gap={1} mb={1.5}>
-                                                        <LocationOnRoundedIcon sx={{ color: "#F9B90F", fontSize: "16px", mt: "5px" }} />
+                                                        <LocationOnRoundedIcon sx={{ color: "#F9B90F", fontSize: "16px", mt: "2px" }} />
                                                         <Typography sx={{ color: "#999", fontSize: "13px", whiteSpace: "wrap", wordBreak: "break-word" }}>{item.address}</Typography>
                                                     </Box>
                                                     <Box sx={{ border: ".5px  #CCC dashed" }} />
                                                     <Typography sx={{ color: "#999", fontSize: "13px", mt: "15px", mb: "12px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item.description}</Typography>
                                                     <Box display="flex" alignItems="center" justifyContent="start" mb="12px">
                                                         <SupportAgentRoundedIcon sx={{ color: "red", fontSize: "16px" }} />
-                                                        <ul style={{ listStyleType: "none", padding: "0px", marginLeft: "10px", color: "#3AACED" }}>
+                                                        <ul style={{ listStyleType: "none", padding: "0px", marginLeft: "10px", color: "#3AACED", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap"  }}>
                                                             {item && item.services.map((service, key) => (
-                                                                <li style={{ display: "inline-block", marginRight: "10px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} key={key}>{service}</li>
+                                                                <li style={{ display: "inline-block", marginRight: "5px", }} key={key}>{service},</li>
                                                             ))}
                                                         </ul>
                                                     </Box>
