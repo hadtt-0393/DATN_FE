@@ -347,7 +347,7 @@ export default function DetailHotel() {
                                                 <Typography color="#888" fontSize="15px">Phòng view biển siêu đẹp, có bể bơi 4 mùa </Typography>
 
                                             </Box>
-                                            <Box borderBottom="#CCC 1px dashed" padding="20px 0">
+                                            <Box borderBottom="#CCC 1px dashed" padding="20px 0" width="100%">
 
                                                 <Box display="flex" justifyContent="start" alignItems="center" flexWrap="wrap" gap={2}  >
                                                     <Typography color="#666" fontSize="15px" fontWeight="600"> Dịch vụ: </Typography>
@@ -426,7 +426,7 @@ export default function DetailHotel() {
                                                 <Typography color="#888" fontSize="15px">Phòng view biển siêu đẹp, có bể bơi 4 mùa </Typography>
 
                                             </Box>
-                                            <Box borderBottom="#CCC 1px dashed" padding="20px 0">
+                                            <Box borderBottom="#CCC 1px dashed" padding="20px 0" width="100%">
 
                                                 <Box display="flex" justifyContent="start" alignItems="center" flexWrap="wrap" gap={2}  >
                                                     <Typography color="#666" fontSize="15px" fontWeight="600"> Dịch vụ: </Typography>
@@ -505,7 +505,7 @@ export default function DetailHotel() {
                                                 <Typography color="#888" fontSize="15px">Phòng view biển siêu đẹp, có bể bơi 4 mùa </Typography>
 
                                             </Box>
-                                            <Box borderBottom="#CCC 1px dashed" padding="20px 0">
+                                            <Box borderBottom="#CCC 1px dashed" padding="20px 0" width="100%">
 
                                                 <Box display="flex" justifyContent="start" alignItems="center" flexWrap="wrap" gap={2}  >
                                                     <Typography color="#666" fontSize="15px" fontWeight="600"> Dịch vụ: </Typography>

@@ -1,26 +1,19 @@
-import LocationOnRoundedIcon from '@mui/icons-material/LocationOnRounded';
-import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
-import SupportAgentRoundedIcon from '@mui/icons-material/SupportAgentRounded';
-import { Card, CardActionArea, CardContent, Rating } from "@mui/material";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Grid from '@mui/material/Grid';
-import Typography from "@mui/material/Typography";
-import Header2 from '../../components/Header2';
-import Navbar2 from '../../components/Navbar2';
-import styled from 'styled-components';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import BoyIcon from '@mui/icons-material/Boy';
+import ChildCareIcon from '@mui/icons-material/ChildCare';
+import DoorBackIcon from '@mui/icons-material/DoorBack';
+import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 import HouseIcon from '@mui/icons-material/House';
-import RoomIcon from '@mui/icons-material/Room';
+import InsertInvitationIcon from '@mui/icons-material/InsertInvitation';
 import KingBedIcon from '@mui/icons-material/KingBed';
 import PaidIcon from '@mui/icons-material/Paid';
-import DoorBackIcon from '@mui/icons-material/DoorBack';
-import Diversity1Icon from '@mui/icons-material/Diversity1';
+import RoomIcon from '@mui/icons-material/Room';
 import TodayIcon from '@mui/icons-material/Today';
-import InsertInvitationIcon from '@mui/icons-material/InsertInvitation';
-import EditCalendarIcon from '@mui/icons-material/EditCalendar';
-import ChildCareIcon from '@mui/icons-material/ChildCare';
-import BoyIcon from '@mui/icons-material/Boy';
+import Box from "@mui/material/Box";
+import Grid from '@mui/material/Grid';
+import Typography from "@mui/material/Typography";
+import styled from 'styled-components';
+import Header2 from '../../components/Header2';
+import Navbar2 from '../../components/Navbar2';
 const Image = styled.img`
     width: 100%;
     objectFit: cover;
@@ -30,26 +23,7 @@ const Image = styled.img`
         transform: scale(1.1);
         cursor: pointer;
 },`
-const theme = createTheme({
-    palette: {
-        info: {
-            main: '#000',
-        },
-    }
-});
 
-const labels: { [index: string]: string } = {
-    0.5: 'Useless',
-    1: 'Useless+',
-    1.5: 'Poor',
-    2: 'Poor+',
-    2.5: 'Ok',
-    3: 'Ok+',
-    3.5: 'Tốt',
-    4: 'Rất Tốt',
-    4.5: 'Xuất Sắc',
-    5: 'Rất Xuất Sắc',
-};
 
 export default function ReservationsPage() {
     const value = 4
@@ -108,11 +82,11 @@ export default function ReservationsPage() {
                                         </Box>
                                         <Box display="flex" flexDirection="row" justifyContent="start" m="20px" alignItems="center">
                                             <TodayIcon sx={{ color: "#3AACED", fontSize: "30px" }} />
-                                            <Typography color="#999" fontSize="18px" ml="20px" >Ngày đến: 02/04/2024</Typography>
+                                            <Typography color="#999" fontSize="18px" ml="20px" >Ngày nhận phòng: 02/04/2024</Typography>
                                         </Box>
                                         <Box display="flex" flexDirection="row" justifyContent="start" m="20px" alignItems="center">
                                             <InsertInvitationIcon sx={{ color: "#3AACED", fontSize: "30px" }} />
-                                            <Typography color="#999" fontSize="18px" ml="20px" >Ngày đi: 03/04/2024</Typography>
+                                            <Typography color="#999" fontSize="18px" ml="20px" >Ngày trả phòng: 03/04/2024</Typography>
                                         </Box>
                                         <Box display="flex" flexDirection="row" justifyContent="start" m="20px" alignItems="center">
                                             <EditCalendarIcon sx={{ color: "#3AACED", fontSize: "30px" }} />
@@ -174,11 +148,11 @@ export default function ReservationsPage() {
                                         </Box>
                                         <Box display="flex" flexDirection="row" justifyContent="start" m="20px" alignItems="center">
                                             <TodayIcon sx={{ color: "#3AACED", fontSize: "30px" }} />
-                                            <Typography color="#999" fontSize="18px" ml="20px" >Ngày đến: 02/04/2024</Typography>
+                                            <Typography color="#999" fontSize="18px" ml="20px" >Ngày nhận phòng: 02/04/2024</Typography>
                                         </Box>
                                         <Box display="flex" flexDirection="row" justifyContent="start" m="20px" alignItems="center">
                                             <InsertInvitationIcon sx={{ color: "#3AACED", fontSize: "30px" }} />
-                                            <Typography color="#999" fontSize="18px" ml="20px" >Ngày đi: 03/04/2024</Typography>
+                                            <Typography color="#999" fontSize="18px" ml="20px" >Ngày trả phòng: 03/04/2024</Typography>
                                         </Box>
                                         <Box display="flex" flexDirection="row" justifyContent="start" m="20px" alignItems="center">
                                             <EditCalendarIcon sx={{ color: "#3AACED", fontSize: "30px" }} />
