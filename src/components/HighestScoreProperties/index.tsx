@@ -88,20 +88,20 @@ export default function HighestScoreProperties() {
                                         backgroundColor: "rgba(255, 255, 255, 0.1)",
                                         display: "flex",
                                         flexDirection: "column",
-                                        justifyContent: "space-between",
+                                        justifyContent: "end",
                                         zIndex: 1,
                                         pointerEvents: "none",
                                         height: "100%",
                                     }}>
-                                        <Box display="flex" flexDirection="column">
-                                            <Box width="110px" height="35px" sx={{ display: "flex", backgroundColor: "#5ECFB1", margin: "20px 20px 10px 0px", alignSelf: "end", alignItems: "center", justifyContent: "center" }}>
-                                                <Typography sx={{ fontSize: "13px", color: "white", fontWeight: "600", }}>Giảm giá {item.discount}%</Typography>
-                                            </Box>
-                                            <Box width="110px" height="35px" sx={{ display: "flex", backgroundColor: "#FF0000", m: "0 20px", alignSelf: "end", alignItems: "center", justifyContent: "center" }}>
-                                                <Typography sx={{ fontSize: "13px", color: "white", fontWeight: "600", }}>{item.featured}</Typography>
-                                            </Box>
-                                        </Box>
-
+                                        {
+                                            item.discount !== 0 && (
+                                                <Box display="flex" flexDirection="column" justifyContent="start" alignItems="start" flex={1}>
+                                                    <Box width="110px" height="35px" sx={{ display: "flex", backgroundColor: "#5ECFB1", margin: "20px 20px 10px 0px", alignSelf: "end", alignItems: "center", justifyContent: "center" }}>
+                                                        <Typography sx={{ fontSize: "13px", color: "white", fontWeight: "600", }}>Giảm giá {item.discount}%</Typography>
+                                                    </Box>
+                                                </Box>
+                                            )
+                                        }
                                         <Box
                                             sx={{
                                                 display: 'flex',

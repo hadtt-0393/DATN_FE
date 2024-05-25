@@ -88,55 +88,77 @@ export default function NewestProperties() {
                                         backgroundColor: "rgba(255, 255, 255, 0.1)",
                                         display: "flex",
                                         flexDirection: "column",
-                                        justifyContent: "space-between",
+                                        justifyContent: "end",
                                         zIndex: 1,
                                         pointerEvents: "none",
                                         height: "100%",
                                     }}>
-                                        <Box display="flex" flexDirection="column">
-                                            <Box width="110px" height="35px" sx={{ display: "flex", backgroundColor: "#5ECFB1", margin: "20px 20px 10px 0px", alignSelf: "end", alignItems: "center", justifyContent: "center" }}>
-                                                <Typography sx={{ fontSize: "13px", color: "white", fontWeight: "600", }}>Giảm giá {item.discount}%</Typography>
-                                            </Box>
-                                            <Box width="110px" height="35px" sx={{ display: "flex", backgroundColor: "#FF0000", m: "0 20px", alignSelf: "end", alignItems: "center", justifyContent: "center" }}>
-                                                <Typography sx={{ fontSize: "13px", color: "white", fontWeight: "600", }}>{item.featured}</Typography>
-                                            </Box>
-                                        </Box>
-
-                                        <Box
-                                            sx={{
-                                                display: 'flex',
-                                                alignItems: 'start',
-                                                height: "30%",
-                                                m: 2,
-                                                justifyContent: "space-between",
-                                            }}
-                                        >
-                                            <Rating
-                                                name="text-feedback"
-                                                value={item.ratingAvg}
-                                                readOnly
-                                                precision={0.5}
-                                                emptyIcon={<StarBorderOutlinedIcon style={{ color: "#FAC73F", fontSize: "18px" }} />}
-                                                sx={{ fontSize: "18px", color: "#FAC73F" }}
-                                            />
-                                            <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-                                                <Box sx={{
-                                                    display: 'flex',
-                                                    alignItems: 'end',
-                                                    m: 1,
-                                                    flexDirection: "column"
-                                                }}>
-                                                    <Typography sx={{ color: "#FEFEFE", fontSize: "13px", fontWeight: "600" }}>{labels[value]}</Typography>
-                                                    <Typography sx={{ color: "#FEFEFE", fontSize: "11px" }}>{item.comments.length} bình luận</Typography>
-
-                                                </Box>
-                                                <Box bgcolor="rgba(255, 255, 255, 0.25)" borderRadius="10px 10px 10px 0px" margin="5px" flex={1}>
-                                                    <Box sx={{ display: "flex", margin: "5px", fontSize: "13px", textTransform: "unset", textWrap: "nowrap", borderRadius: "10px 10px 10px 0px", height: "50px", backgroundColor: "#18458B", width: "50px", alignItems: "center", justifyContent: "center" }} >
-                                                        <Typography sx={{ fontSize: "13px", color: "white", fontWeight: "600", }}>{item.ratingAvg}</Typography>
+                                        {
+                                            item.discount !== 0 &&
+                                            (
+                                                <Box display="flex" flexDirection="column" flex={1} justifyItems="start" alignItems="start">
+                                                    <Box width="110px" height="35px" sx={{ display: "flex", backgroundColor: "#5ECFB1", margin: "20px 20px 10px 0px", alignSelf: "end", alignItems: "center", justifyContent: "center" }}>
+                                                        <Typography sx={{ fontSize: "13px", color: "white", fontWeight: "600", }}>Giảm giá {item.discount}%</Typography>
                                                     </Box>
                                                 </Box>
-                                            </Box>
-                                        </Box>
+                                            )
+                                        }
+                                        {
+                                            item.ratingAvg !== 0 ?
+                                                (
+                                                    <Box
+                                                        sx={{
+                                                            display: 'flex',
+                                                            alignItems: 'start',
+                                                            height: "30%",
+                                                            m: 2,
+                                                            justifyContent: "space-between",
+                                                        }}
+                                                    >
+
+                                                        <Rating
+                                                            name="text-feedback"
+                                                            value={item.ratingAvg}
+                                                            readOnly
+                                                            precision={0.5}
+                                                            emptyIcon={<StarBorderOutlinedIcon style={{ color: "#FAC73F", fontSize: "18px" }} />}
+                                                            sx={{ fontSize: "18px", color: "#FAC73F" }}
+                                                        />
+                                                        <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+                                                            <Box sx={{
+                                                                display: 'flex',
+                                                                alignItems: 'end',
+                                                                m: 1,
+                                                                flexDirection: "column"
+                                                            }}>
+                                                                <Typography sx={{ color: "#FEFEFE", fontSize: "13px", fontWeight: "600" }}>{labels[value]}</Typography>
+                                                                <Typography sx={{ color: "#FEFEFE", fontSize: "11px" }}>{item.comments.length} bình luận</Typography>
+
+                                                            </Box>
+                                                            <Box bgcolor="rgba(255, 255, 255, 0.25)" borderRadius="10px 10px 10px 0px" margin="5px" flex={1}>
+                                                                <Box sx={{ display: "flex", margin: "5px", fontSize: "13px", textTransform: "unset", textWrap: "nowrap", borderRadius: "10px 10px 10px 0px", height: "50px", backgroundColor: "#18458B", width: "50px", alignItems: "center", justifyContent: "center" }} >
+                                                                    <Typography sx={{ fontSize: "13px", color: "white", fontWeight: "600", }}>{item.ratingAvg}</Typography>
+                                                                </Box>
+                                                            </Box>
+                                                        </Box>
+                                                    </Box>
+
+                                                )
+                                                : (
+                                                    <Box
+                                                        sx={{
+                                                            display: 'flex',
+                                                            alignItems: 'center',
+                                                            height: "30%",
+                                                            m: 2,
+                                                            justifyContent: "space-between",
+                                                        }}
+                                                    >
+                                                        <Typography sx={{ color: "yellow", fontSize: "15px", fontWeight: "600" }}>Chưa có đánh giá</Typography>
+                                                        
+                                                    </Box>
+                                                )
+                                        }
 
                                     </Box>
                                 </Box>

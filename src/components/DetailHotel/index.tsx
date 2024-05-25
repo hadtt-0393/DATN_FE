@@ -24,6 +24,7 @@ import Navbar2 from '../../components/Navbar2';
 import useFetch from "../../hooks/useFetch";
 import { Hotel } from "../../models/Hotel";
 import Footer2 from "../Footer2";
+import Checkbox from '@mui/material/Checkbox';
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -62,31 +63,31 @@ const Image = styled.img`
         cursor: pointer;
 },`
 
- const images =[
+const images = [
     {
         img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
         title: 'Breakfast',
-      },
-      {
+    },
+    {
         img: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
         title: 'Burger',
-      },
-      {
+    },
+    {
         img: 'https://images.unsplash.com/photo-1522770179533-24471fcdba45',
         title: 'Camera',
-      },
-      {
+    },
+    {
         img: 'https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c',
         title: 'Coffee',
-      },
-      {
+    },
+    {
         img: 'https://images.unsplash.com/photo-1533827432537-70133748f5c8',
         title: 'Hats',
-      },
-      {
+    },
+    {
         img: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62',
         title: 'Honey',
-      }
+    }
 ]
 
 function ImagesList() {
@@ -152,14 +153,17 @@ export default function DetailHotel() {
                                 }}
                             >
                                 <Box>
-                                    <Rating
-                                        name="text-feedback"
-                                        value={value}
-                                        readOnly
-                                        precision={0.5}
-                                        emptyIcon={<StarBorderOutlinedIcon style={{ color: "#FAC73F", fontSize: "18px" }} />}
-                                        sx={{ fontSize: "18px", color: "#FAC73F" }}
-                                    />
+                                    {data.ratingAvg !== 0 && (
+                                        <Rating
+                                            name="text-feedback"
+                                            value={value}
+                                            readOnly
+                                            precision={0.5}
+                                            emptyIcon={<StarBorderOutlinedIcon style={{ color: "#FAC73F", fontSize: "18px" }} />}
+                                            sx={{ fontSize: "18px", color: "#FAC73F" }}
+                                        />
+                                    )}
+
                                     <Typography sx={{ color: "#FEFEFE", fontSize: "44px", fontWeight: "600", mt: "20px" }}>{data.name}</Typography>
                                     <Box width="5%" bgcolor="#3AACED" height="4px" borderRadius="2px" m="20px 0" />
                                     <Box display="flex" flexDirection="row" alignItems="start" justifyContent="start" gap={2} width="100%" padding="20px 0">
@@ -182,23 +186,38 @@ export default function DetailHotel() {
                                 </Box>
 
                                 <Box >
-                                    <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-                                        <Box sx={{
-                                            display: 'flex',
-                                            alignItems: 'end',
-                                            m: 1,
-                                            flexDirection: "column"
-                                        }}>
-                                            <Typography sx={{ color: "#FEFEFE", fontSize: "13px", fontWeight: "600" }}>{labels[value]}</Typography>
-                                            <Typography sx={{ color: "#FEFEFE", fontSize: "11px", mt: "10px" }}>10 bình luận</Typography>
+                                    {data.ratingAvg !== 0 ? (
+                                        <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+                                            <Box sx={{
+                                                display: 'flex',
+                                                alignItems: 'end',
+                                                m: 1,
+                                                flexDirection: "column"
+                                            }}>
+                                                <Typography sx={{ color: "#FEFEFE", fontSize: "13px", fontWeight: "600" }}>{labels[value]}</Typography>
+                                                <Typography sx={{ color: "#FEFEFE", fontSize: "11px", mt: "10px" }}>10 bình luận</Typography>
 
-                                        </Box>
-                                        <Box bgcolor="rgba(255, 255, 255, 0.25)" borderRadius="10px 10px 10px 0px" margin="5px" flex={1}>
-                                            <Box sx={{ display: "flex", margin: "5px", fontSize: "13px", textTransform: "unset", textWrap: "nowrap", borderRadius: "10px 10px 10px 0px", height: "80px", backgroundColor: "#18458B", width: "80px", alignItems: "center", justifyContent: "center" }} >
-                                                <Typography sx={{ fontSize: "20px", color: "white", fontWeight: "600", }}>4.5</Typography>
+                                            </Box>
+                                            <Box bgcolor="rgba(255, 255, 255, 0.25)" borderRadius="10px 10px 10px 0px" margin="5px" flex={1}>
+                                                <Box sx={{ display: "flex", margin: "5px", fontSize: "13px", textTransform: "unset", textWrap: "nowrap", borderRadius: "10px 10px 10px 0px", height: "80px", backgroundColor: "#18458B", width: "80px", alignItems: "center", justifyContent: "center" }} >
+                                                    <Typography sx={{ fontSize: "20px", color: "white", fontWeight: "600", }}>4.5</Typography>
+                                                </Box>
                                             </Box>
                                         </Box>
-                                    </Box>
+                                    )
+                                        :
+                                        (
+                                            <Box
+                                                sx={{
+                                                    display: 'flex',
+                                                    alignItems: 'start',
+                                                }}
+                                            >
+                                                <Typography sx={{ color: "yellow", fontSize: "20px", fontWeight: "600", margin: "10px" }}>Chưa có đánh giá</Typography>
+
+                                            </Box>
+                                        )
+                                    }
                                 </Box>
 
                             </Box>
@@ -206,7 +225,15 @@ export default function DetailHotel() {
                         </Box>
 
                         <Box width="92%" maxWidth="1224px" display="flex" m="20px auto">
-                            <Box flex="1"></Box>
+                            <Box flex="1">
+                                {
+                                    data.discount !== 0 && (
+                                        <Box width="160px" height="44px" sx={{ display: "flex", backgroundColor: "#5ECFB1", margin: "20px 20px 10px 0px", alignSelf: "end", alignItems: "center", justifyContent: "center" }}>
+                                            <Typography sx={{ fontSize: "16px", color: "white", fontWeight: "600", }}>Giảm giá {data.discount}%</Typography>
+                                        </Box>
+                                    )
+                                }
+                            </Box>
                             <Box sx={{ fontSize: "13px", textTransform: "unset", boxShadow: "none", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: "5px 10px", borderRadius: "5px" }} alignSelf="end">
                                 <Typography sx={{ fontSize: "14px", textTransform: "uppercase", color: "white", fontWeight: "600" }} >Giá Rẻ Nhẩt/Đêm</Typography>
                                 <Typography sx={{ fontSize: "24px", color: "#5ECFB1", fontWeight: "600", marginLeft: "20px" }}>200.000VND</Typography>
@@ -219,7 +246,7 @@ export default function DetailHotel() {
             <Box bgcolor="#ECF6F8" >
                 <Box width="92%" bgcolor="#ECF6F8" maxWidth="1224px" m="30px auto" display="flex" gap={5} padding="50px 0">
                     <Box flex="2" >
-                        <ImagesList/>
+                        <ImagesList />
                         <Box display="flex" flexDirection="row" bgcolor="#FFF" height="105px" mt="50px" justifyContent="space-between" alignItems="center" borderRadius="5px">
                             <Box flex={1} height="100%" justifyContent="center" alignItems="center" display="flex" flexDirection="column">
                                 <HotelOutlinedIcon sx={{ color: "#3AACED", width: "60px", height: "50px", opacity: 0.7, mb: "10px" }} />
@@ -275,9 +302,9 @@ export default function DetailHotel() {
                             <Box m="30px" display="flex" justifyContent="start" alignItems="center" pb="30px" flexWrap="wrap" gap={3}>
                                 {data?.services && data?.services.map((item) => (
                                     <Box display="flex" flexDirection="row" lineHeight="1.3" alignItems="center" >
-                                    <CheckOutlinedIcon sx={{ color: "#3AACEE", fontSize: "16px" }} />
-                                    <Typography fontSize="14px" fontWeight="600" color="#8894B5" ml="10px">{item}</Typography>
-                                </Box>
+                                        <CheckOutlinedIcon sx={{ color: "#3AACEE", fontSize: "16px" }} />
+                                        <Typography fontSize="14px" fontWeight="600" color="#8894B5" ml="10px">{item}</Typography>
+                                    </Box>
                                 ))}
                             </Box>
                         </Box>
@@ -359,7 +386,7 @@ export default function DetailHotel() {
 
                                             <Box width="100%" m="20px 0px 20px 0px ">
                                                 <Box sx={{ display: "flex", justifyContent: "flex-end", alignItems: "center", flex: 1 }}>
-                                                    <FormControlLabel control={<Switch defaultChecked />} label="Chọn phòng" />
+                                                    <FormControlLabel control={<Checkbox />} label="Chọn phòng" />
                                                 </Box>
                                             </Box>
 
@@ -438,7 +465,7 @@ export default function DetailHotel() {
 
                                             <Box width="100%" m="20px 0px 20px 0px ">
                                                 <Box sx={{ display: "flex", justifyContent: "flex-end", alignItems: "center", flex: 1 }}>
-                                                    <FormControlLabel control={<Switch defaultChecked />} label="Chọn phòng" />
+                                                    <FormControlLabel control={<Checkbox />} label="Chọn phòng" />
                                                 </Box>
                                             </Box>
 
@@ -517,7 +544,7 @@ export default function DetailHotel() {
 
                                             <Box width="100%" m="20px 0px 20px 0px ">
                                                 <Box sx={{ display: "flex", justifyContent: "flex-end", alignItems: "center", flex: 1 }}>
-                                                    <FormControlLabel control={<Switch defaultChecked />} label="Chọn phòng" />
+                                                    <FormControlLabel control={<Checkbox />} label="Chọn phòng" />
                                                 </Box>
                                             </Box>
 
