@@ -154,7 +154,7 @@ export default function NewestProperties() {
                                                             justifyContent: "space-between",
                                                         }}
                                                     >
-                                                        <Typography sx={{ color: "yellow", fontSize: "15px", fontWeight: "600" }}>Chưa có đánh giá</Typography>
+                                                        <Typography sx={{ color: "#CCC", fontSize: "15px", fontWeight: "600" }}>Chưa có đánh giá</Typography>
                                                         
                                                     </Box>
                                                 )

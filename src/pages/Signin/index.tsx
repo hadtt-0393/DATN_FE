@@ -50,7 +50,7 @@ const Signin = () => {
         dispatch && dispatch({ type: 'LOGIN_START' });
         try {
             const res = await axios.post(
-                `${process.env.REACT_APP_API_ENDPOINT}/auth/signin/`,
+                `${process.env.REACT_APP_API_ENDPOINT}/auth/user/signin/`,
                 {
                     email: email,
                     password: password,

@@ -213,7 +213,7 @@ export default function DetailHotel() {
                                                     alignItems: 'start',
                                                 }}
                                             >
-                                                <Typography sx={{ color: "yellow", fontSize: "20px", fontWeight: "600", margin: "10px" }}>Chưa có đánh giá</Typography>
+                                                <Typography sx={{ color: "#CCC", fontSize: "20px", fontWeight: "600", margin: "10px" }}>Chưa có đánh giá</Typography>
 
                                             </Box>
                                         )
@@ -827,7 +827,7 @@ export default function DetailHotel() {
                         <Box bgcolor="white" mt="50px" borderRadius="5px" p="10px 0">
                             <Box m="20px 30px">
                                 <Box paddingBottom="20px" border="1px solid #EEEEEE" borderTop="none" borderLeft="none" borderRight="none" >
-                                    <Typography fontSize="16px" fontWeight="600" color="#183C7D"> Thời gian checkin - checkout</Typography>
+                                    <Typography fontSize="16px" fontWeight="600" color="#183C7D"> Thời gian nhận phòng - trả phòng</Typography>
                                 </Box>
                                 <Box borderBottom="1px solid #EEEEEE"  >
                                     <Box padding="20px 0" display="flex" justifyContent="start" alignItems="center" >

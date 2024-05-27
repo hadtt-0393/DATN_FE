@@ -23,7 +23,6 @@ const Signup = () => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [email, setEmail] = useState('');
-    const [country, setCountry] = useState('');
     const [city, setCity] = useState('');
     const [phone, setPhone] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -33,7 +32,6 @@ const Signup = () => {
     const [errPassword, setErrPassword] = useState(false)
     const [errConfirmPassword, setErrConfirmPassword] = useState(false)
     const [errPhone, setErrPhone] = useState(false)
-    const [errCountry, setErrCountry] = useState(false)
     const [errCity, setErrCity] = useState(false)
     const [helperText, setHelperText] = useState(false)
 
@@ -68,13 +66,6 @@ const Signup = () => {
         }
     }
 
-    const handleChangeInputCountry = (e: any) => {
-        setCountry(e.target.value)
-        if (e.target.value) {
-            setErrCountry(false)
-        }
-    }
-
     const handleChangeInputCity = (e: any) => {
         setCity(e.target.value)
         if (e.target.value) {
@@ -91,14 +82,13 @@ const Signup = () => {
 
     const handleSignup = async (e: any) => {
         e.preventDefault()
-        console.log(username, email, password, confirmPassword, phone, country, city)
-        if (!username || !email || !password || !confirmPassword || !phone || !country || !city) {
+        console.log(username, email, password, confirmPassword, phone, city)
+        if (!username || !email || !password || !confirmPassword || !phone || !city) {
             !username ? setErrUsername(true) : null
             !email ? setErrEmail(true) : null
             !password ? setErrPassword(true) : null
             !confirmPassword ? setErrConfirmPassword(true) : null
             !phone ? setErrPhone(true) : null
-            !country ? setErrCountry(true) : null
             !city ? setErrCity(true) : null
             console.log('log')
             return;
@@ -111,13 +101,12 @@ const Signup = () => {
         setIsLoading(true)
         try {
             await axios.post(
-                `${process.env.REACT_APP_API_ENDPOINT}/auth/signup`,
+                `${process.env.REACT_APP_API_ENDPOINT}/auth/user/signup`,
                 {
                     username: username,
                     email: email,
                     password: password,
                     phone: phone,
-                    country: country,
                     city: city,
                 },
             );

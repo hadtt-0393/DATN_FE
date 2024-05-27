@@ -99,7 +99,7 @@ const SearchBar = ({ component }: SearchBarProps) => {
     return (
         <>
             <div style={{
-                backgroundColor: '#FEBB02',
+                backgroundColor: '#F9C941',
                 flex: 2,
                 padding: '16px',
                 borderRadius: '3px',
@@ -126,7 +126,7 @@ const SearchBar = ({ component }: SearchBarProps) => {
                         gap: '8px',
                         height: '40px'
                     }}>
-                        <FontAwesomeIcon icon={faBed} size="sm" style={{marginRight:"5px"}}/>
+                        <FontAwesomeIcon icon={faBed} size="sm" style={{marginRight:"5px", color:"#F9B90F"}}/>
                         <SearchInput
                             className={styles['header__container__search__item__input']}
                             placeholder="Nhập tên thành phố"
@@ -191,7 +191,7 @@ const SearchBar = ({ component }: SearchBarProps) => {
                         gap: '8px',
                         height: '40px'
                     }}>
-                        <FontAwesomeIcon icon={faCalendarDays} size="sm" style={{marginRight:"5px"}}/>
+                        <FontAwesomeIcon icon={faCalendarDays} size="sm" style={{marginRight:"5px", color:"#F9B90F"}}/>
                         <span className={
                             styles['header__container__search__item__text']
                         }
@@ -233,7 +233,7 @@ const SearchBar = ({ component }: SearchBarProps) => {
                         gap: '8px',
                         height: '40px'
                     }}>
-                        <FontAwesomeIcon icon={faMagnifyingGlass} size="sm" style={{marginRight:"5px"}}/>
+                        <FontAwesomeIcon icon={faMagnifyingGlass} size="sm" style={{marginRight:"5px", color:"#F9B90F"}}/>
                         <div className={styles['header__container__search__item']}>
                             <span
                                 className={

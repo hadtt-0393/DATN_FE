@@ -49,11 +49,11 @@ export default function PaymentMethod() {
 
                                         >
                                             <Box sx={{ display: "flex", gap: "3" }} mt="30px" pb="30px" borderBottom="1px #DDD dashed">
-                                                <FormControlLabel value="female" control={<Radio />} label="Thanh toán tiền mặt" />
+                                                <FormControlLabel value="female" control={<Radio />} label="Thanh toán khi nhận phòng" sx={{ minWidth: "200px" }} />
                                                 <MoneyIcon sx={{ color: "#F9B90F", fontSize: "50px", ml: "30px" }} />
                                             </Box>
                                             <Box sx={{ display: "flex", gap: "3" }} mt="30px" pb="30px" borderBottom="1px #DDD solid" flexDirection="row" justifyContent="flex-start" alignItems="center">
-                                                <FormControlLabel value="male" control={<Radio />} label="Thanh toán qua thẻ" />
+                                                <FormControlLabel value="male" control={<Radio />} label="Thanh toán qua thẻ" sx={{ minWidth: "200px" }} />
                                                 < AccountBalanceIcon sx={{ color: "#336699", fontSize: "50px", ml: "30px" }} />
                                             </Box>
                                         </RadioGroup>

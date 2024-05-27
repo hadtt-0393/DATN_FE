@@ -95,7 +95,7 @@ export default function ReservationsPage() {
                                         <Box display="flex" flexDirection="row" justifyContent="start" m="20px" alignItems="center">
                                             <PaidIcon sx={{ color: "#3AACED", fontSize: "30px" }} />
                                             <Box bgcolor="orange" borderRadius="5px" padding="4px 8px" ml="20px">
-                                                <Typography color="#FFF" fontSize="18px" fontWeight="600" >Đã thanh toán</Typography>
+                                                <Typography color="#FFF" fontSize="18px" fontWeight="600" >Thanh toán qua thẻ</Typography>
                                             </Box>
                                         </Box>
 
@@ -161,7 +161,7 @@ export default function ReservationsPage() {
                                         <Box display="flex" flexDirection="row" justifyContent="start" m="20px" alignItems="center">
                                             <PaidIcon sx={{ color: "#3AACED", fontSize: "30px" }} />
                                             <Box bgcolor="#BB86FC" borderRadius="5px" padding="4px 8px" ml="20px">
-                                                <Typography color="#FFF" fontSize="18px" fontWeight="600" >Chưa thanh toán</Typography>
+                                                <Typography color="#FFF" fontSize="18px" fontWeight="600" >Thanh toán khi nhận phòng</Typography>
                                             </Box>
                                         </Box>
 
