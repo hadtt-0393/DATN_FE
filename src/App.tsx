@@ -18,6 +18,7 @@ import ReservationsPage from './components/ListReservations';
 import BookingPage from './components/Booking';
 import PaymentMethod from './components/PaymentMethod';
 import { useScrollToTop } from './hook/use-hook-to-top';
+import PaymentSuccess from './components/PaymentSuccess';
 
 const App = () => {
   // useScrollToTop();
@@ -46,6 +47,7 @@ const App = () => {
         <Route path="/all-resorts" element={<AllHotelPage type={'Resort'} />} />
         <Route path="/all-villas" element={<AllHotelPage type={'Villa'} />} />
         <Route path="/all-cabins" element={<AllHotelPage type={'Cabin'} />} />
+        <Route path="/payment-success" element={<PaymentSuccess />} />
       </Routes>
       <ToastContainer />
     </BrowserRouter>

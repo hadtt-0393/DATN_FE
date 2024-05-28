@@ -25,6 +25,7 @@ import useFetch from "../../hooks/useFetch";
 import { Hotel } from "../../models/Hotel";
 import Footer2 from "../Footer2";
 import Checkbox from '@mui/material/Checkbox';
+import Date_Options from './Date+Options';
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -737,17 +738,9 @@ export default function DetailHotel() {
                                     <Typography fontSize="16px" fontWeight="600" color="#183C7D">Đặt phòng khách sạn</Typography>
                                 </Box>
                                 <Box paddingBottom="20px" borderBottom="1px solid #EEEEEE" mt="20px" >
-                                    <Typography fontSize="13px" color="#878C9F" mb="10px">Ngày</Typography>
+                                    {/* <Typography fontSize="13px" color="#878C9F" mb="10px">Ngày</Typography>
                                     <Box display="flex" alignItems="center" border="#EEE solid 1px" height="45px" justifyContent="space-between" borderRadius="8px" bgcolor="#F9F9F9">
                                         <EventAvailableOutlinedIcon fontSize="small" sx={{ color: "#F9B90F", pl: 2, pr: 2 }} />
-                                        {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                    <DemoContainer components={['SingleInputDateRangeField']} >
-                                        <DateRangePicker
-                                            slots={{ field: SingleInputDateRangeField }}
-                                            name="allowedRange"
-                                        />
-                                    </DemoContainer>
-                                </LocalizationProvider> */}
                                     </Box>
                                     <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between" mt="20px" sx={{ flexWrap: "wrap" }}>
                                         <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between">
@@ -795,11 +788,34 @@ export default function DetailHotel() {
                                             </Box>
 
                                         </Box>
-                                    </Box>
+                                    </Box> */}
+                                    <Date_Options />
+                                </Box>
+                                <Box paddingBottom="20px" borderBottom="1px solid #EEEEEE" mt="20px" >
+                                <Box display="flex" flexDirection="column" gap={2} flex={1} >
+                                            <Typography fontSize="13px" color="#878C9F" minWidth="64px" >Danh sách phòng đã chọn: </Typography>
+                                            <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" mx={3}>
+                                                <Typography fontSize="12px" color="#878C9F"  >Tên phòng</Typography>
+                                                <Typography fontSize="12px" color="#878C9F" >Giá phòng</Typography>
+                                            </Box>
+                                            <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" mx={3}>
+                                                <Box bgcolor="orange" borderRadius="5px" padding="2px 8px" >
+                                                    <Typography color="#FFF" fontSize="13px" fontWeight="600" >301</Typography>
+                                                </Box>
+                                                <Typography fontSize="12px" color="#878C9F">200.000 VND </Typography>
+                                            </Box>
+                                            <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" mx={3}>
+                                                <Box bgcolor="orange" borderRadius="5px" padding="2px 8px" >
+                                                    <Typography color="#FFF" fontSize="13px" fontWeight="600" >302</Typography>
+                                                </Box>
+                                                <Typography fontSize="12px" color="#878C9F">100.000 VND </Typography>
+                                            </Box>
+
+                                        </Box>
                                 </Box>
                                 <Box padding="20px 0" display="flex" justifyContent="space-between" alignItems="center" >
                                     <Typography fontSize="14px" fontWeight="600" color="#878C9F">Tổng thanh toán</Typography>
-                                    <Typography color="#3AACED" fontWeight="600" fontSize="19px"> 100.000 VND</Typography>
+                                    <Typography color="#3AACED" fontWeight="600" fontSize="19px"> 300.000 VND</Typography>
                                 </Box>
                                 <Box display="flex">
                                     <Box flex="1"></Box>
@@ -827,7 +843,7 @@ export default function DetailHotel() {
                         <Box bgcolor="white" mt="50px" borderRadius="5px" p="10px 0">
                             <Box m="20px 30px">
                                 <Box paddingBottom="20px" border="1px solid #EEEEEE" borderTop="none" borderLeft="none" borderRight="none" >
-                                    <Typography fontSize="16px" fontWeight="600" color="#183C7D"> Thời gian nhận phòng - trả phòng</Typography>
+                                    <Typography fontSize="16px" fontWeight="600" color="#183C7D"> Thời gian: Nhận phòng - Trả phòng</Typography>
                                 </Box>
                                 <Box borderBottom="1px solid #EEEEEE"  >
                                     <Box padding="20px 0" display="flex" justifyContent="start" alignItems="center" >

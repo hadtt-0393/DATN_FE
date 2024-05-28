@@ -14,7 +14,7 @@ import SearchInput, { createFilter } from 'react-search-input';
 import { SearchContext } from '../../../context/SearchContext';
 import useFetch from '../../../hooks/useFetch';
 import { City } from '../../../models/City';
-import styles from './SearchBarFlexColumn.module.scss';
+import styles from './Date+Option.module.scss';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { Box, Button, Typography } from '@mui/material';
 import { vi } from 'date-fns/locale';
@@ -28,10 +28,9 @@ export interface DatesInterface {
 
 export interface SearchBarProps {
     component?: string;
-
 }
 
-const SearchBar = ({ component }: SearchBarProps) => {
+const Date_Options = ({ component }: SearchBarProps) => {
     const { dispatch } = useContext(SearchContext);
 
     const { data: cityData } = useFetch<City[]>(
@@ -99,16 +98,15 @@ const SearchBar = ({ component }: SearchBarProps) => {
     return (
         <>
             <div style={{
-                backgroundColor: '#F9C941',
+                // backgroundColor: '#F9C941',
                 flex: 2,
-                padding: '16px',
+                // padding: '16px',
                 borderRadius: '3px',
                 top: '10px',
                 height: 'max-content',
             }}>
-                <Box paddingBottom="10px">
-                    <Typography fontSize="16px" fontWeight="600" color="#183C7D">Tìm kiếm</Typography>
-                </Box>
+
+
                 <div style={{
                     position: 'relative',
                     display: 'flex',
@@ -117,81 +115,18 @@ const SearchBar = ({ component }: SearchBarProps) => {
                     marginBottom: '10px',
                     color: '#262626',
                 }}>
-                    <Typography fontSize="13px" color="back" mb="5px">Địa điểm</Typography>
+                    <Typography fontSize="13px" color="#878C9F" mb="10px">Ngày nhận phòng - Ngày trả phòng</Typography>
                     <div style={{
                         display: 'flex',
                         alignItems: 'center',
-                        backgroundColor: 'white',
+                        backgroundColor: '#F7F9FB',
                         padding: '5px 8px',
                         gap: '8px',
-                        height: '40px'
+                        height: '40px',
+                        border: "1px solid #EEE",
+                        borderRadius: "5px"
                     }}>
-                        <FontAwesomeIcon icon={faBed} size="sm" style={{marginRight:"5px", color:"#F9B90F"}}/>
-                        <SearchInput
-                            className={styles['header__container__search__item__input']}
-                            placeholder="Nhập tên thành phố"
-                            onChange={(e: any) => {
-                                setSearchTerm(e);
-                            }}
-                            value={destination}
-                        />
-                        {searchTerm !== '' && (
-                            <div
-                                className={
-                                    styles['header__container__search__item__result']
-                                }
-                            >
-                                {filteredCity.length ? (
-                                    filteredCity.map((city: City, index: number) => (
-                                        <div
-                                            className={
-                                                styles[
-                                                'header__container__search__item__result__item'
-                                                ]
-                                            }
-                                            key={index}
-                                        >
-                                            <img src={city.image || ''} alt="" />
-                                            <div
-                                                className={
-                                                    styles[
-                                                    'header__container__search__item__result__item__city'
-                                                    ]
-                                                }
-                                                onClick={(e: any) => {
-                                                    setDestination(e.target.innerText);
-                                                    setSearchTerm('');
-                                                }}
-                                            >
-                                                {city.name}
-                                            </div>
-                                        </div>
-                                    ))
-                                ) : (
-                                    <div>Không có kết quả phù hợp</div>
-                                )}
-                            </div>
-                        )}
-                    </div>
-                </div>
-                <div style={{
-                    position: 'relative',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '5px',
-                    marginBottom: '10px',
-                    color: '#262626',
-                }}>
-                    <Typography fontSize="13px" color="black" mb="5px">Ngày nhận phòng - Ngày trả phòng</Typography>
-                    <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        backgroundColor: 'white',
-                        padding: '5px 8px',
-                        gap: '8px',
-                        height: '40px'
-                    }}>
-                        <FontAwesomeIcon icon={faCalendarDays} size="sm" style={{marginRight:"5px", color:"#F9B90F"}}/>
+                        <FontAwesomeIcon icon={faCalendarDays} size="1x" style={{ marginRight: "10px", marginLeft: "10px", color: "#F9B90F" }} />
                         <span className={
                             styles['header__container__search__item__text']
                         }
@@ -212,6 +147,7 @@ const SearchBar = ({ component }: SearchBarProps) => {
                                 months={2}
                                 direction="horizontal"
                                 className={styles['header__container__search__item__date']}
+                                
                             />
                         )}
                     </div>
@@ -224,16 +160,18 @@ const SearchBar = ({ component }: SearchBarProps) => {
                     marginBottom: '10px',
                     color: '#262626',
                 }}>
-                    <Typography fontSize="13px" color="black" mb="5px">Số lượng người lớn - Trẻ em - Phòng</Typography>
+                    <Typography fontSize="13px" color="#878C9F" my="10px">Số lượng người lớn - Trẻ em - Phòng</Typography>
                     <div style={{
                         display: 'flex',
                         alignItems: 'center',
-                        backgroundColor: 'white',
+                        backgroundColor: '#F7F9FB',
                         padding: '5px 8px',
                         gap: '8px',
-                        height: '40px'
+                        height: '40px',
+                        border: "1px solid #EEE",
+                        borderRadius: "5px"
                     }}>
-                        <FontAwesomeIcon icon={faPerson} size="sm" style={{marginRight:"5px", color:"#F9B90F"}}/>
+                        <FontAwesomeIcon icon={faPerson} size="1x" style={{ marginRight: "10px", marginLeft: "10px", color: "#F9B90F" }} />
                         <div className={styles['header__container__search__item']}>
                             <span
                                 className={
@@ -424,4 +362,4 @@ const SearchBar = ({ component }: SearchBarProps) => {
     );
 };
 
-export default SearchBar;
+export default Date_Options;

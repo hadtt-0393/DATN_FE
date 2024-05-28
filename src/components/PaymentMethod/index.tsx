@@ -14,6 +14,8 @@ import MoneyIcon from '@mui/icons-material/Money';
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 import { useNavigate } from "react-router-dom";
 import { useScrollToTop } from "../../hook/use-hook-to-top";
+import { ToastContainer, toast } from 'react-toastify';
+
 
 export default function PaymentMethod() {
     const navigate = useNavigate()
@@ -23,6 +25,17 @@ export default function PaymentMethod() {
         setValue((event.target as HTMLInputElement).value);
     };
     useScrollToTop();
+    const handlePayment = () => {
+        // Logic thanh toán ở đây
+        toast.success('Thanh toán thành công!', {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 3000,
+            onClose: () => navigate('/payment-success')
+        });
+    };
+    // const handlePaymentSuccess = () => {
+    //     navigate("/payment-success")
+    // }
     return (
         <Box>
             <Navbar2 />
@@ -49,7 +62,7 @@ export default function PaymentMethod() {
 
                                         >
                                             <Box sx={{ display: "flex", gap: "3" }} mt="30px" pb="30px" borderBottom="1px #DDD dashed">
-                                                <FormControlLabel value="female" control={<Radio />} label="Thanh toán khi nhận phòng" sx={{ minWidth: "200px" }} />
+                                                <FormControlLabel value="female" control={<Radio />} label="Thanh toán khi trả phòng" sx={{ minWidth: "200px" }} />
                                                 <MoneyIcon sx={{ color: "#F9B90F", fontSize: "50px", ml: "30px" }} />
                                             </Box>
                                             <Box sx={{ display: "flex", gap: "3" }} mt="30px" pb="30px" borderBottom="1px #DDD solid" flexDirection="row" justifyContent="flex-start" alignItems="center">
@@ -66,7 +79,8 @@ export default function PaymentMethod() {
                                     </Box>
 
                                     {/* Redirect Stripe */}
-                                    <Button variant="contained" sx={{ boxShadow: "none", fontWeight: "600", "&:hover": { fontWeight: "600", boxShadow: "none" } }}>Thanh toán</Button>
+                                    <Button variant="contained" sx={{ boxShadow: "none", fontWeight: "600", "&:hover": { fontWeight: "600", boxShadow: "none" } }} onClick={handlePayment}>Thanh toán</Button>
+                                    {/* <ToastContainer /> */}
                                 </Box>
                             </Box>
                         </Box>
@@ -116,15 +130,26 @@ export default function PaymentMethod() {
                                             <Typography fontSize="13px" color="black" mr="10px">03/04/2024</Typography>
                                         </Box>
                                     </Box>
-                                    <Box display="flex" flexDirection="row" alignItems="start" justifyContent="start" mt="20px" sx={{ flexWrap: "wrap" }} borderBottom="1px solid #DDD" pb="20px">
-                                        <Box display="flex" flexDirection="row" alignItems="start" justifyContent="start" gap={2} >
-                                            <Typography fontSize="13px" color="#878C9F" minWidth="64px" >Tên phòng: </Typography>
-                                            <Box bgcolor="orange" borderRadius="5px" padding="2px 8px" >
-                                                <Typography color="#FFF" fontSize="13px" fontWeight="600" >301</Typography>
+                                    <Box display="flex" flexDirection="row" flex={1} mt="20px" sx={{ flexWrap: "wrap" }} borderBottom="1px solid #DDD" pb="20px">
+                                        <Box display="flex" flexDirection="column" gap={2} flex={1} >
+                                            <Typography fontSize="13px" color="#878C9F" minWidth="64px" >Danh sách phòng đặt: </Typography>
+                                            <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" mx={3}>
+                                                <Typography fontSize="12px" color="#878C9F"  >Tên phòng</Typography>
+                                                <Typography fontSize="12px" color="#878C9F" >Giá phòng</Typography>
                                             </Box>
-                                            <Box bgcolor="orange" borderRadius="5px" padding="2px 8px" >
-                                                <Typography color="#FFF" fontSize="13px" fontWeight="600" >302</Typography>
+                                            <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" mx={3}>
+                                                <Box bgcolor="orange" borderRadius="5px" padding="2px 8px" >
+                                                    <Typography color="#FFF" fontSize="13px" fontWeight="600" >301</Typography>
+                                                </Box>
+                                                <Typography fontSize="12px" color="#878C9F">200.000 VND </Typography>
                                             </Box>
+                                            <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" mx={3}>
+                                                <Box bgcolor="orange" borderRadius="5px" padding="2px 8px" >
+                                                    <Typography color="#FFF" fontSize="13px" fontWeight="600" >302</Typography>
+                                                </Box>
+                                                <Typography fontSize="12px" color="#878C9F">100.000 VND </Typography>
+                                            </Box>
+
                                         </Box>
                                     </Box>
                                     <Box mt="30px" display="flex" justifyContent="space-between" alignItems="center" >
@@ -137,7 +162,7 @@ export default function PaymentMethod() {
                             <Box bgcolor="#ECF6F8" mt="50px" borderRadius="5px" p="10px 0" border="1px #EEE solid">
                                 <Box m="20px 30px">
                                     <Box paddingBottom="20px" border="1px solid #DDD" borderTop="none" borderLeft="none" borderRight="none" >
-                                        <Typography fontSize="16px" fontWeight="600" color="#183C7D"> Thời gian nhận phòng - Thời gian trả phòng</Typography>
+                                        <Typography fontSize="16px" fontWeight="600" color="#183C7D"> Thời gian: Nhận phòng - Trả phòng</Typography>
                                     </Box>
                                     <Box borderBottom="1px solid #EEEEEE"  >
                                         <Box padding="20px 0" display="flex" justifyContent="start" alignItems="center" >
