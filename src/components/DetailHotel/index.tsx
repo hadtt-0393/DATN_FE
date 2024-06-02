@@ -18,11 +18,11 @@ import Slider from '@mui/material/Slider';
 import Typography from "@mui/material/Typography";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from 'styled-components';
-import Header2 from '../../components/Header2';
-import Navbar2 from '../../components/Navbar2';
+import Header2 from '../Header';
+import Navbar2 from '../Navbar';
 import useFetch from "../../hooks/useFetch";
 import { Hotel } from "../../models/Hotel";
-import Footer2 from "../Footer2";
+import Footer2 from "../Footer";
 import FilterOption from './FilterOption/FilterOption';
 import { useState, useEffect } from "react"
 import axios from "axios";

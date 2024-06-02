@@ -1,6 +1,6 @@
 import { Box, Button, Input, Typography } from "@mui/material";
-import Navbar2 from "../Navbar2";
-import Header2 from "../Header2";
+import Navbar from "../Navbar";
+import Header from "../Header";
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import Person2OutlinedIcon from '@mui/icons-material/Person2Outlined';
 import Radio from '@mui/material/Radio';
@@ -38,8 +38,8 @@ export default function PaymentMethod() {
     // }
     return (
         <Box>
-            <Navbar2 />
-            <Header2 />
+            <Navbar />
+            <Header />
             <Box marginTop="150px" height="100vh" >
                 <Box width="92%" maxWidth="1224px" m="0 auto" >
                     <Box display="flex" flexDirection="row" justifyContent="start" gap={2} pb="20px" borderBottom="1px #EEE solid" border="none" >

@@ -9,9 +9,7 @@ import { useContext, useEffect, useState } from 'react';
 import { DateRange } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file
-import { useNavigate } from 'react-router-dom';
 import SearchInput, { createFilter } from 'react-search-input';
-import { SearchContext } from '../../../context/SearchContext';
 import useFetch from '../../../hooks/useFetch';
 import { City } from '../../../models/City';
 import styles from './SearchBarFlexColumn.module.scss';

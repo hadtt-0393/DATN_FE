@@ -164,7 +164,7 @@ export default function NewestProperties() {
                                 </Box>
                                 <CardContent>
                                     <Typography gutterBottom component="div" sx={{ color: "#46A5DC", fontSize: "18px", fontWeight: "600" }}>
-                                        {item.name}
+                                        {item.hotelName}
                                     </Typography>
                                     <Box display="flex" flexDirection="row" alignItems="center" gap={1} mb={1.5}>
                                         <LocationOnRoundedIcon sx={{ color: "#F9B90F", fontSize: "16px", mt: "2px" }} />

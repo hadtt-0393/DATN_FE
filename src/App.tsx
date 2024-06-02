@@ -3,15 +3,8 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-loading-skeleton/dist/skeleton.css';
 import HomePage from './pages/HomePage';
-import HotelItem from './pages/HotelItem';
-import HotelList from './pages/HotelList';
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
-import ReservePage from './pages/ReservePage';
-import AllHotelPage from './pages/AllHotelPage';
-import UserReservationsPage from './pages/UserReservationsPage';
-import UserReservationDetails from './pages/UserReservationDetails';
-import Login from './pages/Login_ver2';
 import DetailHotel from './components/DetailHotel';
 import SearchResultsPage from './components/ResultSearch';
 import ReservationsPage from './components/ListReservations';
@@ -26,27 +19,14 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/hotels" element={<HotelList />} />
-        <Route path="/hotels/:id" element={<HotelItem />} />
-        <Route path="/reserve/:id" element={<ReservePage />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
-        {/* <Route path="/reservations" element={<UserReservationsPage />} /> */}
-        <Route path="/reservations/:id" element={<UserReservationDetails />} />
         <Route path="/hotel/:id" element={<DetailHotel />} />
-        <Route path="/all-hotels" element={<AllHotelPage type={'Hotel'} />} />
         <Route path="/search-results" element={<SearchResultsPage />} />
         <Route path="/city" element={<SearchResultsPage />} />
         <Route path="/reservations" element={<ReservationsPage />} />
         <Route path="/booking" element={<BookingPage />} />
         <Route path="/select-payment-method" element={<PaymentMethod />} />
-        <Route
-          path="/all-apartments"
-          element={<AllHotelPage type={'Apartment'} />}
-        />
-        <Route path="/all-resorts" element={<AllHotelPage type={'Resort'} />} />
-        <Route path="/all-villas" element={<AllHotelPage type={'Villa'} />} />
-        <Route path="/all-cabins" element={<AllHotelPage type={'Cabin'} />} />
         <Route path="/payment-success" element={<PaymentSuccess />} />
       </Routes>
       <ToastContainer />

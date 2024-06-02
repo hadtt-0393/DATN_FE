@@ -12,8 +12,8 @@ import Box from "@mui/material/Box";
 import Grid from '@mui/material/Grid';
 import Typography from "@mui/material/Typography";
 import styled from 'styled-components';
-import Header2 from '../../components/Header2';
-import Navbar2 from '../../components/Navbar2';
+import Header2 from '../Header';
+import Navbar2 from '../Navbar';
 const Image = styled.img`
     width: 100%;
     objectFit: cover;

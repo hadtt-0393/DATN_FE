@@ -1,6 +1,6 @@
 import { Box, Button, Input, Typography } from "@mui/material";
-import Navbar2 from "../Navbar2";
-import Header2 from "../Header2";
+import Navbar2 from "../Navbar";
+import Header2 from "../Header";
 import EventAvailableOutlinedIcon from '@mui/icons-material/EventAvailableOutlined';
 import Person2OutlinedIcon from '@mui/icons-material/Person2Outlined';
 import TextField from "@mui/material//TextField";

@@ -1,101 +1,56 @@
-import { faHouseChimney } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useContext, useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../context/AuthContext';
-import styles from './Navbar.module.scss';
-import logo from '../../logo.png';
-interface NavbarProps {
-  type?: string;
+import Typography from "@mui/material/Typography"
+import Box from "@mui/material/Box"
+import Button from "@mui/material/Button"
+import LoginIcon from '@mui/icons-material/Login';
+import LogoutIcon from '@mui/icons-material/Logout';
+import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
+import Fab from '@mui/material/Fab';
+import ListAltIcon from '@mui/icons-material/ListAlt';
+import Avatar from "@mui/material/Avatar";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
+
+export default function Navbar() {
+    const { user, dispatch } = useContext(AuthContext);
+    const navigate = useNavigate()
+    const handleLogout = () => {
+        dispatch && dispatch({ type: 'LOGOUT' });
+        navigate('/');
+      };
+    return (
+        <Box sx={{ backgroundColor: "#18458B", position: "fixed", zIndex: 10, top: 0, width: "100%" }}>
+            <Box sx={{ display: "flex", width: "92%", height: "60px", margin: "0 auto", alignItems: "center", maxWidth: "1224px", justifyContent: "space-between " }}>
+                <img src="https://easybook.demotheme.matbao.support/wp-content/uploads/2018/08/logo.png" alt="logo" style={{ height: "35px", width: "133px", cursor: "pointer" }} onClick={() => navigate("/")} />
+                {user ? (
+                    <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexDirection: "row", "&:hover": { cursor: "pointer" } }}>
+                        <Fab variant="extended" sx={{ fontWeight: 700, fontSize: "12px", backgroundColor: "#F9B90F", color: "white", marginRight: "25px", boxShadow: "none", "&:hover": { backgroundColor: "#FAC73F", boxShadow: "none" } }} size="small" onClick={() => navigate("/reservations")}>
+                            <ListAltIcon sx={{ mr: 1, fontSize: "14px" }} />
+                            Danh sách phòng
+                        </Fab>
+                        <Box display="flex" flexDirection="row" alignItems="center" border=" 1px solid rgba(0, 0, 0, 0.21)" height="60px" p="0 25px" >
+                            <Avatar sx={{ mr: 1, width: "24px", height: "24px" }} />
+                            <Typography sx={{ color: "#fff", fontSize: "14px", fontFamily: "Nunito, sans-serif", fontWeight: "600", "&:hover": { color: "#F9B90F" } }}>Thu Ha</Typography>
+                        </Box>
+                        <Box display="flex" flexDirection="row" alignItems="center" border="1px solid rgba(0, 0, 0, 0.21)" height="60px" p="0 25px" sx={{ borderLeft: 0 }}>
+                            <LogoutIcon sx={{ color: "#3295d7", mr: 1, fontSize: "14px", }} />
+                            <Typography sx={{ color: "#fff", fontSize: "14px", fontFamily: "Nunito, sans-serif", fontWeight: "600", "&:hover": { color: "#F9B90F" } }} onClick={handleLogout}>Đăng xuất</Typography>
+                        </Box>
+                    </Box>
+                ) : (
+                    <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexDirection: "row", "&:hover": { cursor: "pointer" } }}>
+                        <Box display="flex" flexDirection="row" alignItems="center" border="1px solid rgba(0, 0, 0, 0.21)" height="60px" p="0 25px" onClick={() => navigate("/signin")}>
+                            <LoginIcon sx={{ color: "#3295d7", mr: 1, fontSize: "14px", }} />
+                            <Typography sx={{ color: "#fff", fontSize: "14px", fontFamily: "Nunito, sans-serif", fontWeight: "500", "&:hover": { color: "#F9B90F" } }}>Đăng nhập</Typography>
+                        </Box>
+                        <Box display="flex" flexDirection="row" alignItems="center" border=" 1px solid rgba(0, 0, 0, 0.21)" height="60px" p="0 25px" sx={{ borderLeft: 0 }}>
+                            <PersonAddAltIcon sx={{ color: "#3295d7", mr: 1, fontSize: "14px", }} />
+                            <Typography sx={{ color: "#fff", fontSize: "14px", fontFamily: "Nunito, sans-serif", fontWeight: "500", "&:hover": { color: "#F9B90F" } }} onClick={() => navigate("/signup")}>Đăng ký</Typography>
+                        </Box>
+                    </Box>
+
+                )}
+            </Box>
+        </Box >
+    )
 }
-
-const Navbar = ({type}: NavbarProps) => {
-  const { user, dispatch } = useContext(AuthContext);
-  const navigate = useNavigate();
-
-  const handleLogin = () => {
-    navigate('/signin');
-  };
-
-  const handleRegister = () => {
-    navigate('/signup');
-  };
-
-  const handleLogout = () => {
-    dispatch && dispatch({ type: 'LOGOUT' });
-    navigate('/');
-  };
-
-  //Responsive for mobile
-  const [width, setWidth] = useState(
-    window.innerWidth > 768 ? 'laptop' : 'mobile',
-  );
-  useEffect(() => {
-    const handleResize = () => {
-      setWidth(window.innerWidth > 768 ? 'laptop' : 'mobile');
-    };
-
-    window.addEventListener('resize', handleResize);
-  }, [window.innerWidth]);
-  //Responsive for mobile
-
-  return (
-    <div className={styles['navbar']}>
-      <div className={styles['navbar__container']}>
-        <Link to="/" style={{ color: 'inherit', textDecoration: 'none' }}>
-          {/* <span className={styles['navbar__container__logo']}>BestBooking</span> */}
-          <img
-            src={logo}
-            className={styles['navbar__container__logo']}
-            style={{
-              width: '250px',
-              marginLeft: '-50px',
-            }}
-          />
-        </Link>
-        {user ? (
-          <div className={styles['navbar__container__items']}>
-            <button
-              className={styles['navbar__container__items__info-btn']}
-              onClick={() => navigate('/reservations')}
-            >
-              {width === 'laptop' ? (
-                'List your reservations'
-              ) : (
-                <FontAwesomeIcon icon={faHouseChimney} />
-              )}
-            </button>
-            {user.username}
-            <button
-              className={styles['navbar__container__items__btn']}
-              onClick={handleLogout}
-            >
-              Logout
-            </button>
-          </div>
-        ) : (
-          <div className={styles['navbar__container__items']}>
-            {type !== 'login' && type !== 'register' && (
-              <>
-                <button
-                  className={styles['navbar__container__items__btn']}
-                  onClick={handleRegister}
-                >
-                  Register
-                </button>
-                <button
-                  className={styles['navbar__container__items__btn']}
-                  onClick={handleLogin}
-                >
-                  Sign in
-                </button>
-              </>
-            )}
-          </div>
-        )}
-      </div>
-    </div>
-  );
-};
-
-export default Navbar;
