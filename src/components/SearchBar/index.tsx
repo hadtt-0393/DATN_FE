@@ -47,6 +47,7 @@ const SearchBar = ({ component, display }: SearchBarProps) => {
     },
   ]);
 
+
   const [openOptions, setOpenOptions] = useState(false);
   const [options, setOptions] = useState({
     adult: 1,

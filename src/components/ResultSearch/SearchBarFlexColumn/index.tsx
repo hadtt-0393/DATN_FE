@@ -21,51 +21,60 @@ import { vi } from 'date-fns/locale';
 
 
 export interface DatesInterface {
-    startDate: Date;
-    endDate: Date;
+    startDate: Date | null;
+    endDate: Date | null;
     key: string;
 }
 
-export interface SearchBarProps {
-    component?: string;
-
+export interface Option {
+    adult: number;
+    children: number;
+    room: number;
 }
 
-const SearchBar = ({ component }: SearchBarProps) => {
-    const { dispatch } = useContext(SearchContext);
+export interface SearchBarProps {
+    city?: string;
+    startDate: Date | null;
+    endDate: Date | null;
+    option: Option;
+    handleChangedata: (arg1, arg2 ) => void;
+}
 
+const SearchBar = ({ city, startDate, endDate, option, handleChangedata }: SearchBarProps) => {
     const { data: cityData } = useFetch<City[]>(
         `${process.env.REACT_APP_API_ENDPOINT}/city/getAllCity`,
     );
 
-    const [destination, setDestination] = useState('');
+    const [destination, setDestination] = useState(city);
     const [openDate, setOpenDate] = useState(false);
-    const currentDate = new Date();
     const [dates, setDates] = useState<DatesInterface[]>([
         {
-            startDate: currentDate,
-            endDate: new Date(currentDate.getTime() + 86400000),
+            startDate: startDate,
+            endDate: endDate,
             key: 'selection',
         },
     ]);
 
     const [openOptions, setOpenOptions] = useState(false);
-    const [options, setOptions] = useState({
-        adult: 1,
-        children: 0,
-        room: 1,
-    });
-
-    const navigate = useNavigate();
+    const [options, setOptions] = useState(option);
 
     const handleOption = (name: string, operation: 'd' | 'i') => {
         setOptions((prev) => {
+            handleChangedata('option', {
+                ...prev,
+                [name]: operation === 'i'? options[name] + 1 : options[name] - 1,
+            })
             return {
                 ...prev,
                 [name]: operation === 'i' ? options[name] + 1 : options[name] - 1,
             };
         });
     };
+
+    const handleDate = (event) => {
+        setDates([event.selection]);
+        handleChangedata('date', [event.selection])
+    }
 
     const [monthNumber, setMonthNumber] = useState(
         window.innerWidth > 1024 ? 2 : 1,
@@ -77,20 +86,8 @@ const SearchBar = ({ component }: SearchBarProps) => {
         window.addEventListener('resize', handleResize);
     }, [window.innerWidth]);
 
-    const handleSearch = () => {
-        dispatch &&
-            dispatch({
-                type: 'NEW_SEARCH',
-                payload: { destination, dates, options },
-            });
-        console.log('destination', destination);
-        console.log('dates', dates);
-        console.log('options', options);
-        navigate('/hotels', { state: { destination, dates, options } });
-    };
 
     const [searchTerm, setSearchTerm] = useState('');
-    const [closeFilter, setCloseFilter] = useState(false);
     const KEYS_TO_FILTERS = ['name'];
     const filteredCity: any = cityData?.filter(
         createFilter(searchTerm, KEYS_TO_FILTERS),
@@ -126,7 +123,7 @@ const SearchBar = ({ component }: SearchBarProps) => {
                         gap: '8px',
                         height: '40px'
                     }}>
-                        <FontAwesomeIcon icon={faBed} size="sm" style={{marginRight:"5px", color:"#F9B90F"}}/>
+                        <FontAwesomeIcon icon={faBed} size="sm" style={{ marginRight: "5px", color: "#F9B90F" }} />
                         <SearchInput
                             className={styles['header__container__search__item__input']}
                             placeholder="Nhập tên thành phố"
@@ -161,6 +158,7 @@ const SearchBar = ({ component }: SearchBarProps) => {
                                                 onClick={(e: any) => {
                                                     setDestination(e.target.innerText);
                                                     setSearchTerm('');
+                                                    handleChangedata('city', e.target.innerText);
                                                 }}
                                             >
                                                 {city.name}
@@ -191,21 +189,25 @@ const SearchBar = ({ component }: SearchBarProps) => {
                         gap: '8px',
                         height: '40px'
                     }}>
-                        <FontAwesomeIcon icon={faCalendarDays} size="sm" style={{marginRight:"5px", color:"#F9B90F"}}/>
+                        <FontAwesomeIcon icon={faCalendarDays} size="sm" style={{ marginRight: "5px", color: "#F9B90F" }} />
                         <span className={
                             styles['header__container__search__item__text']
                         }
-                            onClick={() => setOpenDate(!openDate)}>{`${format(
+                            onClick={() => setOpenDate(!openDate)}>
+                            {dates[0].startDate ? `${format(
                                 dates[0].startDate,
                                 'dd/MM/yyyy',
-                                { locale: vi }
-                            )} – ${format(dates[0].endDate,
+                                { locale: vi })}` : 'DD/MM/YYYY'}
+                            –
+                            {dates[0].endDate ? `${format(
+                                dates[0].endDate,
                                 'dd/MM/yyyy',
-                                { locale: vi })}`}</span>
+                                { locale: vi })}` : 'DD/MM/YYYY'}
+                        </span>
                         {openDate && (
                             <DateRange
                                 editableDateInputs={true}
-                                onChange={(item) => setDates([item.selection])}
+                                onChange={handleDate}
                                 moveRangeOnFirstSelection={false}
                                 ranges={dates}
                                 minDate={new Date()}
@@ -233,7 +235,7 @@ const SearchBar = ({ component }: SearchBarProps) => {
                         gap: '8px',
                         height: '40px'
                     }}>
-                        <FontAwesomeIcon icon={faPerson} size="sm" style={{marginRight:"5px", color:"#F9B90F"}}/>
+                        <FontAwesomeIcon icon={faPerson} size="sm" style={{ marginRight: "5px", color: "#F9B90F" }} />
                         <div className={styles['header__container__search__item']}>
                             <span
                                 className={
@@ -241,7 +243,7 @@ const SearchBar = ({ component }: SearchBarProps) => {
                                 }
                                 onClick={() => setOpenOptions(!openOptions)}
                             >
-                                {`${options.adult} Người lớn・${options.children} Trẻ em・${options.room} Phòng`}
+                                {options ? options.adult : null} Người lớn・{options ? options.children : null} Trẻ em・{options ? options.room : null} Phòng
                             </span>
                             {openOptions && (
                                 <div
@@ -279,7 +281,8 @@ const SearchBar = ({ component }: SearchBarProps) => {
                                                     ]
                                                 }
                                                 onClick={() => handleOption('adult', 'd')}
-                                                disabled={options.adult <= 1}
+                                                // disabled={options.adult <= 1}
+                                                disabled={options ? options.adult <= 1 : false}
                                             >
                                                 -
                                             </button>
@@ -290,7 +293,7 @@ const SearchBar = ({ component }: SearchBarProps) => {
                                                     ]
                                                 }
                                             >
-                                                {options.adult}
+                                                {option ? options.adult : null}
                                             </span>
                                             <button
                                                 className={
@@ -334,7 +337,7 @@ const SearchBar = ({ component }: SearchBarProps) => {
                                                     ]
                                                 }
                                                 onClick={() => handleOption('children', 'd')}
-                                                disabled={options.children <= 0}
+                                                disabled={options ? options.children <= 0 : false}
                                             >
                                                 -
                                             </button>
@@ -345,7 +348,7 @@ const SearchBar = ({ component }: SearchBarProps) => {
                                                     ]
                                                 }
                                             >
-                                                {options.children}
+                                                {options ? options.children : null}
                                             </span>
                                             <button
                                                 className={
@@ -389,7 +392,7 @@ const SearchBar = ({ component }: SearchBarProps) => {
                                                     ]
                                                 }
                                                 onClick={() => handleOption('room', 'd')}
-                                                disabled={options.room <= 1}
+                                                disabled={options ? options.room <= 1 : false}
                                             >
                                                 -
                                             </button>
@@ -400,7 +403,7 @@ const SearchBar = ({ component }: SearchBarProps) => {
                                                     ]
                                                 }
                                             >
-                                                {options.room}
+                                                {options ? options.room : null}
                                             </span>
                                             <button
                                                 className={

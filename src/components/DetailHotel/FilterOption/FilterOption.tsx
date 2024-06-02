@@ -1,23 +1,21 @@
 import {
-    faBed,
     faCalendarDays,
-    faPerson,
+    faPerson
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Typography } from '@mui/material';
 import { format } from 'date-fns';
+import { vi } from 'date-fns/locale';
 import { useContext, useEffect, useState } from 'react';
 import { DateRange } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import { useNavigate } from 'react-router-dom';
-import SearchInput, { createFilter } from 'react-search-input';
+import { createFilter } from 'react-search-input';
 import { SearchContext } from '../../../context/SearchContext';
 import useFetch from '../../../hooks/useFetch';
 import { City } from '../../../models/City';
-import styles from './Date+Option.module.scss';
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import { Box, Button, Typography } from '@mui/material';
-import { vi } from 'date-fns/locale';
+import styles from './FilterOption.module.scss';
 
 
 export interface DatesInterface {
@@ -27,17 +25,11 @@ export interface DatesInterface {
 }
 
 export interface SearchBarProps {
-    component?: string;
+    handleChangeData: (arg1, arg2) => void;
 }
 
-const Date_Options = ({ component }: SearchBarProps) => {
-    const { dispatch } = useContext(SearchContext);
+const FilterOptions = ({ handleChangeData }: SearchBarProps) => {
 
-    const { data: cityData } = useFetch<City[]>(
-        `${process.env.REACT_APP_API_ENDPOINT}/city/getAllCity`,
-    );
-
-    const [destination, setDestination] = useState('');
     const [openDate, setOpenDate] = useState(false);
     const currentDate = new Date();
     const [dates, setDates] = useState<DatesInterface[]>([
@@ -55,16 +47,23 @@ const Date_Options = ({ component }: SearchBarProps) => {
         room: 1,
     });
 
-    const navigate = useNavigate();
-
     const handleOption = (name: string, operation: 'd' | 'i') => {
         setOptions((prev) => {
+            handleChangeData('option', {
+                ...prev,
+                [name]: operation === 'i' ? options[name] + 1 : options[name] - 1,
+            })
             return {
                 ...prev,
                 [name]: operation === 'i' ? options[name] + 1 : options[name] - 1,
             };
         });
     };
+
+    const hanleChangeDate = (event) => {
+        setDates([event.selection]);
+        handleChangeData('date', [event.selection])
+    }
 
     const [monthNumber, setMonthNumber] = useState(
         window.innerWidth > 1024 ? 2 : 1,
@@ -76,24 +75,6 @@ const Date_Options = ({ component }: SearchBarProps) => {
         window.addEventListener('resize', handleResize);
     }, [window.innerWidth]);
 
-    const handleSearch = () => {
-        dispatch &&
-            dispatch({
-                type: 'NEW_SEARCH',
-                payload: { destination, dates, options },
-            });
-        console.log('destination', destination);
-        console.log('dates', dates);
-        console.log('options', options);
-        navigate('/hotels', { state: { destination, dates, options } });
-    };
-
-    const [searchTerm, setSearchTerm] = useState('');
-    const [closeFilter, setCloseFilter] = useState(false);
-    const KEYS_TO_FILTERS = ['name'];
-    const filteredCity: any = cityData?.filter(
-        createFilter(searchTerm, KEYS_TO_FILTERS),
-    );
 
     return (
         <>
@@ -140,14 +121,14 @@ const Date_Options = ({ component }: SearchBarProps) => {
                         {openDate && (
                             <DateRange
                                 editableDateInputs={true}
-                                onChange={(item) => setDates([item.selection])}
+                                onChange={hanleChangeDate}
                                 moveRangeOnFirstSelection={false}
                                 ranges={dates}
                                 minDate={new Date()}
                                 months={2}
                                 direction="horizontal"
                                 className={styles['header__container__search__item__date']}
-                                
+
                             />
                         )}
                     </div>
@@ -362,4 +343,4 @@ const Date_Options = ({ component }: SearchBarProps) => {
     );
 };
 
-export default Date_Options;
+export default FilterOptions;
