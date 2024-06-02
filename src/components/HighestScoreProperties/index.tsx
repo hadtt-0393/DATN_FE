@@ -14,6 +14,7 @@ import { A11y, Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from "swiper/react";
 import useFetch from "../../hooks/useFetch";
 import { Hotel } from "../../models/Hotel";
+import 'swiper/css';
 
 const theme = createTheme({
     palette: {
@@ -128,7 +129,6 @@ export default function HighestScoreProperties() {
                                                 }}>
                                                     <Typography sx={{ color: "#FEFEFE", fontSize: "13px", fontWeight: "600" }}>{labels[value]}</Typography>
                                                     <Typography sx={{ color: "#FEFEFE", fontSize: "11px" }}>{item.comments.length} bình luận</Typography>
-
                                                 </Box>
                                                 <Box bgcolor="rgba(255, 255, 255, 0.25)" borderRadius="10px 10px 10px 0px" margin="5px" flex={1}>
                                                     <Box sx={{ display: "flex", margin: "5px", fontSize: "13px", textTransform: "unset", textWrap: "nowrap", borderRadius: "10px 10px 10px 0px", height: "50px", backgroundColor: "#18458B", width: "50px", alignItems: "center", justifyContent: "center" }} >
@@ -137,7 +137,6 @@ export default function HighestScoreProperties() {
                                                 </Box>
                                             </Box>
                                         </Box>
-
                                     </Box>
                                 </Box>
                                 <CardContent>
@@ -178,7 +177,6 @@ export default function HighestScoreProperties() {
                 <Box className="swiper-button-next" style={{ color: '#18458B' }}>
                 </Box>
             </Swiper>
-
         </Box>
     )
 }

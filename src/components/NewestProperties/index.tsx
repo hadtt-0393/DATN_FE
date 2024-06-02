@@ -1,21 +1,21 @@
-import Box from "@mui/material/Box";
+import LocationOnRoundedIcon from '@mui/icons-material/LocationOnRounded';
+import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import StarRateRoundedIcon from '@mui/icons-material/StarRateRounded';
-import Typography from "@mui/material/Typography"
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, A11y } from 'swiper/modules';
+import SupportAgentRoundedIcon from '@mui/icons-material/SupportAgentRounded';
+import { Button, Card, CardActionArea, CardContent, Rating } from "@mui/material";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { useNavigate } from "react-router-dom";
+import styled from 'styled-components';
+import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import { Button, Card, CardActionArea, CardContent, Rating } from "@mui/material";
-import styled from 'styled-components';
-import LocationOnRoundedIcon from '@mui/icons-material/LocationOnRounded';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import SupportAgentRoundedIcon from '@mui/icons-material/SupportAgentRounded';
-import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
-import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
-import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
-import { useNavigate } from "react-router-dom";
+import { A11y, Navigation, Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from "swiper/react";
 import useFetch from "../../hooks/useFetch";
 import { Hotel } from "../../models/Hotel";
+
 
 const theme = createTheme({
     palette: {

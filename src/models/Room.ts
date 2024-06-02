@@ -8,11 +8,11 @@ export interface RoomNumber {
 
 export interface Room {
   _id: number;
-  title: string;
   type: string;
   price: number;
-  maxPeople: number;
+  maxPerson: number;
   description: string;
-  tags: string[];
-  roomNumbers: RoomNumber[];
+  services: string[];
+  roomNumber: string;
+  image: string;
 }

@@ -45,7 +45,6 @@ export const AuthContextProvider = ({
 }) => {
   const [state, dispatch] = useReducer(AuthReducer, INITIAL_STATE);
 
-  // Store user information into localStorage as stringified JSON
   useEffect(() => {
     localStorage.setItem('user', JSON.stringify(state.user));
   }, [state.user]);

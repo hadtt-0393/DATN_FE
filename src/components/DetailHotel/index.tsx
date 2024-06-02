@@ -151,13 +151,23 @@ export default function DetailHotel() {
         getFilterRoomDefault()
     }, [])
 
-    const handleCheckRoomAvailable = async() => {
+    const handleCheckRoomAvailable = async () => {
         setLoad(true);
         const checkRoomAvailable = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/room/getAllRoomFilter/${id}?startDate=${startDateFilter}&endDate=${endDateFilter}&adult=${adultFilter}&children=${childrenFilter}&roomNumber=${roomNumberFilter}`)
         setRoomAvailable(checkRoomAvailable.data)
         setLoad(false);
     }
 
+    const [roomChoose, setRoomChoose] = useState<any>([]);
+
+    const handleChooseRoom = (event, roomIsChoose) => {
+        if (event.target.checked) {
+            setRoomChoose((prevRooms) => [...prevRooms, roomIsChoose]);
+        }
+        if (!event.target.checked) {
+            setRoomChoose((prevRooms) => prevRooms.filter((room) => room.roomNumber !== roomIsChoose.roomNumber));
+        }
+    }
 
     const value = 4;
     const navigate = useNavigate()
@@ -214,7 +224,7 @@ export default function DetailHotel() {
                                         <Box display="flex" flexDirection="row" alignItems="center" justifyContent="center">
                                             <EmailOutlinedIcon sx={{ color: "#3A9FC3", mr: "10px" }} />
                                             <Typography sx={{ color: "#C2D8D7", fontSize: "14px", fontWeight: "700", mr: "10px" }}>Email:  </Typography>
-                                            <Typography sx={{ color: "#C2D8D7", fontSize: "14px", fontWeight: "700" }}>easybook@thuhahust.eco.vn</Typography>
+                                            <Typography sx={{ color: "#C2D8D7", fontSize: "14px", fontWeight: "700" }}>{data.email}</Typography>
                                         </Box>
                                         <Box display="flex" flexDirection="row" alignItems="center" justifyContent="center">
                                             <RoomOutlinedIcon sx={{ color: "#3A9FC3", mr: "10px" }} />
@@ -224,7 +234,7 @@ export default function DetailHotel() {
                                         <Box display="flex" flexDirection="row" alignItems="center" justifyContent="center">
                                             <PhoneOutlinedIcon sx={{ color: "#3A9FC3", mr: "10px" }} />
                                             <Typography sx={{ color: "#C2D8D7", fontSize: "14px", fontWeight: "700", mr: "10px" }}>Hotline:  </Typography>
-                                            <Typography sx={{ color: "#C2D8D7", fontSize: "14px", fontWeight: "700" }}>034 492 4268</Typography>
+                                            <Typography sx={{ color: "#C2D8D7", fontSize: "14px", fontWeight: "700" }}>{data.hotline}</Typography>
                                         </Box>
                                     </Box>
                                 </Box>
@@ -280,7 +290,7 @@ export default function DetailHotel() {
                             </Box>
                             <Box sx={{ fontSize: "13px", textTransform: "unset", boxShadow: "none", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: "5px 10px", borderRadius: "5px" }} alignSelf="end">
                                 <Typography sx={{ fontSize: "14px", textTransform: "uppercase", color: "white", fontWeight: "600" }} >Giá Rẻ Nhẩt/Đêm</Typography>
-                                <Typography sx={{ fontSize: "24px", color: "#5ECFB1", fontWeight: "600", marginLeft: "20px" }}>200.000VND</Typography>
+                                <Typography sx={{ fontSize: "24px", color: "#5ECFB1", fontWeight: "600", marginLeft: "20px" }}>{data.cheapestPrice}VND</Typography>
                             </Box>
                         </Box>
                     </Box>
@@ -318,25 +328,6 @@ export default function DetailHotel() {
 
                             </Box>
                         </Box>
-                        {/* <Box bgcolor="white" mt="30px" borderRadius="5px">
-                            <Box m="0px 30px" borderBottom="#EEE 1px solid">
-                                <Typography fontWeight="600" color="#183C7D" fontSize="18px" padding="25px 0">
-                                    Ngày có thể đặt phòng
-                                </Typography>
-                            </Box>
-                            <Box m="30px " display="flex" justifyContent="center" alignItems="center" >
-                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                    <DemoContainer components={['DateRangeCalendar']} >
-                                        <DemoItem>
-                                            <DateRangeCalendar
-                                                readOnly
-                                            />
-                                        </DemoItem>
-                                    </DemoContainer>
-                                </LocalizationProvider>
-
-                            </Box>
-                        </Box> */}
                         <Box bgcolor="white" mt="30px" borderRadius="5px">
                             <Box m="0px 30px" borderBottom="#EEE 1px solid">
                                 <Typography fontWeight="600" color="#183C7D" fontSize="18px" padding="25px 0">
@@ -363,7 +354,7 @@ export default function DetailHotel() {
                                     return (
                                         <Box borderBottom="#EEE 1px solid" width="100%" p="30px 0 0 0" display="flex" alignItems="start" justifyContent="space-between">
                                             <Box flex={2} margin="0 20px" display="flex" justifyContent="center" alignItems="center" overflow="hidden" borderRadius="10px">
-                                                <Image src="https://easybook.demotheme.matbao.support/wp-content/uploads/2018/12/10.jpg" alt="room-image" style={{ width: "400px", objectFit: "contain" }} />
+                                                <Image src={room.image} alt="room-image" style={{ width: "400px", objectFit: "contain" }} />
                                             </Box>
                                             <Box flex={3} display="flex" flexDirection="row" justifyContent="space-between" alignItems="start" padding="0 15px" width="100%">
                                                 <Box display="flex" flexDirection="column" justifyContent="space-between" alignItems="start" width="100%">
@@ -410,7 +401,13 @@ export default function DetailHotel() {
 
                                                     <Box width="100%" m="20px 0px 20px 0px ">
                                                         <Box sx={{ display: "flex", justifyContent: "flex-end", alignItems: "center", flex: 1 }}>
-                                                            <FormControlLabel control={<Checkbox />} label="Chọn phòng" />
+                                                            <FormControlLabel control={
+                                                                <Checkbox onChange={(e) => handleChooseRoom(e, {
+                                                                    roomNumber: room.roomNumber,
+                                                                    price: room.price
+                                                                })} />
+                                                            }
+                                                                label="Chọn phòng" />
                                                         </Box>
                                                     </Box>
 
@@ -606,85 +603,36 @@ export default function DetailHotel() {
                                     <Typography fontSize="16px" fontWeight="600" color="#183C7D">Đặt phòng khách sạn</Typography>
                                 </Box>
                                 <Box paddingBottom="20px" borderBottom="1px solid #EEEEEE" mt="20px" >
-                                    {/* <Typography fontSize="13px" color="#878C9F" mb="10px">Ngày</Typography>
-                                    <Box display="flex" alignItems="center" border="#EEE solid 1px" height="45px" justifyContent="space-between" borderRadius="8px" bgcolor="#F9F9F9">
-                                        <EventAvailableOutlinedIcon fontSize="small" sx={{ color: "#F9B90F", pl: 2, pr: 2 }} />
-                                    </Box>
-                                    <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between" mt="20px" sx={{ flexWrap: "wrap" }}>
-                                        <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between">
-                                            <Typography fontSize="12px" color="#878C9F" mr="10px" minWidth="60px">Người lớn</Typography>
-                                            <Box display="flex" flexDirection="row" >
-                                                <Input disableUnderline sx={{ width: "50px", height: "43px", border: "1px #EEE solid", padding: "0 10px", borderBottomLeftRadius: "5px", borderTopLeftRadius: "5px" }} />
-                                                <Box display="flex" flexDirection="column" width="20px" bgcolor="#F9F9F9">
-                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderTopRightRadius: "5px", "&:hover": { cursor: "pointer" } }} >
-                                                        <Typography fontSize="14px">+</Typography>
-                                                    </Box>
-                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderTop: "none", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderBottomRightRadius: "5px", "&:hover": { cursor: "pointer" } }}>
-                                                        <Typography fontSize="14px">-</Typography>
-                                                    </Box>
-                                                </Box>
-                                            </Box>
-                                        </Box>
-                                        <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between">
-                                            <Typography fontSize="12px" color="#878C9F" mr="10px" minWidth="60px">Trẻ em</Typography>
-                                            <Box display="flex" flexDirection="row" >
-                                                <Input disableUnderline sx={{ width: "50px", height: "43px", border: "1px #EEE solid", padding: "0 10px", borderBottomLeftRadius: "5px", borderTopLeftRadius: "5px" }} />
-                                                <Box display="flex" flexDirection="column" width="20px" bgcolor="#F9F9F9">
-                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderTopRightRadius: "5px", "&:hover": { cursor: "pointer" } }} >
-                                                        <Typography fontSize="14px">+</Typography>
-                                                    </Box>
-                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderTop: "none", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderBottomRightRadius: "5px", "&:hover": { cursor: "pointer" } }}>
-                                                        <Typography fontSize="14px">-</Typography>
-                                                    </Box>
-                                                </Box>
-                                            </Box>
-
-                                        </Box>
-
-                                        <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between" mt="30px">
-                                            <Typography fontSize="12px" color="#878C9F" mr="10px" minWidth="60px">Phòng</Typography>
-                                            <Box display="flex" flexDirection="row" >
-                                                <Input disableUnderline sx={{ width: "50px", height: "43px", border: "1px #EEE solid", padding: "0 10px", borderBottomLeftRadius: "5px", borderTopLeftRadius: "5px" }} />
-                                                <Box display="flex" flexDirection="column" width="20px" bgcolor="#F9F9F9">
-                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderTopRightRadius: "5px", "&:hover": { cursor: "pointer" } }} >
-                                                        <Typography fontSize="14px">+</Typography>
-                                                    </Box>
-                                                    <Box sx={{ height: "20px", border: "1px #EEE solid", borderTop: "none", borderLeft: "none", display: "flex", alignItems: "center", justifyContent: "center", borderBottomRightRadius: "5px", "&:hover": { cursor: "pointer" } }}>
-                                                        <Typography fontSize="14px">-</Typography>
-                                                    </Box>
-                                                </Box>
-                                            </Box>
-
-                                        </Box>
-                                    </Box> */}
                                     <FilterOption handleChangeData={handleChangeData} />
                                 </Box>
-                                <Box paddingBottom="20px" borderBottom="1px solid #EEEEEE" mt="20px" >
-                                    <Box display="flex" flexDirection="column" gap={2} flex={1} >
-                                        <Typography fontSize="13px" color="#878C9F" minWidth="64px" >Danh sách phòng đã chọn: </Typography>
-                                        <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" mx={3}>
-                                            <Typography fontSize="12px" color="#878C9F"  >Tên phòng</Typography>
-                                            <Typography fontSize="12px" color="#878C9F" >Giá phòng</Typography>
-                                        </Box>
-                                        <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" mx={3}>
-                                            <Box bgcolor="orange" borderRadius="5px" padding="2px 8px" >
-                                                <Typography color="#FFF" fontSize="13px" fontWeight="600" >301</Typography>
+                                {roomChoose.length > 0 &&
+                                    <Box paddingBottom="20px" borderBottom="1px solid #EEEEEE" mt="20px" >
+                                        <Box display="flex" flexDirection="column" gap={2} flex={1} >
+                                            <Typography fontSize="13px" color="#878C9F" minWidth="64px" >Danh sách phòng đã chọn: </Typography>
+                                            <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" mx={3}>
+                                                <Typography fontSize="12px" color="#878C9F">Tên phòng</Typography>
+                                                <Typography fontSize="12px" color="#878C9F">Giá phòng</Typography>
                                             </Box>
-                                            <Typography fontSize="12px" color="#878C9F">200.000 VND </Typography>
+                                            {roomChoose.length > 0 && roomChoose.map((room: any) => {
+                                                return (
+                                                    <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" mx={3}>
+                                                        <Box bgcolor="orange" borderRadius="5px" padding="2px 8px" >
+                                                            <Typography color="#FFF" fontSize="13px" fontWeight="600" >{room.roomNumber}</Typography>
+                                                        </Box>
+                                                        <Typography fontSize="12px" color="#878C9F">{room.price} VND</Typography>
+                                                    </Box>
+                                                )
+                                            })}
                                         </Box>
-                                        <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" mx={3}>
-                                            <Box bgcolor="orange" borderRadius="5px" padding="2px 8px" >
-                                                <Typography color="#FFF" fontSize="13px" fontWeight="600" >302</Typography>
-                                            </Box>
-                                            <Typography fontSize="12px" color="#878C9F">100.000 VND </Typography>
-                                        </Box>
-
                                     </Box>
-                                </Box>
-                                <Box padding="20px 0" display="flex" justifyContent="space-between" alignItems="center" >
-                                    <Typography fontSize="14px" fontWeight="600" color="#878C9F">Tổng thanh toán</Typography>
-                                    <Typography color="#3AACED" fontWeight="600" fontSize="19px"> 300.000 VND</Typography>
-                                </Box>
+                                }
+                                {roomChoose.length > 0 &&
+                                    <Box padding="20px 0" display="flex" justifyContent="space-between" alignItems="center" >
+                                        <Typography fontSize="14px" fontWeight="600" color="#878C9F">Tổng thanh toán</Typography>
+                                        <Typography color="#3AACED" fontWeight="600" fontSize="19px">
+                                            {roomChoose.reduce((total, room) => total + room.price, 0)} VND</Typography>
+                                    </Box>
+                                }
                                 <Box display="flex">
                                     <Box flex="1"></Box>
                                     <Button onClick={handleCheckRoomAvailable} variant="contained" sx={{ backgroundColor: "#3AACED", fontWeight: "600", boxShadow: "none", "&:hover": { boxShadow: "none", opacity: "0.8", backgroundColor: "#3AACED" } }}  >Kiểm tra phòng hợp lệ</Button>
@@ -703,7 +651,7 @@ export default function DetailHotel() {
                                 <Box borderBottom="1px solid #EEEEEE"  >
                                     <Box padding="20px 0" display="flex" justifyContent="start" alignItems="center" >
                                         <Typography fontSize="14px" fontWeight="600" color="#878C9F">Giá:</Typography>
-                                        <Typography color="#5ECFB3" fontWeight="600" fontSize="14px" ml="30px"> 100.000 VND - 1.000.000 VND</Typography>
+                                        <Typography color="#5ECFB3" fontWeight="600" fontSize="14px" ml="30px"> {data?.cheapestPrice} VND - {data?.highestPrice} VND</Typography>
                                     </Box>
                                 </Box>
                             </Box>
@@ -728,7 +676,7 @@ export default function DetailHotel() {
                     </Box>
                 </Box>
             </Box>
-            <Loading loading={load}/>
+            <Loading loading={load} />
             <Footer2 />
         </Box >
 

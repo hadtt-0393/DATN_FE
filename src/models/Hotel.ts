@@ -11,10 +11,13 @@ export interface Hotel {
   ratingAvg: number;
   rooms: string[];
   cheapestPrice: number;
+  highestPrice: number;
   featured: boolean;
   services: string[];
   comments: Comment[];
   discount: number;
+  email: string;
+  hotline: string;
 }
 
 
