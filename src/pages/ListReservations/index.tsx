@@ -12,8 +12,8 @@ import Box from "@mui/material/Box";
 import Grid from '@mui/material/Grid';
 import Typography from "@mui/material/Typography";
 import styled from 'styled-components';
-import Header2 from '../Header';
-import Navbar2 from '../Navbar';
+import Header from '../../components/Header';
+import Navbar from '../../components/Navbar';
 const Image = styled.img`
     width: 100%;
     objectFit: cover;
@@ -26,11 +26,10 @@ const Image = styled.img`
 
 
 export default function ReservationsPage() {
-    const value = 4
     return (
         <Box>
-            <Navbar2 />
-            <Header2 />
+            <Navbar />
+            <Header />
             <Box width="100%" mt="150px" p={0} bgcolor="#ECF6F8">
                 <Box width="92%" maxWidth="1224px" m="30px auto" display="flex" gap={3} flexDirection="column"  >
                     <Typography fontSize="20px" fontWeight="600" color="#958DA0" mt="30px">Danh sách phòng đã đặt</Typography>

@@ -14,12 +14,12 @@ import axios from 'axios';
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import Header2 from '../Header';
-import Navbar2 from '../Navbar';
+import Header from '../../components/Header';
+import Navbar from '../../components/Navbar';
 import Sliders from '../../components/Slider';
 import { Hotel } from '../../models/Hotel';
-import SearchBarFlexColumn from './SearchBarFlexColumn';
-import Loading from '../Loading/Loading';
+import SearchBarFlexColumn from '../../pages/ResultSearch/SearchBarFlexColumn';
+import Loading from '../../components/Loading/Loading';
 
 const Image = styled.img`
     width: 100%;
@@ -246,8 +246,8 @@ export default function SearchResultsPage() {
 
     return (
         <Box>
-            <Navbar2 />
-            <Header2 />
+            <Navbar />
+            <Header />
             <Sliders display={false} />
             <Box width="100%" bgcolor="#ECF6F8">
                 <Box width="92%" maxWidth="1224px" m="30px auto" display="flex" gap={3} padding="50px 0" >

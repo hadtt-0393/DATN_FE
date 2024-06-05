@@ -58,6 +58,7 @@ const Signin = () => {
             );
             dispatch &&
                 dispatch({ type: 'LOGIN_SUCCESS', payload: res.data.info });
+            localStorage.setItem("accessToken", JSON.stringify(res.data.accessToken))
             navigate('/');
         } catch (err: any) {
             dispatch &&

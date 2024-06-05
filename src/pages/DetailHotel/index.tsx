@@ -18,15 +18,17 @@ import Slider from '@mui/material/Slider';
 import Typography from "@mui/material/Typography";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from 'styled-components';
-import Header2 from '../Header';
-import Navbar2 from '../Navbar';
+import Header from '../../components/Header'
+import Navbar from '../../components/Navbar';
 import useFetch from "../../hooks/useFetch";
 import { Hotel } from "../../models/Hotel";
-import Footer2 from "../Footer";
-import FilterOption from './FilterOption/FilterOption';
-import { useState, useEffect } from "react"
+import Footer from "../../components/Footer";
+import FilterOption from '../../pages/DetailHotel/FilterOption/FilterOption';
+import { useState, useEffect, useContext } from "react"
 import axios from "axios";
-import Loading from '../Loading/Loading';
+import Loading from "../../components/Loading/Loading"
+import { AuthContext } from '../../context/AuthContext';
+import { getToken } from '../../services/token';
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -110,6 +112,7 @@ function ImagesList() {
 }
 
 export default function DetailHotel() {
+    const { user } = useContext(AuthContext);
     const location = useLocation();
     const id = location.pathname.split('/')[2];
 
@@ -169,12 +172,30 @@ export default function DetailHotel() {
         }
     }
 
+    const handleBooking = () => {
+        console.log(user)
+        if (!user) {
+            alert('Vui lòng đăng nhập để đặt phòng')
+            navigate('/signin')
+            return;
+        }
+        const token = getToken();
+        const authUser = axios.get(`${process.env.REACT_APP_API_ENDPOINT}/user/isLogin`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+        console.log(authUser)
+        navigate('/booking');
+    }
+
     const value = 4;
     const navigate = useNavigate()
     return (
         <Box>
-            <Navbar2 />
-            <Header2 />
+            <Navbar />
+            <Header />
             {data && (
                 <Box sx={{ mt: "110px", height: "600px", width: "100%", position: "relative" }}>
                     <img src="http://res.cloudinary.com/di7a7sbbn/image/upload/v1668414040/upload/prirsonreuc6vkcjmxfi.jpg" alt="slider-image" style={{ width: "100%", height: "600px", objectFit: "cover" }} />
@@ -639,7 +660,7 @@ export default function DetailHotel() {
 
                                 </Box>
                                 <Box width="100%" m="30px 0px 20px 0px ">
-                                    <Button variant="contained" sx={{ width: "100%", backgroundColor: "#F9C941", fontWeight: "600", boxShadow: "none", "&:hover": { boxShadow: "none", opacity: "0.8", backgroundColor: "#F9C941" } }} onClick={() => navigate("/booking")}>Đặt phòng</Button>
+                                    <Button variant="contained" sx={{ width: "100%", backgroundColor: "#F9C941", fontWeight: "600", boxShadow: "none", "&:hover": { boxShadow: "none", opacity: "0.8", backgroundColor: "#F9C941" } }} onClick={handleBooking}>Đặt phòng</Button>
                                 </Box>
                             </Box>
                         </Box>
@@ -677,7 +698,7 @@ export default function DetailHotel() {
                 </Box>
             </Box>
             <Loading loading={load} />
-            <Footer2 />
+            <Footer />
         </Box >
 
     )

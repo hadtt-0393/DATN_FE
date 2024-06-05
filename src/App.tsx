@@ -5,13 +5,13 @@ import 'react-loading-skeleton/dist/skeleton.css';
 import HomePage from './pages/HomePage';
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
-import DetailHotel from './components/DetailHotel';
-import SearchResultsPage from './components/ResultSearch';
-import ReservationsPage from './components/ListReservations';
-import BookingPage from './components/Booking';
-import PaymentMethod from './components/PaymentMethod';
+import DetailHotel from './pages/DetailHotel';
+import SearchResultsPage from './pages/ResultSearch';
+import ReservationsPage from './pages/ListReservations';
+import BookingPage from './pages//Booking';
+import PaymentMethod from './pages/PaymentMethod';
 import { useScrollToTop } from './hook/use-hook-to-top';
-import PaymentSuccess from './components/PaymentSuccess';
+import PaymentSuccess from './pages/PaymentSuccess';
 
 const App = () => {
   // useScrollToTop();
@@ -22,7 +22,6 @@ const App = () => {
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/hotel/:id" element={<DetailHotel />} />
-        <Route path="/search-results" element={<SearchResultsPage />} />
         <Route path="/city" element={<SearchResultsPage />} />
         <Route path="/reservations" element={<ReservationsPage />} />
         <Route path="/booking" element={<BookingPage />} />

@@ -20,7 +20,6 @@ export const AuthContext = createContext<AuthContextProps>(INITIAL_STATE);
 const AuthReducer = (state:any, action:any) => {
   switch (action.type) {
     case 'LOGIN_START':
-      console.log('start')
       return { user: null, loading: true, error: null };
     case 'LOGIN_SUCCESS': {
       toast.success('Đăng nhập thành công', { toastId: 'LOGIN_SUCCESS' });
@@ -30,7 +29,8 @@ const AuthReducer = (state:any, action:any) => {
       return { user: null, loading: false, error: action.payload };
     }
     case 'LOGOUT': {
-      toast.success('Đăng ký thành công', { toastId: 'LOGOUT' });
+      toast.success('Đăng xuất thành công', { toastId: 'LOGOUT' });
+      localStorage.removeItem('accessToken');
       return { user: null, loading: false, error: null };
     }
     default:
@@ -44,10 +44,6 @@ export const AuthContextProvider = ({
   children: JSX.Element;
 }) => {
   const [state, dispatch] = useReducer(AuthReducer, INITIAL_STATE);
-
-  useEffect(() => {
-    localStorage.setItem('user', JSON.stringify(state.user));
-  }, [state.user]);
 
   return (
     <AuthContext.Provider
