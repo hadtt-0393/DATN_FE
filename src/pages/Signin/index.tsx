@@ -56,9 +56,10 @@ const Signin = () => {
                     password: password,
                 }
             );
+            const { message, accessToken, ...rest } = res.data;
             dispatch &&
-                dispatch({ type: 'LOGIN_SUCCESS', payload: res.data.info });
-            localStorage.setItem("accessToken", JSON.stringify(res.data.accessToken))
+                dispatch({ type: 'LOGIN_SUCCESS', payload: rest });
+            localStorage.setItem("accessToken", JSON.stringify(accessToken))
             navigate('/');
         } catch (err: any) {
             dispatch &&
@@ -168,8 +169,6 @@ const Signin = () => {
                 </Grid>
             </Grid>
         </ThemeProvider>)
-
-
 }
 
 export default Signin;

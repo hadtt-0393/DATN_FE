@@ -4,19 +4,19 @@ import {
   faPerson,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useEffect, useState } from 'react';
-import SearchInput, { createFilter } from 'react-search-input';
-import { useNavigate } from 'react-router-dom';
-import { DateRange } from 'react-date-range';
-import 'react-date-range/dist/styles.css'; // main css file
-import 'react-date-range/dist/theme/default.css'; // theme css file
-import styles from './SearchBar.module.scss';
+import ZoomInOutlinedIcon from '@mui/icons-material/ZoomInOutlined';
+import { Box, Typography } from '@mui/material';
 import { format } from 'date-fns';
+import { vi } from 'date-fns/locale';
+import { useEffect, useState } from 'react';
+import { DateRange } from 'react-date-range';
+import 'react-date-range/dist/styles.css';
+import 'react-date-range/dist/theme/default.css';
+import { useNavigate } from 'react-router-dom';
+import SearchInput, { createFilter } from 'react-search-input';
 import useFetch from '../../hooks/useFetch';
 import { City } from '../../models/City';
-import { Box, Typography } from '@mui/material';
-import ZoomInOutlinedIcon from '@mui/icons-material/ZoomInOutlined';
-import { vi } from 'date-fns/locale';
+import styles from './SearchBar.module.scss';
 
 export interface DatesInterface {
   startDate: Date;
@@ -27,18 +27,19 @@ export interface DatesInterface {
 export interface SearchBarProps {
   component?: string;
   display?: boolean;
+  destinations?: string;
+  handleChangeData?: (arg1, arg2) => void;
+  onSearch?: () => void;
 }
 
-const SearchBar = ({ component, display }: SearchBarProps) => {
-  // const { dispatch } = useContext(SearchContext);
-
+const SearchBar = ({ component, display, handleChangeData, destinations, onSearch }: SearchBarProps) => {
   const { data: cityData } = useFetch<City[]>(
     `${process.env.REACT_APP_API_ENDPOINT}/city/getAllCity`,
   );
-
-  const [destination, setDestination] = useState('');
-  const [openDate, setOpenDate] = useState(false);
+  const navigate = useNavigate();
   const currentDate = new Date();
+  const [destination, setDestination] = useState(destinations ? destinations : '');
+  const [searchTerm, setSearchTerm] = useState('');
   const [dates, setDates] = useState<DatesInterface[]>([
     {
       startDate: currentDate,
@@ -46,19 +47,20 @@ const SearchBar = ({ component, display }: SearchBarProps) => {
       key: 'selection',
     },
   ]);
-
-
   const [openOptions, setOpenOptions] = useState(false);
+  const [openDate, setOpenDate] = useState(false);
   const [options, setOptions] = useState({
-    adult: 1,
+    adult: 2,
     children: 0,
     room: 1,
   });
 
-  const navigate = useNavigate();
-
   const handleOption = (name: string, operation: 'd' | 'i') => {
     setOptions((prev) => {
+      handleChangeData?.('option', {
+        ...prev,
+        [name]: operation === 'i' ? options[name] + 1 : options[name] - 1,
+      })
       return {
         ...prev,
         [name]: operation === 'i' ? options[name] + 1 : options[name] - 1,
@@ -77,19 +79,23 @@ const SearchBar = ({ component, display }: SearchBarProps) => {
   }, [window.innerWidth]);
 
   const handleSearch = (e: any) => {
-    if(!destination) {
+    if (!destination) {
       return;
     }
-    // dispatch &&
-    //   dispatch({
-    //     type: 'NEW_SEARCH',
-    //     payload: { destination, dates, options },
-    //   });
-    navigate('/city', { state: { destination, dates, options } });
+    if (destination === 'fake-destination') {
+      onSearch?.();
+      return;
+    }
+    navigate(`/city/${destination}`, { state: { dates, options } });
   };
 
-  const [searchTerm, setSearchTerm] = useState('');
-  const KEYS_TO_FILTERS = ['name'];
+  const hanleChangeDate = (event) => {
+    setDates([event.selection]);
+    handleChangeData?.('date', [event.selection])
+  }
+
+
+  const KEYS_TO_FILTERS = ['cityName'];
   const filteredCity: any = cityData?.filter(
     createFilter(searchTerm, KEYS_TO_FILTERS),
   );
@@ -134,7 +140,7 @@ const SearchBar = ({ component, display }: SearchBarProps) => {
                             setSearchTerm('');
                           }}
                         >
-                          {city.name}
+                          {city.cityName}
                         </div>
                         <div
                           className={
@@ -143,7 +149,7 @@ const SearchBar = ({ component, display }: SearchBarProps) => {
                             ]
                           }
                         >
-                          {city.hotels.length} khách sạn
+                          {city.hotelIds.length} khách sạn
                         </div>
                       </div>
                     </div>
@@ -174,7 +180,7 @@ const SearchBar = ({ component, display }: SearchBarProps) => {
           {openDate && (
             <DateRange
               editableDateInputs={true}
-              onChange={(item) => setDates([item.selection])}
+              onChange={hanleChangeDate}
               moveRangeOnFirstSelection={false}
               ranges={dates}
               minDate={new Date()}
@@ -305,7 +311,7 @@ const SearchBar = ({ component, display }: SearchBarProps) => {
             </div>
           )}
         </div>
-        <Box display="flex" flex="1" height="100%" alignItems="center" justifyContent="center" sx={{ backgroundColor: "#F9B90F", m: "0 auto", "&:hover": { cursor: destination ? 'pointer' : 'no-drop', opacity: "0.8", }}} onClick={handleSearch}>
+        <Box display="flex" flex="1" height="100%" alignItems="center" justifyContent="center" sx={{ backgroundColor: "#F9B90F", m: "0 auto", "&:hover": { cursor: destination ? 'pointer' : 'no-drop', opacity: "0.8", } }} onClick={handleSearch}>
           <Typography sx={{ fontSize: "13px", color: "white" }}>Tìm kiếm</Typography>
           <ZoomInOutlinedIcon fontSize="small" sx={{ color: "white", pl: 1 }} />
         </Box>

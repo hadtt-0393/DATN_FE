@@ -1,5 +1,5 @@
 export interface City {
-  name: string;
+  cityName: string;
   image: string;
-  hotels: string[];
+  hotelIds: string[];
 }

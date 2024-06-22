@@ -16,7 +16,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import useFetch from "../../hooks/useFetch";
 import { Hotel } from "../../models/Hotel";
 
-
 const theme = createTheme({
     palette: {
         info: {
@@ -24,6 +23,7 @@ const theme = createTheme({
         },
     }
 });
+
 
 const labels: { [index: string]: string } = {
     0.5: 'Useless',
@@ -37,6 +37,7 @@ const labels: { [index: string]: string } = {
     4.5: 'Xuất Sắc',
     5: 'Rất Xuất Sắc',
 };
+
 const Image = styled.img`
     width: 100%;
     objectFit: cover;
@@ -49,19 +50,19 @@ const Image = styled.img`
         cursor: pointer;
 },`
 
-export default function NewestProperties() {
-    const value = 4
+export default function HighestScoreHotelComponent() {
+    const value = 3.5;
     const navigate = useNavigate()
     const { data, loading, error } = useFetch<Hotel[]>(
-        `${process.env.REACT_APP_API_ENDPOINT}/hotel/topTenNewest`,
+        `${process.env.REACT_APP_API_ENDPOINT}/hotel/topTenRating`,
     );
     return (
-        <Box width="100%" display="flex" flexDirection="column" m="60px auto">
+        <Box width="100%" display="flex" flexDirection="column" m="60px auto" sx={{ backgroundColor: "#ECF6F8" }} p="50px 0">
             <Box display="flex" alignItems="center" margin="0 auto" maxWidth="1224px" flexDirection="column" width="92%" mb="30px">
                 <Box m="10px">
                     <StarRateRoundedIcon fontSize="small" sx={{ color: "#D0DBDB" }} /><StarRateRoundedIcon fontSize="medium" sx={{ color: "#F9B90F" }} /><StarRateRoundedIcon fontSize="small" sx={{ color: "#D0DBDB" }} />
                 </Box>
-                <Typography sx={{ fontSize: "24px", fontWeight: "700", fontFamily: "Nunito,sans-serif", color: "#18458B" }}>Những Khách Sạn Mới Xuất Hiện Ở Hệ Thống</Typography>
+                <Typography sx={{ fontSize: "24px", fontWeight: "700", fontFamily: "Nunito,sans-serif", color: "#18458B" }}>Những Khách Sạn Được Đánh Giá Tốt Nhất</Typography>
                 <Box width="5%" bgcolor="#3AACED" height="4px" borderRadius="2px" m="25px 0" />
                 <Typography sx={{ color: "#878C9F", mb: "30px", fontSize: "13px" }}>Hãy trải nghiệm những địa điểm nổi bật này cùng EasyBook</Typography>
             </Box>
@@ -94,72 +95,48 @@ export default function NewestProperties() {
                                         height: "100%",
                                     }}>
                                         {
-                                            item.discount !== 0 &&
-                                            (
-                                                <Box display="flex" flexDirection="column" flex={1} justifyItems="start" alignItems="start">
+                                            item.discount !== 0 && (
+                                                <Box display="flex" flexDirection="column" justifyContent="start" alignItems="start" flex={1}>
                                                     <Box width="110px" height="35px" sx={{ display: "flex", backgroundColor: "#5ECFB1", margin: "20px 20px 10px 0px", alignSelf: "end", alignItems: "center", justifyContent: "center" }}>
                                                         <Typography sx={{ fontSize: "13px", color: "white", fontWeight: "600", }}>Giảm giá {item.discount}%</Typography>
                                                     </Box>
                                                 </Box>
                                             )
                                         }
-                                        {
-                                            item.ratingAvg !== 0 ?
-                                                (
-                                                    <Box
-                                                        sx={{
-                                                            display: 'flex',
-                                                            alignItems: 'start',
-                                                            height: "30%",
-                                                            m: 2,
-                                                            justifyContent: "space-between",
-                                                        }}
-                                                    >
-
-                                                        <Rating
-                                                            name="text-feedback"
-                                                            value={item.ratingAvg}
-                                                            readOnly
-                                                            precision={0.5}
-                                                            emptyIcon={<StarBorderOutlinedIcon style={{ color: "#FAC73F", fontSize: "18px" }} />}
-                                                            sx={{ fontSize: "18px", color: "#FAC73F" }}
-                                                        />
-                                                        <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-                                                            <Box sx={{
-                                                                display: 'flex',
-                                                                alignItems: 'end',
-                                                                m: 1,
-                                                                flexDirection: "column"
-                                                            }}>
-                                                                <Typography sx={{ color: "#FEFEFE", fontSize: "13px", fontWeight: "600" }}>{labels[value]}</Typography>
-                                                                <Typography sx={{ color: "#FEFEFE", fontSize: "11px" }}>{item.comments.length} bình luận</Typography>
-
-                                                            </Box>
-                                                            <Box bgcolor="rgba(255, 255, 255, 0.25)" borderRadius="10px 10px 10px 0px" margin="5px" flex={1}>
-                                                                <Box sx={{ display: "flex", margin: "5px", fontSize: "13px", textTransform: "unset", textWrap: "nowrap", borderRadius: "10px 10px 10px 0px", height: "50px", backgroundColor: "#18458B", width: "50px", alignItems: "center", justifyContent: "center" }} >
-                                                                    <Typography sx={{ fontSize: "13px", color: "white", fontWeight: "600", }}>{item.ratingAvg}</Typography>
-                                                                </Box>
-                                                            </Box>
-                                                        </Box>
+                                        <Box
+                                            sx={{
+                                                display: 'flex',
+                                                alignItems: 'start',
+                                                height: "30%",
+                                                m: 2,
+                                                justifyContent: "space-between",
+                                            }}
+                                        >
+                                            <Rating
+                                                name="text-feedback"
+                                                value={item.ratingAvg}
+                                                readOnly
+                                                precision={0.5}
+                                                emptyIcon={<StarBorderOutlinedIcon style={{ color: "#FAC73F", fontSize: "18px" }} />}
+                                                sx={{ fontSize: "18px", color: "#FAC73F" }}
+                                            />
+                                            <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+                                                <Box sx={{
+                                                    display: 'flex',
+                                                    alignItems: 'end',
+                                                    m: 1,
+                                                    flexDirection: "column"
+                                                }}>
+                                                    <Typography sx={{ color: "#FEFEFE", fontSize: "13px", fontWeight: "600" }}>{labels[value]}</Typography>
+                                                    <Typography sx={{ color: "#FEFEFE", fontSize: "11px" }}>{item.comments.length} bình luận</Typography>
+                                                </Box>
+                                                <Box bgcolor="rgba(255, 255, 255, 0.25)" borderRadius="10px 10px 10px 0px" margin="5px" flex={1}>
+                                                    <Box sx={{ display: "flex", margin: "5px", fontSize: "13px", textTransform: "unset", textWrap: "nowrap", borderRadius: "10px 10px 10px 0px", height: "50px", backgroundColor: "#18458B", width: "50px", alignItems: "center", justifyContent: "center" }} >
+                                                        <Typography sx={{ fontSize: "13px", color: "white", fontWeight: "600", }}>{item.ratingAvg}</Typography>
                                                     </Box>
-
-                                                )
-                                                : (
-                                                    <Box
-                                                        sx={{
-                                                            display: 'flex',
-                                                            alignItems: 'center',
-                                                            height: "30%",
-                                                            m: 2,
-                                                            justifyContent: "space-between",
-                                                        }}
-                                                    >
-                                                        <Typography sx={{ color: "#CCC", fontSize: "15px", fontWeight: "600" }}>Chưa có đánh giá</Typography>
-                                                        
-                                                    </Box>
-                                                )
-                                        }
-
+                                                </Box>
+                                            </Box>
+                                        </Box>
                                     </Box>
                                 </Box>
                                 <CardContent>
@@ -174,9 +151,9 @@ export default function NewestProperties() {
                                     <Typography sx={{ color: "#999", fontSize: "13px", mt: "15px", mb: "12px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item.description}</Typography>
                                     <Box display="flex" alignItems="center" justifyContent="start" mb="12px">
                                         <SupportAgentRoundedIcon sx={{ color: "red", fontSize: "16px" }} />
-                                        <ul style={{ listStyleType: "none", padding: "0px", marginLeft: "10px", color: "#3AACED", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                                        <ul style={{ listStyleType: "none", padding: "0px", marginLeft: "10px", color: "#3AACED" , overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                                             {item && item.services.map((service, key) => (
-                                                <li style={{ display: "inline-block", marginRight: "10px" }} key={key}>{service}</li>
+                                                <li style={{ display: "inline-block", marginRight: "10px"}} key={key}>{service}</li>
                                             ))}
                                         </ul>
                                     </Box>
@@ -194,11 +171,10 @@ export default function NewestProperties() {
                         </Card>
                     </SwiperSlide>
                 ))}
+
                 <Box className="swiper-button-prev" style={{ color: '#18458B' }}>
-                    {/* <ArrowCircleLeftIcon /> */}
                 </Box>
                 <Box className="swiper-button-next" style={{ color: '#18458B' }}>
-                    {/* <ArrowCircleRightIcon /> */}
                 </Box>
             </Swiper>
         </Box>

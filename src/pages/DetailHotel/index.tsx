@@ -18,17 +18,27 @@ import Slider from '@mui/material/Slider';
 import Typography from "@mui/material/Typography";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from 'styled-components';
-import Header from '../../components/Header'
-import Navbar from '../../components/Navbar';
+import Header from '../../components/Header/HeaderComponent'
+import Navbar from '../../components/Navbar/NavbarComponent';
 import useFetch from "../../hooks/useFetch";
 import { Hotel } from "../../models/Hotel";
-import Footer from "../../components/Footer";
+import Footer from "../../components/Footer/FooterComponent";
 import FilterOption from '../../pages/DetailHotel/FilterOption/FilterOption';
 import { useState, useEffect, useContext } from "react"
 import axios from "axios";
-import Loading from "../../components/Loading/Loading"
+import Loading from "../../components/LoadingComponent/LoadingComponent"
 import { AuthContext } from '../../context/AuthContext';
 import { getToken } from '../../services/token';
+import HotelRoomList from '../../components/HotelRooms';
+import SearchBar from '../../components/SearchBar';
+import {
+    faCalendarDays,
+    faCheck,
+    faLocationDot,
+    faPerson,
+  } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -41,6 +51,12 @@ const VisuallyHiddenInput = styled('input')({
     whiteSpace: 'nowrap',
     width: 1,
 });
+
+export interface DatesInterface {
+    startDate: Date;
+    endDate: Date;
+    key: string;
+}
 
 const labels: { [index: string]: string } = {
     0.5: 'Useless',
@@ -96,18 +112,31 @@ const images = [
 
 function ImagesList() {
     return (
-        <ImageList cols={2} gap={5} rowHeight='auto'>
-            {images.map((item) => (
-                <ImageListItem key={item.img}>
+        <Box sx={{
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "space-between"
+        }}>
+            {images.map((photo, index) => (
+                <Box
+                    sx={{
+                        width: "33%"
+                    }}
+                    key={index}
+                >
                     <img
-                        srcSet={`${item.img}`}
-                        src={`${item.img}`}
-                        alt={item.title}
-                        loading="lazy"
+                        src={photo.img}
+                        alt=""
+                        style={{
+                            width: "100%",
+                            height: "250px",
+                            objectFit: "cover",
+                            cursor: "pointer"
+                        }}
                     />
-                </ImageListItem>
+                </Box>
             ))}
-        </ImageList>
+        </Box>
     );
 }
 
@@ -123,9 +152,10 @@ export default function DetailHotel() {
     const currentDate = new Date();
     const [startDateFilter, setStartDateFilter] = useState(currentDate.toLocaleDateString('en-US'));
     const [endDateFilter, setEndDateFilter] = useState((new Date(currentDate.getTime() + 86400000)).toLocaleDateString('en-US'));
-    const [adultFilter, setAdultFilter] = useState(1);
+    const [adultFilter, setAdultFilter] = useState(2);
     const [childrenFilter, setChildrenFilter] = useState(0);
     const [roomNumberFilter, setRoomNumberFilter] = useState(1);
+    const [openDate, setOpenDate] = useState(false);
 
     const handleChangeData = (arg1, arg2) => {
         if (arg1 === 'date') {
@@ -172,22 +202,40 @@ export default function DetailHotel() {
         }
     }
 
-    const handleBooking = () => {
-        console.log(user)
+    const handleBooking = async () => {
         if (!user) {
             alert('Vui lòng đăng nhập để đặt phòng')
             navigate('/signin')
             return;
         }
         const token = getToken();
-        const authUser = axios.get(`${process.env.REACT_APP_API_ENDPOINT}/user/isLogin`,
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
+        try {
+            const authUser = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/user/isLogin`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                })
+            navigate('/booking', {
+                state: {
+                    roomChoose: roomChoose,
+                    hotel: data,
+                    option: {
+                        adult: adultFilter,
+                        children: childrenFilter,
+                        room: roomNumberFilter,
+                        startDate: startDateFilter,
+                        endDate: endDateFilter,
+                    }
+
+                }
             })
-        console.log(authUser)
-        navigate('/booking');
+        } catch (error) {
+            alert('Vui lòng đăng nhập để đặt phòng')
+            navigate('/signin')
+            return;
+        }
+
     }
 
     const value = 4;
@@ -367,11 +415,11 @@ export default function DetailHotel() {
                         <Box bgcolor="white" mt="30px" borderRadius="5px" pb="30px">
                             <Box m="0px 30px" borderBottom="#EEE 1px solid">
                                 <Typography fontWeight="600" color="#183C7D" fontSize="18px" padding="25px 0">
-                                    Phòng có thể đặt
+                                    Phòng có thể đặt dành cho {adultFilter} người lớn
                                 </Typography>
                             </Box>
                             <Box m="0px 30px" display="flex" justifyContent="center" alignItems="center" flexDirection="column" >
-                                {roomAvailable && roomAvailable.map((room) => {
+                                {roomAvailable && roomAvailable.rooms.map((room) => {
                                     return (
                                         <Box borderBottom="#EEE 1px solid" width="100%" p="30px 0 0 0" display="flex" alignItems="start" justifyContent="space-between">
                                             <Box flex={2} margin="0 20px" display="flex" justifyContent="center" alignItems="center" overflow="hidden" borderRadius="10px">
@@ -384,17 +432,17 @@ export default function DetailHotel() {
                                                             <Typography color="#334E6F" fontSize="19px" fontWeight="600" flex={1}>{room.type}</Typography>
                                                             <Box display="flex" flexDirection="row" justifyContent="start" alignItems="center" flex={1}>
                                                                 <Typography color="#F9B90F" fontSize="13px" fontWeight="600" mr="5px">Số người tối đa:</Typography>
-                                                                <Typography color="#3AACED" fontSize="13px" fontWeight="600">{room.max_person} người</Typography>
+                                                                <Typography color="#3AACED" fontSize="13px" fontWeight="600">{room.maxPeople} người</Typography>
                                                             </Box>
 
                                                         </Box>
                                                         <Box display="flex" flexDirection="column" justifyContent="space-between" alignItems="start" height="100%" >
-                                                            <Box display="flex" flexDirection="row" justifyContent="start" alignItems="center" >
+                                                            <Box display="flex" flexDirection="row" justifyContent="start" alignItems="center"  >
                                                                 <Typography color="#73D1B6" fontSize="19px" fontWeight="600">{room.price}VND</Typography>
                                                                 <Typography color="#999EA5" fontSize="14px" fontWeight="600">/Đêm</Typography>
                                                             </Box>
                                                             <Box display="flex" flexDirection="row" justifyContent="end" alignItems="center">
-                                                                <Typography color="#666" fontSize="14px" fontWeight="600" mr="10px">Số phòng:</Typography>
+                                                                <Typography color="#666" fontSize="14px" fontWeight="600" mr="10px">x{room.quantity} phòng</Typography>
                                                                 <Box bgcolor="orange" borderRadius="5px" padding="2px 8px">
                                                                     <Typography color="#FFF" fontSize="14px" fontWeight="600">{room.roomNumber}</Typography>
                                                                 </Box>
@@ -402,7 +450,7 @@ export default function DetailHotel() {
                                                         </Box>
                                                     </Box>
                                                     <Box width="100%" padding="20px 0" borderBottom="#CCC 1px dashed">
-                                                        <Typography color="#888" fontSize="15px">{room.description}</Typography>
+                                                        <Typography color="#888" fontSize="15px">phong dep</Typography>
 
                                                     </Box>
                                                     <Box borderBottom="#CCC 1px dashed" padding="20px 0" width="100%">
@@ -438,9 +486,130 @@ export default function DetailHotel() {
                                         </Box>
                                     )
                                 })}
-
                             </Box>
+
+                            {/* <Box className={styles['hotel-room']}> */}
+      <table style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "10px"}}>
+        <tr>
+          <th>Room type</th>
+          <th>Sleeps</th>
+          <th>Today price</th>
+          <th>Select a room</th>
+          <th></th>
+        </tr>
+        {/* {data?.map((item, index) => ( */}
+          <tr >
+            <td width="30%">
+              <Box sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "10px"}}>
+                <Box sx={{textDecoration: "underline",
+        color: "#0071c2",
+        fontSize: "16px",
+        fontWeight: "bold"}}>
+                  {/* {item.title} */}
+                </Box>
+                <Box sx={{
+                    fontSize: "14px",
+                    fontWeight: 500
+                }}>
+                  {/* {item.description} */}
+                </Box>
+                <Box sx={{display: "flex",
+        flexWrap: "wrap",
+        gap: "8px",
+        fontSize: "12px"}}>
+                  {/* {item.tags.map((tag, index) => ( */}
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "2px"
+                      }}
+                    //   key={index}
+                    >
+                      <FontAwesomeIcon
+                        icon={faCheck}
+                        // sx={{color:" #008009"}}
+                      />
+                      {/* <span>{tag}</span> */}
+                    </Box>
+                  {/* ))} */}
+                </Box>
+              </Box>
+            </td>
+            <td width="10%">
+              <Box sx={{display: "flex",
+      gap:"2px"}}>
+                {/* {Array(item.maxPeople)
+                  .fill(0)
+                  .map((index) => (
+                    <FontAwesomeIcon icon={faUser} key={index} />
+                  ))} */}
+              </Box>
+            </td>
+            <td width="20%">
+              
+            </td>
+            <td width="20%">
+              {/* {item.roomNumbers.map((roomNumber, index) => ( */}
+                <Box
+                //   className={styles['hotel-room__table__room-select']}
+                //   key={index}
+                sx={{marginBottom: "4px",
+                    display:" flex",
+                    gap: "4px"}}
+                >
+                  {/* <label>{roomNumber.number}</label> */}
+                  <input
+                    type="checkbox"
+                    // value={roomNumber._id}
+                    // onChange={handleSelectRoom}
+                    // disabled={
+                    //   !isAvailable(roomNumber) || numberOfSelect >= options.room
+                    // }
+                    // onClick={handleCheckbox}
+                  />
+                </Box>
+              {/* ))} */}
+            </td>
+            {/* {index == 0 && ( */}
+              <td rowSpan={0}>
+                <Box sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "6px",
+                    color: "#262626",
+                }}>
+                  <button
+                    style={{
+                        width: "100%",
+                        fontWeight: "500",
+                        fontSize: "14px",
+                        border: "none",
+                        padding: "8px 16px",
+                        cursor: "pointer",
+                        backgroundColor: "#0071c2",
+                        color: "#fff"
+                
+                    }}
+                    // onClick={handleClickReserve}
+                  >
+                    {`I'll reserve`}
+                  </button>
+                  </Box>
+              </td>
+            {/* )} */}
+          </tr>
+        {/* ))} */}
+      </table>
+    {/* </Box> */}
                         </Box>
+                        <SearchBar component='HotelItem' display handleChangeData={handleChangeData} destinations='fake-destination' onSearch={handleCheckRoomAvailable}/>
                         <Box bgcolor="white" mt="30px" borderRadius="5px" pb="30px">
                             <Box m="0px 30px" borderBottom="#EEE 1px solid" display="flex" flexDirection="row" gap={1}>
                                 <Typography fontWeight="600" color="#183C7D" fontSize="18px" padding="25px 0">
@@ -616,14 +785,14 @@ export default function DetailHotel() {
                             </Box>
 
                         </Box>
-                    </Box>
-                    <Box flex="1" width="350px" >
+                    </Box >
+                    {/* <Box flex="1" width="350px" >
                         <Box bgcolor="white" borderRadius="5px" p="10px 0" >
                             <Box m="20px 30px">
                                 <Box paddingBottom="20px" border="1px solid #EEEEEE" borderTop="none" borderLeft="none" borderRight="none" >
                                     <Typography fontSize="16px" fontWeight="600" color="#183C7D">Đặt phòng khách sạn</Typography>
                                 </Box>
-                                <Box paddingBottom="20px" borderBottom="1px solid #EEEEEE" mt="20px" >
+                                <Box paddingBottom="20px"  mt="20px" >
                                     <FilterOption handleChangeData={handleChangeData} />
                                 </Box>
                                 {roomChoose.length > 0 &&
@@ -694,9 +863,9 @@ export default function DetailHotel() {
                                 </Box>
                             </Box>
                         </Box>
-                    </Box>
-                </Box>
-            </Box>
+                    </Box> */}
+                </Box >
+            </Box >
             <Loading loading={load} />
             <Footer />
         </Box >

@@ -1,13 +1,12 @@
-import Box from "@mui/material/Box";
-import StarRateRoundedIcon from '@mui/icons-material/StarRateRounded';
-import Typography from "@mui/material/Typography"
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
-import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined';
-import PhoneOutlinedIcon from '@mui/icons-material/PhoneOutlined';
 import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
-import { Link } from "@mui/material";
+import PhoneOutlinedIcon from '@mui/icons-material/PhoneOutlined';
+import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined';
+import StarRateRoundedIcon from '@mui/icons-material/StarRateRounded';
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 
-export default function Footer() {
+export default function FooterComponent() {
     return (
         <Box width="100%" display="flex" flexDirection="column" m="0px auto" bgcolor="#18458B" padding="50px 0">
             <Box display="flex" alignItems="center" margin="0 auto" maxWidth="1224px" flexDirection="column" width="50%">

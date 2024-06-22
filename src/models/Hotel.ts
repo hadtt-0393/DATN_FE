@@ -1,7 +1,6 @@
 export interface Hotel {
   _id: number;
   hotelName: string;
-  type: string;
   city: string;
   address: string;
   distance: string;

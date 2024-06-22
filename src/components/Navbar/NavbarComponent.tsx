@@ -1,23 +1,23 @@
-import Typography from "@mui/material/Typography"
-import Box from "@mui/material/Box"
-import Button from "@mui/material/Button"
+import ListAltIcon from '@mui/icons-material/ListAlt';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
-import Fab from '@mui/material/Fab';
-import ListAltIcon from '@mui/icons-material/ListAlt';
 import Avatar from "@mui/material/Avatar";
-import { useNavigate } from "react-router-dom";
+import Box from "@mui/material/Box";
+import Fab from '@mui/material/Fab';
+import Typography from "@mui/material/Typography";
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 
-export default function Navbar() {
-    const { user, dispatch } = useContext(AuthContext);
+export default function NavbarComponent() {
+    const { user, dispatch, loading } = useContext(AuthContext);
     const navigate = useNavigate()
     const handleLogout = () => {
         dispatch && dispatch({ type: 'LOGOUT' });
         navigate('/');
       };
+
     return (
         <Box sx={{ backgroundColor: "#18458B", position: "fixed", zIndex: 10, top: 0, width: "100%" }}>
             <Box sx={{ display: "flex", width: "92%", height: "60px", margin: "0 auto", alignItems: "center", maxWidth: "1224px", justifyContent: "space-between " }}>

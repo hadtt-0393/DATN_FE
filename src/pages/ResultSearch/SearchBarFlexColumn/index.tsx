@@ -35,32 +35,35 @@ export interface SearchBarProps {
     startDate: Date | null;
     endDate: Date | null;
     option: Option;
-    handleChangedata: (arg1, arg2 ) => void;
+    handleChangedata: (arg1, arg2) => void;
 }
 
-const SearchBar = ({ city, startDate, endDate, option, handleChangedata }: SearchBarProps) => {
+const SearchBarFlexColumn = ({ city, startDate, endDate, option, handleChangedata }: SearchBarProps) => {
     const { data: cityData } = useFetch<City[]>(
         `${process.env.REACT_APP_API_ENDPOINT}/city/getAllCity`,
     );
-
+    const currentDate = new Date();
     const [destination, setDestination] = useState(city);
-    const [openDate, setOpenDate] = useState(false);
     const [dates, setDates] = useState<DatesInterface[]>([
         {
-            startDate: startDate,
-            endDate: endDate,
+            startDate: startDate ? startDate : currentDate,
+            endDate: endDate ? endDate : new Date(currentDate.getTime() + 86400000),
             key: 'selection',
         },
     ]);
-
+    const [options, setOptions] = useState(option ? option : {
+        adult: 2,
+        children: 0,
+        room: 1,
+    });
+    const [openDate, setOpenDate] = useState(false);
     const [openOptions, setOpenOptions] = useState(false);
-    const [options, setOptions] = useState(option);
-
+    
     const handleOption = (name: string, operation: 'd' | 'i') => {
         setOptions((prev) => {
             handleChangedata('option', {
                 ...prev,
-                [name]: operation === 'i'? options[name] + 1 : options[name] - 1,
+                [name]: operation === 'i' ? options[name] + 1 : options[name] - 1,
             })
             return {
                 ...prev,
@@ -77,6 +80,7 @@ const SearchBar = ({ city, startDate, endDate, option, handleChangedata }: Searc
     const [monthNumber, setMonthNumber] = useState(
         window.innerWidth > 1024 ? 2 : 1,
     );
+
     useEffect(() => {
         const handleResize = () => {
             setMonthNumber(window.innerWidth > 1024 ? 2 : 1);
@@ -86,7 +90,7 @@ const SearchBar = ({ city, startDate, endDate, option, handleChangedata }: Searc
 
 
     const [searchTerm, setSearchTerm] = useState('');
-    const KEYS_TO_FILTERS = ['name'];
+    const KEYS_TO_FILTERS = ['cityName'];
     const filteredCity: any = cityData?.filter(
         createFilter(searchTerm, KEYS_TO_FILTERS),
     );
@@ -159,7 +163,7 @@ const SearchBar = ({ city, startDate, endDate, option, handleChangedata }: Searc
                                                     handleChangedata('city', e.target.innerText);
                                                 }}
                                             >
-                                                {city.name}
+                                                {city.cityName}
                                             </div>
                                         </div>
                                     ))
@@ -184,7 +188,7 @@ const SearchBar = ({ city, startDate, endDate, option, handleChangedata }: Searc
                         alignItems: 'center',
                         backgroundColor: 'white',
                         padding: '5px 8px',
-                        gap: '8px',
+                        gap: '8px',  
                         height: '40px'
                     }}>
                         <FontAwesomeIcon icon={faCalendarDays} size="sm" style={{ marginRight: "5px", color: "#F9B90F" }} />
@@ -425,4 +429,4 @@ const SearchBar = ({ city, startDate, endDate, option, handleChangedata }: Searc
     );
 };
 
-export default SearchBar;
+export default SearchBarFlexColumn;

@@ -14,7 +14,6 @@ import { useScrollToTop } from './hook/use-hook-to-top';
 import PaymentSuccess from './pages/PaymentSuccess';
 
 const App = () => {
-  // useScrollToTop();
   return (
     <BrowserRouter>
       <Routes>
@@ -22,10 +21,10 @@ const App = () => {
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/hotel/:id" element={<DetailHotel />} />
-        <Route path="/city" element={<SearchResultsPage />} />
+        <Route path="/city/:city" element={<SearchResultsPage />} />
         <Route path="/reservations" element={<ReservationsPage />} />
         <Route path="/booking" element={<BookingPage />} />
-        <Route path="/select-payment-method" element={<PaymentMethod />} />
+        <Route path="/booking-confirm" element={<PaymentMethod />} />
         <Route path="/payment-success" element={<PaymentSuccess />} />
       </Routes>
       <ToastContainer />

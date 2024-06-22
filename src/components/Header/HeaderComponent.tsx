@@ -2,9 +2,9 @@ import HouseIcon from '@mui/icons-material/House';
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { NavLink } from "react-router-dom";
-import Footer from "../Footer";
+import Footer from "../Footer/FooterComponent";
 
-export default function Header() {
+export default function HeaderComponent() {
     return (
         <Box sx={{ backgroundColor: "#18458B", position: "fixed", zIndex: 10, top: "60px", width: "100%", border: " 1px solid rgba(0, 0, 0, 0.21)" }}>
             <Box sx={{ display: "flex", width: "92%", height: "50px", margin: "0 auto", alignItems: "center", maxWidth: "1224px", justifyContent: "start" }}>

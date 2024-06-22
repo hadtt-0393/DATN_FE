@@ -1,14 +1,9 @@
 import StarRateRoundedIcon from '@mui/icons-material/StarRateRounded';
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import SearchBar from "../SearchBar";
 
-export default function Slider({ display }) {
-    const [value, setValue] = useState('');
-    const navigate = useNavigate()
-
+export default function SliderComponent({ display }) {
     return (
         <Box sx={{ mt: "110px", height: "600px", width: "100%", position: "relative" }}>
             <img src="https://easybook.demotheme.matbao.support/wp-content/uploads/2018/10/22.jpg" alt="slider-image" style={{ width: "100%", height: "600px", objectFit: "cover" }} />

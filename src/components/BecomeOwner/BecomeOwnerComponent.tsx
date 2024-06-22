@@ -1,10 +1,10 @@
-import Box from "@mui/material/Box";
 import StarRateRoundedIcon from '@mui/icons-material/StarRateRounded';
-import Typography from "@mui/material/Typography"
-import "./style.css"
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
+import "./style.css";
 
-export default function BecomeOwner() {
+export default function BecomeOwnerComponent() {
     const navigate = useNavigate()
     return (
         <Box width="100%" display="flex" flexDirection="column" m="0px auto" bgcolor="yellow" padding="50px 0" sx={{ backgroundColor: "#ECF6F8" }} className="container">

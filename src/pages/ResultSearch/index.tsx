@@ -12,14 +12,11 @@ import Typography from "@mui/material/Typography";
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import axios from 'axios';
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import Header from '../../components/Header';
-import Navbar from '../../components/Navbar';
-import Sliders from '../../components/Slider';
+import { HeaderComponent, LoadingComponent, NavbarComponent, SliderComponent } from '../../components';
 import { Hotel } from '../../models/Hotel';
 import SearchBarFlexColumn from '../../pages/ResultSearch/SearchBarFlexColumn';
-import Loading from '../../components/Loading/Loading';
 
 const Image = styled.img`
     width: 100%;
@@ -55,17 +52,51 @@ const theme = createTheme({
 });
 
 const serviceHotelOptions = {
-    gym: 'Phòng tập gym',
-    pool: 'Bể bơi',
+    // gym: 'Phòng tập gym',
+    // pool: 'Bể bơi',
+    // parking: "Bãi đỗ xe",
+    // restaurant: 'Nhà hàng',
+    airport: "Xe đưa đón sân bay",
+    wifi: "WiFi miễn phí",
     parking: "Bãi đỗ xe",
-    restaurant: 'Nhà hàng',
+    spa: "Trung tâm Spa & chăm sóc sức khoẻ",
+    restaurant: "Nhà hàng",
+    noSmoking: "Phòng không hút thuốc",
+    hotelReception: "Lễ tân 24h",
+    roomService: "Dịch vụ phòng",
+    fitnessCenter: "Trung tâm thể dục",
+    pool: "Bể bơi",
+    extrance: "Lối vào cho người đi xe lăn",
+    chargingStation: "Trạm sạc xe điện",
+    pet: "Cho phép mang theo vật nuôi",
+    gym: "Phòng tập gym"
 }
 
 const serviceRoomOptions = {
-    wifi: "Wifi",
-    tv: "Tivi",
-    airConditioning: "Điều hòa",
-    bathroom: 'Phòng tắm',
+    // wifi: "Wifi",
+    // tv: "Tivi",
+    // airConditioning: "Điều hòa",
+    // bathroom: 'Phòng tắm',
+
+    airConditional: "Điều hòa không khí",
+    privatePool: "Bể bơi riêng",
+    bathroom: "Phòng tắm riêng",
+    balcony: "Ban công",
+    kitchenPlace: "Khu vực bếp",
+    bathtub: "Bồn tắm",
+    washingMachine: "Máy giặt",
+    bbq: "Tiện nghi BBQ",
+    kitchen: "Bếp",
+    fridge: "Tủ lạnh",
+    elevator: "Thang máy",
+    hairDryer: "Máy sấy tóc",
+    privateAirConditional: "Máy điều hòa độc lập cho từng phòng",
+    telivision: "Ti vi",
+    toiletPaper: "Giấy vệ sinh",
+    table: "Bàn làm việc",
+    sofa: "Ghế sofa",
+    kitchenUtensils: "Đồ bếp",
+    heatingSystem: "Hệ thống sưởi"
 }
 
 const distanceOptions = {
@@ -77,36 +108,39 @@ const distanceOptions = {
 
 
 export default function SearchResultsPage() {
-
     const location = useLocation();
     const { state } = location
+    let { city } = useParams();
 
-    const startDate = state.dates ? state.dates[0]?.startDate.toLocaleDateString('en-US') : null;
-    const endDate = state.dates ? state.dates[0]?.endDate.toLocaleDateString('en-US') : null;
-
-    const city = state.destination;
-    const option = state.options ? state.options : { adult: null, children: null, room: null };
-    const adult = option.adult;
-    const children = option.children
-    const room = option.room;
-
-    const startDateProp = state.dates ? state.dates[0].startDate : null;
-    const endDateProp = state.dates ? state.dates[0].endDate : null;
+    const startDate = state ? state.dates[0]?.startDate.toLocaleDateString('en-US') : null;
+    const endDate = state ? state.dates[0]?.endDate.toLocaleDateString('en-US') : null;
+    const option = state ? state.options : null;
+    const adult = option ? option.adult : null;
+    const children = option ? option.children : null;
+    const room = option ? option.room : null;
+    const startDateProp = state ? state.dates[0].startDate : null;
+    const endDateProp = state ? state.dates[0].endDate : null;
+    const optionProp = state ? state.options : null;
+    const [startDateFilter, setStartDateFilter] = useState(startDateProp)
+    const [endDateFilter, setEndDateFilter] = useState(endDateProp)
+    const [cityFilter, setCityFilter] = useState(city)
+    const [adultFilter, setAdultFilter] = useState(adult)
+    const [childrenFilter, setChildrenFilter] = useState(children)
+    const [roomFilter, setRoomFilter] = useState(room)
+    const [hotels, setHotels] = useState<Hotel[]>([]);
+    const [loading, setLoading] = useState(false);
 
     const createUrl = () => {
         const baseUrl = `${process.env.REACT_APP_API_ENDPOINT}/hotel/getHotelBySearch?city=${city}`
-        const startDateQuery = startDate != null ? `&startDate=${startDate}` : ''
-        const endDateQuery = endDate != null ? `&endDate=${endDate}` : ''
-        const adultQuery = adult != null ? `&adult=${adult}` : ''
-        const childrenQuery = children != null ? `&children=${children}` : ''
-        const roomQuery = room != null ? `&roomNumber=${room}` : ''
-
+        const startDateQuery = startDate ? `&startDate=${startDate}` : ''
+        const endDateQuery = endDate ? `&endDate=${endDate}` : ''
+        const adultQuery = adult ? `&adult=${adult}` : ''
+        const childrenQuery = children !== null ? `&children=${children}` : ''
+        const roomQuery = room ? `&roomNumber=${room}` : ''
         const url = `${baseUrl}${startDateQuery}${endDateQuery}${childrenQuery}${roomQuery}${adultQuery}`
         return url;
     }
 
-    const [hotels, setHotels] = useState<Hotel[]>([]);
-    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         setLoading(true)
@@ -119,12 +153,7 @@ export default function SearchResultsPage() {
         return () => clearTimeout(timer);
     }, [])
 
-    const [startDateFilter, setStartDateFilter] = useState(startDate)
-    const [endDateFilter, setEndDateFilter] = useState(endDate)
-    const [cityFilter, setCityFilter] = useState(city)
-    const [adultFilter, setAdultFilter] = useState(adult)
-    const [childrenFilter, setChildrenFilter] = useState(children)
-    const [roomFilter, setRoomFilter] = useState(room)
+
 
 
 
@@ -148,17 +177,51 @@ export default function SearchResultsPage() {
 
     const [priceRange, setPriceRange] = useState<number[]>([0, 0]);
     const [serviceHotel, setServiceHotel] = useState<any>({
+        // parking: false,
+        // restaurant: false,
+        // pool: false,
+        // gym: false,
+        airport: false,
+        wifi: false,
         parking: false,
+        spa: false,
         restaurant: false,
+        noSmoking: false,
+        hotelReception: false,
+        roomService: false,
+        fitnessCenter: false,
         pool: false,
+        extrance: false,
+        chargingStation: false,
+        pet: false,
         gym: false,
     })
 
     const [serviceRoom, setServiceRoom] = useState<any>({
-        wifi: false,
-        tv: false,
-        airConditioning: false,
+        // wifi: false,
+        // tv: false,
+        // airConditioning: false,
+        // bathroom: false,
+
+        airConditional: false,
+        privatePool: false,
         bathroom: false,
+        balcony: false,
+        kitchenPlace: false,
+        bathtub: false,
+        washingMachine: false,
+        bbq: false,
+        kitchen: false,
+        fridge: false,
+        elevator: false,
+        hairDryer: false,
+        privateAirConditional: false,
+        telivision: false,
+        toiletPaper: false,
+        table: false,
+        sofa: false,
+        kitchenUtensils: false,
+        heatingSystem: false
     })
 
     const [distance, setDistance] = useState<any>({
@@ -227,9 +290,9 @@ export default function SearchResultsPage() {
     const handleFilter = async () => {
         setLoading(true)
         const Filter = async () => {
-            const RequestFilter = await axios.get(createUrlFilter())
+            // const RequestFilter = await axios.get(createUrlFilter())
             setLoading(false)
-            setHotels(RequestFilter.data.hotels)
+            // setHotels(RequestFilter.data.hotels)
         }
         const timer = setTimeout(Filter, 500);
         return () => clearTimeout(timer);
@@ -246,26 +309,26 @@ export default function SearchResultsPage() {
 
     return (
         <Box>
-            <Navbar />
-            <Header />
-            <Sliders display={false} />
+            <NavbarComponent />
+            <HeaderComponent />
+            <SliderComponent display={false} />
             <Box width="100%" bgcolor="#ECF6F8">
                 <Box width="92%" maxWidth="1224px" m="30px auto" display="flex" gap={3} padding="50px 0" >
                     <Box flex="1" width="350px">
                         <Box bgcolor="white" borderRadius="5px" p="10px 0" >
                             <Box m="0px 15px">
-                                <SearchBarFlexColumn city={city} startDate={startDateProp} endDate={endDateProp} option={option} handleChangedata={handleChangedata} />
+                                <SearchBarFlexColumn city={city} startDate={startDateFilter} endDate={endDateFilter} option={optionProp} handleChangedata={handleChangedata} />
                             </Box>
                             <Box m="20px 30px">
                                 <Box paddingBottom="20px" border="1px solid #EEEEEE" borderTop="none" borderLeft="none" borderRight="none" >
                                     <Typography fontSize="16px" fontWeight="600" color="#183C7D">Lọc</Typography>
                                 </Box>
                                 <Box paddingBottom="20px" borderBottom="1px solid #EEEEEE" mt="20px" >
-                                    <Typography fontSize="13px" color="#878C9F" mb="10px" mt="20px">Khoảng giá (VND)</Typography>
+                                    <Typography fontSize="13px" color="#000" mb="10px" mt="20px">Khoảng giá (VND)</Typography>
                                     <Stack spacing={2} direction="row" alignItems="center" justifyContent="space-between">
-                                        <Typography fontSize="12px" >0</Typography>
+                                        <Typography fontSize="12px" sx={{ color: "#878C9F" }} >0</Typography>
 
-                                        <Typography fontSize="12px">1.000.000</Typography>
+                                        <Typography fontSize="12px" sx={{ color: "#878C9F" }}>1.000.000</Typography>
                                     </Stack>
                                     <Slider
                                         getAriaLabel={() => 'Temperature range'}
@@ -278,7 +341,7 @@ export default function SearchResultsPage() {
                                         getAriaValueText={valuetext}
 
                                     />
-                                    <Typography fontSize="13px" color="#878C9F" mb="10px" mt="10px">Khoảng cách đến trung tâm thành phố</Typography>
+                                    <Typography fontSize="13px" color="#000" mb="10px" mt="10px">Khoảng cách đến trung tâm thành phố</Typography>
                                     <Box >
                                         <Grid container spacing={1}>
                                             {Object.keys(distanceOptions).map((key) => (
@@ -303,11 +366,11 @@ export default function SearchResultsPage() {
                                         </Grid>
                                     </Box>
 
-                                    <Typography fontSize="13px" color="#878C9F" mb="10px" mt="20px">Dịch vụ khách sạn</Typography>
+                                    <Typography fontSize="13px" color="#000" mb="10px" mt="20px">Dịch vụ khách sạn</Typography>
                                     <Box >
                                         <Grid container spacing={1}>
                                             {Object.keys(serviceHotelOptions).map((key) => (
-                                                <Grid item xs={6} display="flex" flexDirection="row" alignItems="center" justifyContent="start" key={key}>
+                                                <Grid item xs={12} display="flex" flexDirection="row" alignItems="center" justifyContent="start" key={key}>
                                                     <Checkbox
                                                         sx={{
                                                             color: "#CCCCCC", width: "12px", height: "12px",
@@ -327,11 +390,11 @@ export default function SearchResultsPage() {
                                             ))}
                                         </Grid>
                                     </Box>
-                                    <Typography fontSize="13px" color="#878C9F" mb="10px" mt="20px">Dịch vụ phòng khách sạn</Typography>
+                                    <Typography fontSize="13px" color="#000" mb="10px" mt="20px">Dịch vụ phòng khách sạn</Typography>
                                     <Box>
                                         <Grid container spacing={1}>
                                             {Object.keys(serviceRoomOptions).map((key) => (
-                                                <Grid item xs={6} display="flex" flexDirection="row" alignItems="center" justifyContent="start" key={key}>
+                                                <Grid item xs={12} display="flex" flexDirection="row" alignItems="center" justifyContent="start" key={key}>
                                                     <Checkbox
                                                         sx={{
                                                             color: "#CCCCCC", width: "12px", height: "12px",
@@ -362,16 +425,16 @@ export default function SearchResultsPage() {
                     <Box flex="2.5" display="flex" justifyContent="start" alignItems="start" flexDirection="column" >
                         <Box display="flex" flexDirection="row" mb="20px"  >
                             <Typography color="#958DA0" fontWeight="600" fontSize="20px" mr="10px">Kết quả tìm kiếm cho:  </Typography>
-                            <Typography color="#3AACED" fontWeight="600" fontSize="20px">{state.destination}</Typography>
+                            <Typography color="#3AACED" fontWeight="600" fontSize="20px">{city}</Typography>
                         </Box>
                         <Box gap={2} sx={{ display: "flex", justifyContent: "space-between", alignItems: "start", flex: 1 }}>
                             <Grid container spacing={4}>
                                 {hotels && hotels.map((item) => (
-                                    <Grid item xs={6} >
-                                        <Card sx={{ ml: .5, boxShadow: "none", border: "1px solid #EEE", mr: .5 }} >
-                                            <CardActionArea sx={{}} >
-                                                <Box overflow="hidden" borderRadius="5px" position="relative" height="50%">
-                                                    <Image src="http://res.cloudinary.com/di7a7sbbn/image/upload/v1668414040/upload/prirsonreuc6vkcjmxfi.jpg" />
+                                    <Grid item xs={12} >
+                                        <Card sx={{ ml: .5, border: "1px solid #A3D7FC", mr: .5, boxShadow:"none" }} >
+                                            <CardActionArea sx={{ display: "flex", flexDirection: "row", alignItems: "start" }} >
+                                                <Box overflow="hidden" borderRadius="5px" position="relative" width="40%" m={1.5} >
+                                                    <Image src="https://cf2.bstatic.com/xdata/images/hotel/max1024x768/38508716.jpg?k=1a8ef3314a8e9737040c4703f2578943652112a45d6d1ab14cdfe9f3f54df55e&o=&hp=1" />
                                                     <Box sx={{
                                                         position: "absolute",
                                                         top: 0,
@@ -448,7 +511,7 @@ export default function SearchResultsPage() {
                                                         }
                                                     </Box>
                                                 </Box>
-                                                <CardContent>
+                                                <CardContent sx={{ display: "flex", flex: "1", flexDirection: "column" }}>
                                                     <Typography gutterBottom component="div" sx={{ color: "#46A5DC", fontSize: "18px", fontWeight: "600" }}>
                                                         {item.hotelName}
                                                     </Typography>
@@ -457,7 +520,7 @@ export default function SearchResultsPage() {
                                                         <Typography sx={{ color: "#999", fontSize: "13px", whiteSpace: "wrap", wordBreak: "break-word" }}>{item.address}</Typography>
                                                     </Box>
                                                     <Box sx={{ border: ".5px  #CCC dashed" }} />
-                                                    <Typography sx={{ color: "#999", fontSize: "13px", mt: "15px", mb: "12px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item.description}</Typography>
+                                                    <Typography sx={{ color: "#999", fontSize: "13px", mt: "15px", mb: "12px" }}>{item.description}</Typography>
                                                     <Box display="flex" alignItems="center" justifyContent="start" mb="12px">
                                                         <SupportAgentRoundedIcon sx={{ color: "red", fontSize: "16px" }} />
                                                         <ul style={{ listStyleType: "none", padding: "0px", marginLeft: "10px", color: "#3AACED", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
@@ -468,11 +531,11 @@ export default function SearchResultsPage() {
                                                     </Box>
                                                     <Box sx={{ border: ".5px  #CCC dashed" }} />
                                                     <ThemeProvider theme={theme}>
-                                                        <Box display="flex" alignItems="center" justifyContent="space-between" mt="10px" >
-                                                            <Box bgcolor="#F9B90F" sx={{ fontSize: "13px", textTransform: "unset", boxShadow: "none", border: "0.5px solid #EEE", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: "5px 10px", borderRadius: "5px" }}>
+                                                        <Box display="flex" alignItems="center" justifyContent="end" mt="10px" >
+                                                            {/* <Box bgcolor="#F9B90F" sx={{ fontSize: "13px", textTransform: "unset", boxShadow: "none", border: "0.5px solid #EEE", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: "5px 10px", borderRadius: "5px" }}>
                                                                 <Typography sx={{ fontSize: "13px", textTransform: "uppercase", color: "white" }} >Giá Rẻ Nhẩt/Đêm</Typography>
                                                                 <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", marginLeft: "5px" }}>{item.cheapestPrice}VND</Typography>
-                                                            </Box>
+                                                            </Box> */}
                                                             <Button variant="contained" sx={{ fontSize: "13px", textTransform: "unset" }} onClick={() => navigate(`/hotel/${item._id}`)}>Xem chi tiết</Button>
                                                         </Box>
                                                     </ThemeProvider>
@@ -486,7 +549,7 @@ export default function SearchResultsPage() {
                     </Box>
                 </Box>
             </Box>
-            <Loading loading={loading} />
+            <LoadingComponent loading={loading} />
         </Box >
     )
 }
