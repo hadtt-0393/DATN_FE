@@ -16,7 +16,10 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { HeaderComponent, LoadingComponent, NavbarComponent, SliderComponent } from '../../components';
 import { Hotel } from '../../models/Hotel';
+import { Service } from '../../models/Service';
 import SearchBarFlexColumn from '../../pages/ResultSearch/SearchBarFlexColumn';
+import { previousDay } from 'date-fns';
+import { devNull } from 'os';
 
 const Image = styled.img`
     width: 100%;
@@ -51,61 +54,11 @@ const theme = createTheme({
     }
 });
 
-const serviceHotelOptions = {
-    // gym: 'Phòng tập gym',
-    // pool: 'Bể bơi',
-    // parking: "Bãi đỗ xe",
-    // restaurant: 'Nhà hàng',
-    airport: "Xe đưa đón sân bay",
-    wifi: "WiFi miễn phí",
-    parking: "Bãi đỗ xe",
-    spa: "Trung tâm Spa & chăm sóc sức khoẻ",
-    restaurant: "Nhà hàng",
-    noSmoking: "Phòng không hút thuốc",
-    hotelReception: "Lễ tân 24h",
-    roomService: "Dịch vụ phòng",
-    fitnessCenter: "Trung tâm thể dục",
-    pool: "Bể bơi",
-    extrance: "Lối vào cho người đi xe lăn",
-    chargingStation: "Trạm sạc xe điện",
-    pet: "Cho phép mang theo vật nuôi",
-    gym: "Phòng tập gym"
-}
-
-const serviceRoomOptions = {
-    // wifi: "Wifi",
-    // tv: "Tivi",
-    // airConditioning: "Điều hòa",
-    // bathroom: 'Phòng tắm',
-
-    airConditional: "Điều hòa không khí",
-    privatePool: "Bể bơi riêng",
-    bathroom: "Phòng tắm riêng",
-    balcony: "Ban công",
-    kitchenPlace: "Khu vực bếp",
-    bathtub: "Bồn tắm",
-    washingMachine: "Máy giặt",
-    bbq: "Tiện nghi BBQ",
-    kitchen: "Bếp",
-    fridge: "Tủ lạnh",
-    elevator: "Thang máy",
-    hairDryer: "Máy sấy tóc",
-    privateAirConditional: "Máy điều hòa độc lập cho từng phòng",
-    telivision: "Ti vi",
-    toiletPaper: "Giấy vệ sinh",
-    table: "Bàn làm việc",
-    sofa: "Ghế sofa",
-    kitchenUtensils: "Đồ bếp",
-    heatingSystem: "Hệ thống sưởi"
-}
-
 const distanceOptions = {
     fiveKm: 5,
     tenKm: 10,
     fifteenKm: 15,
 }
-
-
 
 export default function SearchResultsPage() {
     const location = useLocation();
@@ -121,13 +74,15 @@ export default function SearchResultsPage() {
     const startDateProp = state ? state.dates[0].startDate : null;
     const endDateProp = state ? state.dates[0].endDate : null;
     const optionProp = state ? state.options : null;
-    const [startDateFilter, setStartDateFilter] = useState(startDateProp)
-    const [endDateFilter, setEndDateFilter] = useState(endDateProp)
+    const [startDateFilter, setStartDateFilter] = useState(startDate)
+    const [endDateFilter, setEndDateFilter] = useState(endDate)
     const [cityFilter, setCityFilter] = useState(city)
     const [adultFilter, setAdultFilter] = useState(adult)
     const [childrenFilter, setChildrenFilter] = useState(children)
     const [roomFilter, setRoomFilter] = useState(room)
     const [hotels, setHotels] = useState<Hotel[]>([]);
+    const [serviceHotelOptions, setServiceHotelOptions] = useState<Service[]>([]);
+    const [serviceRoomOptions, setServiceRoomOptions] = useState<Service[]>([]);
     const [loading, setLoading] = useState(false);
 
     const createUrl = () => {
@@ -146,16 +101,16 @@ export default function SearchResultsPage() {
         setLoading(true)
         const getHotels = async () => {
             const hotels = await axios.get(createUrl())
+            const servicesHotelSystem = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/serviceHotel/getAllServiceHotelSystem`)
+            const servicesRoomSystem = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/serviceRoom/getAllServiceRoomSystem`)
             setHotels(hotels.data)
+            setServiceHotelOptions(servicesHotelSystem.data)
+            setServiceRoomOptions(servicesRoomSystem.data)
             setLoading(false)
         }
         const timer = setTimeout(getHotels, 500);
         return () => clearTimeout(timer);
     }, [])
-
-
-
-
 
     const handleChangedata = (arg1, arg2) => {
         if (arg1 === 'date') {
@@ -174,56 +129,9 @@ export default function SearchResultsPage() {
         }
     }
 
-
     const [priceRange, setPriceRange] = useState<number[]>([0, 0]);
-    const [serviceHotel, setServiceHotel] = useState<any>({
-        // parking: false,
-        // restaurant: false,
-        // pool: false,
-        // gym: false,
-        airport: false,
-        wifi: false,
-        parking: false,
-        spa: false,
-        restaurant: false,
-        noSmoking: false,
-        hotelReception: false,
-        roomService: false,
-        fitnessCenter: false,
-        pool: false,
-        extrance: false,
-        chargingStation: false,
-        pet: false,
-        gym: false,
-    })
-
-    const [serviceRoom, setServiceRoom] = useState<any>({
-        // wifi: false,
-        // tv: false,
-        // airConditioning: false,
-        // bathroom: false,
-
-        airConditional: false,
-        privatePool: false,
-        bathroom: false,
-        balcony: false,
-        kitchenPlace: false,
-        bathtub: false,
-        washingMachine: false,
-        bbq: false,
-        kitchen: false,
-        fridge: false,
-        elevator: false,
-        hairDryer: false,
-        privateAirConditional: false,
-        telivision: false,
-        toiletPaper: false,
-        table: false,
-        sofa: false,
-        kitchenUtensils: false,
-        heatingSystem: false
-    })
-
+    const [serviceHotel, setServiceHotel] = useState<string[]>([])
+    const [serviceRoom, setServiceRoom] = useState<string[]>([])
     const [distance, setDistance] = useState<any>({
         fiveKm: false,
         tenKm: false,
@@ -231,17 +139,21 @@ export default function SearchResultsPage() {
     })
 
     const changeSerivceHotel = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setServiceHotel({
-            ...serviceHotel,
-            [event.target.name]: event.target.checked,
-        });
+        if (event.target.checked) {
+            setServiceHotel((prev) => [...prev, event.target.name])
+        }
+        else {
+            setServiceHotel((prev) => prev.filter(item => item !== event.target.name))
+        }
     };
 
     const changeSerivceRoom = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setServiceRoom({
-            ...serviceRoom,
-            [event.target.name]: event.target.checked,
-        });
+        if (event.target.checked) {
+            setServiceRoom((prev) => [...prev, event.target.name])
+        }
+        else {
+            setServiceRoom((prev) => prev.filter(item => item !== event.target.name))
+        }
     };
 
     const changeDistance = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -252,17 +164,11 @@ export default function SearchResultsPage() {
     };
 
     const getSelectedHotelServicesString = () => {
-        return Object.keys(serviceHotel)
-            .filter((key) => serviceHotel[key])
-            .map((key) => serviceHotelOptions[key])
-            .join(',');
+        return serviceHotel.join(',')
     };
 
     const getSelectedRoomServicesString = () => {
-        return Object.keys(serviceRoom)
-            .filter((key) => serviceRoom[key])
-            .map((key) => serviceRoomOptions[key])
-            .join(',');
+        return serviceRoom.join(',')
     };
 
     const getSelectedDistanceString = () => {
@@ -290,7 +196,7 @@ export default function SearchResultsPage() {
     const handleFilter = async () => {
         setLoading(true)
         const Filter = async () => {
-            // const RequestFilter = await axios.get(createUrlFilter())
+            const RequestFilter = await axios.get(createUrlFilter())
             setLoading(false)
             // setHotels(RequestFilter.data.hotels)
         }
@@ -317,7 +223,7 @@ export default function SearchResultsPage() {
                     <Box flex="1" width="350px">
                         <Box bgcolor="white" borderRadius="5px" p="10px 0" >
                             <Box m="0px 15px">
-                                <SearchBarFlexColumn city={city} startDate={startDateFilter} endDate={endDateFilter} option={optionProp} handleChangedata={handleChangedata} />
+                                <SearchBarFlexColumn city={city} startDate={startDateProp} endDate={endDateProp} option={optionProp} handleChangedata={handleChangedata} />
                             </Box>
                             <Box m="20px 30px">
                                 <Box paddingBottom="20px" border="1px solid #EEEEEE" borderTop="none" borderLeft="none" borderRight="none" >
@@ -369,7 +275,7 @@ export default function SearchResultsPage() {
                                     <Typography fontSize="13px" color="#000" mb="10px" mt="20px">Dịch vụ khách sạn</Typography>
                                     <Box >
                                         <Grid container spacing={1}>
-                                            {Object.keys(serviceHotelOptions).map((key) => (
+                                            {serviceHotelOptions.map((serviceHotel, key) => (
                                                 <Grid item xs={12} display="flex" flexDirection="row" alignItems="center" justifyContent="start" key={key}>
                                                     <Checkbox
                                                         sx={{
@@ -381,11 +287,10 @@ export default function SearchResultsPage() {
                                                                 fill: "#3AACED"
                                                             },
                                                         }}
-                                                        checked={serviceHotel[key]}
                                                         onChange={changeSerivceHotel}
-                                                        name={key}
+                                                        name={serviceHotel._id}
                                                     />
-                                                    <Typography fontSize="13px" color="#878C9F" whiteSpace="nowrap" ml="10px">{serviceHotelOptions[key]}</Typography>
+                                                    <Typography fontSize="13px" color="#878C9F" whiteSpace="nowrap" ml="10px">{serviceHotel.serviceName}</Typography>
                                                 </Grid>
                                             ))}
                                         </Grid>
@@ -393,7 +298,7 @@ export default function SearchResultsPage() {
                                     <Typography fontSize="13px" color="#000" mb="10px" mt="20px">Dịch vụ phòng khách sạn</Typography>
                                     <Box>
                                         <Grid container spacing={1}>
-                                            {Object.keys(serviceRoomOptions).map((key) => (
+                                            {serviceRoomOptions.map((serviceRoom, key) => (
                                                 <Grid item xs={12} display="flex" flexDirection="row" alignItems="center" justifyContent="start" key={key}>
                                                     <Checkbox
                                                         sx={{
@@ -405,11 +310,10 @@ export default function SearchResultsPage() {
                                                                 fill: "#3AACED"
                                                             },
                                                         }}
-                                                        checked={serviceRoom[key]}
                                                         onChange={changeSerivceRoom}
-                                                        name={key}
+                                                        name={serviceRoom._id}
                                                     />
-                                                    <Typography fontSize="13px" color="#878C9F" whiteSpace="nowrap" ml="10px">{serviceRoomOptions[key]}</Typography>
+                                                    <Typography fontSize="13px" color="#878C9F" whiteSpace="nowrap" ml="10px">{serviceRoom.serviceName}</Typography>
                                                 </Grid>
                                             ))}
                                         </Grid>
@@ -431,7 +335,7 @@ export default function SearchResultsPage() {
                             <Grid container spacing={4}>
                                 {hotels && hotels.map((item) => (
                                     <Grid item xs={12} >
-                                        <Card sx={{ ml: .5, border: "1px solid #A3D7FC", mr: .5, boxShadow:"none" }} >
+                                        <Card sx={{ ml: .5, border: "1px solid #A3D7FC", mr: .5, boxShadow: "none" }} >
                                             <CardActionArea sx={{ display: "flex", flexDirection: "row", alignItems: "start" }} >
                                                 <Box overflow="hidden" borderRadius="5px" position="relative" width="40%" m={1.5} >
                                                     <Image src="https://cf2.bstatic.com/xdata/images/hotel/max1024x768/38508716.jpg?k=1a8ef3314a8e9737040c4703f2578943652112a45d6d1ab14cdfe9f3f54df55e&o=&hp=1" />
@@ -521,9 +425,9 @@ export default function SearchResultsPage() {
                                                     </Box>
                                                     <Box sx={{ border: ".5px  #CCC dashed" }} />
                                                     <Typography sx={{ color: "#999", fontSize: "13px", mt: "15px", mb: "12px" }}>{item.description}</Typography>
-                                                    <Box display="flex" alignItems="center" justifyContent="start" mb="12px">
-                                                        <SupportAgentRoundedIcon sx={{ color: "red", fontSize: "16px" }} />
-                                                        <ul style={{ listStyleType: "none", padding: "0px", marginLeft: "10px", color: "#3AACED", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                                                    <Box display="flex" alignItems="start" justifyContent="start" mb="12px">
+                                                        <SupportAgentRoundedIcon sx={{ color: "red", fontSize: "16px", my: "5px" }} />
+                                                        <ul style={{ listStyleType: "none", padding: "0px", marginLeft: "10px", color: "#3AACED", lineHeight: "30px" }}>
                                                             {item && item.services.map((service, key) => (
                                                                 <li style={{ display: "inline-block", marginRight: "5px", }} key={key}>{service},</li>
                                                             ))}
