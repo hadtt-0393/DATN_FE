@@ -65,24 +65,33 @@ export default function SearchResultsPage() {
     const { state } = location
     let { city } = useParams();
 
-    const startDate = state ? state.dates[0]?.startDate.toLocaleDateString('en-US') : null;
-    const endDate = state ? state.dates[0]?.endDate.toLocaleDateString('en-US') : null;
-    const option = state ? state.options : null;
-    const adult = option ? option.adult : null;
-    const children = option ? option.children : null;
-    const room = option ? option.room : null;
-    const startDateProp = state ? state.dates[0].startDate : null;
-    const endDateProp = state ? state.dates[0].endDate : null;
-    const optionProp = state ? state.options : null;
     const currentDate = new Date();
-    const currentDateString = currentDate.toLocaleDateString('en-US');
-    const behindDateString = new Date(currentDate.getTime() + 86400000).toLocaleDateString('en-US');
-    const [startDateFilter, setStartDateFilter] = useState(startDate ? startDate : currentDateString)
-    const [endDateFilter, setEndDateFilter] = useState(endDate ? endDate : behindDateString)
+    const startDateDefault = currentDate.toLocaleDateString('en-US');
+    const endDateDefault = new Date(currentDate.getTime() + 86400000).toLocaleDateString('en-US');
+    const optionDefault = {
+        adult: 2,
+        children: 0,
+        room: 1,
+    }
+
+    const startDate = state ? state.dates[0]?.startDate.toLocaleDateString('en-US') : startDateDefault;
+    const endDate = state ? state.dates[0]?.endDate.toLocaleDateString('en-US') : endDateDefault;
+    const option = state ? state.options : optionDefault;
+    const adult = option.adult;
+    const children = option.children;
+    const room = option.room;
+
+
+    const startDateProp = state ? state.dates[0].startDate : currentDate;
+    const endDateProp = state ? state.dates[0].endDate : new Date(currentDate.getTime() + 86400000);
+    const optionProp = state ? state.options : optionDefault;
+    
     const [cityFilter, setCityFilter] = useState(city)
-    const [adultFilter, setAdultFilter] = useState(adult ? adult  : 2)
-    const [childrenFilter, setChildrenFilter] = useState(children ? children : 0)
-    const [roomFilter, setRoomFilter] = useState(room ? room : 1)
+    const [startDateFilter, setStartDateFilter] = useState(startDate)
+    const [endDateFilter, setEndDateFilter] = useState(endDate)
+    const [adultFilter, setAdultFilter] = useState(adult)
+    const [childrenFilter, setChildrenFilter] = useState(children)
+    const [roomFilter, setRoomFilter] = useState(room)
     const [hotels, setHotels] = useState<Hotel[]>([]);
     const [serviceHotelOptions, setServiceHotelOptions] = useState<Service[]>([]);
     const [serviceRoomOptions, setServiceRoomOptions] = useState<Service[]>([]);
@@ -90,11 +99,11 @@ export default function SearchResultsPage() {
 
     const createUrl = () => {
         const baseUrl = `${process.env.REACT_APP_API_ENDPOINT}/hotel/getHotelBySearch?city=${city}`
-        const startDateQuery = startDate ? `&startDate=${startDate}` : ''
-        const endDateQuery = endDate ? `&endDate=${endDate}` : ''
-        const adultQuery = adult ? `&adult=${adult}` : ''
-        const childrenQuery = children !== null ? `&children=${children}` : ''
-        const roomQuery = room ? `&roomNumber=${room}` : ''
+        const startDateQuery = `&startDate=${startDate}`
+        const endDateQuery = `&endDate=${endDate}`
+        const adultQuery = `&adult=${adult}`
+        const childrenQuery = `&children=${children}`
+        const roomQuery = `&roomNumber=${room}`
         const url = `${baseUrl}${startDateQuery}${endDateQuery}${childrenQuery}${roomQuery}${adultQuery}`
         return url;
     }
@@ -164,6 +173,7 @@ export default function SearchResultsPage() {
             ...distance,
             [event.target.name]: event.target.checked,
         });
+        console.log(distance)
     };
 
     const getSelectedHotelServicesString = () => {
@@ -176,7 +186,7 @@ export default function SearchResultsPage() {
 
     const getSelectedDistanceString = () => {
         return Object.keys(distance)
-            .filter((key) => serviceRoom[key])
+            .filter((key) => distance[key])
             .map((key) => distanceOptions[key])
             .join(',');
     };
@@ -192,7 +202,6 @@ export default function SearchResultsPage() {
         const distanceQuery = getSelectedDistanceString() ? `&distance=${getSelectedDistanceString()}` : ''
         const priceRangeQuery = (getSelectedPriceRangString() && getSelectedPriceRangString() !== '0,0') ? `&priceRange=${getSelectedPriceRangString()}` : ''
         const url = `${baseURL}${serviceHotelQuery}${serviceRoomQuery}${distanceQuery}${priceRangeQuery}`
-
         return url;
     }
 
@@ -215,6 +224,11 @@ export default function SearchResultsPage() {
         return `${value}VND`;
     }
     const navigate = useNavigate()
+
+    const openDetailHotel = (item) => {
+        console.log(item)
+        navigate(`/hotel/${item._id}`, { state: { startDate: startDateFilter, endDate: endDateFilter}});
+    }
 
     return (
         <Box>
@@ -438,12 +452,12 @@ export default function SearchResultsPage() {
                                                     </Box>
                                                     <Box sx={{ border: ".5px  #CCC dashed" }} />
                                                     <ThemeProvider theme={theme}>
-                                                        <Box display="flex" alignItems="center" justifyContent="end" mt="10px" >
-                                                            {/* <Box bgcolor="#F9B90F" sx={{ fontSize: "13px", textTransform: "unset", boxShadow: "none", border: "0.5px solid #EEE", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: "5px 10px", borderRadius: "5px" }}>
+                                                        <Box display="flex" alignItems="center" justifyContent="space-between" mt="10px" >
+                                                            <Box bgcolor="#F9B90F" sx={{ fontSize: "13px", textTransform: "unset", boxShadow: "none", border: "0.5px solid #EEE", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: "5px 10px", borderRadius: "5px" }}>
                                                                 <Typography sx={{ fontSize: "13px", textTransform: "uppercase", color: "white" }} >Giá Rẻ Nhẩt/Đêm</Typography>
                                                                 <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", marginLeft: "5px" }}>{item.cheapestPrice}VND</Typography>
-                                                            </Box> */}
-                                                            <Button variant="contained" sx={{ fontSize: "13px", textTransform: "unset" }} onClick={() => navigate(`/hotel/${item._id}`)}>Xem chi tiết</Button>
+                                                            </Box>
+                                                            <Button variant="contained" sx={{ fontSize: "13px", textTransform: "unset" }} onClick={() => openDetailHotel(item)}>Xem chi tiết</Button>
                                                         </Box>
                                                     </ThemeProvider>
                                                 </CardContent>

@@ -10,9 +10,11 @@ export interface Room {
   _id: number;
   type: string;
   price: number;
-  maxPerson: number;
+  maxPeople: number;
   description: string;
   services: string[];
   roomNumber: string;
   image: string;
+  roomType: string;
+  Beds: any[];
 }

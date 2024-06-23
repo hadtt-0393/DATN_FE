@@ -31,6 +31,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { Room } from '../../models/Room';
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -135,6 +136,7 @@ function ImagesList() {
 export default function DetailHotel() {
     const { user } = useContext(AuthContext);
     const location = useLocation();
+    const { state } = location
     const id = location.pathname.split('/')[2];
 
     const { data, loading, error } = useFetch<Hotel>(
@@ -142,14 +144,31 @@ export default function DetailHotel() {
     );
 
     const currentDate = new Date();
+    const startDateDefault = currentDate.toLocaleDateString('en-US');
+    const endDateDefault = (new Date(currentDate.getTime() + 86400000)).toLocaleDateString('en-US');
+
+    const start = state ? state.startDate : startDateDefault;
+    const end = state ? state.endDate : endDateDefault;
+
+
     const [startDateFilter, setStartDateFilter] = useState(currentDate.toLocaleDateString('en-US'));
     const [endDateFilter, setEndDateFilter] = useState((new Date(currentDate.getTime() + 86400000)).toLocaleDateString('en-US'));
-    const [adultFilter, setAdultFilter] = useState(2);
+    const [adultFilter, setAdultFilter] = useState(11);
     const [childrenFilter, setChildrenFilter] = useState(0);
-    const [roomNumberFilter, setRoomNumberFilter] = useState(1);
+    const [roomNumberFilter, setRoomNumberFilter] = useState(3);
     const [openDate, setOpenDate] = useState(false);
     const [room, setRoom] = useState('0: 0 VND');
     const [displayValue, setDisplayValue] = useState("0");
+
+    const [rooms, setRooms] = useState<Room[]>([]);
+
+    useEffect(() => {
+        const getAllRoomAvailable = async () => {
+            const res = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/room/getAllRoomAvailable/${id}?startDate=${start}&endDate=${end}`)
+            setRooms(res.data)
+        }
+        getAllRoomAvailable();
+    }, [])
 
 
     const handleChange = (event: SelectChangeEvent) => {
@@ -363,7 +382,7 @@ export default function DetailHotel() {
                             </Box>
                             <Box sx={{ fontSize: "13px", textTransform: "unset", boxShadow: "none", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: "5px 10px", borderRadius: "5px" }} alignSelf="end">
                                 <Typography sx={{ fontSize: "14px", textTransform: "uppercase", color: "white", fontWeight: "600" }} >Giá Rẻ Nhẩt/Đêm</Typography>
-                                <Typography sx={{ fontSize: "24px", color: "#5ECFB1", fontWeight: "600", marginLeft: "20px" }}>{data.cheapestPrice}VND</Typography>
+                                <Typography sx={{ fontSize: "24px", color: "#5ECFB1", fontWeight: "600", marginLeft: "20px" }}>{data.cheapestPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}VND</Typography>
                             </Box>
                         </Box>
                     </Box>
@@ -381,7 +400,7 @@ export default function DetailHotel() {
                             </Box>
                             <Box borderLeft="#E2E2E2 solid 1px" flex={1} height="100%" justifyContent="center" alignItems="center" display="flex" flexDirection="column">
                                 <GroupsOutlinedIcon sx={{ color: "#3AACED", width: "60px", height: "50px", opacity: 0.7, mb: "10px" }} />
-                                <Typography color="#999EA5" fontSize="12px" fontWeight="600">1000 Lượt đặt phòng</Typography>
+                                <Typography color="#999EA5" fontSize="12px" fontWeight="600">{"1000".replace(/\B(?=(\d{3})+(?!\d))/g, '.')} Lượt đặt phòng</Typography>
                             </Box>
                             <Box borderLeft="#E2E2E2 solid 1px" flex={1} height="100%" justifyContent="center" alignItems="center" display="flex" flexDirection="column">
                                 <DirectionsCarOutlinedIcon sx={{ color: "#3AACED", width: "60px", height: "50px", opacity: 0.7, mb: "10px" }} />
@@ -629,128 +648,70 @@ export default function DetailHotel() {
                                 </Box>
                                 <Box display="flex" flexDirection="row" border="1px solid #5BBAFF" borderTop="none">
                                     <Box flex={5.5} display="flex" flexDirection="column">
-                                        <Box display="flex" borderTop="1px solid #5BBAFF" flexDirection={'row'}>
-                                            <Box flex={2} borderRight="1px solid #5BBAFF" >
-
-                                                <Box display="flex" justifyContent="start" alignItems="start" m={2} flexDirection='column' >
-                                                    <Box display="flex" justifyContent="center" alignItems="center" overflow="hidden" borderRadius="4px">
-                                                        <Image src="https://cf2.bstatic.com/xdata/images/hotel/max1024x768/505672726.jpg?k=086af04426447cf784343fc4bad2ffec76dcf9a47cb16d14886a4a1907de9714&o=&hp=1" alt="room-image" style={{ width: "100%", objectFit: "contain", marginBottom: "20px" }} />
-                                                    </Box>
-                                                    <Typography color="#0083EB" fontWeight="600" mb={1}>Phòng gia đình</Typography>
-                                                    <Box display="flex" flexDirection="row" >
-                                                        <Typography mr="5px" fontSize="14px" > 1 Giường đôi,</Typography>
-                                                        <Typography fontSize="14px" >1 Giường đơn</Typography>
-                                                    </Box>
-                                                    <Typography fontWeight={600} fontSize="14px" my={1}>Dịch vụ phòng</Typography>
-                                                    <Box display="flex" justifyContent="start" alignItems="center" pb={2} flexWrap="wrap" gap={1}>
-                                                        {data?.services && data?.services.map((item) => (
-                                                            <Box display="flex" flexDirection="row" alignItems="center" >
-                                                                <CheckOutlinedIcon sx={{ color: "#3AACEE", fontSize: "16px" }} />
-                                                                <Typography fontSize="14px" color="#000" ml="3px">{item}</Typography>
+                                        {rooms.length > 0 && rooms.map(room => {
+                                            return (
+                                                <Box display="flex" borderTop="1px solid #5BBAFF" flexDirection={'row'}>
+                                                    <Box flex={2} borderRight="1px solid #5BBAFF" >
+                                                        <Box display="flex" justifyContent="start" alignItems="start" m={2} flexDirection='column' >
+                                                            <Box display="flex" justifyContent="center" alignItems="center" overflow="hidden" borderRadius="4px">
+                                                                <Image src="https://cf2.bstatic.com/xdata/images/hotel/max1024x768/505672726.jpg?k=086af04426447cf784343fc4bad2ffec76dcf9a47cb16d14886a4a1907de9714&o=&hp=1" alt="room-image" style={{ width: "100%", objectFit: "contain", marginBottom: "20px" }} />
                                                             </Box>
-                                                        ))}
-                                                    </Box>
-                                                </Box>
-
-                                            </Box>
-                                            <Box flex={1} borderRight="1px solid #5BBAFF" >
-
-                                                <Box display="flex" justifyContent="center" alignItems="center" m={2} >
-                                                    <PersonIcon sx={{ fontSize: "25px" }} />
-                                                    <Typography color="#18458B">x 3</Typography>
-                                                </Box>
-
-                                            </Box>
-                                            <Box flex={1.5} borderRight="1px solid #5BBAFF" >
-
-                                                <Box display="flex" justifyContent="center" alignItems="start" m={2} fontWeight="700" >
-                                                    650.000 VND
-                                                </Box>
-
-                                            </Box>
-                                            <Box flex={1} borderRight="1px solid #5BBAFF" >
-
-                                                <Box display="flex" justifyContent="center" alignItems="start" m={2} >
-                                                    <FormControl>
-                                                        <Select
-                                                            labelId="demo-simple-select-label"
-                                                            id="demo-simple-select"
-                                                            value={room}
-                                                            onChange={handleChange}
-                                                            renderValue={() => displayValue}
-                                                            displayEmpty
-                                                            sx={{ height: "50px", width: "70px" }}
-                                                        >
-                                                            <MenuItem value="0: 0 VND" >0</MenuItem>
-                                                            <MenuItem value="1 : 499.000 VND">1 : 499.000 VND</MenuItem>
-                                                            <MenuItem value="2 : 989.000 VND">2 : 989.000 VND</MenuItem>
-                                                        </Select>
-                                                    </FormControl>
-                                                </Box>
-
-                                            </Box>
-                                        </Box>
-                                        <Box display="flex" borderTop="1px solid #5BBAFF" flexDirection={'row'}>
-                                            <Box flex={2} borderRight="1px solid #5BBAFF" >
-
-                                                <Box display="flex" justifyContent="start" alignItems="start" m={2} flexDirection='column' >
-                                                    <Box display="flex" justifyContent="center" alignItems="center" overflow="hidden" borderRadius="4px">
-                                                        <Image src="https://cf2.bstatic.com/xdata/images/hotel/max1024x768/505672726.jpg?k=086af04426447cf784343fc4bad2ffec76dcf9a47cb16d14886a4a1907de9714&o=&hp=1" alt="room-image" style={{ width: "100%", objectFit: "contain", marginBottom: "20px" }} />
-                                                    </Box>
-                                                    <Typography color="#0083EB" fontWeight="600" mb={1}>Phòng gia đình</Typography>
-                                                    <Box display="flex" flexDirection="row" >
-                                                        <Typography mr="5px" fontSize="14px" > 1 Giường đôi,</Typography>
-                                                        <Typography fontSize="14px" >1 Giường đơn</Typography>
-                                                    </Box>
-                                                    <Typography fontWeight={600} fontSize="14px" my={1}>Dịch vụ phòng</Typography>
-                                                    <Box display="flex" justifyContent="start" alignItems="center" pb={2} flexWrap="wrap" gap={1}>
-                                                        {data?.services && data?.services.map((item) => (
-                                                            <Box display="flex" flexDirection="row" alignItems="center" >
-                                                                <CheckOutlinedIcon sx={{ color: "#3AACEE", fontSize: "16px" }} />
-                                                                <Typography fontSize="14px" color="#000" ml="3px">{item}</Typography>
+                                                            <Typography color="#0083EB" fontWeight="600" mb={1}>{room.roomType}</Typography>
+                                                            <Box display="flex" flexDirection="row" >
+                                                                {room.Beds.length > 0 && room.Beds.map(bed => {
+                                                                    return (
+                                                                        <Typography mr="5px" fontSize="14px" >{bed.quantity} {bed.bedName},</Typography>
+                                                                    )
+                                                                })}
                                                             </Box>
-                                                        ))}
+                                                            <Typography fontWeight={600} fontSize="14px" my={1}>Dịch vụ phòng</Typography>
+                                                            <Box display="flex" justifyContent="start" alignItems="center" pb={2} flexWrap="wrap" gap={1}>
+                                                                {room.services.length > 0 && room.services.map((service) => (
+                                                                    <Box display="flex" flexDirection="row" alignItems="center" >
+                                                                        <CheckOutlinedIcon sx={{ color: "#3AACEE", fontSize: "16px" }} />
+                                                                        <Typography fontSize="14px" color="#000" ml="3px">{service}</Typography>
+                                                                    </Box>
+                                                                ))}
+                                                            </Box>
+                                                        </Box>
+                                                    </Box>
+                                                    <Box flex={1} borderRight="1px solid #5BBAFF" >
+                                                        <Box display="flex" justifyContent="center" alignItems="center" m={2} >
+                                                            <PersonIcon sx={{ fontSize: "25px" }} />
+                                                            <Typography color="#18458B">x {room.maxPeople}</Typography>
+                                                        </Box>
+                                                    </Box>
+                                                    <Box flex={1.5} borderRight="1px solid #5BBAFF" >
+                                                        <Box display="flex" justifyContent="center" alignItems="start" m={2} fontWeight="700" >
+                                                            {room.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} VND
+                                                        </Box>
+                                                    </Box>
+                                                    <Box flex={1} borderRight="1px solid #5BBAFF" >
+                                                        <Box display="flex" justifyContent="center" alignItems="start" m={2} >
+                                                            <FormControl>
+                                                                <Select
+                                                                    labelId="demo-simple-select-label"
+                                                                    id="demo-simple-select"
+                                                                    // value={room}
+                                                                    onChange={handleChange}
+                                                                    renderValue={() => displayValue}
+                                                                    displayEmpty
+                                                                    sx={{ height: "50px", width: "70px" }}
+                                                                    MenuProps={{
+                                                                        disableScrollLock: true,
+                                                                    }}
+                                                                >
+                                                                    <MenuItem value="0: 0 VND" >0</MenuItem>
+                                                                    <MenuItem value="1 : 499.000 VND">1 : 499.000 VND</MenuItem>
+                                                                    <MenuItem value="2 : 989.000 VND">2 : 989.000 VND</MenuItem>
+                                                                </Select>
+                                                            </FormControl>
+                                                        </Box>
+
                                                     </Box>
                                                 </Box>
-
-                                            </Box>
-                                            <Box flex={1} borderRight="1px solid #5BBAFF" >
-
-                                                <Box display="flex" justifyContent="center" alignItems="center" m={2} >
-                                                    <PersonIcon sx={{ fontSize: "25px" }} />
-                                                    <Typography color="#18458B">x 3</Typography>
-                                                </Box>
-
-                                            </Box>
-                                            <Box flex={1.5} borderRight="1px solid #5BBAFF" >
-
-                                                <Box display="flex" justifyContent="center" alignItems="start" m={2} fontWeight="700" >
-                                                    650.000 VND
-                                                </Box>
-
-                                            </Box>
-                                            <Box flex={1} borderRight="1px solid #5BBAFF" >
-
-                                                <Box display="flex" justifyContent="center" alignItems="start" m={2} >
-                                                    <FormControl>
-                                                        <Select
-                                                            labelId="demo-simple-select-label"
-                                                            id="demo-simple-select"
-                                                            value={room}
-                                                            onChange={handleChange}
-                                                            renderValue={() => displayValue}
-                                                            displayEmpty
-                                                            sx={{ height: "50px", width: "70px" }}
-                                                        >
-                                                            <MenuItem value="0: 0 VND" >0</MenuItem>
-                                                            <MenuItem value="1 : 499.000 VND">1 : 499.000 VND</MenuItem>
-                                                            <MenuItem value="2 : 989.000 VND">2 : 989.000 VND</MenuItem>
-                                                        </Select>
-                                                    </FormControl>
-                                                </Box>
-
-                                            </Box>
-                                        </Box>
+                                            )
+                                        })}
                                     </Box>
 
                                     <Box flex={1.5} borderTop="1px solid #5BBAFF">

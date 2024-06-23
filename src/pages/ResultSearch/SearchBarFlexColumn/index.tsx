@@ -46,16 +46,12 @@ const SearchBarFlexColumn = ({ city, startDate, endDate, option, handleChangedat
     const [destination, setDestination] = useState(city);
     const [dates, setDates] = useState<DatesInterface[]>([
         {
-            startDate: startDate ? startDate : currentDate,
-            endDate: endDate ? endDate : new Date(currentDate.getTime() + 86400000),
+            startDate: startDate,
+            endDate: endDate,
             key: 'selection',
         },
     ]);
-    const [options, setOptions] = useState(option ? option : {
-        adult: 2,
-        children: 0,
-        room: 1,
-    });
+    const [options, setOptions] = useState(option);
     const [openDate, setOpenDate] = useState(false);
     const [openOptions, setOpenOptions] = useState(false);
     
