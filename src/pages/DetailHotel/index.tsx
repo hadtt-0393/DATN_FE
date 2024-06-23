@@ -7,38 +7,30 @@ import HotelOutlinedIcon from '@mui/icons-material/HotelOutlined';
 import PhoneOutlinedIcon from '@mui/icons-material/PhoneOutlined';
 import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined';
 import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
-import { Avatar, FormControlLabel, Rating } from "@mui/material";
+import { Avatar, Rating } from "@mui/material";
 import TextField from "@mui/material//TextField";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Checkbox from '@mui/material/Checkbox';
-import ImageList from '@mui/material/ImageList';
-import ImageListItem from '@mui/material/ImageListItem';
 import Slider from '@mui/material/Slider';
 import Typography from "@mui/material/Typography";
+import axios from "axios";
+import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from 'styled-components';
-import Header from '../../components/Header/HeaderComponent'
+import Footer from "../../components/Footer/FooterComponent";
+import Header from '../../components/Header/HeaderComponent';
+import Loading from "../../components/LoadingComponent/LoadingComponent";
 import Navbar from '../../components/Navbar/NavbarComponent';
+import SearchBar from '../../components/SearchBar';
+import { AuthContext } from '../../context/AuthContext';
 import useFetch from "../../hooks/useFetch";
 import { Hotel } from "../../models/Hotel";
-import Footer from "../../components/Footer/FooterComponent";
-import FilterOption from '../../pages/DetailHotel/FilterOption/FilterOption';
-import { useState, useEffect, useContext } from "react"
-import axios from "axios";
-import Loading from "../../components/LoadingComponent/LoadingComponent"
-import { AuthContext } from '../../context/AuthContext';
 import { getToken } from '../../services/token';
-import HotelRoomList from '../../components/HotelRooms';
-import SearchBar from '../../components/SearchBar';
-import {
-    faCalendarDays,
-    faCheck,
-    faLocationDot,
-    faPerson,
-  } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
+import AvTimerIcon from '@mui/icons-material/AvTimer';
+import PersonIcon from '@mui/icons-material/Person';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -79,7 +71,7 @@ const Image = styled.img`
     transition: transform 0.5s ease-in-out;
     ZIndex:2;
     &:hover{
-        transform: scale(1.2);
+        transform: scale(1.1);
         cursor: pointer;
 },`
 
@@ -156,6 +148,18 @@ export default function DetailHotel() {
     const [childrenFilter, setChildrenFilter] = useState(0);
     const [roomNumberFilter, setRoomNumberFilter] = useState(1);
     const [openDate, setOpenDate] = useState(false);
+    const [room, setRoom] = useState('0: 0 VND');
+    const [displayValue, setDisplayValue] = useState("0");
+
+
+    const handleChange = (event: SelectChangeEvent) => {
+        const selectedRoom = event.target.value;
+        const roomNumber = selectedRoom.split(':')[0].trim();
+        setRoom(selectedRoom);
+        setDisplayValue(roomNumber);
+    };
+
+
 
     const handleChangeData = (arg1, arg2) => {
         if (arg1 === 'date') {
@@ -413,13 +417,13 @@ export default function DetailHotel() {
                             </Box>
                         </Box>
                         <Box bgcolor="white" mt="30px" borderRadius="5px" pb="30px">
-                            <Box m="0px 30px" borderBottom="#EEE 1px solid">
+                            <Box m="0px 30px">
                                 <Typography fontWeight="600" color="#183C7D" fontSize="18px" padding="25px 0">
-                                    Phòng có thể đặt dành cho {adultFilter} người lớn
+                                    Được giới thiệu cho {adultFilter} người lớn
                                 </Typography>
                             </Box>
-                            <Box m="0px 30px" display="flex" justifyContent="center" alignItems="center" flexDirection="column" >
-                                {roomAvailable && roomAvailable.rooms.map((room) => {
+                            <Box m="0px 30px" display="flex" justifyContent="center" flexDirection="row" border="1px solid #DDD" borderRadius="2px" >
+                                {/* {roomAvailable && roomAvailable.rooms.map((room) => {
                                     return (
                                         <Box borderBottom="#EEE 1px solid" width="100%" p="30px 0 0 0" display="flex" alignItems="start" justifyContent="space-between">
                                             <Box flex={2} margin="0 20px" display="flex" justifyContent="center" alignItems="center" overflow="hidden" borderRadius="10px">
@@ -485,131 +489,281 @@ export default function DetailHotel() {
                                             </Box>
                                         </Box>
                                     )
-                                })}
+                                })} */}
+
+                                <Box flex={2.5} display="flex" flexDirection="column" borderRight="1px solid #DDD" borderRadius="2px" >
+                                    <Box display="flex" flexDirection="row" borderBottom="1px solid #DDD">
+                                        <Box flex={1.5} borderRight="1px solid #DDD" flexDirection="column" py={1} px={2} >
+                                            <Typography fontSize="14px" my={1}>1 x Phòng cho 3 người</Typography>
+                                            <Box display="flex" justifyContent="start" alignItems="center" pb={1}>
+                                                <Typography fontSize="14px" mr="10px">Giá cho : </Typography>
+                                                <Box display="flex" alignItems="center" >
+                                                    <PersonIcon sx={{ fontSize: "20px" }} />
+                                                    <Typography color="#18458B">x 3</Typography>
+                                                </Box>
+                                            </Box>
+                                            <Typography fontWeight={600} fontSize="14px">Mỗi phòng có:</Typography>
+                                            <Box display="flex" flexDirection="row" my={1}>
+                                                <Typography mr="10px" fontSize="14px">Giường: </Typography>
+                                                <Box display="flex" flexDirection="row" >
+                                                    <Typography mr="5px" fontSize="14px" > 1 Giường đơn,</Typography>
+                                                    <Typography fontSize="14px" >1 Giường đôi</Typography>
+                                                </Box>
+                                            </Box>
+                                            <Typography fontWeight={600} fontSize="14px" pb={1}>Dịch vụ phòng</Typography>
+                                            <Box display="flex" justifyContent="start" alignItems="center" pb={2} flexWrap="wrap" gap={1}>
+                                                {data?.services && data?.services.map((item) => (
+                                                    <Box display="flex" flexDirection="row" alignItems="center" >
+                                                        <CheckOutlinedIcon sx={{ color: "#3AACEE", fontSize: "16px" }} />
+                                                        <Typography fontSize="14px" color="#000" ml="3px">{item}</Typography>
+                                                    </Box>
+                                                ))}
+                                            </Box>
+                                            <Box display="flex" flexDirection="row" alignItems="center" justifyContent="start" pb={1}>
+                                                <AvTimerIcon sx={{ color: "red", fontSize: "16px", mr: "5px" }} />
+                                                <Typography color="red" fontSize="14px" >Chỉ còn 3 phòng trên trang của chúng tôi</Typography>
+
+                                            </Box>
+
+                                        </Box>
+                                        <Box flex={1} p={2}>
+                                            <Typography fontWeight={600}>
+                                                1.000.000 VND
+                                            </Typography>
+                                        </Box>
+                                    </Box>
+                                    <Box display="flex" flexDirection="row">
+                                        <Box flex={1.5} borderRight="1px solid #DDD" flexDirection="column" py={1} px={2} >
+                                            <Typography fontSize="14px" my={1}>1 x Phòng cho 3 người</Typography>
+                                            <Box display="flex" justifyContent="start" alignItems="center" pb={1}>
+                                                <Typography fontSize="14px" mr="10px">Giá cho : </Typography>
+                                                <Box display="flex" alignItems="center" >
+                                                    <PersonIcon sx={{ fontSize: "20px" }} />
+                                                    <Typography color="#18458B">x 3</Typography>
+                                                </Box>
+                                            </Box>
+                                            <Typography fontWeight={600} fontSize="14px">Mỗi phòng có:</Typography>
+                                            <Box display="flex" flexDirection="row" my={1}>
+                                                <Typography mr="10px" fontSize="14px">Giường: </Typography>
+                                                <Box display="flex" flexDirection="row" >
+                                                    <Typography mr="5px" fontSize="14px" > 1 Giường đơn,</Typography>
+                                                    <Typography fontSize="14px" >1 Giường đôi</Typography>
+                                                </Box>
+                                            </Box>
+                                            <Typography fontWeight={600} fontSize="14px" pb={1}>Dịch vụ phòng</Typography>
+                                            <Box display="flex" justifyContent="start" alignItems="center" pb={2} flexWrap="wrap" gap={1}>
+                                                {data?.services && data?.services.map((item) => (
+                                                    <Box display="flex" flexDirection="row" alignItems="center" >
+                                                        <CheckOutlinedIcon sx={{ color: "#3AACEE", fontSize: "16px" }} />
+                                                        <Typography fontSize="14px" color="#000" ml="3px">{item}</Typography>
+                                                    </Box>
+                                                ))}
+                                            </Box>
+                                            <Box display="flex" flexDirection="row" alignItems="center" justifyContent="start" pb={1}>
+                                                <AvTimerIcon sx={{ color: "red", fontSize: "16px", mr: "5px" }} />
+                                                <Typography color="red" fontSize="14px" >Chỉ còn 3 phòng trên trang của chúng tôi</Typography>
+
+                                            </Box>
+
+                                        </Box>
+                                        <Box flex={1} p={2}>
+                                            <Typography fontWeight={600}>
+                                                1.000.000 VND
+                                            </Typography>
+                                        </Box>
+                                    </Box>
+                                </Box>
+
+                                <Box flex={1} display="flex" justifyContent="flex-start" flexDirection="column" alignItems="flex-start" p={2}>
+                                    <Typography fontSize="12px" color="#666" mb={1}> 1 đêm, 10 người lớn, 2 trẻ em </Typography>
+                                    <Typography fontWeight={600} mb={2}>
+                                        1.000.000 VND
+                                    </Typography>
+                                    <Button variant='contained' sx={{ fontWeight: "600", alignSelf: "center", width: "100%" }}>
+                                        Đặt các lựa chọn của bạn
+                                    </Button>
+                                </Box>
                             </Box>
 
-                            {/* <Box className={styles['hotel-room']}> */}
-      <table style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "10px"}}>
-        <tr>
-          <th>Room type</th>
-          <th>Sleeps</th>
-          <th>Today price</th>
-          <th>Select a room</th>
-          <th></th>
-        </tr>
-        {/* {data?.map((item, index) => ( */}
-          <tr >
-            <td width="30%">
-              <Box sx={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "10px"}}>
-                <Box sx={{textDecoration: "underline",
-        color: "#0071c2",
-        fontSize: "16px",
-        fontWeight: "bold"}}>
-                  {/* {item.title} */}
-                </Box>
-                <Box sx={{
-                    fontSize: "14px",
-                    fontWeight: 500
-                }}>
-                  {/* {item.description} */}
-                </Box>
-                <Box sx={{display: "flex",
-        flexWrap: "wrap",
-        gap: "8px",
-        fontSize: "12px"}}>
-                  {/* {item.tags.map((tag, index) => ( */}
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "2px"
-                      }}
-                    //   key={index}
-                    >
-                      <FontAwesomeIcon
-                        icon={faCheck}
-                        // sx={{color:" #008009"}}
-                      />
-                      {/* <span>{tag}</span> */}
-                    </Box>
-                  {/* ))} */}
-                </Box>
-              </Box>
-            </td>
-            <td width="10%">
-              <Box sx={{display: "flex",
-      gap:"2px"}}>
-                {/* {Array(item.maxPeople)
-                  .fill(0)
-                  .map((index) => (
-                    <FontAwesomeIcon icon={faUser} key={index} />
-                  ))} */}
-              </Box>
-            </td>
-            <td width="20%">
-              
-            </td>
-            <td width="20%">
-              {/* {item.roomNumbers.map((roomNumber, index) => ( */}
-                <Box
-                //   className={styles['hotel-room__table__room-select']}
-                //   key={index}
-                sx={{marginBottom: "4px",
-                    display:" flex",
-                    gap: "4px"}}
-                >
-                  {/* <label>{roomNumber.number}</label> */}
-                  <input
-                    type="checkbox"
-                    // value={roomNumber._id}
-                    // onChange={handleSelectRoom}
-                    // disabled={
-                    //   !isAvailable(roomNumber) || numberOfSelect >= options.room
-                    // }
-                    // onClick={handleCheckbox}
-                  />
-                </Box>
-              {/* ))} */}
-            </td>
-            {/* {index == 0 && ( */}
-              <td rowSpan={0}>
-                <Box sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "6px",
-                    color: "#262626",
-                }}>
-                  <button
-                    style={{
-                        width: "100%",
-                        fontWeight: "500",
-                        fontSize: "14px",
-                        border: "none",
-                        padding: "8px 16px",
-                        cursor: "pointer",
-                        backgroundColor: "#0071c2",
-                        color: "#fff"
-                
-                    }}
-                    // onClick={handleClickReserve}
-                  >
-                    {`I'll reserve`}
-                  </button>
-                  </Box>
-              </td>
-            {/* )} */}
-          </tr>
-        {/* ))} */}
-      </table>
-    {/* </Box> */}
                         </Box>
-                        <SearchBar component='HotelItem' display handleChangeData={handleChangeData} destinations='fake-destination' onSearch={handleCheckRoomAvailable}/>
+                        <Box width="100%" sx={{ backgroundColor: "#FFF" }} pb="30px">
+                            <Box width="60%" mx="30px" mt="30px" pb="30px">
+                                <Typography fontWeight="600" color="#183C7D" fontSize="18px" padding="25px 0">
+                                    Phòng trống
+                                </Typography>
+                                <SearchBar component='HotelItem' display handleChangeData={handleChangeData} destinations='fake-destination' onSearch={handleCheckRoomAvailable} />
+                            </Box>
+                            <Box mx="30px">
+                                <Typography fontWeight="600" pb={2}>Tất cả các phòng còn trống</Typography>
+                                <Box display="flex" flexDirection="row" border="1px solid #5BBAFF">
+                                    <Box flex={2} borderRight="1px solid #5BBAFF" >
+                                        <Box height="60px" bgcolor="#18458B" sx={{ opacity: "0.7" }} display="flex" justifyContent="center" color="white" alignItems="center" fontWeight={600}>
+                                            Loại phòng
+                                        </Box>
+
+                                    </Box>
+                                    <Box flex={1} borderRight="1px solid #5BBAFF" >
+                                        <Box height="60px" bgcolor="#18458B" sx={{ opacity: "0.7" }} display="flex" justifyContent="center" color="white" alignItems="center" fontWeight={600}>
+                                            Số lượng khách
+                                        </Box>
+
+                                    </Box>
+                                    <Box flex={1.5} borderRight="1px solid #5BBAFF" >
+                                        <Box height="60px" bgcolor="#18458B" display="flex" justifyContent="center" color="white" alignItems="center" fontWeight={600}>
+                                            Giá phòng
+                                        </Box>
+
+                                    </Box>
+                                    <Box flex={1} borderRight="1px solid #5BBAFF" >
+                                        <Box height="60px" bgcolor="#18458B" sx={{ opacity: "0.7" }} display="flex" justifyContent="center" color="white" alignItems="center" fontWeight={600}>
+                                            Chọn phòng
+                                        </Box>
+
+                                    </Box>
+                                    <Box flex={1.5} >
+                                        <Box height="60px" bgcolor="#18458B" sx={{ opacity: "0.7" }} display="flex" justifyContent="center" color="white" alignItems="center" fontWeight={600}>
+
+                                        </Box>
+
+                                    </Box>
+                                </Box>
+                                <Box display="flex" flexDirection="row" border="1px solid #5BBAFF" borderTop="none">
+                                    <Box flex={5.5} display="flex" flexDirection="column">
+                                        <Box display="flex" borderTop="1px solid #5BBAFF" flexDirection={'row'}>
+                                            <Box flex={2} borderRight="1px solid #5BBAFF" >
+
+                                                <Box display="flex" justifyContent="start" alignItems="start" m={2} flexDirection='column' >
+                                                    <Box display="flex" justifyContent="center" alignItems="center" overflow="hidden" borderRadius="4px">
+                                                        <Image src="https://cf2.bstatic.com/xdata/images/hotel/max1024x768/505672726.jpg?k=086af04426447cf784343fc4bad2ffec76dcf9a47cb16d14886a4a1907de9714&o=&hp=1" alt="room-image" style={{ width: "100%", objectFit: "contain", marginBottom: "20px" }} />
+                                                    </Box>
+                                                    <Typography color="#0083EB" fontWeight="600" mb={1}>Phòng gia đình</Typography>
+                                                    <Box display="flex" flexDirection="row" >
+                                                        <Typography mr="5px" fontSize="14px" > 1 Giường đôi,</Typography>
+                                                        <Typography fontSize="14px" >1 Giường đơn</Typography>
+                                                    </Box>
+                                                    <Typography fontWeight={600} fontSize="14px" my={1}>Dịch vụ phòng</Typography>
+                                                    <Box display="flex" justifyContent="start" alignItems="center" pb={2} flexWrap="wrap" gap={1}>
+                                                        {data?.services && data?.services.map((item) => (
+                                                            <Box display="flex" flexDirection="row" alignItems="center" >
+                                                                <CheckOutlinedIcon sx={{ color: "#3AACEE", fontSize: "16px" }} />
+                                                                <Typography fontSize="14px" color="#000" ml="3px">{item}</Typography>
+                                                            </Box>
+                                                        ))}
+                                                    </Box>
+                                                </Box>
+
+                                            </Box>
+                                            <Box flex={1} borderRight="1px solid #5BBAFF" >
+
+                                                <Box display="flex" justifyContent="center" alignItems="center" m={2} >
+                                                    <PersonIcon sx={{ fontSize: "25px" }} />
+                                                    <Typography color="#18458B">x 3</Typography>
+                                                </Box>
+
+                                            </Box>
+                                            <Box flex={1.5} borderRight="1px solid #5BBAFF" >
+
+                                                <Box display="flex" justifyContent="center" alignItems="start" m={2} fontWeight="700" >
+                                                    650.000 VND
+                                                </Box>
+
+                                            </Box>
+                                            <Box flex={1} borderRight="1px solid #5BBAFF" >
+
+                                                <Box display="flex" justifyContent="center" alignItems="start" m={2} >
+                                                    <FormControl>
+                                                        <Select
+                                                            labelId="demo-simple-select-label"
+                                                            id="demo-simple-select"
+                                                            value={room}
+                                                            onChange={handleChange}
+                                                            renderValue={() => displayValue}
+                                                            displayEmpty
+                                                            sx={{ height: "50px", width: "70px" }}
+                                                        >
+                                                            <MenuItem value="0: 0 VND" >0</MenuItem>
+                                                            <MenuItem value="1 : 499.000 VND">1 : 499.000 VND</MenuItem>
+                                                            <MenuItem value="2 : 989.000 VND">2 : 989.000 VND</MenuItem>
+                                                        </Select>
+                                                    </FormControl>
+                                                </Box>
+
+                                            </Box>
+                                        </Box>
+                                        <Box display="flex" borderTop="1px solid #5BBAFF" flexDirection={'row'}>
+                                            <Box flex={2} borderRight="1px solid #5BBAFF" >
+
+                                                <Box display="flex" justifyContent="start" alignItems="start" m={2} flexDirection='column' >
+                                                    <Box display="flex" justifyContent="center" alignItems="center" overflow="hidden" borderRadius="4px">
+                                                        <Image src="https://cf2.bstatic.com/xdata/images/hotel/max1024x768/505672726.jpg?k=086af04426447cf784343fc4bad2ffec76dcf9a47cb16d14886a4a1907de9714&o=&hp=1" alt="room-image" style={{ width: "100%", objectFit: "contain", marginBottom: "20px" }} />
+                                                    </Box>
+                                                    <Typography color="#0083EB" fontWeight="600" mb={1}>Phòng gia đình</Typography>
+                                                    <Box display="flex" flexDirection="row" >
+                                                        <Typography mr="5px" fontSize="14px" > 1 Giường đôi,</Typography>
+                                                        <Typography fontSize="14px" >1 Giường đơn</Typography>
+                                                    </Box>
+                                                    <Typography fontWeight={600} fontSize="14px" my={1}>Dịch vụ phòng</Typography>
+                                                    <Box display="flex" justifyContent="start" alignItems="center" pb={2} flexWrap="wrap" gap={1}>
+                                                        {data?.services && data?.services.map((item) => (
+                                                            <Box display="flex" flexDirection="row" alignItems="center" >
+                                                                <CheckOutlinedIcon sx={{ color: "#3AACEE", fontSize: "16px" }} />
+                                                                <Typography fontSize="14px" color="#000" ml="3px">{item}</Typography>
+                                                            </Box>
+                                                        ))}
+                                                    </Box>
+                                                </Box>
+
+                                            </Box>
+                                            <Box flex={1} borderRight="1px solid #5BBAFF" >
+
+                                                <Box display="flex" justifyContent="center" alignItems="center" m={2} >
+                                                    <PersonIcon sx={{ fontSize: "25px" }} />
+                                                    <Typography color="#18458B">x 3</Typography>
+                                                </Box>
+
+                                            </Box>
+                                            <Box flex={1.5} borderRight="1px solid #5BBAFF" >
+
+                                                <Box display="flex" justifyContent="center" alignItems="start" m={2} fontWeight="700" >
+                                                    650.000 VND
+                                                </Box>
+
+                                            </Box>
+                                            <Box flex={1} borderRight="1px solid #5BBAFF" >
+
+                                                <Box display="flex" justifyContent="center" alignItems="start" m={2} >
+                                                    <FormControl>
+                                                        <Select
+                                                            labelId="demo-simple-select-label"
+                                                            id="demo-simple-select"
+                                                            value={room}
+                                                            onChange={handleChange}
+                                                            renderValue={() => displayValue}
+                                                            displayEmpty
+                                                            sx={{ height: "50px", width: "70px" }}
+                                                        >
+                                                            <MenuItem value="0: 0 VND" >0</MenuItem>
+                                                            <MenuItem value="1 : 499.000 VND">1 : 499.000 VND</MenuItem>
+                                                            <MenuItem value="2 : 989.000 VND">2 : 989.000 VND</MenuItem>
+                                                        </Select>
+                                                    </FormControl>
+                                                </Box>
+
+                                            </Box>
+                                        </Box>
+                                    </Box>
+
+                                    <Box flex={1.5} borderTop="1px solid #5BBAFF">
+                                        <Box display="flex" justifyContent="center" alignItems="start" m={2} >
+                                            <Button variant='contained' sx={{ fontWeight: "600", alignSelf: "center", width: "100%" }}>
+                                                Tôi sẽ đặt
+                                            </Button>
+                                        </Box>
+                                    </Box>
+                                </Box>
+                            </Box>
+                        </Box>
+
                         <Box bgcolor="white" mt="30px" borderRadius="5px" pb="30px">
                             <Box m="0px 30px" borderBottom="#EEE 1px solid" display="flex" flexDirection="row" gap={1}>
                                 <Typography fontWeight="600" color="#183C7D" fontSize="18px" padding="25px 0">
