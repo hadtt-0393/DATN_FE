@@ -74,12 +74,15 @@ export default function SearchResultsPage() {
     const startDateProp = state ? state.dates[0].startDate : null;
     const endDateProp = state ? state.dates[0].endDate : null;
     const optionProp = state ? state.options : null;
-    const [startDateFilter, setStartDateFilter] = useState(startDate)
-    const [endDateFilter, setEndDateFilter] = useState(endDate)
+    const currentDate = new Date();
+    const currentDateString = currentDate.toLocaleDateString('en-US');
+    const behindDateString = new Date(currentDate.getTime() + 86400000).toLocaleDateString('en-US');
+    const [startDateFilter, setStartDateFilter] = useState(startDate ? startDate : currentDateString)
+    const [endDateFilter, setEndDateFilter] = useState(endDate ? endDate : behindDateString)
     const [cityFilter, setCityFilter] = useState(city)
-    const [adultFilter, setAdultFilter] = useState(adult)
-    const [childrenFilter, setChildrenFilter] = useState(children)
-    const [roomFilter, setRoomFilter] = useState(room)
+    const [adultFilter, setAdultFilter] = useState(adult ? adult  : 2)
+    const [childrenFilter, setChildrenFilter] = useState(children ? children : 0)
+    const [roomFilter, setRoomFilter] = useState(room ? room : 1)
     const [hotels, setHotels] = useState<Hotel[]>([]);
     const [serviceHotelOptions, setServiceHotelOptions] = useState<Service[]>([]);
     const [serviceRoomOptions, setServiceRoomOptions] = useState<Service[]>([]);
@@ -198,7 +201,7 @@ export default function SearchResultsPage() {
         const Filter = async () => {
             const RequestFilter = await axios.get(createUrlFilter())
             setLoading(false)
-            // setHotels(RequestFilter.data.hotels)
+            setHotels(RequestFilter.data)
         }
         const timer = setTimeout(Filter, 500);
         return () => clearTimeout(timer);

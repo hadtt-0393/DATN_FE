@@ -373,7 +373,7 @@ export default function DetailHotel() {
                         <Box display="flex" flexDirection="row" bgcolor="#FFF" height="105px" mt="50px" justifyContent="space-between" alignItems="center" borderRadius="5px">
                             <Box flex={1} height="100%" justifyContent="center" alignItems="center" display="flex" flexDirection="column">
                                 <HotelOutlinedIcon sx={{ color: "#3AACED", width: "60px", height: "50px", opacity: 0.7, mb: "10px" }} />
-                                <Typography color="#999EA5" fontSize="12px" fontWeight="600">{data?.rooms.length} Phòng</Typography>
+                                <Typography color="#999EA5" fontSize="12px" fontWeight="600">{data?.roomIds.length} Phòng</Typography>
                             </Box>
                             <Box borderLeft="#E2E2E2 solid 1px" flex={1} height="100%" justifyContent="center" alignItems="center" display="flex" flexDirection="column">
                                 <GroupsOutlinedIcon sx={{ color: "#3AACED", width: "60px", height: "50px", opacity: 0.7, mb: "10px" }} />

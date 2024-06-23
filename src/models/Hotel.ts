@@ -8,7 +8,7 @@ export interface Hotel {
   title: string;
   description: string;
   ratingAvg: number;
-  rooms: string[];
+  roomIds: string[];
   cheapestPrice: number;
   highestPrice: number;
   featured: boolean;
