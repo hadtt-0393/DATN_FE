@@ -2,18 +2,15 @@ import { Box, Button, Input, Typography } from "@mui/material";
 import Navbar from "../../components/Navbar/NavbarComponent";
 import Header from "../../components/Header/HeaderComponent";
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
-import Person2OutlinedIcon from '@mui/icons-material/Person2Outlined';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import MoneyIcon from '@mui/icons-material/Money';
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 import { useNavigate, useLocation } from "react-router-dom";
-import { useScrollToTop } from "../../hook/use-hook-to-top";
 import { ToastContainer, toast } from 'react-toastify';
 import { getToken } from "../../services/token";
 import axios from 'axios';
@@ -23,39 +20,40 @@ import { checkout } from "../../services/checkout";
 export default function PaymentMethod() {
     const navigate = useNavigate()
     const location = useLocation()
+    const id = location.pathname.split('/')[2];
     const state = location.state;
+    useEffect(() => {
+        if (!state) {
+            navigate('/')
+        }
+    }, [])
 
-    console.log(state)
-    const roomChoose = state.roomChoose;
-    const hotel = state.hotel;
-    const option = state.option;
-
-    const name = state.name
-    const email = state.email
-    const phoneNumber = state.phoneNumber
-    const address = state.address
-    const note = state.note
+    const { name, phoneNumber, address, note, option, hotel, room, email } = state || { name: '', phoneNumber: '', address: '', note: '', option: {}, hotel: {}, room: [], email: '' }
+    const roomChoose = room.filter(Room => Room.quantityChoose > 0)
     const startDate = option.startDate
     const endDate = option.endDate
-
-    console.log(roomChoose)
-
-
-    const [value, setValue] = useState('female');
+    const [value, setValue] = useState('after');
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setValue((event.target as HTMLInputElement).value);
     };
-    useScrollToTop();
+
+    const calTotalPrice = () => {
+        let total = roomChoose.reduce((total, room) => total + room.price * room.quantityChoose, 0)
+        return total;
+    }
     const handlePayment = async () => {
-        // Logic thanh toán ở đây
         const token = getToken();
         try {
             const Response = await axios.post(`${process.env.REACT_APP_API_ENDPOINT}/form/createForm`, {
                 name,
+                hotelId: id,
                 email,
                 phoneNumber,
                 address,
                 note,
+                cost: calTotalPrice(),
+                adults: option.adult,
+                chldren: option.chldren,
                 rooms: roomChoose,
                 startDate,
                 endDate,
@@ -66,7 +64,7 @@ export default function PaymentMethod() {
                     Authorization: `Bearer ${token}`,
                 }
             })
-            
+
             toast.success('Thanh toán thành công!', {
                 position: toast.POSITION.TOP_RIGHT,
                 autoClose: 3000,
@@ -75,11 +73,7 @@ export default function PaymentMethod() {
         } catch (err) {
             console.log(err);
         }
-
-
     };
-
-    
 
     return (
         <Box>
@@ -98,7 +92,6 @@ export default function PaymentMethod() {
                                 </Box>
                                 <Box display="flex" flexDirection="column" gap={4} >
                                     <FormControl>
-                                        {/* <FormLabel id="demo-controlled-radio-buttons-group">Gender</FormLabel> */}
                                         <RadioGroup
                                             aria-labelledby="demo-controlled-radio-buttons-group"
                                             name="controlled-radio-buttons-group"
@@ -107,11 +100,11 @@ export default function PaymentMethod() {
 
                                         >
                                             <Box sx={{ display: "flex", gap: "3" }} mt="30px" pb="30px" borderBottom="1px #DDD dashed">
-                                                <FormControlLabel value="female" control={<Radio />} label="Thanh toán khi trả phòng" sx={{ minWidth: "200px" }} />
+                                                <FormControlLabel value="after" control={<Radio />} label="Thanh toán khi trả phòng" sx={{ minWidth: "200px" }} />
                                                 <MoneyIcon sx={{ color: "#F9B90F", fontSize: "50px", ml: "30px" }} />
                                             </Box>
                                             <Box sx={{ display: "flex", gap: "3" }} mt="30px" pb="30px" borderBottom="1px #DDD solid" flexDirection="row" justifyContent="flex-start" alignItems="center">
-                                                <FormControlLabel value="male" control={<Radio />} label="Thanh toán qua thẻ" sx={{ minWidth: "200px" }} />
+                                                <FormControlLabel value="before" control={<Radio />} label="Thanh toán qua thẻ" sx={{ minWidth: "200px" }} />
                                                 < AccountBalanceIcon sx={{ color: "#336699", fontSize: "50px", ml: "30px" }} />
                                             </Box>
                                         </RadioGroup>
@@ -179,16 +172,16 @@ export default function PaymentMethod() {
                                         <Box display="flex" flexDirection="column" gap={2} flex={1} >
                                             <Typography fontSize="13px" color="#878C9F" minWidth="64px" >Danh sách phòng đặt: </Typography>
                                             <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" mx={3}>
-                                                <Typography fontSize="12px" color="#878C9F"  >Tên phòng</Typography>
-                                                <Typography fontSize="12px" color="#878C9F" >Giá phòng</Typography>
+                                                <Typography fontSize="12px" color="#878C9F">Phòng</Typography>
+                                                <Typography fontSize="12px" color="#878C9F">Giá phòng</Typography>
                                             </Box>
-                                            {roomChoose.map((room) => {
+                                            {roomChoose.map((room, key) => {
                                                 return (
-                                                    <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" mx={3}>
+                                                    <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" mx={3} key={key}>
                                                         <Box bgcolor="orange" borderRadius="5px" padding="2px 8px" >
-                                                            <Typography color="#FFF" fontSize="13px" fontWeight="600" >{room.roomNumber}VND</Typography>
+                                                            <Typography color="#FFF" fontSize="13px" fontWeight="600" >{room.quantityChoose} x {room.roomType}</Typography>
                                                         </Box>
-                                                        <Typography fontSize="12px" color="#878C9F">{room.price}VND</Typography>
+                                                        <Typography fontSize="12px" color="#878C9F">{calTotalPrice().toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}VND</Typography>
                                                     </Box>
                                                 )
                                             })}
@@ -196,7 +189,7 @@ export default function PaymentMethod() {
                                     </Box>
                                     <Box mt="30px" display="flex" justifyContent="space-between" alignItems="center" >
                                         <Typography fontSize="16px" fontWeight="600" color="#878C9F">Tổng thanh toán</Typography>
-                                        <Typography color="#3AACED" fontWeight="600" fontSize="19px"> {roomChoose.reduce((total, room) => total + room.price, 0)} VND</Typography>
+                                        <Typography color="#3AACED" fontWeight="600" fontSize="19px"> {roomChoose.reduce((total, room) => total + room.price * room.quantityChoose, 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} VND</Typography>
                                     </Box>
                                 </Box>
                             </Box>

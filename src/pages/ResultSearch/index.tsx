@@ -226,8 +226,7 @@ export default function SearchResultsPage() {
     const navigate = useNavigate()
 
     const openDetailHotel = (item) => {
-        console.log(item)
-        navigate(`/hotel/${item._id}`, { state: { startDate: startDateFilter, endDate: endDateFilter}});
+        navigate(`/hotel/${item._id}`, { state: { startDate: startDateFilter, endDate: endDateFilter, adult: adultFilter, children: childrenFilter, room: roomFilter}});
     }
 
     return (
@@ -350,8 +349,8 @@ export default function SearchResultsPage() {
                         </Box>
                         <Box gap={2} sx={{ display: "flex", justifyContent: "space-between", alignItems: "start", flex: 1 }}>
                             <Grid container spacing={4}>
-                                {hotels && hotels.map((item) => (
-                                    <Grid item xs={12} >
+                                {hotels.length > 0 && hotels.map((item) => (
+                                    <Grid item xs={12} key={item._id}>
                                         <Card sx={{ ml: .5, border: "1px solid #A3D7FC", mr: .5, boxShadow: "none" }} >
                                             <CardActionArea sx={{ display: "flex", flexDirection: "row", alignItems: "start" }} >
                                                 <Box overflow="hidden" borderRadius="5px" position="relative" width="40%" m={1.5} >
@@ -426,7 +425,6 @@ export default function SearchResultsPage() {
                                                                         }}
                                                                     >
                                                                         <Typography sx={{ color: "#CCC", fontSize: "15px", fontWeight: "600" }}>Chưa có đánh giá</Typography>
-
                                                                     </Box>
                                                                 )
                                                         }

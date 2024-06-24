@@ -23,8 +23,8 @@ const App = () => {
         <Route path="/hotel/:id" element={<DetailHotel />} />
         <Route path="/city/:city" element={<SearchResultsPage />} />
         <Route path="/reservations" element={<ReservationsPage />} />
-        <Route path="/booking" element={<BookingPage />} />
-        <Route path="/booking-confirm" element={<PaymentMethod />} />
+        <Route path="/booking/:id" element={<BookingPage />} />
+        <Route path="/booking-confirm/:id" element={<PaymentMethod />} />
         <Route path="/payment-success" element={<PaymentSuccess />} />
       </Routes>
       <ToastContainer />

@@ -3,19 +3,20 @@ import ChildCareIcon from '@mui/icons-material/ChildCare';
 import DoorBackIcon from '@mui/icons-material/DoorBack';
 import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 import HouseIcon from '@mui/icons-material/House';
+import PersonIcon from '@mui/icons-material/Person';
 import InsertInvitationIcon from '@mui/icons-material/InsertInvitation';
-import KingBedIcon from '@mui/icons-material/KingBed';
 import PaidIcon from '@mui/icons-material/Paid';
 import RoomIcon from '@mui/icons-material/Room';
 import TodayIcon from '@mui/icons-material/Today';
 import Box from "@mui/material/Box";
 import Grid from '@mui/material/Grid';
 import Typography from "@mui/material/Typography";
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Header from '../../components/Header/HeaderComponent';
 import Navbar from '../../components/Navbar/NavbarComponent';
-import { useState, useEffect } from 'react';
-import axios from 'axios'
+import { Form } from '../../models/Form';
 import { getToken } from '../../services/token';
 const Image = styled.img`
     width: 100%;
@@ -29,7 +30,7 @@ const Image = styled.img`
 
 
 export default function ReservationsPage() {
-    const [forms, setForms] = useState([]);
+    const [forms, setForms] = useState<Form[]>([]);
 
     useEffect(() => {
         const token = getToken();
@@ -58,40 +59,41 @@ export default function ReservationsPage() {
                     <Typography fontSize="20px" fontWeight="600" color="#958DA0" mt="30px">Danh sách phòng đã đặt</Typography>
                     <Box width="100%" m="10px auto">
                         <Grid container gap={5} maxWidth="1224px">
-                            {forms && forms.map((form: any) => {
+                            {forms && forms.map((form, key) => {
                                 return (
-                                    <Grid item xs={12}>
+                                    <Grid item xs={12} key={key}>
                                         <Box border="1px solid #DDD" borderRadius="10px" display="flex" alignItems="start" justifyContent="space-between" bgcolor="#FFF" height="100%">
                                             <Box flex={1.5} overflow="hidden" borderRadius="10px" margin="auto 15px" borderRight="1px solid #DDD" display="flex" alignItems="center" justifyContent="center">
-                                                <Image src="http://res.cloudinary.com/di7a7sbbn/image/upload/v1668414040/upload/prirsonreuc6vkcjmxfi.jpg" />
+                                                <Image src={form.hotel.images[0]} />
                                             </Box>
                                             <Box flex={2} border="1px dashed #DDD" borderTop="none" borderBottom="none" height="100%">
                                                 <Box display="flex" flexDirection="row" justifyContent="start" m="20px" alignItems="center">
                                                     <HouseIcon sx={{ color: "#F9B90F", fontSize: "30px" }} />
-                                                    <Typography color="#999" fontSize="18px" ml="15px" >Thu Hà Hotel</Typography>
+                                                    <Typography color="#999" fontSize="18px" ml="15px" >{form.hotel.hotelName}</Typography>
+                                                </Box>
+                                                <Box display="flex" flexDirection="row" justifyContent="start" m="20px" alignItems="center">
+                                                    <PersonIcon sx={{ color: "#F9B90F", fontSize: "30px" }} />
+                                                    <Typography color="#999" fontSize="18px" ml="15px">{form.name}</Typography>
                                                 </Box>
                                                 <Box display="flex" flexDirection="row" justifyContent="start" m="20px" alignItems="center">
                                                     <RoomIcon sx={{ color: "#F9B90F", fontSize: "30px" }} />
-                                                    <Typography color="#999" fontSize="18px" ml="15px" >Tạ Quang Bửu - Hai Bà Trưng - Hà Nội</Typography>
+                                                    <Typography color="#999" fontSize="18px" ml="15px">{form.address}</Typography>
                                                 </Box>
-                                                <Box display="flex" flexDirection="row" justifyContent="start" m="20px" alignItems="center">
-                                                    <KingBedIcon sx={{ color: "#F9B90F", fontSize: "30px" }} />
-                                                    <Typography color="#999" fontSize="18px" ml="15px" >Phòng đơn</Typography>
-                                                </Box>
+
                                                 <Box display="flex" flexDirection="row" justifyContent="start" m="20px" alignItems="center">
                                                     <DoorBackIcon sx={{ color: "#F9B90F", fontSize: "30px" }} />
-                                                    <Box bgcolor="#3AACED" borderRadius="5px" padding="2px 8px" ml="15px">
-                                                        <Typography color="#FFF" fontSize="18px" fontWeight="600" >301</Typography>
-                                                    </Box>
-                                                    <Box bgcolor="#3AACED" borderRadius="5px" padding="2px 8px" ml="15px">
-                                                        <Typography color="#FFF" fontSize="18px" fontWeight="600" >302</Typography>
-                                                    </Box>
+                                                    {form.Rooms.map(room => {
+                                                        return (
+                                                            <Box bgcolor="#3AACED" borderRadius="5px" padding="2px 8px" ml="15px">
+                                                                <Typography color="#FFF" fontSize="18px" fontWeight="600">{room.quantity} x {room.roomName}</Typography>
+                                                            </Box>
+                                                        )
+                                                    })}
                                                 </Box>
                                                 <Box display="flex" flexDirection="row" justifyContent="start" m="20px" alignItems="center">
                                                     <PaidIcon sx={{ color: "#F9B90F", fontSize: "30px" }} />
-                                                    <Typography color="#999" fontSize="18px" ml="15px" >300.000 VND</Typography>
+                                                    <Typography color="#999" fontSize="18px" ml="15px" >{form?.cost.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} VND</Typography>
                                                 </Box>
-
                                             </Box>
                                             <Box flex={2}>
                                                 <Box display="flex" flexDirection="row" justifyContent="start" m="20px" alignItems="center">
@@ -106,15 +108,15 @@ export default function ReservationsPage() {
                                                 </Box>
                                                 <Box display="flex" flexDirection="row" justifyContent="start" m="20px" alignItems="center">
                                                     <TodayIcon sx={{ color: "#3AACED", fontSize: "30px" }} />
-                                                    <Typography color="#999" fontSize="18px" ml="20px" >Ngày nhận phòng: 02/04/2024</Typography>
+                                                    <Typography color="#999" fontSize="18px" ml="20px" >Ngày nhận phòng: {(new Date(form.startDate)).toLocaleDateString('en-GB')}</Typography>
                                                 </Box>
                                                 <Box display="flex" flexDirection="row" justifyContent="start" m="20px" alignItems="center">
                                                     <InsertInvitationIcon sx={{ color: "#3AACED", fontSize: "30px" }} />
-                                                    <Typography color="#999" fontSize="18px" ml="20px" >Ngày trả phòng: 03/04/2024</Typography>
+                                                    <Typography color="#999" fontSize="18px" ml="20px" >Ngày trả phòng: {(new Date(form.endDate)).toLocaleDateString('en-GB')}</Typography>
                                                 </Box>
                                                 <Box display="flex" flexDirection="row" justifyContent="start" m="20px" alignItems="center">
                                                     <EditCalendarIcon sx={{ color: "#3AACED", fontSize: "30px" }} />
-                                                    <Typography color="#999" fontSize="18px" ml="20px" >Ngày đặt phòng: 03/04/2024</Typography>
+                                                    <Typography color="#999" fontSize="18px" ml="20px" >Ngày đặt phòng: {(new Date(form.updatedAt)).toLocaleString('en-GB')}</Typography>
                                                 </Box>
                                                 <Box display="flex" flexDirection="row" justifyContent="start" m="20px" alignItems="center">
                                                     <PaidIcon sx={{ color: "#3AACED", fontSize: "30px" }} />

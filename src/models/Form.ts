@@ -1,18 +1,28 @@
 export interface Form {
   _id?: number;
-  userId: string;
-  isTravelForWork: boolean;
-  firstName: string;
-  lastName: string;
+  adults: number;
+  children: number;
+  paymentStatus: string;
+  startDate: string;
+  endDate: string;
+  updatedAt: string;
+  address: string;
+  Rooms: RoomName[];
+  cost: number;
+  name: string;
   email: string;
-  whoBookingFor: number; // 0: i'm the main guest, 1: i'm booking for someone else
+  hotel: any
+  whoBookingFor: number; 
   specialRequest: string;
   country: string;
   phoneNumber: string;
   price: number;
   hotelId: string;
   roomIds: string;
-  startDate: Date;
-  endDate: Date;
   isComment: boolean;
+}
+
+interface RoomName {
+  roomName: string;
+  quantity: number;
 }

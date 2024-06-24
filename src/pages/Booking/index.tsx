@@ -1,44 +1,42 @@
-import { Box, Button, Input, Typography } from "@mui/material";
-import { useState } from "react"
-import Navbar from "../../components/Navbar/NavbarComponent";
-import Header from "../../components/Header/HeaderComponent";
-import EventAvailableOutlinedIcon from '@mui/icons-material/EventAvailableOutlined';
-import Person2OutlinedIcon from '@mui/icons-material/Person2Outlined';
-import TextField from "@mui/material//TextField";
-import Checkbox from '@mui/material/Checkbox';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import MailOutlineOutlinedIcon from '@mui/icons-material/MailOutlineOutlined';
+import Person2OutlinedIcon from '@mui/icons-material/Person2Outlined';
 import PhoneOutlinedIcon from '@mui/icons-material/PhoneOutlined';
-import { useNavigate, useLocation } from "react-router-dom";
-import { useScrollToTop } from "../../hook/use-hook-to-top";
+import { Box, Button, Input, Typography } from "@mui/material";
+import TextField from "@mui/material//TextField";
+import { useState, useEffect } from "react";
+import { useLocation, useNavigate, redirect } from "react-router-dom";
+import Header from "../../components/Header/HeaderComponent";
+import Navbar from "../../components/Navbar/NavbarComponent";
 
 export default function BookingPage() {
     const location = useLocation();
+    const id = location.pathname.split('/')[2];
     const state = location.state;
     const navigate = useNavigate()
+    useEffect(() => {
+        if (!state) {
+            navigate('/')
+        }
+    }, [])
 
-
-    const roomChoose = state.roomChoose;
-    const hotel = state.hotel;
-    const option = state.option;
-
-
+    const { room, hotel, option } = state || { room: [], hotel: {}, option: {} }
+    const roomChoose = room.filter(room => room.quantityChoose > 0);
     const [name, setName] = useState('')
     const [phoneNumber, setPhoneNumber] = useState('')
     const [email, setEmail] = useState('')
     const [address, setAddress] = useState('')
     const [note, setNote] = useState('')
 
-
     const handleNextPage = () => {
-        navigate('/booking-confirm', {
+        navigate(`/booking-confirm/${id}`, {
             state: {
                 name: name,
                 phoneNumber: phoneNumber,
                 email: email,
                 address: address,
                 note: note,
-                roomChoose: roomChoose,
+                room: roomChoose,
                 hotel: hotel,
                 option: option,
             }
@@ -66,7 +64,7 @@ export default function BookingPage() {
                                         <Typography fontSize="14px" color="#000" mb="10px" mt="20px">Họ tên</Typography>
                                         <Box display="flex" alignItems="center" border="#EEE solid 1px" height="45px" justifyContent="space-between" borderRadius="8px" bgcolor="#FFF">
                                             <Person2OutlinedIcon fontSize="small" sx={{ color: "#F9B90F", pl: 2, pr: 2 }} />
-                                            <Input disableUnderline sx={{ fontSize: "13px", flex: "1" }} placeholder="Nguyễn Văn A" value={name} onChange={(e) => setName(e.target.value)}/>
+                                            <Input disableUnderline sx={{ fontSize: "13px", flex: "1" }} placeholder="Nguyễn Văn A" value={name} onChange={(e) => setName(e.target.value)} />
                                         </Box>
                                     </Box>
                                     <Box flex={1}>
@@ -93,10 +91,6 @@ export default function BookingPage() {
                                         </Box>
                                     </Box>
                                 </Box>
-                                {/* <Box display="flex" alignItems="end" justifyContent="start" mt="10px" mb="10px">
-                                    <Typography fontSize="14px" color="#000" mb="10px" mt="20px" mr="20px">Bạn đặt phòng để đi công tác?</Typography>
-                                    <Checkbox />
-                                </Box> */}
                                 <Box>
                                     <Typography fontSize="14px" color="#000" mb="10px" mt="20px">Ghi chú</Typography>
                                     <Box sx={{ textAlign: "center" }} bgcolor="#FFF">
@@ -131,7 +125,7 @@ export default function BookingPage() {
                                     <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between" mt="20px" sx={{ flexWrap: "wrap" }}>
                                         <Box display="flex" flexDirection="row" alignItems="start" justifyContent="start" gap={2}>
                                             <Typography fontSize="13px" color="#878C9F" minWidth="64px" >Người lớn: </Typography>
-                                            <Typography fontSize="13px" color="black" mr="10px">{option.adult}</Typography>
+                                            <Typography fontSize="13px" color="black" mr="10px">{option?.adult}</Typography>
                                         </Box>
                                         <Box display="flex" flexDirection="row" alignItems="start" justifyContent="start" gap={2}>
                                             <Typography fontSize="13px" color="#878C9F" >Trẻ em: </Typography>
@@ -160,16 +154,16 @@ export default function BookingPage() {
                                         <Box display="flex" flexDirection="column" gap={2} flex={1} >
                                             <Typography fontSize="13px" color="#878C9F" minWidth="64px" >Danh sách phòng đặt: </Typography>
                                             <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" mx={3}>
-                                                <Typography fontSize="12px" color="#878C9F"  >Tên phòng</Typography>
-                                                <Typography fontSize="12px" color="#878C9F" >Giá phòng</Typography>
+                                                <Typography fontSize="12px" color="#878C9F">Phòng</Typography>
+                                                <Typography fontSize="12px" color="#878C9F">Giá phòng</Typography>
                                             </Box>
-                                            {roomChoose.map((room) => {
+                                            {roomChoose?.map((room, key) => {
                                                 return (
-                                                    <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" mx={3}>
+                                                    <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" mx={3} key={key}>
                                                         <Box bgcolor="orange" borderRadius="5px" padding="2px 8px" >
-                                                            <Typography color="#FFF" fontSize="13px" fontWeight="600" >{room.roomNumber}</Typography>
+                                                            <Typography color="#FFF" fontSize="13px" fontWeight="600">{room.quantityChoose} x {room.roomType}</Typography>
                                                         </Box>
-                                                        <Typography fontSize="12px" color="#878C9F">{room.price} VND </Typography>
+                                                        <Typography fontSize="12px" color="#878C9F">{(room.price * room.quantityChoose).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} VND </Typography>
                                                     </Box>
                                                 )
                                             })}
@@ -177,7 +171,7 @@ export default function BookingPage() {
                                     </Box>
                                     <Box mt="30px" display="flex" justifyContent="space-between" alignItems="center" >
                                         <Typography fontSize="16px" fontWeight="600" color="#878C9F">Tổng thanh toán</Typography>
-                                        <Typography color="#3AACED" fontWeight="600" fontSize="19px"> {roomChoose.reduce((total, room) => total + room.price, 0)} VND</Typography>
+                                        <Typography color="#3AACED" fontWeight="600" fontSize="19px"> {roomChoose.reduce((total, room) => total + room.price * room.quantityChoose, 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} VND</Typography>
                                     </Box>
                                 </Box>
                             </Box>

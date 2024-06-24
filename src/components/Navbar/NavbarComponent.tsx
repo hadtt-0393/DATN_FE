@@ -26,7 +26,7 @@ export default function NavbarComponent() {
                     <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexDirection: "row", "&:hover": { cursor: "pointer" } }}>
                         <Fab variant="extended" sx={{ fontWeight: 700, fontSize: "12px", backgroundColor: "#F9B90F", color: "white", marginRight: "25px", boxShadow: "none", "&:hover": { backgroundColor: "#FAC73F", boxShadow: "none" } }} size="small" onClick={() => navigate("/reservations")}>
                             <ListAltIcon sx={{ mr: 1, fontSize: "14px" }} />
-                            Danh sách phòng
+                            Danh sách đặt phòng
                         </Fab>
                         <Box display="flex" flexDirection="row" alignItems="center" border=" 1px solid rgba(0, 0, 0, 0.21)" height="60px" p="0 25px" >
                             <Avatar sx={{ mr: 1, width: "24px", height: "24px" }} />

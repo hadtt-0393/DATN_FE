@@ -17,4 +17,6 @@ export interface Room {
   image: string;
   roomType: string;
   Beds: any[];
+  quantityAvailable: number;
+  quantityChoose: number;
 }
