@@ -106,7 +106,7 @@ const Signup = () => {
                     username: username,
                     email: email,
                     password: password,
-                    phone: phone,
+                    phoneNumber: phone,
                     city: city,
                 },
             );
