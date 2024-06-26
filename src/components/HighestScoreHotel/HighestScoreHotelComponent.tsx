@@ -81,7 +81,7 @@ export default function HighestScoreHotelComponent() {
                         <Card sx={{ ml: .5, boxShadow: "none", border: "1px solid #EEE", mr: .5 }} >
                             <CardActionArea sx={{}} >
                                 <Box overflow="hidden" borderRadius="5px" position="relative" height="50%">
-                                    <Image src="http://res.cloudinary.com/di7a7sbbn/image/upload/v1668414040/upload/prirsonreuc6vkcjmxfi.jpg" />
+                                    <Image src={item.images[0]} />
                                     <Box sx={{
                                         position: "absolute",
                                         top: 0,
@@ -145,7 +145,7 @@ export default function HighestScoreHotelComponent() {
                                     </Typography>
                                     <Box display="flex" flexDirection="row" alignItems="center" gap={1} mb={1.5}>
                                         <LocationOnRoundedIcon sx={{ color: "#F9B90F", fontSize: "16px", mt: "2px" }} />
-                                        <Typography sx={{ color: "#999", fontSize: "13px", whiteSpace: "wrap", wordBreak: "break-word" }}>{item.address}</Typography>
+                                        <Typography sx={{ color: "#999", fontSize: "13px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item.address}</Typography>
                                     </Box>
                                     <Box sx={{ border: ".5px  #CCC dashed" }} />
                                     <Typography sx={{ color: "#999", fontSize: "13px", mt: "15px", mb: "12px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item.description}</Typography>
@@ -161,8 +161,8 @@ export default function HighestScoreHotelComponent() {
                                     <ThemeProvider theme={theme}>
                                         <Box display="flex" alignItems="center" justifyContent="space-between" mt="10px" >
                                             <Box bgcolor="#F9B90F" sx={{ fontSize: "13px", textTransform: "unset", boxShadow: "none", border: "0.5px solid #EEE", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: "5px 10px", borderRadius: "5px" }}>
-                                                <Typography sx={{ fontSize: "13px", textTransform: "uppercase", color: "white" }} >Giá Rẻ Nhẩt/Đêm</Typography>
-                                                <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", marginLeft: "5px" }}>{item.cheapestPrice}VND</Typography>
+                                                <Typography sx={{ fontSize: "13px", textTransform: "uppercase", color: "white" }} >Giá Rẻ Nhất/Đêm</Typography>
+                                                <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", marginLeft: "5px" }}>{(item.cheapestPrice).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}VND</Typography>
                                             </Box>
                                             <Button variant="contained" sx={{ fontSize: "13px", textTransform: "unset" }} onClick={() => navigate(`/hotel/${item._id}`)}>Xem chi tiết</Button>                                        </Box>
                                     </ThemeProvider>

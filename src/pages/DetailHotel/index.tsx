@@ -76,62 +76,34 @@ const Image = styled.img`
         cursor: pointer;
 },`
 
-const images = [
-    {
-        img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-        title: 'Breakfast',
-    },
-    {
-        img: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
-        title: 'Burger',
-    },
-    {
-        img: 'https://images.unsplash.com/photo-1522770179533-24471fcdba45',
-        title: 'Camera',
-    },
-    {
-        img: 'https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c',
-        title: 'Coffee',
-    },
-    {
-        img: 'https://images.unsplash.com/photo-1533827432537-70133748f5c8',
-        title: 'Hats',
-    },
-    {
-        img: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62',
-        title: 'Honey',
-    }
-]
+// const images = [
+//     {
+//         img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
+//         title: 'Breakfast',
+//     },
+//     {
+//         img: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
+//         title: 'Burger',
+//     },
+//     {
+//         img: 'https://images.unsplash.com/photo-1522770179533-24471fcdba45',
+//         title: 'Camera',
+//     },
+//     {
+//         img: 'https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c',
+//         title: 'Coffee',
+//     },
+//     {
+//         img: 'https://images.unsplash.com/photo-1533827432537-70133748f5c8',
+//         title: 'Hats',
+//     },
+//     {
+//         img: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62',
+//         title: 'Honey',
+//     }
+// ]
 
-function ImagesList() {
-    return (
-        <Box sx={{
-            display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "space-between"
-        }}>
-            {images.map((photo, index) => (
-                <Box
-                    sx={{
-                        width: "33%"
-                    }}
-                    key={index}
-                >
-                    <img
-                        src={photo.img}
-                        alt=""
-                        style={{
-                            width: "100%",
-                            height: "250px",
-                            objectFit: "cover",
-                            cursor: "pointer"
-                        }}
-                    />
-                </Box>
-            ))}
-        </Box>
-    );
-}
+
 
 export default function DetailHotel() {
     const { user } = useContext(AuthContext);
@@ -153,7 +125,7 @@ export default function DetailHotel() {
     const room = state ? state.room : 1;
     const value = 4;
     const navigate = useNavigate()
-    
+
     const [startDateFilter, setStartDateFilter] = useState(start);
     const [endDateFilter, setEndDateFilter] = useState(end);
     const [adultFilter, setAdultFilter] = useState(adult);
@@ -202,7 +174,7 @@ export default function DetailHotel() {
         const RoomsSuggest = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/room/getAllRoomFilter/${id}?startDate=${startDateFilter}&endDate=${endDateFilter}&adult=${adultFilter}&children=${childrenFilter}&roomNumber=${roomNumberFilter}`)
         const Rooms = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/room/getAllRoomAvailable/${id}?startDate=${start}&endDate=${end}`)
         const updatedRooms = Rooms.data.map(room => ({
-           ...room,
+            ...room,
             quantityChoose: 0,
         }));
         setRooms(updatedRooms);
@@ -241,7 +213,7 @@ export default function DetailHotel() {
         }
     }
 
-    
+
 
     const handleChange = (event: any, Room) => {
         const selectedQuantity = event.target.value;
@@ -262,7 +234,7 @@ export default function DetailHotel() {
             let updatedRoom = room; // Biến tạm thời để giữ phòng được cập nhật hoặc không
             for (let roomSuggest of roomSuggests) {
                 if (room._id === roomSuggest._id) {
-                    updatedRoom = {...room, quantityChoose: roomSuggest.quantity};
+                    updatedRoom = { ...room, quantityChoose: roomSuggest.quantity };
                     break; // Thoát vòng lặp khi đã tìm thấy và cập nhật phòng
                 }
             }
@@ -271,13 +243,15 @@ export default function DetailHotel() {
         setRooms(result);
     }
 
+
+
     return (
         <Box>
             <Navbar />
             <Header />
             {data && (
                 <Box sx={{ mt: "110px", height: "600px", width: "100%", position: "relative" }}>
-                    <img src="http://res.cloudinary.com/di7a7sbbn/image/upload/v1668414040/upload/prirsonreuc6vkcjmxfi.jpg" alt="slider-image" style={{ width: "100%", height: "600px", objectFit: "cover" }} />
+                    <img src={data.images[0]} alt="slider-image" style={{ width: "100%", height: "600px", objectFit: "cover" }} />
                     <Box sx={{
                         position: "absolute",
                         top: 0,
@@ -396,7 +370,31 @@ export default function DetailHotel() {
             <Box bgcolor="#ECF6F8" >
                 <Box width="92%" bgcolor="#ECF6F8" maxWidth="1224px" m="30px auto" display="flex" gap={5} padding="50px 0">
                     <Box flex="2" >
-                        <ImagesList />
+                        <Box sx={{
+                            display: "flex",
+                            flexWrap: "wrap",
+                            justifyContent: "space-between"
+                        }}>
+                            {data?.images.map((image, index) => (
+                                <Box
+                                    sx={{
+                                        width: "33%"
+                                    }}
+                                    key={index}
+                                >
+                                    <img
+                                        src={image}
+                                        alt=""
+                                        style={{
+                                            width: "100%",
+                                            height: "250px",
+                                            objectFit: "cover",
+                                            cursor: "pointer"
+                                        }}
+                                    />
+                                </Box>
+                            ))}
+                        </Box>
                         <Box display="flex" flexDirection="row" bgcolor="#FFF" height="105px" mt="50px" justifyContent="space-between" alignItems="center" borderRadius="5px">
                             <Box flex={1} height="100%" justifyContent="center" alignItems="center" display="flex" flexDirection="column">
                                 <HotelOutlinedIcon sx={{ color: "#3AACED", width: "60px", height: "50px", opacity: 0.7, mb: "10px" }} />
@@ -557,7 +555,7 @@ export default function DetailHotel() {
                                                     <Box flex={2} borderRight="1px solid #5BBAFF" >
                                                         <Box display="flex" justifyContent="start" alignItems="start" m={2} flexDirection='column' >
                                                             <Box display="flex" justifyContent="center" alignItems="center" overflow="hidden" borderRadius="4px">
-                                                                <Image src="https://cf2.bstatic.com/xdata/images/hotel/max1024x768/505672726.jpg?k=086af04426447cf784343fc4bad2ffec76dcf9a47cb16d14886a4a1907de9714&o=&hp=1" alt="room-image" style={{ width: "100%", objectFit: "contain", marginBottom: "20px" }} />
+                                                                <Image src={room.image} alt="room-image" style={{ width: "100%", objectFit: "contain", marginBottom: "20px" }} />
                                                             </Box>
                                                             <Typography color="#0083EB" fontWeight="600" mb={1}>{room.roomType}</Typography>
                                                             <Box display="flex" flexDirection="row" >
@@ -720,8 +718,8 @@ export default function DetailHotel() {
                                     <Box display="flex" flexDirection="row" m="30px 0px" width="100%" padding="20px 0px" bgcolor="#ECF6F8" borderRadius="10px">
                                         <Box flex={1} display="flex" flexDirection="column" justifyContent="start" alignItems="center" gap={2}>
                                             <Avatar sx={{ width: "80px", height: "80px", m: "5px" }} />
-                                            <Typography sx={{ fontSize: "18px", color: "#333", fontWeight: "600", }}>Thu Ha</Typography>
-                                            <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", }}>11/01/2024</Typography>
+                                            <Typography sx={{ fontSize: "18px", color: "#333", fontWeight: "600", }}>Thu Hà</Typography>
+                                            <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", }}>27/06/2024</Typography>
                                         </Box>
                                         <Box flex={3} display="flex" flexDirection="column" >
                                             <Box display="flex" flexDirection="row" alignItems="start" justifyContent="space-between">
@@ -744,63 +742,6 @@ export default function DetailHotel() {
 
                                         </Box>
                                     </Box>
-                                </Box>
-                            </Box>
-
-                        </Box>
-                        <Box bgcolor="white" mt="30px" borderRadius="5px" pb="30px">
-                            <Box m="0px 30px" borderBottom="#EEE 1px solid">
-                                <Typography fontWeight="600" color="#183C7D" fontSize="18px" padding="25px 0">
-                                    Nhận xét của bạn
-                                </Typography>
-                            </Box>
-                            <Box m="30px " display="flex" justifyContent="center" alignItems="center" gap={5} height="100%" borderBottom="#DDD 1px dashed" paddingBottom="20px">
-                                <Box width="100%" flex={2} display="flex" gap={2} flexDirection="column"  >
-                                    <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "50px" }}>
-                                        <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", mb: "6px", whiteSpace: "nowrap", minWidth: "125px" }}>Vệ sinh</Typography>
-                                        <Slider defaultValue={4.5} aria-label="Default" valueLabelDisplay="auto" min={1} max={5} step={1} marks sx={{ height: "8px", color: "#3AACED", p: "0" }} />
-                                    </Box>
-                                    <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "50px" }}>
-                                        <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", mb: "6px", whiteSpace: "nowrap", minWidth: "125px" }}>Độ thoải mái</Typography>
-                                        <Slider defaultValue={4.5} aria-label="Default" valueLabelDisplay="auto" min={1} max={5} step={1} marks sx={{ height: "8px", color: "#3AACED", p: "0" }} />
-                                    </Box>
-                                    <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "50px" }}>
-                                        <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", mb: "6px", whiteSpace: "nowrap", minWidth: "125px" }}>Thái độ nhân viên</Typography>
-                                        <Slider defaultValue={4.5} aria-label="Default" valueLabelDisplay="auto" min={1} max={5} step={1} marks sx={{ height: "8px", color: "#3AACED", p: "0" }} />
-                                    </Box>
-                                    <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "50px" }}>
-                                        <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", mb: "6px", whiteSpace: "nowrap", minWidth: "125px" }}>Cơ sở vật chất</Typography>
-                                        <Slider defaultValue={4.5} aria-label="Default" valueLabelDisplay="auto" min={1} max={5} step={1} marks sx={{ height: "8px", color: "#3AACED", p: "0" }} />
-                                    </Box>
-                                </Box>
-                                <Box display="flex" flex={1} height="150px">
-                                    <Box bgcolor={"#f7f9fb"} height="100%" display="flex" justifyContent="center" alignItems="center" flexDirection="column" width="100%" border="#EEE 1px solid" borderRadius="10px">
-                                        <Typography color="#3AACED" fontSize="25px" fontWeight="600">4.5</Typography>
-                                        <Typography color="#66686B" fontSize="15px" fontWeight="600" mt="10px">Điểm của bạn</Typography>
-                                    </Box>
-                                </Box>
-                            </Box>
-                            <Box m="30px" sx={{ textAlign: "center" }} borderBottom="#DDD 1px dashed" pb="30px">
-                                <TextField minRows={4} sx={{ width: "100%" }} placeholder="Nhập nhận xét của bạn" multiline />
-                            </Box>
-                            <Box sx={{ textAlign: "center" }} borderBottom="#DDD 1px dashed" pb="15px">
-                                <Button
-                                    component="label"
-                                    role={undefined}
-                                    variant="contained"
-                                    tabIndex={-1}
-                                    startIcon={<CloudUploadIcon />}
-                                    sx={{ mb: 2, backgroundColor: "#3AACED", fontWeight: 600, fontSize: "14px", "&:hover": { backgroundColor: "#3AACED", opacity: "0.8" } }}
-                                    size='large'
-
-                                >
-                                    Chọn ảnh
-                                    <VisuallyHiddenInput type="file" />
-                                </Button>
-                            </Box>
-                            <Box display="flex" alignItems="center" justifyContent="center">
-                                <Box width="200px" m="30px 0 0 0" >
-                                    <Button variant="contained" sx={{ width: "100%", backgroundColor: "#F9C941", fontWeight: "600", fontSize: "16px", boxShadow: "none", "&:hover": { boxShadow: "none", opacity: "0.8", backgroundColor: "#F9C941" } }} >Gửi nhận xét</Button>
                                 </Box>
                             </Box>
 

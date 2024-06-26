@@ -453,7 +453,7 @@ export default function SearchResultsPage() {
                                                         <Box display="flex" alignItems="center" justifyContent="space-between" mt="10px" >
                                                             <Box bgcolor="#F9B90F" sx={{ fontSize: "13px", textTransform: "unset", boxShadow: "none", border: "0.5px solid #EEE", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: "5px 10px", borderRadius: "5px" }}>
                                                                 <Typography sx={{ fontSize: "13px", textTransform: "uppercase", color: "white" }} >Giá Rẻ Nhẩt/Đêm</Typography>
-                                                                <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", marginLeft: "5px" }}>{item.cheapestPrice}VND</Typography>
+                                                                <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", marginLeft: "5px" }}>{(item.cheapestPrice).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}VND</Typography>
                                                             </Box>
                                                             <Button variant="contained" sx={{ fontSize: "13px", textTransform: "unset" }} onClick={() => openDetailHotel(item)}>Xem chi tiết</Button>
                                                         </Box>

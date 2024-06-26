@@ -18,6 +18,8 @@ import Header from '../../components/Header/HeaderComponent';
 import Navbar from '../../components/Navbar/NavbarComponent';
 import { Form } from '../../models/Form';
 import { getToken } from '../../services/token';
+import { Button } from '@mui/material';
+import CommentComponent from '../../components/Comment/CommentComponent';
 const Image = styled.img`
     width: 100%;
     objectFit: cover;
@@ -31,6 +33,7 @@ const Image = styled.img`
 
 export default function ReservationsPage() {
     const [forms, setForms] = useState<Form[]>([]);
+    const [openModal, setOpenModal] = useState(false)
 
     useEffect(() => {
         const token = getToken();
@@ -84,8 +87,8 @@ export default function ReservationsPage() {
                                                     <DoorBackIcon sx={{ color: "#F9B90F", fontSize: "30px" }} />
                                                     {form.Rooms.map(room => {
                                                         return (
-                                                            <Box bgcolor="#3AACED" borderRadius="5px" padding="2px 8px" ml="15px">
-                                                                <Typography color="#FFF" fontSize="18px" fontWeight="600">{room.quantity} x {room.roomName}</Typography>
+                                                            <Box borderRadius="5px" padding="2px 8px" ml="15px">
+                                                                <Typography color="#999" fontSize="18px">{room.quantity} x {room.roomName}</Typography>
                                                             </Box>
                                                         )
                                                     })}
@@ -120,9 +123,15 @@ export default function ReservationsPage() {
                                                 </Box>
                                                 <Box display="flex" flexDirection="row" justifyContent="start" m="20px" alignItems="center">
                                                     <PaidIcon sx={{ color: "#3AACED", fontSize: "30px" }} />
-                                                    <Box bgcolor="orange" borderRadius="5px" padding="4px 8px" ml="20px">
+                                                    <Box bgcolor="#F9B90F" borderRadius="5px" padding="4px 8px" ml="20px">
                                                         <Typography color="#FFF" fontSize="18px" fontWeight="600" >{form?.paymentStatus}</Typography>
                                                     </Box>
+                                                </Box>
+
+                                                <Box display="flex" flexDirection="row" justifyContent="end" m="20px" alignItems="center">
+                                                    <Button variant='outlined' sx={{bgcolor:"", fontWeight:"600"}} onClick={()=> {setOpenModal(true),console.log("aaaaaa");
+                                                    }}> Đánh giá tại đây</Button>
+                                                    <CommentComponent open = {openModal} onClose={()=> setOpenModal(false)}/>
                                                 </Box>
 
                                             </Box>

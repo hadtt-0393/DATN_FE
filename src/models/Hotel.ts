@@ -17,6 +17,7 @@ export interface Hotel {
   discount: number;
   email: string;
   hotline: string;
+  images: string[]
 }
 
 
