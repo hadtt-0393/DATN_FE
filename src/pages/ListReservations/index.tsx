@@ -20,6 +20,7 @@ import { Form } from '../../models/Form';
 import { getToken } from '../../services/token';
 import { Button } from '@mui/material';
 import CommentComponent from '../../components/Comment/CommentComponent';
+import { FooterComponent } from '../../components';
 const Image = styled.img`
     width: 100%;
     objectFit: cover;
@@ -57,15 +58,15 @@ export default function ReservationsPage() {
         <Box>
             <Navbar />
             <Header />
-            <Box width="100%" mt="150px" p={0} bgcolor="#ECF6F8">
+            <Box width="100%" mt="150px" p={0}>
                 <Box width="92%" maxWidth="1224px" m="30px auto" display="flex" gap={3} flexDirection="column"  >
-                    <Typography fontSize="20px" fontWeight="600" color="#958DA0" mt="30px">Danh sách phòng đã đặt</Typography>
+                    {forms.length > 0 && <Typography fontSize="20px" fontWeight="600" color="#18458B" mt="30px">Danh sách phòng đã đặt</Typography>}
                     <Box width="100%" m="10px auto">
                         <Grid container gap={5} maxWidth="1224px">
-                            {forms && forms.map((form, key) => {
+                            {forms.length > 0 && forms.map((form, key) => {
                                 return (
                                     <Grid item xs={12} key={key}>
-                                        <Box border="1px solid #DDD" borderRadius="10px" display="flex" alignItems="start" justifyContent="space-between" bgcolor="#FFF" height="100%">
+                                        <Box border="1px solid #A3D7FC" borderRadius="10px" display="flex" alignItems="start" justifyContent="space-between" bgcolor="#FFF" height="100%">
                                             <Box flex={1.5} overflow="hidden" borderRadius="10px" margin="auto 15px" borderRight="1px solid #DDD" display="flex" alignItems="center" justifyContent="center">
                                                 <Image src={form.hotel.images[0]} />
                                             </Box>
@@ -83,15 +84,17 @@ export default function ReservationsPage() {
                                                     <Typography color="#999" fontSize="18px" ml="15px">{form.address}</Typography>
                                                 </Box>
 
-                                                <Box display="flex" flexDirection="row" justifyContent="start" m="20px" alignItems="center">
+                                                <Box display="flex" flexDirection="row" justifyContent="start" m="20px" alignItems="start">
                                                     <DoorBackIcon sx={{ color: "#F9B90F", fontSize: "30px" }} />
-                                                    {form.Rooms.map(room => {
-                                                        return (
-                                                            <Box borderRadius="5px" padding="2px 8px" ml="15px">
-                                                                <Typography color="#999" fontSize="18px">{room.quantity} x {room.roomName}</Typography>
-                                                            </Box>
-                                                        )
-                                                    })}
+
+                                                    <Box borderRadius="5px" ml="15px">
+                                                        {form.Rooms.map(room => {
+                                                            return (
+                                                                <Typography color="#999" fontSize="18px" mb={form.Rooms.length > 1 ? "10px" : "0px"}>{room.quantity} x {room.roomName}</Typography>
+                                                            )
+                                                        })}
+                                                    </Box>
+
                                                 </Box>
                                                 <Box display="flex" flexDirection="row" justifyContent="start" m="20px" alignItems="center">
                                                     <PaidIcon sx={{ color: "#F9B90F", fontSize: "30px" }} />
@@ -123,15 +126,16 @@ export default function ReservationsPage() {
                                                 </Box>
                                                 <Box display="flex" flexDirection="row" justifyContent="start" m="20px" alignItems="center">
                                                     <PaidIcon sx={{ color: "#3AACED", fontSize: "30px" }} />
-                                                    <Box bgcolor="#F9B90F" borderRadius="5px" padding="4px 8px" ml="20px">
+                                                    <Box bgcolor={form?.paymentStatus === "Thanh toán khi trả phòng" ? "#F1C40F" : "#3AACED"} borderRadius="5px" padding="4px 8px" ml="20px">
                                                         <Typography color="#FFF" fontSize="18px" fontWeight="600" >{form?.paymentStatus}</Typography>
                                                     </Box>
                                                 </Box>
 
                                                 <Box display="flex" flexDirection="row" justifyContent="end" m="20px" alignItems="center">
-                                                    <Button variant='outlined' sx={{bgcolor:"", fontWeight:"600"}} onClick={()=> {setOpenModal(true),console.log("aaaaaa");
+                                                    <Button variant='outlined' sx={{ bgcolor: "", fontWeight: "600" }} onClick={() => {
+                                                        setOpenModal(true), console.log("aaaaaa");
                                                     }}> Đánh giá tại đây</Button>
-                                                    <CommentComponent open = {openModal} onClose={()=> setOpenModal(false)}/>
+                                                    <CommentComponent open={openModal} onClose={() => setOpenModal(false)} />
                                                 </Box>
 
                                             </Box>
@@ -139,6 +143,12 @@ export default function ReservationsPage() {
                                     </Grid>
                                 )
                             })}
+
+                            {forms.length === 0 &&
+                                <Box display="flex" width="100%" m="0 auto" border="1px solid #CCC" borderRadius={"10px"} height="500px" flexDirection="column" gap={5} justifyContent={'center'} alignItems={'center'}>
+                                    <Image src='https://cdn-icons-png.flaticon.com/512/5581/5581212.png' style={{ width:"200px", height:"200px"}}/>
+                                    <Typography color="#18458B" fontSize="24px" fontWeight={600}>Hiện bạn đang chưa đặt phòng nào</Typography>
+                                </Box>}
                         </Grid>
 
                     </Box>
@@ -146,6 +156,7 @@ export default function ReservationsPage() {
                 </Box>
 
             </Box>
+            <FooterComponent />
 
         </Box>
     )

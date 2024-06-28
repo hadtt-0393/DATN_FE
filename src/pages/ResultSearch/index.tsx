@@ -85,7 +85,7 @@ export default function SearchResultsPage() {
     const startDateProp = state ? state.dates[0].startDate : currentDate;
     const endDateProp = state ? state.dates[0].endDate : new Date(currentDate.getTime() + 86400000);
     const optionProp = state ? state.options : optionDefault;
-    
+
     const [cityFilter, setCityFilter] = useState(city)
     const [startDateFilter, setStartDateFilter] = useState(startDate)
     const [endDateFilter, setEndDateFilter] = useState(endDate)
@@ -226,7 +226,7 @@ export default function SearchResultsPage() {
     const navigate = useNavigate()
 
     const openDetailHotel = (item) => {
-        navigate(`/hotel/${item._id}`, { state: { startDate: startDateFilter, endDate: endDateFilter, adult: adultFilter, children: childrenFilter, room: roomFilter}});
+        navigate(`/hotel/${item._id}`, { state: { startDate: startDateFilter, endDate: endDateFilter, adult: adultFilter, children: childrenFilter, room: roomFilter } });
     }
 
     return (
@@ -343,10 +343,18 @@ export default function SearchResultsPage() {
                         </Box>
                     </Box>
                     <Box flex="2.5" display="flex" justifyContent="start" alignItems="start" flexDirection="column" >
-                        <Box display="flex" flexDirection="row" mb="20px"  >
-                            <Typography color="#958DA0" fontWeight="600" fontSize="20px" mr="10px">Kết quả tìm kiếm cho:  </Typography>
-                            <Typography color="#3AACED" fontWeight="600" fontSize="20px">{city}</Typography>
-                        </Box>
+                        {hotels.length > 0 &&
+                            <Box display="flex" flexDirection="row" mb="20px"  >
+                                <Typography color="#18458B" fontWeight="600" fontSize="20px" mr="7px">Tìm thấy tại {city}: {hotels.length} khách sạn </Typography>
+                            </Box>
+                        }
+
+                        {hotels.length === 0 &&
+                            <Box display="flex" flexDirection="row" mb="20px"  >
+                                <Typography color="#18458B" fontWeight="600" fontSize="20px" mr="7px">Không tìm thấy khách sạn tại {city}</Typography>
+
+                            </Box>
+                        }
                         <Box gap={2} sx={{ display: "flex", justifyContent: "space-between", alignItems: "start", flex: 1 }}>
                             <Grid container spacing={4}>
                                 {hotels.length > 0 && hotels.map((item) => (

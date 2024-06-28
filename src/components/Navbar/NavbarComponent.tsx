@@ -9,12 +9,14 @@ import Typography from "@mui/material/Typography";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import { toast } from 'react-toastify';
 
 export default function NavbarComponent() {
     const { user, dispatch, loading } = useContext(AuthContext);
     const navigate = useNavigate()
     const handleLogout = () => {
         dispatch && dispatch({ type: 'LOGOUT' });
+        toast.success("Đăng xuất thành công", {autoClose:2000})
         navigate('/');
       };
 

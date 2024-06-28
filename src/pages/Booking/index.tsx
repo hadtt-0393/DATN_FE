@@ -29,6 +29,7 @@ export default function BookingPage() {
     const [note, setNote] = useState('')
 
     const handleNextPage = () => {
+
         navigate(`/booking-confirm/${id}`, {
             state: {
                 name: name,
@@ -59,48 +60,52 @@ export default function BookingPage() {
                                 <Box paddingBottom="20px" paddingTop="10px" border="1px solid #EEEEEE" borderTop="none" borderLeft="none" borderRight="none">
                                     <Typography fontSize="20px" fontWeight="600" color="#183C7D">Thông tin đặt phòng</Typography>
                                 </Box>
-                                <Box display="flex" flexDirection="row" gap={4} >
-                                    <Box flex={1}>
-                                        <Typography fontSize="14px" color="#000" mb="10px" mt="20px">Họ tên</Typography>
-                                        <Box display="flex" alignItems="center" border="#EEE solid 1px" height="45px" justifyContent="space-between" borderRadius="8px" bgcolor="#FFF">
-                                            <Person2OutlinedIcon fontSize="small" sx={{ color: "#F9B90F", pl: 2, pr: 2 }} />
-                                            <Input disableUnderline sx={{ fontSize: "13px", flex: "1" }} placeholder="Nguyễn Văn A" value={name} onChange={(e) => setName(e.target.value)} />
+                                <Box component="form" onSubmit={handleNextPage}>
+                                    <Box display="flex" flexDirection="row" gap={4} >
+                                        <Box flex={1}>
+                                            <Typography fontSize="14px" color="#000" mb="10px" mt="20px">Họ tên</Typography>
+                                            <Box display="flex" alignItems="center" border="#EEE solid 1px" height="45px" justifyContent="space-between" borderRadius="8px" bgcolor="#FFF">
+                                                <Person2OutlinedIcon fontSize="small" sx={{ color: "#F9B90F", pl: 2, pr: 2 }} />
+                                                <Input disableUnderline required sx={{ fontSize: "13px", flex: "1" }} placeholder="Nguyễn Văn A" value={name} onChange={(e) => {setName(e.target.value)}} />
+                                                
+                                            </Box>
+                                        </Box>
+                                        <Box flex={1}>
+                                            <Typography fontSize="14px" color="#000" mb="10px" mt="20px">Địa chỉ</Typography>
+                                            <Box display="flex" alignItems="center" border="#EEE solid 1px" height="45px" justifyContent="space-between" borderRadius="8px" bgcolor="#FFF">
+                                                <LocationOnOutlinedIcon fontSize="small" sx={{ color: "#F9B90F", pl: 2, pr: 2 }} />
+                                                <Input value={address} required onChange={(e) => setAddress(e.target.value)} disableUnderline sx={{ fontSize: "13px", flex: "1" }} placeholder="Hà Nội" />
+                                            </Box>
                                         </Box>
                                     </Box>
-                                    <Box flex={1}>
-                                        <Typography fontSize="14px" color="#000" mb="10px" mt="20px">Địa chỉ</Typography>
-                                        <Box display="flex" alignItems="center" border="#EEE solid 1px" height="45px" justifyContent="space-between" borderRadius="8px" bgcolor="#FFF">
-                                            <LocationOnOutlinedIcon fontSize="small" sx={{ color: "#F9B90F", pl: 2, pr: 2 }} />
-                                            <Input value={address} onChange={(e) => setAddress(e.target.value)} disableUnderline sx={{ fontSize: "13px", flex: "1" }} placeholder="Hà Nội" />
+                                    <Box display="flex" flexDirection="row" gap={4} >
+                                        <Box flex={1}>
+                                            <Typography fontSize="14px" color="#000" mb="10px" mt="20px">Email</Typography>
+                                            <Box display="flex" alignItems="center" border="#EEE solid 1px" height="45px" justifyContent="space-between" borderRadius="8px" bgcolor="#FFF">
+                                                <MailOutlineOutlinedIcon fontSize="small" sx={{ color: "#F9B90F", pl: 2, pr: 2 }} />
+                                                <Input value={email} type='email' required onChange={(e) => setEmail(e.target.value)} disableUnderline sx={{ fontSize: "13px", flex: "1" }} placeholder="nguyenvana@gmail.com" />
+                                            </Box>
+                                        </Box>
+                                        <Box flex={1}>
+                                            <Typography fontSize="14px" color="#000" mb="10px" mt="20px">Số điện thoại</Typography>
+                                            <Box display="flex" alignItems="center" border="#EEE solid 1px" height="45px" justifyContent="space-between" borderRadius="8px" bgcolor="#FFF">
+                                                <PhoneOutlinedIcon fontSize="small" sx={{ color: "#F9B90F", pl: 2, pr: 2 }} />
+                                                <Input value={phoneNumber} required onChange={(e) => setPhoneNumber(e.target.value)} disableUnderline sx={{ fontSize: "13px", flex: "1" }} placeholder="0987654321" />
+                                            </Box>
+                                        </Box>
+                                    </Box>
+                                    <Box>
+                                        <Typography fontSize="14px" color="#000" mb="10px" mt="20px">Ghi chú</Typography>
+                                        <Box sx={{ textAlign: "center" }} bgcolor="#FFF">
+                                            <TextField value={note} onChange={(e) => setNote(e.target.value)} minRows={4} sx={{ width: "100%" }} placeholder="Nhập ghi chú của bạn" multiline />
+                                        </Box>
+                                        <Box width="40%" m="30px auto">
+                                            <Button variant="contained" type="submit" sx={{ width: "100%", backgroundColor: "#F9C941", fontWeight: "600", boxShadow: "none", "&:hover": { boxShadow: "none", opacity: "0.8", backgroundColor: "#F9C941" } }} >Thanh toán</Button>
                                         </Box>
                                     </Box>
                                 </Box>
-                                <Box display="flex" flexDirection="row" gap={4} >
-                                    <Box flex={1}>
-                                        <Typography fontSize="14px" color="#000" mb="10px" mt="20px">Email</Typography>
-                                        <Box display="flex" alignItems="center" border="#EEE solid 1px" height="45px" justifyContent="space-between" borderRadius="8px" bgcolor="#FFF">
-                                            <MailOutlineOutlinedIcon fontSize="small" sx={{ color: "#F9B90F", pl: 2, pr: 2 }} />
-                                            <Input value={email} onChange={(e) => setEmail(e.target.value)} disableUnderline sx={{ fontSize: "13px", flex: "1" }} placeholder="nguyenvana@gmail.com" />
-                                        </Box>
-                                    </Box>
-                                    <Box flex={1}>
-                                        <Typography fontSize="14px" color="#000" mb="10px" mt="20px">Số điện thoại</Typography>
-                                        <Box display="flex" alignItems="center" border="#EEE solid 1px" height="45px" justifyContent="space-between" borderRadius="8px" bgcolor="#FFF">
-                                            <PhoneOutlinedIcon fontSize="small" sx={{ color: "#F9B90F", pl: 2, pr: 2 }} />
-                                            <Input value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} disableUnderline sx={{ fontSize: "13px", flex: "1" }} placeholder="0987654321" />
-                                        </Box>
-                                    </Box>
-                                </Box>
-                                <Box>
-                                    <Typography fontSize="14px" color="#000" mb="10px" mt="20px">Ghi chú</Typography>
-                                    <Box sx={{ textAlign: "center" }} bgcolor="#FFF">
-                                        <TextField value={note} onChange={(e) => setNote(e.target.value)} minRows={4} sx={{ width: "100%" }} placeholder="Nhập ghi chú của bạn" multiline />
-                                    </Box>
 
-                                </Box>
-                                <Box width="40%" m="30px auto">
-                                    <Button variant="contained" sx={{ width: "100%", backgroundColor: "#F9C941", fontWeight: "600", boxShadow: "none", "&:hover": { boxShadow: "none", opacity: "0.8", backgroundColor: "#F9C941" } }} onClick={handleNextPage}>Thanh toán</Button>
-                                </Box>
+
                             </Box>
 
                         </Box>
@@ -160,8 +165,8 @@ export default function BookingPage() {
                                             {roomChoose?.map((room, key) => {
                                                 return (
                                                     <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" mx={3} key={key}>
-                                                        <Box bgcolor="orange" borderRadius="5px" padding="2px 8px" >
-                                                            <Typography color="#FFF" fontSize="13px" fontWeight="600">{room.quantityChoose} x {room.roomType}</Typography>
+                                                        <Box  >
+                                                            <Typography color="#333" fontSize="13px" fontWeight="600" maxWidth="180px">{room.quantityChoose} x {room.roomType}</Typography>
                                                         </Box>
                                                         <Typography fontSize="12px" color="#878C9F">{(room.price * room.quantityChoose).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} VND </Typography>
                                                     </Box>

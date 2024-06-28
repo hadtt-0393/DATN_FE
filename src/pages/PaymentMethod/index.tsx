@@ -15,7 +15,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import { getToken } from "../../services/token";
 import axios from 'axios';
 import { checkout } from "../../services/checkout";
+import { loadStripe } from '@stripe/stripe-js';
 
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY!);
 
 export default function PaymentMethod() {
     const navigate = useNavigate()
@@ -65,15 +67,61 @@ export default function PaymentMethod() {
                 }
             })
 
-            toast.success('Thanh toán thành công!', {
+            toast.success('Đặt phòng thành công!', {
                 position: toast.POSITION.TOP_RIGHT,
                 autoClose: 3000,
-                onClose: () => navigate('/payment-success')
+                // onClose: () => navigate('/payment-success/')
+                onClose: () => navigate('/reservations')
             });
         } catch (err) {
             console.log(err);
         }
     };
+
+    
+    const handleReserve = async () => {
+        try {
+            const token = getToken();
+    
+          // Redirect to Stripe
+          const lineItems: any = [];
+          lineItems.push({
+            price: "price_1PW1E2P3mxqok9yXzYvQvJ1L",
+            quantity: 1,
+          }),
+            checkout({
+              lineItems
+            });
+    
+          toast.success('Chuyển hướng sang thanh toán', );
+
+          const response = await axios.post(`${process.env.REACT_APP_API_ENDPOINT}/form/createForm`, {
+                name,
+                hotelId: id,
+                email,
+                phoneNumber,
+                address,
+                note,
+                cost: calTotalPrice(),
+                adults: option.adult,
+                children: option.children,
+                rooms: roomChoose,
+                startDate,
+                endDate,
+                paymentStatus: 'Thanh toán qua thẻ',
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                }
+            });
+
+            
+        } catch (err) {
+          console.log('Có xảy ra lỗi', err);
+        }
+      };
+    
 
     return (
         <Box>
@@ -117,8 +165,9 @@ export default function PaymentMethod() {
                                     </Box>
 
                                     {/* Redirect Stripe */}
-                                    <Button variant="contained" sx={{ boxShadow: "none", fontWeight: "600", "&:hover": { fontWeight: "600", boxShadow: "none" } }} onClick={handlePayment}>Thanh toán</Button>
+                                    <Button variant="contained" sx={{ boxShadow: "none", fontWeight: "600", "&:hover": { fontWeight: "600", boxShadow: "none" } }} onClick={()=>{value === "after" ? handlePayment(): handleReserve() } }>Thanh toán</Button>
                                     {/* <ToastContainer /> */}
+                                    
                                 </Box>
                             </Box>
                         </Box>

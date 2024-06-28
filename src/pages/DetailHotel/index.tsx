@@ -32,6 +32,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { Room } from '../../models/Room';
+import { toast } from 'react-toastify';
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -76,34 +77,6 @@ const Image = styled.img`
         cursor: pointer;
 },`
 
-// const images = [
-//     {
-//         img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-//         title: 'Breakfast',
-//     },
-//     {
-//         img: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
-//         title: 'Burger',
-//     },
-//     {
-//         img: 'https://images.unsplash.com/photo-1522770179533-24471fcdba45',
-//         title: 'Camera',
-//     },
-//     {
-//         img: 'https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c',
-//         title: 'Coffee',
-//     },
-//     {
-//         img: 'https://images.unsplash.com/photo-1533827432537-70133748f5c8',
-//         title: 'Hats',
-//     },
-//     {
-//         img: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62',
-//         title: 'Honey',
-//     }
-// ]
-
-
 
 export default function DetailHotel() {
     const { user } = useContext(AuthContext);
@@ -133,8 +106,9 @@ export default function DetailHotel() {
     const [roomNumberFilter, setRoomNumberFilter] = useState(room);
     const [load, setLoad] = useState(false);
     const [rooms, setRooms] = useState<Room[]>([]);
-    const [roomsSuggest, setRoomsSuggest] = useState<any>([]);
+    const [roomsSuggest, setRoomsSuggest] = useState<any[]>([]);
     const [totalPriceSuggest, setTotalPriceSuggest] = useState(0);
+    const [cursor, setCursor] = useState('no-drop')
 
 
     const handleChangeData = (arg1, arg2) => {
@@ -160,9 +134,10 @@ export default function DetailHotel() {
                 ...room,
                 quantityChoose: 0,
             }));
+
             setRooms(updatedRooms);
-            setRoomsSuggest(RoomsSuggest.data.rooms);
-            setTotalPriceSuggest(RoomsSuggest.data.cost)
+            setRoomsSuggest(RoomsSuggest.data.rooms ?? []);
+            setTotalPriceSuggest(RoomsSuggest.data.cost ?? 0)
             setLoad(false);
         }
 
@@ -178,13 +153,22 @@ export default function DetailHotel() {
             quantityChoose: 0,
         }));
         setRooms(updatedRooms);
-        setRoomsSuggest(RoomsSuggest.data.rooms);
-        setTotalPriceSuggest(RoomsSuggest.data.cost)
+        setRoomsSuggest(RoomsSuggest.data.rooms ?? []);
+        setTotalPriceSuggest(RoomsSuggest.data.cost ?? 0)
         setLoad(false);
     }
 
     const handleBooking = async () => {
         const token = getToken();
+
+        if (rooms.reduce((total, room) => (total + room.quantityChoose), 0) === 0) {
+            setCursor('no-drop')
+            return
+        } else {
+            setCursor('pointer')
+
+        }
+
         try {
             const authUser = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/user/isLogin`,
                 {
@@ -207,13 +191,12 @@ export default function DetailHotel() {
                 }
             })
         } catch (error) {
-            alert('Vui lòng đăng nhập để đặt phòng')
-            navigate('/signin')
+            toast.warning('Vui lòng đăng nhập để đặt phòng',
+                { autoClose: 2000, onClose: () => navigate('/signin') })
+
             return;
         }
     }
-
-
 
     const handleChange = (event: any, Room) => {
         const selectedQuantity = event.target.value;
@@ -243,7 +226,10 @@ export default function DetailHotel() {
         setRooms(result);
     }
 
-
+    useEffect(() => {
+        const totalRooms = rooms.reduce((total, room) => total + room.quantityChoose, 0);
+        setCursor(totalRooms === 0 ? 'no-drop' : 'pointer');
+      }, [rooms]);
 
     return (
         <Box>
@@ -429,82 +415,91 @@ export default function DetailHotel() {
                                 </Typography>
                             </Box>
                             <Box m="30px" display="flex" justifyContent="start" alignItems="center" pb="30px" flexWrap="wrap" gap={3}>
-                                {data?.services && data?.services.map((item) => (
-                                    <Box display="flex" flexDirection="row" lineHeight="1.3" alignItems="center" >
+                                {data?.services && data?.services.map((item, key) => (
+                                    <Box display="flex" flexDirection="row" lineHeight="1.3" alignItems="center" key={key}>
                                         <CheckOutlinedIcon sx={{ color: "#3AACEE", fontSize: "16px" }} />
-                                        <Typography fontSize="14px" fontWeight="600" color="#8894B5" ml="10px">{item}</Typography>
+                                        <Typography fontSize="14px" fontWeight="600" color="#8894B5" ml="10px" >{item}</Typography>
                                     </Box>
                                 ))}
                             </Box>
                         </Box>
-                        {roomsSuggest.length > 0 && <Box bgcolor="white" mt="30px" borderRadius="5px" pb="30px">
-                            <Box m="0px 30px">
-                                <Typography fontWeight="600" color="#183C7D" fontSize="18px" padding="25px 0">
-                                    Được giới thiệu cho {adultFilter} người lớn{childrenFilter !== 0 ? `,${childrenFilter} trẻ em` : ''}
-                                </Typography>
-                            </Box>
-                            <Box m="0px 30px" display="flex" justifyContent="center" flexDirection="row" border="1px solid #DDD" borderRadius="2px" >
-                                <Box flex={2.5} display="flex" flexDirection="column" borderRight="1px solid #DDD" borderRadius="2px" >
-                                    {roomsSuggest.length > 0 && roomsSuggest.map(room => {
-                                        return (
-                                            <Box display="flex" flexDirection="row" borderBottom="1px solid #DDD">
-                                                <Box flex={1.5} borderRight="1px solid #DDD" flexDirection="column" py={1} px={2} >
-                                                    <Typography fontSize="14px" my={1}>{room.quantity} x Phòng cho {room.maxPeople} người</Typography>
-                                                    <Box display="flex" justifyContent="start" alignItems="center" pb={1}>
-                                                        <Typography fontSize="14px" mr="10px">Giá cho : </Typography>
-                                                        <Box display="flex" alignItems="center" >
-                                                            <PersonIcon sx={{ fontSize: "20px" }} />
-                                                            <Typography color="#18458B">x {room.maxPeople}</Typography>
-                                                        </Box>
-                                                    </Box>
-                                                    <Typography fontWeight={600} fontSize="14px">Mỗi phòng có:</Typography>
-                                                    <Box display="flex" flexDirection="row" my={1}>
-                                                        <Typography mr="10px" fontSize="14px">Giường: </Typography>
-                                                        <Box display="flex" flexDirection="row" >
-                                                            {room.Beds.length > 0 && room.Beds.map(bed => {
-                                                                return (
-                                                                    <Typography mr="5px" fontSize="14px" >{bed.quantity} {bed.bedName},</Typography>
-                                                                )
-                                                            })}
-                                                        </Box>
-                                                    </Box>
-                                                    <Typography fontWeight={600} fontSize="14px" pb={1}>Dịch vụ phòng</Typography>
-                                                    <Box display="flex" justifyContent="start" alignItems="center" pb={2} flexWrap="wrap" gap={1}>
-                                                        {room.services.length > 0 && room.services.map((service) => (
-                                                            <Box display="flex" flexDirection="row" alignItems="center" >
-                                                                <CheckOutlinedIcon sx={{ color: "#3AACEE", fontSize: "16px" }} />
-                                                                <Typography fontSize="14px" color="#000" ml="3px">{service}</Typography>
-                                                            </Box>
-                                                        ))}
-                                                    </Box>
-                                                    <Box display="flex" flexDirection="row" alignItems="center" justifyContent="start" pb={1}>
-                                                        <AvTimerIcon sx={{ color: "red", fontSize: "16px", mr: "5px" }} />
-                                                        <Typography color="red" fontSize="14px" >Chỉ còn {room.quantityAvailable} phòng trên trang của chúng tôi</Typography>
-
-                                                    </Box>
-
-                                                </Box>
-                                                <Box flex={1} p={2}>
-                                                    <Typography fontWeight={600}>
-                                                        {(room.price * room.quantity).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} VND
-                                                    </Typography>
-                                                </Box>
-                                            </Box>
-                                        )
-                                    })}
-                                </Box>
-
-                                <Box flex={1} display="flex" justifyContent="flex-start" flexDirection="column" alignItems="flex-start" p={2}>
-                                    <Typography fontSize="12px" color="#666" mb={1}> 1 đêm, 10 người lớn, 2 trẻ em </Typography>
-                                    <Typography fontWeight={600} mb={2}>
-                                        {totalPriceSuggest.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} VND
+                        {roomsSuggest.length > 0 ?
+                            <Box bgcolor="white" mt="30px" borderRadius="5px" pb="30px">
+                                <Box m="0px 30px">
+                                    <Typography fontWeight="600" color="#183C7D" fontSize="18px" padding="25px 0">
+                                        Được giới thiệu cho {adultFilter} người lớn{childrenFilter !== 0 ? `,${childrenFilter} trẻ em` : ''}
                                     </Typography>
-                                    <Button variant='contained' sx={{ fontWeight: "600", alignSelf: "center", width: "100%" }} onClick={() => handleChooseSuggest(roomsSuggest)}>
-                                        Đặt các lựa chọn của bạn
-                                    </Button>
+                                </Box>
+                                <Box m="0px 30px" display="flex" justifyContent="center" flexDirection="row" border="1px solid #DDD" borderRadius="2px" >
+                                    <Box flex={2.5} display="flex" flexDirection="column" borderRight="1px solid #DDD" borderRadius="2px" >
+                                        {roomsSuggest.length > 0 && roomsSuggest.map((room, key) => {
+                                            return (
+                                                <Box display="flex" flexDirection="row" borderBottom="1px solid #DDD" key={key}>
+                                                    <Box flex={1.5} borderRight="1px solid #DDD" flexDirection="column" py={1} px={2} >
+                                                        <Typography fontSize="14px" my={1}>{room.quantity} x Phòng cho {room.maxPeople} người</Typography>
+                                                        <Box display="flex" justifyContent="start" alignItems="center" pb={1}>
+                                                            <Typography fontSize="14px" mr="10px">Giá cho : </Typography>
+                                                            <Box display="flex" alignItems="center" >
+                                                                <PersonIcon sx={{ fontSize: "20px" }} />
+                                                                <Typography color="#18458B">x {room.maxPeople}</Typography>
+                                                            </Box>
+                                                        </Box>
+                                                        <Typography fontWeight={600} fontSize="14px">Mỗi phòng có:</Typography>
+                                                        <Box display="flex" flexDirection="row" my={1}>
+                                                            <Typography mr="10px" fontSize="14px">Giường: </Typography>
+                                                            <Box display="flex" flexDirection="row" >
+                                                                {room.Beds.length > 0 && room.Beds.map((bed, key) => {
+                                                                    return (
+                                                                        <Typography mr="5px" fontSize="14px" key={key} >{bed.quantity} {bed.bedName},</Typography>
+                                                                    )
+                                                                })}
+                                                            </Box>
+                                                        </Box>
+                                                        <Typography fontWeight={600} fontSize="14px" pb={1}>Dịch vụ phòng</Typography>
+                                                        <Box display="flex" justifyContent="start" alignItems="center" pb={2} flexWrap="wrap" gap={1}>
+                                                            {room.services.length > 0 && room.services.map((service, key) => (
+                                                                <Box display="flex" flexDirection="row" alignItems="center" key={key} >
+                                                                    <CheckOutlinedIcon sx={{ color: "#3AACEE", fontSize: "16px" }} />
+                                                                    <Typography fontSize="14px" color="#000" ml="3px">{service}</Typography>
+                                                                </Box>
+                                                            ))}
+                                                        </Box>
+                                                        <Box display="flex" flexDirection="row" alignItems="center" justifyContent="start" pb={1}>
+                                                            <AvTimerIcon sx={{ color: "red", fontSize: "16px", mr: "5px" }} />
+                                                            <Typography color="red" fontSize="14px" >Chỉ còn {room.quantityAvailable} phòng trên trang của chúng tôi</Typography>
+
+                                                        </Box>
+
+                                                    </Box>
+                                                    <Box flex={1} p={2}>
+                                                        <Typography fontWeight={600}>
+                                                            {(room.price * room.quantity).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} VND
+                                                        </Typography>
+                                                    </Box>
+                                                </Box>
+                                            )
+                                        })}
+                                    </Box>
+
+                                    <Box flex={1} display="flex" justifyContent="flex-start" flexDirection="column" alignItems="flex-start" p={2}>
+                                        <Typography fontSize="12px" color="#666" mb={1}> 1 đêm, {adultFilter} người lớn, {childrenFilter !== 0 ? childrenFilter : ""} {childrenFilter !== 0 ? "Trẻ em" : ""} </Typography>
+                                        <Typography fontWeight={600} mb={2}>
+                                            {totalPriceSuggest.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} VND
+                                        </Typography>
+                                        <Button variant='contained' sx={{ fontWeight: "600", alignSelf: "center", width: "100%" }} onClick={() => handleChooseSuggest(roomsSuggest)}>
+                                            Đặt các lựa chọn của bạn
+                                        </Button>
+                                    </Box>
                                 </Box>
                             </Box>
-                        </Box>
+                            :
+                            <Box width="100%" sx={{ backgroundColor: "#FFF" }} pb="30px">
+                                <Box m="0px 30px">
+                                    <Typography fontWeight="600" color="red" fontSize="18px" padding="25px 0">
+                                        Hiện tại, hệ thống chưa tìm được gợi ý nào phù hợp với yêu cầu của quý khách
+                                    </Typography>
+                                </Box>
+                            </Box>
                         }
                         <Box width="100%" sx={{ backgroundColor: "#FFF" }} pb="30px">
                             <Box width="60%" mx="30px" mt="30px" pb="30px">
@@ -549,9 +544,9 @@ export default function DetailHotel() {
                                 </Box>
                                 <Box display="flex" flexDirection="row" border="1px solid #5BBAFF" borderTop="none">
                                     <Box flex={5.5} display="flex" flexDirection="column">
-                                        {rooms.length > 0 && rooms.map(room => {
+                                        {rooms.length > 0 && rooms.map((room, key) => {
                                             return (
-                                                <Box display="flex" borderTop="1px solid #5BBAFF" flexDirection={'row'}>
+                                                <Box display="flex" borderTop="1px solid #5BBAFF" flexDirection={'row'} key={key}>
                                                     <Box flex={2} borderRight="1px solid #5BBAFF" >
                                                         <Box display="flex" justifyContent="start" alignItems="start" m={2} flexDirection='column' >
                                                             <Box display="flex" justifyContent="center" alignItems="center" overflow="hidden" borderRadius="4px">
@@ -559,16 +554,16 @@ export default function DetailHotel() {
                                                             </Box>
                                                             <Typography color="#0083EB" fontWeight="600" mb={1}>{room.roomType}</Typography>
                                                             <Box display="flex" flexDirection="row" >
-                                                                {room.Beds.length > 0 && room.Beds.map(bed => {
+                                                                {room.Beds.length > 0 && room.Beds.map((bed, key) => {
                                                                     return (
-                                                                        <Typography mr="5px" fontSize="14px" >{bed.quantity} {bed.bedName},</Typography>
+                                                                        <Typography mr="5px" fontSize="14px" key={key}>{bed.quantity} {bed.bedName},</Typography>
                                                                     )
                                                                 })}
                                                             </Box>
                                                             <Typography fontWeight={600} fontSize="14px" my={1}>Dịch vụ phòng</Typography>
                                                             <Box display="flex" justifyContent="start" alignItems="center" pb={2} flexWrap="wrap" gap={1}>
-                                                                {room.services.length > 0 && room.services.map((service) => (
-                                                                    <Box display="flex" flexDirection="row" alignItems="center" >
+                                                                {room.services.length > 0 && room.services.map((service, key) => (
+                                                                    <Box display="flex" flexDirection="row" alignItems="center" key={key} >
                                                                         <CheckOutlinedIcon sx={{ color: "#3AACEE", fontSize: "16px" }} />
                                                                         <Typography fontSize="14px" color="#000" ml="3px">{service}</Typography>
                                                                     </Box>
@@ -617,9 +612,20 @@ export default function DetailHotel() {
                                         })}
                                     </Box>
 
-                                    <Box flex={1.5} borderTop="1px solid #5BBAFF">
-                                        <Box display="flex" justifyContent="center" alignItems="start" m={2} >
-                                            <Button variant='contained' sx={{ fontWeight: "600", alignSelf: "center", width: "100%" }} onClick={handleBooking}>
+                                    <Box flex={1.5} borderTop="1px solid #5BBAFF" bgcolor={rooms.reduce((total, room) => (total + room.quantityChoose), 0) > 0 ? "#ebf3ff" : "#FFF"}>
+                                        <Box display="flex" justifyContent="center" alignItems="start" m={2} flexDirection="column" gap={3}>
+
+                                            {rooms.reduce((total, room) => (total + room.quantityChoose), 0) > 0 && <Box display="flex" flexDirection="column" gap={2}>
+                                                <Typography fontWeight={600}>
+                                                    Giá tổng  {rooms.reduce((total, room) => total + room.quantityChoose, 0)} phòng
+                                                </Typography>
+                                                <Typography fontWeight={600} color="#18458B" >
+                                                    {rooms.reduce((total, room) => total + room.price * room.quantityChoose, 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} VND
+                                                </Typography>
+                                            </Box>
+                                            }
+
+                                            <Button variant='contained' sx={{ fontWeight: "600", alignSelf: "center", width: "100%", "&:hover": { cursor: cursor } }} onClick={handleBooking} >
                                                 Tôi sẽ đặt
                                             </Button>
                                         </Box>

@@ -1,21 +1,16 @@
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Paper from '@mui/material/Paper';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { Card, IconButton, InputAdornment, Stack } from '@mui/material';
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Button from '@mui/material/Button';
+import Link from '@mui/material/Link';
+import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { toast } from "react-toastify";
-import { useState, useContext } from 'react';
-import { AuthContext } from '../../context/AuthContext';
+import axios from 'axios';
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios'
+import { toast } from "react-toastify";
+import { AuthContext } from '../../context/AuthContext';
 
 const Signin = () => {
     const [email, setEmail] = useState("")
@@ -23,6 +18,7 @@ const Signin = () => {
     const [errEmail, setErrEmail] = useState(false)
     const [errPassword, setErrPassword] = useState(false)
     const { loading, error, dispatch } = useContext(AuthContext)
+    const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate()
 
     const handleChangeInputEmail = ((e: any) => {
@@ -59,116 +55,98 @@ const Signin = () => {
             const { message, accessToken, ...rest } = res.data;
             dispatch &&
                 dispatch({ type: 'LOGIN_SUCCESS', payload: rest });
+            toast.success("Đăng nhập thành công!", { autoClose: 2000 })
             localStorage.setItem("accessToken", JSON.stringify(accessToken))
             navigate('/');
         } catch (err: any) {
             dispatch &&
                 dispatch({ type: 'LOGIN_FAIL', payload: err.response.data });
-            toast.error(`${err.response.data.message}`, { toastId: 'LOGIN_FAIL' });
+            toast.error(`${err.response.data.message}`, { toastId: 'LOGIN_FAIL', autoClose: 2000 },);
         }
 
     }
 
 
-    const defaultTheme = createTheme();
     return (
-        <ThemeProvider theme={defaultTheme}>
-            <Grid container component="main" sx={{ height: '100vh', }}>
-                <CssBaseline />
-                <Grid
-                    item
-                    xs={6}
+        <Box sx={{
+            bgcolor: "#13366E",
+            height: "100vh"
+        }}>
+            <img src="https://easybook.demotheme.matbao.support/wp-content/uploads/2018/08/logo.png" alt="logo"
+                style={{
+                    height: "35px", width: "133px", cursor: "pointer", position: 'fixed',
+                    top: "50px",
+                    left: "40px",
+                }} onClick={() => navigate("/")} />
+            <Stack
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                }}>
+                <Card
                     sx={{
-                        backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
-                        backgroundRepeat: 'no-repeat',
-                        backgroundColor: (t) =>
-                            t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
+                        mt: 15,
+                        p: 5,
+                        width: 1,
+                        maxWidth: 420,
+                        borderRadius: "20px"
                     }}
-                />
-                <Grid item xs={6} component={Paper} elevation={6} square sx={{ display: "grid", alignItems: "center" }}>
-                    <Box
-                        sx={{
-                            my: 8,
-                            mx: 4,
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                        }}
-                    >
-                        <Grid container sx={{ mb: 5 }}>
-                            <Grid item xs>
-
-                            </Grid>
-                            <Grid item>
-                                <Link href="/" variant="body2" >
-                                    {"Trở lại trang chủ"}
-                                </Link>
-                            </Grid>
-                        </Grid>
-
-                        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                            <LockOutlinedIcon />
-                        </Avatar>
-                        <Typography component="h1" variant="h5" fontWeight="600">
-                            ĐẰNG NHẬP
-                        </Typography>
-                        <Box component="form" noValidate sx={{ mt: 1 }} onSubmit={handleSignin}>
-                            <TextField
-                                margin="normal"
-                                error={errEmail}
-                                required
-                                // helperText="Incorrect email"
-                                fullWidth
-                                label="Email"
-                                name="email"
-                                autoComplete="email"
-                                autoFocus
-                                onChange={handleChangeInputEmail}
-                            />
-                            <TextField
-                                margin="normal"
-                                required
-                                fullWidth
-                                error={errPassword}
-                                // helperText="Incorrect password"
-                                name="password"
-                                label="Mật khẩu"
-                                type="password"
-                                autoComplete="current-password"
-                                onChange={handleChangeInputPassword}
-                            />
-                            <FormControlLabel
-                                control={<Checkbox value="remember" color="error" />}
-                                label="Hãy nhớ tôi"
-                            />
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                sx={{ mt: 3, mb: 2, fontWeight: "600" }}
-                                // disabled={loading}
-                            >
-                                ĐĂNG NHẬP
-                            </Button>
-                            <Grid container>
-                                <Grid item xs>
-                                    <Link href="#" variant="body2">
-                                        Quên mật khẩu?
-                                    </Link>
-                                </Grid>
-                                <Grid item>
-                                    <Link href="/signup" variant="body2" >
-                                        {"Bạn là người dùng mới ? Hãy đăng ký tài khoản!"}
-                                    </Link>
-                                </Grid>
-                            </Grid>
-                        </Box>
+                >
+                    <Box display="flex" justifyContent='center' alignItems='center'>
+                        <Typography variant="h5" textTransform="uppercase" mb="20px" fontWeight={600}>Đăng nhập</Typography>
                     </Box>
-                </Grid>
-            </Grid>
-        </ThemeProvider>)
+                    <Box component="form" noValidate onSubmit={handleSignin}>
+                        <TextField
+                            margin="normal"
+                            error={errEmail}
+                            required
+                            fullWidth
+                            label="Email"
+                            name="email"
+                            autoComplete="email"
+                            autoFocus
+                            onChange={handleChangeInputEmail}
+                        />
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            error={errPassword}
+                            name="password"
+                            label="Mật khẩu"
+                            type={showPassword ? 'text' : 'password'}
+                            autoComplete="current-password"
+                            onChange={handleChangeInputPassword}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
+                                            {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                ),
+                            }}
+                        />
+                        <Stack direction="row" alignItems="center" justifyContent="center" sx={{ my: 4 }}>
+                            <Typography variant="body1">
+                                Bạn chưa có tài khoản?
+                                <Link variant="subtitle1" sx={{ ml: 0.5 }} onClick={() => navigate("/signup")} underline='none' style={{ cursor: "pointer" }}>
+                                    Đăng ký ngay
+                                </Link>
+                            </Typography>
+
+                        </Stack>
+
+                        <Box display="flex" justifyContent='center' alignItems='center'>
+                            <Button variant="contained" sx={{ textTransform: "uppercase", fontWeight: "600", width: "100%" }} size='large' type="submit">Đăng nhập</Button>
+                        </Box>
+
+                    </Box>
+                </Card>
+            </Stack>
+        </Box>
+    )
 }
 
 export default Signin;

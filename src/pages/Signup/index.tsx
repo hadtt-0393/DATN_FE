@@ -1,22 +1,79 @@
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Paper from '@mui/material/Paper';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { Card, FormControl, IconButton, InputAdornment, InputLabel, MenuItem, OutlinedInput, Select, Stack } from '@mui/material';
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Button from '@mui/material/Button';
+import Link from '@mui/material/Link';
+import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { toast } from "react-toastify";
-import { useState, useContext } from 'react';
-import { AuthContext } from '../../context/AuthContext';
+import axios from 'axios';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios'
-import { set } from 'date-fns';
+import { toast } from "react-toastify";
+
+const provinces = [
+    "Hà Nội",
+    "Hồ Chí Minh",
+    "Đà Nẵng",
+    "Hải Phòng",
+    "Cần Thơ",
+    "Bà Rịa - Vũng Tàu",
+    "Bắc Giang",
+    "Bắc Kạn",
+    "Bạc Liêu",
+    "Bắc Ninh",
+    "Bến Tre",
+    "Bình Định",
+    "Bình Dương",
+    "Bình Phước",
+    "Bình Thuận",
+    "Cà Mau",
+    "Cao Bằng",
+    "Đắk Lắk",
+    "Đắk Nông",
+    "Điện Biên",
+    "Đồng Nai",
+    "Đồng Tháp",
+    "Gia Lai",
+    "Hà Giang",
+    "Hà Nam",
+    "Hà Tĩnh",
+    "Hải Dương",
+    "Hậu Giang",
+    "Hòa Bình",
+    "Hưng Yên",
+    "Khánh Hòa",
+    "Kiên Giang",
+    "Kon Tum",
+    "Lai Châu",
+    "Lâm Đồng",
+    "Lạng Sơn",
+    "Lào Cai",
+    "Long An",
+    "Nam Định",
+    "Nghệ An",
+    "Ninh Bình",
+    "Ninh Thuận",
+    "Phú Thọ",
+    "Quảng Bình",
+    "Quảng Nam",
+    "Quảng Ngãi",
+    "Quảng Ninh",
+    "Quảng Trị",
+    "Sóc Trăng",
+    "Sơn La",
+    "Tây Ninh",
+    "Thái Bình",
+    "Thái Nguyên",
+    "Thanh Hóa",
+    "Thừa Thiên Huế",
+    "Tiền Giang",
+    "Trà Vinh",
+    "Tuyên Quang",
+    "Vĩnh Long",
+    "Vĩnh Phúc",
+    "Yên Bái"
+];
 
 const Signup = () => {
     const [username, setUsername] = useState('');
@@ -34,6 +91,7 @@ const Signup = () => {
     const [errPhone, setErrPhone] = useState(false)
     const [errCity, setErrCity] = useState(false)
     const [helperText, setHelperText] = useState(false)
+    const [showPassword, setShowPassword] = useState(false);
 
     const navigate = useNavigate()
 
@@ -112,7 +170,7 @@ const Signup = () => {
             );
 
             navigate('/signin');
-            toast.success('Registered account succeeded');
+            toast.success('Đăng ký thành công!');
         } catch (err: any) {
             toast.error(err.response.data.message);
             setIsLoading(false);
@@ -120,148 +178,166 @@ const Signup = () => {
 
     }
 
-    const defaultTheme = createTheme();
+    const ITEM_HEIGHT = 48;
+    const ITEM_PADDING_TOP = 8;
+    const MenuProps = {
+
+        disableScrollLock: true,
+
+        PaperProps: {
+            style: {
+                maxHeight: ITEM_HEIGHT * 4 + ITEM_PADDING_TOP,
+                width: 250,
+            },
+        },
+    };
+
     return (
-        <ThemeProvider theme={defaultTheme}>
-            <Grid container component="main" sx={{ height: '100vh', }}>
-                <CssBaseline />
-                <Grid
-                    item
-                    xs={6}
+        <Box
+            sx={{
+                bgcolor: "#13366E",
+                height: "100vh"
+            }}
+        >
+            <img src="https://easybook.demotheme.matbao.support/wp-content/uploads/2018/08/logo.png" alt="logo"
+                style={{
+                    height: "35px", width: "133px", cursor: "pointer", position: 'fixed',
+                    top: "50px",
+                    left: "40px",
+                }} onClick={() => navigate("/")} />
+            <Stack
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                }}
+            >
+                <Card
                     sx={{
-                        backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
-                        backgroundRepeat: 'no-repeat',
-                        backgroundColor: (t) =>
-                            t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
+                        mt: 15,
+                        p: 5,
+                        width: 1,
+                        maxWidth: 420,
+                        borderRadius: "20px"
                     }}
-                />
-                <Grid item xs={6} component={Paper} elevation={6} square sx={{ display: "grid", alignItems: "center" }}>
-                    <Box
-                        sx={{
-                            my: 8,
-                            mx: 4,
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                        }}
-                    >
-                        <Grid container sx={{ mb: 5 }}>
-                            <Grid item xs>
+                >
 
-                            </Grid>
-                            <Grid item>
-                                <Link href="/" variant="body2" >
-                                    {"Trở lại trang chủ"}
-                                </Link>
-                            </Grid>
-                        </Grid>
+                    <Box display="flex" justifyContent='center' alignItems='center'>
+                        <Typography variant="h5" textTransform="uppercase" mb="20px" fontWeight={600}>Đăng ký</Typography>
+                    </Box>
+                    <Box component="form" noValidate onSubmit={handleSignup}>
+                        <TextField
+                            margin="normal"
+                            error={errUsername}
+                            required
+                            fullWidth
+                            name="username"
+                            label="Tên đầy đủ"
+                            autoFocus
+                            autoComplete="username"
+                            onChange={handleChangeInputUsername}
+                        />
+                        <TextField
+                            margin="normal"
+                            error={errEmail}
+                            required
+                            fullWidth
+                            label="Email"
+                            name="email"
+                            autoComplete="email"
+                            onChange={handleChangeInputEmail}
+                        />
+                        <TextField
+                            margin="normal"
+                            error={errPassword}
+                            required
+                            fullWidth
+                            name="password"
+                            label="Mật khẩu"
+                            autoComplete="current-password"
+                            onChange={handleChangeInputPassword}
+                            type={showPassword ? 'text' : 'password'}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
+                                            {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                ),
+                            }}
+                        />
+                        <TextField
+                            margin="normal"
+                            error={errConfirmPassword}
+                            required
+                            fullWidth
+                            name="confirm password"
+                            label="Xác nhận lại mật khẩu"
+                            helperText={helperText ? 'Mật khẩu không khớp' : undefined}
+                            type={showPassword ? 'text' : 'password'}
+                            autoComplete="current-password"
+                            onChange={handleChangeInputConfirmPassword}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
+                                            {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                ),
+                            }}
+                        />
+                        <TextField
+                            margin="normal"
+                            error={errPhone}
+                            required
+                            fullWidth
+                            name="phone"
+                            label="Số điện thoại"
+                            autoComplete="phone"
+                            type="text"
+                            onChange={handleChangeInputPhone}
+                        />
 
-                        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                            <LockOutlinedIcon />
-                        </Avatar>
-                        <Typography component="h1" variant="h5" fontWeight="600">
-                            ĐĂNG KÝ
-                        </Typography>
-                        <Box component="form" noValidate sx={{ mt: 1 }} onSubmit={handleSignup}>
-                            <TextField
-                                margin="normal"
-                                error={errUsername}
-                                required
-                                fullWidth
-                                name="username"
-                                label="Tên đầy đủ"
-                                autoFocus
-                                autoComplete="username"
-                                onChange={handleChangeInputUsername}
-                            />
-                            <TextField
-                                margin="normal"
-                                error={errEmail}
-                                required
-                                fullWidth
-                                label="Email"
-                                name="email"
-                                autoComplete="email"
-                                onChange={handleChangeInputEmail}
-                            />
-                            <TextField
-                                margin="normal"
-                                error={errPassword}
-                                required
-                                fullWidth
-                                name="password"
-                                label="Mật khẩu"
-                                type="password"
-                                autoComplete="current-password"
-                                onChange={handleChangeInputPassword}
-                            />
-                            <TextField
-                                margin="normal"
-                                error={errConfirmPassword}
-                                required
-                                fullWidth
-                                name="confirm password"
-                                label="Xác nhận lại mật khẩu"
-                                helperText={helperText ? 'Password and Confirm password are not the same' : undefined}
-                                type="password"
-                                autoComplete="current-password"
-                                onChange={handleChangeInputConfirmPassword}
-                            />
-                            <TextField
-                                margin="normal"
-                                error={errPhone}
-                                required
-                                fullWidth
-                                name="phone"
-                                label="Số điện thoại"
-                                autoComplete="phone"
-                                type="text"
-                                onChange={handleChangeInputPhone}
-                            />
-
-                            <TextField
-                                margin="normal"
-                                error={errCity}
-                                required
-                                fullWidth
-                                name="city"
-                                label="Thành phố"
-                                autoComplete="city"
+                        <FormControl sx={{ width: "100%", mt: "15px" }}>
+                            <InputLabel id="demo-multiple-name-label">
+                                Thành phố/Tỉnh
+                            </InputLabel>
+                            <Select
+                                labelId="demo-multiple-name-label"
+                                id="demo-multiple-name"
                                 onChange={handleChangeInputCity}
-                            />
-
-                            <FormControlLabel
-                                control={<Checkbox value="remember" color="error" />}
-                                label="Đăng ký là chủ khách sạn?"
-                            />
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                sx={{ mt: 3, mb: 2, fontWeight:"600" }}
-                                disabled={isLoading}
+                                input={<OutlinedInput label="Thành phố/Tỉnh" />}
+                                MenuProps={MenuProps}
+                                error={errCity}
                             >
-                                Đăng ký
-                            </Button>
-                            <Grid container>
-                                <Grid item xs>
-                                    <Link href="#" variant="body2">
+                                {provinces.map((option) => (
+                                    <MenuItem key={option} value={option}>
+                                        {option}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
 
-                                    </Link>
-                                </Grid>
-                                <Grid item>
-                                    <Link href="/signin" variant="body2" >
-                                        {"Bạn đã có tài khoản? Đăng nhập ngay!"}
-                                    </Link>
-                                </Grid>
-                            </Grid>
+                        <Stack direction="row" alignItems="center" justifyContent="center" sx={{ my: 4 }}>
+                            <Typography variant="body1">
+                                Bạn đã có tài khoản?
+                                <Link variant="subtitle1" sx={{ ml: 0.5 }} onClick={() => navigate("/signin")} underline='none' style={{ cursor: "pointer" }}>
+                                    Đăng nhập ngay
+                                </Link>
+                            </Typography>
+                        </Stack>
+
+                        <Box display="flex" justifyContent='center' alignItems='center'>
+                            <Button variant="contained" sx={{ textTransform: "uppercase", fontWeight: "600", width: "100%" }} disabled={isLoading} size='large' type="submit">Đăng ký</Button>
                         </Box>
                     </Box>
-                </Grid>
-            </Grid>
-        </ThemeProvider>)
+                </Card>
+
+            </Stack>
+        </Box>
+    )
 
 
 }

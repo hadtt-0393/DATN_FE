@@ -54,7 +54,7 @@ export default function PopularPlacesComponent() {
                 <Box sx={{ height: "900px", flex: 1, width: "95%", margin: "10px auto" }}>
                     <Grid container spacing={3}>
                         <Grid item xs={4}>
-                            <Box display="flex" alignItems="center" justifyContent="center" height="460px" overflow="hidden" borderRadius="10px" position="relative" onClick={() => navigate("/city", { state: { destination: 'Đà Lạt' } })}>
+                            <Box display="flex" alignItems="center" justifyContent="center" height="460px" overflow="hidden" borderRadius="10px" position="relative" onClick={() => navigate("/city/Đà Lạt")}>
                                 <Image src="https://wnfdiary.com/wp-content/uploads/2021/11/Dalat-vietnam-7.jpg" alt="da_lat" />
                                 <Box sx={{
                                     position: "absolute",
@@ -78,7 +78,7 @@ export default function PopularPlacesComponent() {
                             </Box>
                         </Grid>
                         <Grid item xs={8}>
-                            <Box display="flex" alignItems="center" justifyContent="center" height="410px" overflow="hidden" borderRadius="10px" position="relative" onClick={() => navigate("/city", { state: { destination: 'Hải Phòng'} })}>
+                            <Box display="flex" alignItems="center" justifyContent="center" height="410px" overflow="hidden" borderRadius="10px" position="relative" onClick={() => navigate("/city/Hải Phòng")}>
                                 <Image src="https://asialegend.travel/wp-content/uploads/2023/12/The-springtime-of-Hai-Phong-City-is-bright-and-enjoyable-making-it-the-best-occasion-to-visit.jpg" alt="hai_phong" />
                                 <Box sx={{
                                     position: "absolute",
@@ -102,7 +102,7 @@ export default function PopularPlacesComponent() {
 
                         </Grid>
                         <Grid item xs={4}>
-                            <Box display="flex" alignItems="center" justifyContent="center" height="415px" overflow="hidden" borderRadius="10px" position="relative" onClick={() => navigate("/city", { state: { destination: 'Quảng Ninh' } })}>
+                            <Box display="flex" alignItems="center" justifyContent="center" height="415px" overflow="hidden" borderRadius="10px" position="relative" onClick={() => navigate("/city/Quảng Ninh")}>
                                 <Image src="https://cf.bstatic.com/xdata/images/city/500x400/689422.webp?k=2595c93e7e067b9ba95f90713f80ba6e5fa88a66e6e55600bd27a5128808fdf2&o=" alt="quang_ninh" />
                                 <Box sx={{
                                     position: "absolute",
@@ -147,7 +147,7 @@ export default function PopularPlacesComponent() {
                             </Box>
                         </Grid>
                         <Grid item xs={4}>
-                            <Box display="flex" alignItems="center" justifyContent="center" height="420px" overflow="hidden" borderRadius="10px" marginTop="-50px" position="relative" onClick={() => navigate("/city", { state: { destination: 'Nha Trang',  } })} >
+                            <Box display="flex" alignItems="center" justifyContent="center" height="420px" overflow="hidden" borderRadius="10px" marginTop="-50px" position="relative" onClick={() => navigate("/city/Nha Trang")} >
                                 <Image src="https://cf.bstatic.com/xdata/images/city/500x400/688907.jpg?k=8a219233969467d9f7ff828918cce2a53b4db6f1da1039d27222441ffb97c409&o=" alt="nha_trang" />
                                 <Box sx={{
                                     position: "absolute",
