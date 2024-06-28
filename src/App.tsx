@@ -12,8 +12,35 @@ import BookingPage from './pages//Booking';
 import PaymentMethod from './pages/PaymentMethod';
 import { useScrollToTop } from './hook/use-hook-to-top';
 import PaymentSuccess from './pages/PaymentSuccess';
+import { lazy, Suspense, useState } from 'react';
+import { useEffect } from 'react';
+import { Link, Outlet, useLocation, useNavigate, useRoutes } from 'react-router-dom';
+import axios from 'axios';
 
 const App = () => {
+  // const navigate = useNavigate();
+  // const { pathname } = useLocation();
+  // const [loading, setLoading] = useState(true);
+  // useEffect(() => {
+  //   const checkUser = async () => {
+  //     try {
+  //       const res = await axios.get<{ isLogin: boolean }>('/staff/isLogin');
+  //       const isLogin = res.data.isLogin;
+  //       const isAuthRoute = [...pathname.matchAll(new RegExp("signin|signup", "g"))].length;
+  //       if (!isLogin && !isAuthRoute) {
+  //         navigate('/signin');
+  //       }
+  //       if (isLogin && isAuthRoute) {
+  //         navigate('/');
+  //       }
+  //     } catch (_) {
+  //       navigate('/signin');
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+  //   checkUser();
+  // }, []);
   return (
     <BrowserRouter>
       <Routes>

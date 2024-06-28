@@ -32,7 +32,7 @@ export default function NavbarComponent() {
                         </Fab>
                         <Box display="flex" flexDirection="row" alignItems="center" border=" 1px solid rgba(0, 0, 0, 0.21)" height="60px" p="0 25px" >
                             <Avatar sx={{ mr: 1, width: "24px", height: "24px" }} />
-                            <Typography sx={{ color: "#fff", fontSize: "14px", fontFamily: "Nunito, sans-serif", fontWeight: "600", "&:hover": { color: "#F9B90F" } }}>Thu Ha</Typography>
+                            <Typography sx={{ color: "#fff", fontSize: "14px", fontFamily: "Nunito, sans-serif", fontWeight: "600", "&:hover": { color: "#F9B90F" } }}>{user.username}</Typography>
                         </Box>
                         <Box display="flex" flexDirection="row" alignItems="center" border="1px solid rgba(0, 0, 0, 0.21)" height="60px" p="0 25px" sx={{ borderLeft: 0 }}>
                             <LogoutIcon sx={{ color: "#3295d7", mr: 1, fontSize: "14px", }} />
