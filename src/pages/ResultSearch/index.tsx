@@ -337,7 +337,7 @@ export default function SearchResultsPage() {
                                 </Box>
 
                                 <Box width="100%" m="30px 0px 20px 0px ">
-                                    <Button onClick={handleFilter} variant="contained" sx={{ width: "100%", backgroundColor: "#F9C941", fontWeight: "600", boxShadow: "none", padding: "10px", "&:hover": { boxShadow: "none", opacity: "0.8", backgroundColor: "#F9C941" } }} >Tìm kiếm</Button>
+                                    <Button onClick={handleFilter} variant="contained" sx={{ width: "100%", backgroundColor: "#F9C941", fontWeight: "600", boxShadow: "none", padding: "10px", "&:hover": { boxShadow: "none", opacity: "0.8", backgroundColor: "#F9C941" } }} >Lọc</Button>
                                 </Box>
                             </Box>
                         </Box>

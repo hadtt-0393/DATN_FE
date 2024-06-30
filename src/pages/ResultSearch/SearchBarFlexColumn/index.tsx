@@ -124,7 +124,7 @@ const SearchBarFlexColumn = ({ city, startDate, endDate, option, handleChangedat
                         <FontAwesomeIcon icon={faBed} size="sm" style={{ marginRight: "5px", color: "#F9B90F" }} />
                         <SearchInput
                             className={styles['header__container__search__item__input']}
-                            placeholder="Nhập tên thành phố"
+                            placeholder="Nhập tên thành phố/tỉnh"
                             onChange={(e: any) => {
                                 setSearchTerm(e);
                             }}

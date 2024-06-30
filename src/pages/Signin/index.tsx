@@ -7,7 +7,7 @@ import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
 import { AuthContext } from '../../context/AuthContext';
@@ -66,6 +66,14 @@ const Signin = () => {
 
     }
 
+    useEffect(() => {
+        const rasa = document.getElementById("rasa-chat-widget-container");
+        if (!rasa) return;
+        rasa.style.display = "none";
+        return () => {
+          rasa.style.display = "block";
+        };
+      }, []);
 
     return (
         <Box sx={{

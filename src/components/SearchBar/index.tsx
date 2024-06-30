@@ -111,7 +111,7 @@ const SearchBar = ({ component, display, handleChangeData, destinations, onSearc
             />
             <SearchInput
               className={styles['search__item__input']}
-              placeholder="Nhập tên thành phố"
+              placeholder="Nhập tên thành phố/tỉnh"
               onChange={(e: any) => {
                 setSearchTerm(e);
               }}
