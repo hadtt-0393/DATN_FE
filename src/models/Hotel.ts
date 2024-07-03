@@ -17,7 +17,12 @@ export interface Hotel {
   discount: number;
   email: string;
   hotline: string;
-  images: string[]
+  images: string[];
+  forms:any[];
+  cleanlinessAvg:number;
+  facilitiesAvg: number;
+  serviceAvg: number;
+  comfortableAvg: number;
 }
 
 

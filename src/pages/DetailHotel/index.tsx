@@ -33,6 +33,7 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { Room } from '../../models/Room';
 import { toast } from 'react-toastify';
+import { convertDate, convertTime } from '../../utils/convert';
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -52,18 +53,15 @@ export interface DatesInterface {
     key: string;
 }
 
-const labels: { [index: string]: string } = {
-    0.5: 'Useless',
-    1: 'Useless+',
-    1.5: 'Poor',
-    2: 'Poor+',
-    2.5: 'Ok',
-    3: 'Ok+',
-    3.5: 'Tốt',
-    4: 'Rất Tốt',
-    4.5: 'Xuất Sắc',
-    5: 'Rất Xuất Sắc',
-};
+const getLabel = (value: number): string => {
+    if (value >= 0 && value < 1) return 'Rất kém';
+    if (value >= 1 && value < 2) return 'Kém';
+    if (value >= 2 && value < 3) return 'Trung bình';
+    if (value >= 3 && value < 4) return 'Khá';
+    if (value >= 4 && value < 4.5) return 'Tốt';
+    if (value >= 4.5 && value <= 5) return 'Rất tốt';
+    return '';
+  };
 
 const Image = styled.img`
     width: 100%;
@@ -229,7 +227,7 @@ export default function DetailHotel() {
     useEffect(() => {
         const totalRooms = rooms.reduce((total, room) => total + room.quantityChoose, 0);
         setCursor(totalRooms === 0 ? 'no-drop' : 'pointer');
-      }, [rooms]);
+    }, [rooms]);
 
     return (
         <Box>
@@ -308,13 +306,13 @@ export default function DetailHotel() {
                                                 m: 1,
                                                 flexDirection: "column"
                                             }}>
-                                                <Typography sx={{ color: "#FEFEFE", fontSize: "13px", fontWeight: "600" }}>{labels[value]}</Typography>
-                                                <Typography sx={{ color: "#FEFEFE", fontSize: "11px", mt: "10px" }}>10 bình luận</Typography>
+                                                <Typography sx={{ color: "#FEFEFE", fontSize: "13px", fontWeight: "600" }}>{getLabel(data.ratingAvg)}</Typography>
+                                                <Typography sx={{ color: "#FEFEFE", fontSize: "11px", mt: "10px" }}>{data.forms.length} bình luận</Typography>
 
                                             </Box>
                                             <Box bgcolor="rgba(255, 255, 255, 0.25)" borderRadius="10px 10px 10px 0px" margin="5px" flex={1}>
                                                 <Box sx={{ display: "flex", margin: "5px", fontSize: "13px", textTransform: "unset", textWrap: "nowrap", borderRadius: "10px 10px 10px 0px", height: "80px", backgroundColor: "#18458B", width: "80px", alignItems: "center", justifyContent: "center" }} >
-                                                    <Typography sx={{ fontSize: "20px", color: "white", fontWeight: "600", }}>4.5</Typography>
+                                                    <Typography sx={{ fontSize: "20px", color: "white", fontWeight: "600", }}>{data.ratingAvg.toFixed(2)}</Typography>
                                                 </Box>
                                             </Box>
                                         </Box>
@@ -388,7 +386,7 @@ export default function DetailHotel() {
                             </Box>
                             <Box borderLeft="#E2E2E2 solid 1px" flex={1} height="100%" justifyContent="center" alignItems="center" display="flex" flexDirection="column">
                                 <GroupsOutlinedIcon sx={{ color: "#3AACED", width: "60px", height: "50px", opacity: 0.7, mb: "10px" }} />
-                                <Typography color="#999EA5" fontSize="12px" fontWeight="600">{"1000".replace(/\B(?=(\d{3})+(?!\d))/g, '.')} Lượt đặt phòng</Typography>
+                                <Typography color="#999EA5" fontSize="12px" fontWeight="600">{data?.forms.length.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} Lượt đặt phòng</Typography>
                             </Box>
                             <Box borderLeft="#E2E2E2 solid 1px" flex={1} height="100%" justifyContent="center" alignItems="center" display="flex" flexDirection="column">
                                 <DirectionsCarOutlinedIcon sx={{ color: "#3AACED", width: "60px", height: "50px", opacity: 0.7, mb: "10px" }} />
@@ -643,15 +641,16 @@ export default function DetailHotel() {
                                     -
                                 </Typography>
                                 <Typography fontWeight="600" color="#3AACED" fontSize="18px" padding="25px 0">
-                                    10
+                                    {data?.forms.length}
                                 </Typography>
                             </Box>
                             <Box m="30px" display="flex" justifyContent="center" alignItems="center" flexDirection="column" >
+
                                 <Box borderBottom="#EEE 1px solid" width="100%" paddingBottom="25px" flexDirection="row" gap={1} display="flex">
                                     <Box display="flex" flex={1} flexDirection="column" justifyContent="center"  >
                                         <Box sx={{ display: "flex", flexDirection: "column", margin: "5px", fontSize: "13px", textTransform: "unset", textWrap: "nowrap", borderRadius: "10px 10px 0px 10px", height: "130px", backgroundColor: "#18458B", width: "160px", alignItems: "center", justifyContent: "center" }} >
-                                            <Typography sx={{ fontSize: "34px", color: "white", fontWeight: "600", }}>4.5</Typography>
-                                            <Typography sx={{ fontSize: "16px", color: "white", fontWeight: "600", mt: "5px" }}>Tốt</Typography>
+                                            <Typography sx={{ fontSize: "34px", color: "white", fontWeight: "600", }}>{data?.ratingAvg.toFixed(2)}</Typography>
+                                            {data?.ratingAvg && <Typography sx={{ fontSize: "16px", color: "white", fontWeight: "600", mt: "5px" }}>{getLabel(data?.ratingAvg)}</Typography>}
                                         </Box>
                                         <Box width="160px" m="15px 5px">
                                             <Button variant="contained" sx={{ width: "100%", backgroundColor: "#F9C941", fontWeight: "600", boxShadow: "none", "&:hover": { boxShadow: "none", opacity: "0.8", backgroundColor: "#F9C941" } }} >Nhận xét</Button>
@@ -661,66 +660,77 @@ export default function DetailHotel() {
                                         <Box sx={{ display: "flex", flexDirection: "column", mt: "5px" }}>
                                             <Typography sx={{ fontSize: "12px", color: "#666", fontWeight: "600" }}>Vệ sinh</Typography>
                                             <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "20px" }}>
-                                                <Slider defaultValue={4.5} aria-label="Default" valueLabelDisplay="auto" min={1} max={5} marks step={0.1} sx={{ height: "8px", color: "#3AACED", p: "0" }} />
-                                                <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", mb: "6px" }}>4.5</Typography>
+                                                <Slider value={data?.cleanlinessAvg || 0} style={{ pointerEvents: 'none' }} aria-label="Default" valueLabelDisplay="auto" min={1} max={5} sx={{ height: "8px", color: "#3AACED", p: "0" }} />
+                                                <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", mb: "6px" }}>{data?.cleanlinessAvg.toFixed(2)}</Typography>
                                             </Box>
                                         </Box>
                                         <Box sx={{ display: "flex", flexDirection: "column", mt: "5px" }}>
                                             <Typography sx={{ fontSize: "12px", color: "#666", fontWeight: "600" }}>Độ thoải mái</Typography>
                                             <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "20px" }}>
-                                                <Slider defaultValue={4.5} aria-label="Default" valueLabelDisplay="auto" min={1} max={5} marks step={0.1} sx={{ height: "8px", color: "#3AACED", p: "0" }} />
-                                                <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", mb: "6px" }}>4.5</Typography>
+                                                <Slider value={data?.comfortableAvg || 0} style={{ pointerEvents: 'none' }} aria-label="Default" valueLabelDisplay="auto" min={1} max={5} sx={{ height: "8px", color: "#3AACED", p: "0" }} />
+                                                <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", mb: "6px" }}>{data?.comfortableAvg.toFixed(2)}</Typography>
                                             </Box>
                                         </Box>
                                         <Box sx={{ display: "flex", flexDirection: "column", mt: "5px" }}>
                                             <Typography sx={{ fontSize: "12px", color: "#666", fontWeight: "600" }}>Thái độ nhân viên</Typography>
                                             <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "20px" }}>
-                                                <Slider defaultValue={4.5} aria-label="Default" valueLabelDisplay="auto" min={1} max={5} marks step={0.1} sx={{ height: "8px", color: "#3AACED", p: "0" }} />
-                                                <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", mb: "6px" }}>4.5</Typography>
+                                                <Slider value={data?.serviceAvg || 0} style={{ pointerEvents: 'none' }} min={1} max={5} sx={{ height: "8px", color: "#3AACED", p: "0" }} />
+                                                <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", mb: "6px" }}>{data?.serviceAvg.toFixed(2)}</Typography>
                                             </Box>
                                         </Box>
                                         <Box sx={{ display: "flex", flexDirection: "column", mt: "5px" }}>
                                             <Typography sx={{ fontSize: "12px", color: "#666", fontWeight: "600" }}>Cơ sở vật chất</Typography>
                                             <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "20px" }}>
-                                                <Slider defaultValue={4.5} aria-label="Default" valueLabelDisplay="auto" min={1} max={5} marks step={0.1} sx={{ height: "8px", color: "#3AACED", p: "0" }} />
-                                                <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", mb: "6px" }}>4.5</Typography>
+                                                <Slider value={data?.facilitiesAvg || 0} style={{ pointerEvents: 'none' }} aria-label="Default" valueLabelDisplay="auto" min={1} max={5} sx={{ height: "8px", color: "#3AACED", p: "0" }} />
+                                                <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", mb: "6px" }}>{data?.facilitiesAvg.toFixed(2)}</Typography>
                                             </Box>
                                         </Box>
 
 
                                     </Box>
                                 </Box>
-                                <Box borderBottom="#CCC 1px dashed">
-                                    <Box display="flex" flexDirection="row" m="30px 0px" width="100%" padding="20px 0px" bgcolor="#ECF6F8" borderRadius="10px">
-                                        <Box flex={1} display="flex" flexDirection="column" justifyContent="start" alignItems="center" gap={2}>
-                                            <Avatar sx={{ width: "80px", height: "80px", m: "5px" }} />
-                                            <Typography sx={{ fontSize: "18px", color: "#333", fontWeight: "600", }}>Thu Ha</Typography>
-                                            <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", }}>11/01/2024</Typography>
-                                        </Box>
-                                        <Box flex={3} display="flex" flexDirection="column" >
-                                            <Box display="flex" flexDirection="row" alignItems="start" justifyContent="space-between">
-                                                <Box>
-                                                    <Typography sx={{ fontSize: "14px", color: "#878CB8", mt: "5px" }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc posuere convallis purus non cursus. Cras metus neque, gravida sodales massa ut. </Typography>
-                                                </Box>
-                                                <Box display="flex" justifyContent="end">
-                                                    <Box sx={{ display: "flex", flexDirection: "column", margin: "5px 30px", fontSize: "13px", textTransform: "unset", textWrap: "nowrap", borderRadius: "10px 10px 10px 0px", height: "60px", backgroundColor: "#18458B", width: "60px", alignItems: "center", justifyContent: "center" }} >
-                                                        <Typography sx={{ fontSize: "18px", color: "white", fontWeight: "600", }}>4.5</Typography>
-                                                        <Typography sx={{ fontSize: "12px", color: "white", fontWeight: "600", mt: "5px" }}>Tốt</Typography>
+                                {data && data.forms.map(form =>
+                                    <Box borderBottom="#CCC 1px dashed" width="100%">
+                                        <Box display="flex" flexDirection="row" m="30px 0px" width="100%" padding="20px 0px" bgcolor="#ECF6F8" borderRadius="10px">
+                                            <Box flex={1} display="flex" flexDirection="column" justifyContent="start" alignItems="center" gap={2}>
+                                                <Avatar sx={{ width: "80px", height: "80px", m: "5px" }} />
+                                                <Typography sx={{ fontSize: "18px", color: "#333", fontWeight: "600", }}>{form.username}</Typography>
+                                                <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", }}>{convertTime(form.comment.created)}</Typography>
+                                            </Box>
+                                            <Box flex={3} display="flex" flexDirection="column" >
+                                                <Box display="flex" flexDirection="row" alignItems="start" justifyContent="space-between">
+
+
+                                                    <Box display="flex" flex={1}>
+                                                        {form.comment.content &&
+                                                            <Typography sx={{ fontSize: "14px", color: "#878CB8", mt: "5px" }}>{form.comment.content} </Typography>}
+                                                    </Box>
+
+
+                                                    <Box display="flex" justifyContent="end">
+                                                        <Box sx={{ display: "flex", flexDirection: "column", margin: "5px 30px", fontSize: "13px", textTransform: "unset", textWrap: "nowrap", borderRadius: "10px 10px 10px 0px", height: "60px", backgroundColor: "#18458B", width: "60px", alignItems: "center", justifyContent: "center" }} >
+                                                            <Typography sx={{ fontSize: "18px", color: "white", fontWeight: "600", }}>{form.rating}</Typography>
+                                                            <Typography sx={{ fontSize: "12px", color: "white", fontWeight: "600", mt: "5px" }}>{getLabel(form.rating.toFixed(2))}</Typography>
+                                                        </Box>
                                                     </Box>
                                                 </Box>
-                                            </Box>
+                                                {
+                                                    form.comment.image &&
+                                                    <Box display="flex" justifyContent="start" alignItems="center" mt="20px">
+                                                        <Box width="200px" overflow="hidden" borderRadius="10px" >
+                                                            <Image src={form.comment.image} alt="image-comment" />
+                                                        </Box>
+                                                    </Box>
+                                                }
 
-                                            <Box display="flex" justifyContent="start" alignItems="center" mt="20px">
-                                                <Box width="200px" overflow="hidden" borderRadius="10px" >
-                                                    <Image src="https://static.vecteezy.com/system/resources/previews/023/506/852/non_2x/cute-kawaii-mushroom-chibi-mascot-cartoon-style-vector.jpg" alt="image-comment" />
-                                                </Box>
-                                            </Box>
 
+                                            </Box>
                                         </Box>
                                     </Box>
-                                </Box>
+                                )}
 
-                                <Box borderBottom="#CCC 1px dashed">
+
+                                {/* <Box borderBottom="#CCC 1px dashed" width="100%">
                                     <Box display="flex" flexDirection="row" m="30px 0px" width="100%" padding="20px 0px" bgcolor="#ECF6F8" borderRadius="10px">
                                         <Box flex={1} display="flex" flexDirection="column" justifyContent="start" alignItems="center" gap={2}>
                                             <Avatar sx={{ width: "80px", height: "80px", m: "5px" }} />
@@ -748,7 +758,7 @@ export default function DetailHotel() {
 
                                         </Box>
                                     </Box>
-                                </Box>
+                                </Box> */}
                             </Box>
 
                         </Box>

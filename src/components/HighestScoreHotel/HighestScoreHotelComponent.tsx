@@ -128,7 +128,7 @@ export default function HighestScoreHotelComponent() {
                                                     flexDirection: "column"
                                                 }}>
                                                     <Typography sx={{ color: "#FEFEFE", fontSize: "13px", fontWeight: "600" }}>{labels[value]}</Typography>
-                                                    <Typography sx={{ color: "#FEFEFE", fontSize: "11px" }}>{item.comments.length} bình luận</Typography>
+                                                    {/* <Typography sx={{ color: "#FEFEFE", fontSize: "11px" }}>{item.comments.length} bình luận</Typography> */}
                                                 </Box>
                                                 <Box bgcolor="rgba(255, 255, 255, 0.25)" borderRadius="10px 10px 10px 0px" margin="5px" flex={1}>
                                                     <Box sx={{ display: "flex", margin: "5px", fontSize: "13px", textTransform: "unset", textWrap: "nowrap", borderRadius: "10px 10px 10px 0px", height: "50px", backgroundColor: "#18458B", width: "50px", alignItems: "center", justifyContent: "center" }} >

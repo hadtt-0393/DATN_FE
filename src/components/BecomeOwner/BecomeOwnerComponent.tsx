@@ -1,7 +1,7 @@
 import StarRateRoundedIcon from '@mui/icons-material/StarRateRounded';
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { useNavigate } from "react-router-dom";
+import { Link, redirect, useNavigate } from "react-router-dom";
 import "./style.css";
 
 export default function BecomeOwnerComponent() {
@@ -16,11 +16,15 @@ export default function BecomeOwnerComponent() {
                 <Box width="5%" bgcolor="#3AACED" height="4px" borderRadius="2px" m="25px 0" />
                 <Typography sx={{ color: "#878C9F", mb: "30px", fontSize: "13px" }}>Hãy trải nghiệm những địa điểm nổi bật này cùng EasyBook</Typography>
             </Box>
-            <Box display="flex" alignItems="center" justifyContent="center" className="becomeAHotel" onClick={() => navigate("/signup")}>
-                <button >
-                    <h6>
-                        Đăng ký ngay
-                    </h6>
+            <Box display="flex" alignItems="center" justifyContent="center" className="becomeAHotel" >
+                <button  >
+
+                    <Link to="https://datn-staff-fe.vercel.app/signin">
+                        <h6 >
+                            Đăng ký ngay
+                        </h6>
+                    </Link>
+
                 </button>
             </Box>
         </Box>

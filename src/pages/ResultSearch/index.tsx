@@ -14,7 +14,7 @@ import axios from 'axios';
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { HeaderComponent, LoadingComponent, NavbarComponent, SliderComponent } from '../../components';
+import { FooterComponent, HeaderComponent, LoadingComponent, NavbarComponent, SliderComponent } from '../../components';
 import { Hotel } from '../../models/Hotel';
 import { Service } from '../../models/Service';
 import SearchBarFlexColumn from '../../pages/ResultSearch/SearchBarFlexColumn';
@@ -410,7 +410,7 @@ export default function SearchResultsPage() {
                                                                             flexDirection: "column"
                                                                         }}>
                                                                             <Typography sx={{ color: "#FEFEFE", fontSize: "13px", fontWeight: "600" }}>{labels[value]}</Typography>
-                                                                            <Typography sx={{ color: "#FEFEFE", fontSize: "11px" }}>{item.comments.length} bình luận</Typography>
+                                                                            {/* <Typography sx={{ color: "#FEFEFE", fontSize: "11px" }}>{item.comments.length} bình luận</Typography> */}
 
                                                                         </Box>
                                                                         <Box bgcolor="rgba(255, 255, 255, 0.25)" borderRadius="10px 10px 10px 0px" margin="5px" flex={1}>
@@ -477,6 +477,7 @@ export default function SearchResultsPage() {
                 </Box>
             </Box>
             <LoadingComponent loading={loading} />
+            <FooterComponent/>
         </Box >
     )
 }

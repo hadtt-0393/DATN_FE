@@ -21,6 +21,7 @@ import { getToken } from '../../services/token';
 import { Button } from '@mui/material';
 import CommentComponent from '../../components/Comment/CommentComponent';
 import { FooterComponent } from '../../components';
+import Loading from "../../components/LoadingComponent/LoadingComponent";
 const Image = styled.img`
     width: 100%;
     objectFit: cover;
@@ -35,17 +36,20 @@ const Image = styled.img`
 export default function ReservationsPage() {
     const [forms, setForms] = useState<Form[]>([]);
     const [openModal, setOpenModal] = useState(false)
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         const token = getToken();
         const getForms = async () => {
             try {
+                setLoading(true)
                 const forms = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/form/getAllFormByUser`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
                 })
                 setForms(forms.data)
+                setLoading(false)
             }
             catch (error) {
                 console.log(error)
@@ -135,7 +139,7 @@ export default function ReservationsPage() {
                                                     <Button variant='outlined' sx={{ bgcolor: "", fontWeight: "600" }} onClick={() => {
                                                         setOpenModal(true), console.log("aaaaaa");
                                                     }}> Đánh giá tại đây</Button>
-                                                    <CommentComponent open={openModal} onClose={() => setOpenModal(false)} />
+                                                    <CommentComponent open={openModal} onClose={() => setOpenModal(false)} item ={form._id} />
                                                 </Box>
 
                                             </Box>
@@ -146,9 +150,10 @@ export default function ReservationsPage() {
 
                             {forms.length === 0 &&
                                 <Box display="flex" width="100%" m="0 auto" border="1px solid #CCC" borderRadius={"10px"} height="500px" flexDirection="column" gap={5} justifyContent={'center'} alignItems={'center'}>
-                                    <Image src='https://cdn-icons-png.flaticon.com/512/5581/5581212.png' style={{ width:"200px", height:"200px"}}/>
+                                    <Image src='https://cdn-icons-png.flaticon.com/512/5581/5581212.png' style={{ width: "200px", height: "200px" }} />
                                     <Typography color="#18458B" fontSize="24px" fontWeight={600}>Hiện bạn đang chưa đặt phòng nào</Typography>
-                                </Box>}
+                                </Box>
+                            }
                         </Grid>
 
                     </Box>
@@ -156,6 +161,7 @@ export default function ReservationsPage() {
                 </Box>
 
             </Box>
+            <Loading loading={loading} />
             <FooterComponent />
 
         </Box>

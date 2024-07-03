@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 import { useLocation, useNavigate, redirect } from "react-router-dom";
 import Header from "../../components/Header/HeaderComponent";
 import Navbar from "../../components/Navbar/NavbarComponent";
+import { FooterComponent } from '../../components';
 
 export default function BookingPage() {
     const location = useLocation();
@@ -203,6 +204,7 @@ export default function BookingPage() {
                 </Box>
 
             </Box>
+            <FooterComponent/>
         </Box>
     )
 }

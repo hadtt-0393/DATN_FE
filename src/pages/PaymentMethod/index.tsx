@@ -16,6 +16,7 @@ import { getToken } from "../../services/token";
 import axios from 'axios';
 import { checkout } from "../../services/checkout";
 import { loadStripe } from '@stripe/stripe-js';
+import FooterComponent from "../../components/Footer/FooterComponent";
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY!);
 
@@ -265,6 +266,7 @@ export default function PaymentMethod() {
 
                 </Box>
             </Box>
+            <FooterComponent/>
         </Box>
     )
 }

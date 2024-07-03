@@ -1,8 +1,11 @@
 import { Box, Button, Modal, Slider, TextField, Typography } from "@mui/material";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import styled from 'styled-components';
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { getToken } from '../../services/token';
 
-export default function CommentComponent({ open, onClose }: any) {
+export default function CommentComponent({ open, onClose, item }: any) {
     const VisuallyHiddenInput = styled('input')({
         clip: 'rect(0 0 0 0)',
         clipPath: 'inset(50%)',
@@ -15,7 +18,59 @@ export default function CommentComponent({ open, onClose }: any) {
         width: 1,
     });
 
-    const handleClose = ()=>{
+    const [service, setServcie] = useState(0)
+    const [cleanliness, setCleanliness] = useState(0)
+    const [comfortable, setComfortable] = useState(0)
+    const [facilities, setFacilities] = useState(0)
+    const [content, setContent] = useState(" ")
+    const [image, setImage] = useState("")
+
+    // useEffect(() => {
+        const token = getToken();
+        const handleComment = async () => {
+            try {
+                const res = await axios.post(
+                    `${process.env.REACT_APP_API_ENDPOINT}/form/createComment/${item}`,
+                    {
+                        service,
+                        cleanliness,
+                        comfortable,
+                        facilities,
+                        content,
+                        image,
+                    },
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+                onClose()
+
+            } catch (error) {
+                console.log("Error!!!!!");
+            }
+
+        }
+        // handleComment()
+    // }, [])
+
+    // const conFirm = async () => {
+    //     const res = await axios.get(
+    //       `${process.env.REACT_APP_API_ENDPOINT}/form/getCommentByUser/${item}`,
+    //       {
+    //         service,
+    //         cleanliness,
+    //         comfortable,
+    //         facilities,
+    //         content,
+    //         image,
+    //     },
+    //     )
+    //     onClose()
+    //   }
+
+    const handleClose = () => {
         onClose()
     }
     return (
@@ -30,19 +85,19 @@ export default function CommentComponent({ open, onClose }: any) {
                     <Box width="100%" flex={2} display="flex" gap={2} flexDirection="column"  >
                         <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "50px" }}>
                             <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", mb: "6px", whiteSpace: "nowrap", minWidth: "125px" }}>Vệ sinh</Typography>
-                            <Slider defaultValue={4.5} aria-label="Default" valueLabelDisplay="auto" min={1} max={5} step={1} marks sx={{ height: "8px", color: "#3AACED", p: "0" }} />
+                            <Slider value={cleanliness} onChange={(e:any)=> setCleanliness(e.target.value)} aria-label="Default" valueLabelDisplay="auto" min={1} max={5} step={1} marks sx={{ height: "8px", color: "#3AACED", p: "0" }} />
                         </Box>
                         <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "50px" }}>
                             <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", mb: "6px", whiteSpace: "nowrap", minWidth: "125px" }}>Độ thoải mái</Typography>
-                            <Slider defaultValue={4.5} aria-label="Default" valueLabelDisplay="auto" min={1} max={5} step={1} marks sx={{ height: "8px", color: "#3AACED", p: "0" }} />
+                            <Slider value={comfortable} onChange={(e:any)=> setComfortable(e.target.value)} aria-label="Default" valueLabelDisplay="auto" min={1} max={5} step={1} marks sx={{ height: "8px", color: "#3AACED", p: "0" }} />
                         </Box>
                         <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "50px" }}>
                             <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", mb: "6px", whiteSpace: "nowrap", minWidth: "125px" }}>Thái độ nhân viên</Typography>
-                            <Slider defaultValue={4.5} aria-label="Default" valueLabelDisplay="auto" min={1} max={5} step={1} marks sx={{ height: "8px", color: "#3AACED", p: "0" }} />
+                            <Slider value={service} onChange={(e:any)=> setServcie(e.target.value)} aria-label="Default" valueLabelDisplay="auto" min={1} max={5} step={1} marks sx={{ height: "8px", color: "#3AACED", p: "0" }} />
                         </Box>
                         <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "50px" }}>
                             <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", mb: "6px", whiteSpace: "nowrap", minWidth: "125px" }}>Cơ sở vật chất</Typography>
-                            <Slider defaultValue={4.5} aria-label="Default" valueLabelDisplay="auto" min={1} max={5} step={1} marks sx={{ height: "8px", color: "#3AACED", p: "0" }} />
+                            <Slider value={facilities} onChange={(e:any)=> setFacilities(e.target.value)} aria-label="Default" valueLabelDisplay="auto" min={1} max={5} step={1} marks sx={{ height: "8px", color: "#3AACED", p: "0" }} />
                         </Box>
                     </Box>
                     <Box display="flex" flex={1} height="150px">
@@ -53,7 +108,7 @@ export default function CommentComponent({ open, onClose }: any) {
                     </Box>
                 </Box>
                 <Box m="30px" sx={{ textAlign: "center" }} borderBottom="#DDD 1px dashed" pb="30px">
-                    <TextField minRows={4} sx={{ width: "100%" }} placeholder="Nhập nhận xét của bạn" multiline />
+                    <TextField minRows={4} sx={{ width: "100%" }} placeholder="Nhập nhận xét của bạn" onChange={(e:any)=> setContent(e.target.value)} multiline />
                 </Box>
                 <Box sx={{ textAlign: "center" }} borderBottom="#DDD 1px dashed" pb="15px">
                     <Button
@@ -72,7 +127,7 @@ export default function CommentComponent({ open, onClose }: any) {
                 </Box>
                 <Box display="flex" alignItems="center" justifyContent="center">
                     <Box width="200px" m="30px 0 0 0" >
-                        <Button variant="contained" sx={{ width: "100%", backgroundColor: "#F9C941", fontWeight: "600", fontSize: "16px", boxShadow: "none", "&:hover": { boxShadow: "none", opacity: "0.8", backgroundColor: "#F9C941" } }} onClick={onClose}>Gửi nhận xét</Button>
+                        <Button variant="contained" sx={{ width: "100%", backgroundColor: "#F9C941", fontWeight: "600", fontSize: "16px", boxShadow: "none", "&:hover": { boxShadow: "none", opacity: "0.8", backgroundColor: "#F9C941" } }} onClick={ handleComment}>Gửi nhận xét</Button>
                     </Box>
                 </Box>
 
