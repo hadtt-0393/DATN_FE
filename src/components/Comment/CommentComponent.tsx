@@ -75,7 +75,7 @@ export default function CommentComponent({ open, onClose, item }: any) {
     }
     return (
         <Modal open={open} onClose={onClose} disableScrollLock>
-            <Box bgcolor="white" borderRadius="5px" pb="30px" zIndex={100} width="50%" m="80px auto">
+            <Box bgcolor="white" borderRadius="5px" pb="30px" zIndex={100} width="50%" m="120px auto">
                 <Box m="0px 30px" borderBottom="#EEE 1px solid">
                     <Typography fontWeight="600" color="#183C7D" fontSize="18px" padding="25px 0">
                         Nhận xét của bạn
