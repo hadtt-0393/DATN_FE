@@ -33,18 +33,15 @@ const Image = styled.img`
         cursor: pointer;
 },`
 
-const labels: { [index: string]: string } = {
-    0.5: 'Useless',
-    1: 'Useless+',
-    1.5: 'Poor',
-    2: 'Poor+',
-    2.5: 'Ok',
-    3: 'Ok+',
-    3.5: 'Tốt',
-    4: 'Rất Tốt',
-    4.5: 'Xuất Sắc',
-    5: 'Rất Xuất Sắc',
-};
+const getLabel = (value: number): string => {
+    if (value >= 0 && value < 1) return 'Rất kém';
+    if (value >= 1 && value < 2) return 'Kém';
+    if (value >= 2 && value < 3) return 'Trung bình';
+    if (value >= 3 && value < 4) return 'Khá';
+    if (value >= 4 && value < 4.5) return 'Tốt';
+    if (value >= 4.5 && value <= 5) return 'Rất tốt';
+    return '';
+  };
 
 const theme = createTheme({
     palette: {
@@ -409,13 +406,13 @@ export default function SearchResultsPage() {
                                                                             m: 1,
                                                                             flexDirection: "column"
                                                                         }}>
-                                                                            <Typography sx={{ color: "#FEFEFE", fontSize: "13px", fontWeight: "600" }}>{labels[value]}</Typography>
-                                                                            {/* <Typography sx={{ color: "#FEFEFE", fontSize: "11px" }}>{item.comments.length} bình luận</Typography> */}
+                                                                            <Typography sx={{ color: "#FEFEFE", fontSize: "13px", fontWeight: "600" }}>{getLabel(item.ratingAvg)}</Typography>
+                                                                            <Typography sx={{ color: "#FEFEFE", fontSize: "11px" }}>{item.countComments} bình luận</Typography>
 
                                                                         </Box>
                                                                         <Box bgcolor="rgba(255, 255, 255, 0.25)" borderRadius="10px 10px 10px 0px" margin="5px" flex={1}>
                                                                             <Box sx={{ display: "flex", margin: "5px", fontSize: "13px", textTransform: "unset", textWrap: "nowrap", borderRadius: "10px 10px 10px 0px", height: "50px", backgroundColor: "#18458B", width: "50px", alignItems: "center", justifyContent: "center" }} >
-                                                                                <Typography sx={{ fontSize: "13px", color: "white", fontWeight: "600", }}>{item.ratingAvg}</Typography>
+                                                                                <Typography sx={{ fontSize: "13px", color: "white", fontWeight: "600", }}>{item.ratingAvg.toFixed(2)}</Typography>
                                                                             </Box>
                                                                         </Box>
                                                                     </Box>

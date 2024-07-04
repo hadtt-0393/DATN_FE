@@ -3,7 +3,7 @@ export interface Hotel {
   hotelName: string;
   city: string;
   address: string;
-  distance: string;
+  distance: number;
   photos: string[];
   title: string;
   description: string;
@@ -18,11 +18,13 @@ export interface Hotel {
   email: string;
   hotline: string;
   images: string[];
-  forms:any[];
-  cleanlinessAvg:number;
+  forms: any[];
+  cleanlinessAvg: number;
   facilitiesAvg: number;
+  countComments: number;
   serviceAvg: number;
   comfortableAvg: number;
+  countForms: number
 }
 
 
@@ -32,8 +34,8 @@ export interface Comment {
   rating: number;
   username: string;
   image: string;
-  cleanliness:number;
-  comfort:number;
+  cleanliness: number;
+  comfort: number;
   staff: number;
   facilities: number;
 }

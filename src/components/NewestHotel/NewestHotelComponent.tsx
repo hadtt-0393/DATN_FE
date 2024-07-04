@@ -9,9 +9,10 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { useNavigate } from "react-router-dom";
 import styled from 'styled-components';
 import 'swiper/css';
-import 'swiper/css/navigation';
+// import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import { A11y, Navigation, Pagination } from 'swiper/modules';
+// import 'swiper/css/scrollbar';  
+import { A11y, Navigation, Pagination, Scrollbar } from 'swiper/modules';
 import { Swiper, SwiperSlide } from "swiper/react";
 import useFetch from "../../hooks/useFetch";
 import { Hotel } from "../../models/Hotel";
@@ -25,17 +26,14 @@ const theme = createTheme({
     }
 });
 
-const labels: { [index: string]: string } = {
-    0.5: 'Useless',
-    1: 'Useless+',
-    1.5: 'Poor',
-    2: 'Poor+',
-    2.5: 'Ok',
-    3: 'Ok+',
-    3.5: 'Tốt',
-    4: 'Rất Tốt',
-    4.5: 'Xuất Sắc',
-    5: 'Rất Xuất Sắc',
+const getLabel = (value: number): string => {
+    if (value >= 0 && value < 1) return 'Rất kém';
+    if (value >= 1 && value < 2) return 'Kém';
+    if (value >= 2 && value < 3) return 'Trung bình';
+    if (value >= 3 && value < 4) return 'Khá';
+    if (value >= 4 && value < 4.5) return 'Tốt';
+    if (value >= 4.5 && value <= 5) return 'Rất tốt';
+    return '';
 };
 const Image = styled.img`
     width: 100%;
@@ -66,20 +64,23 @@ export default function NewestHotelComponent() {
                 <Typography sx={{ color: "#878C9F", mb: "30px", fontSize: "13px" }}>Hãy trải nghiệm những địa điểm nổi bật này cùng EasyBook</Typography>
             </Box>
             <Swiper
-                modules={[Navigation, Pagination, A11y]}
+                modules={[ Pagination, A11y, Scrollbar, Navigation]}
                 spaceBetween={50}
                 slidesPerView={4}
                 navigation={{ prevEl: '.swiper-button-prev', nextEl: '.swiper-button-next' }}
+                // scrollbar={{ draggable: true }}
+                // navigation
                 pagination={{ clickable: true }}
                 onSwiper={(swiper) => { }}
                 onSlideChange={() => { }}
                 style={{ display: "flex", width: "95%", height: "50%", justifyContent: "space-between", alignItems: "center", }}
             >
+               
                 {data && data.map((item, key) => (
                     <SwiperSlide style={{ height: "580px", marginBottom: "10px" }} key={key}>
                         <Card sx={{ ml: .5, boxShadow: "none", border: "1px solid #EEE", mr: .5 }} >
                             <CardActionArea sx={{}} >
-                                <Box overflow="hidden" borderRadius="5px" position="relative" height="50%">
+                                <Box overflow="hidden" borderRadius="5px" position="relative" height="300px" sx={{ objectFit: "contain" }}>
                                     <Image src={item.images[0]} />
                                     <Box sx={{
                                         position: "absolute",
@@ -131,13 +132,13 @@ export default function NewestHotelComponent() {
                                                                 m: 1,
                                                                 flexDirection: "column"
                                                             }}>
-                                                                <Typography sx={{ color: "#FEFEFE", fontSize: "13px", fontWeight: "600" }}>{labels[value]}</Typography>
-                                                                {/* <Typography sx={{ color: "#FEFEFE", fontSize: "11px" }}>{item.comments.length} bình luận</Typography> */}
+                                                                <Typography sx={{ color: "#FEFEFE", fontSize: "13px", fontWeight: "600" }}>{getLabel(item.ratingAvg)}</Typography>
+                                                                {/* <Typography sx={{ color: "#FEFEFE", fontSize: "11px" }}>{item.forms.length} bình luận</Typography> */}
 
                                                             </Box>
                                                             <Box bgcolor="rgba(255, 255, 255, 0.25)" borderRadius="10px 10px 10px 0px" margin="5px" flex={1}>
                                                                 <Box sx={{ display: "flex", margin: "5px", fontSize: "13px", textTransform: "unset", textWrap: "nowrap", borderRadius: "10px 10px 10px 0px", height: "50px", backgroundColor: "#18458B", width: "50px", alignItems: "center", justifyContent: "center" }} >
-                                                                    <Typography sx={{ fontSize: "13px", color: "white", fontWeight: "600", }}>{item.ratingAvg}</Typography>
+                                                                    <Typography sx={{ fontSize: "13px", color: "white", fontWeight: "600", }}>{item.ratingAvg.toFixed(2)}</Typography>
                                                                 </Box>
                                                             </Box>
                                                         </Box>
@@ -155,7 +156,7 @@ export default function NewestHotelComponent() {
                                                         }}
                                                     >
                                                         <Typography sx={{ color: "#CCC", fontSize: "15px", fontWeight: "600" }}>Chưa có đánh giá</Typography>
-                                                        
+
                                                     </Box>
                                                 )
                                         }
@@ -184,7 +185,7 @@ export default function NewestHotelComponent() {
                                     <ThemeProvider theme={theme}>
                                         <Box display="flex" alignItems="center" justifyContent="space-between" mt="10px" >
                                             <Box bgcolor="#F9B90F" sx={{ fontSize: "13px", textTransform: "unset", boxShadow: "none", border: "0.5px solid #EEE", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: "5px 10px", borderRadius: "5px" }}>
-                                                <Typography sx={{ fontSize: "13px", textTransform: "uppercase", color: "white" }} >Giá Rẻ Nhẩt/Đêm</Typography>
+                                                <Typography sx={{ fontSize: "13px", textTransform: "uppercase", color: "white" }} >Giá Rẻ Nhẩt</Typography>
                                                 <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", marginLeft: "5px" }}>{(item.cheapestPrice).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}VND</Typography>
                                             </Box>
                                             <Button variant="contained" sx={{ fontSize: "13px", textTransform: "unset" }} onClick={() => navigate(`/hotel/${item._id}`)}>Xem chi tiết</Button>                                        </Box>
@@ -194,6 +195,7 @@ export default function NewestHotelComponent() {
                         </Card>
                     </SwiperSlide>
                 ))}
+               
                 <Box className="swiper-button-prev" style={{ color: '#18458B' }}>
                     {/* <ArrowCircleLeftIcon /> */}
                 </Box>

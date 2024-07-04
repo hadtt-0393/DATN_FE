@@ -1,22 +1,23 @@
+import AvTimerIcon from '@mui/icons-material/AvTimer';
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import DirectionsCarOutlinedIcon from '@mui/icons-material/DirectionsCarOutlined';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
-import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
-import HotelOutlinedIcon from '@mui/icons-material/HotelOutlined';
+import PersonIcon from '@mui/icons-material/Person';
 import PhoneOutlinedIcon from '@mui/icons-material/PhoneOutlined';
 import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined';
 import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
-import { Avatar, Rating } from "@mui/material";
-import TextField from "@mui/material//TextField";
+import { Avatar, Card, CardActionArea, CardContent, Rating } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import FormControl from '@mui/material/FormControl';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
 import Slider from '@mui/material/Slider';
 import Typography from "@mui/material/Typography";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import styled from 'styled-components';
+import { toast } from 'react-toastify';
+import styled, { ThemeProvider } from 'styled-components';
 import Footer from "../../components/Footer/FooterComponent";
 import Header from '../../components/Header/HeaderComponent';
 import Loading from "../../components/LoadingComponent/LoadingComponent";
@@ -25,15 +26,18 @@ import SearchBar from '../../components/SearchBar';
 import { AuthContext } from '../../context/AuthContext';
 import useFetch from "../../hooks/useFetch";
 import { Hotel } from "../../models/Hotel";
-import { getToken } from '../../services/token';
-import AvTimerIcon from '@mui/icons-material/AvTimer';
-import PersonIcon from '@mui/icons-material/Person';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { Room } from '../../models/Room';
-import { toast } from 'react-toastify';
-import { convertDate, convertTime } from '../../utils/convert';
+import { getToken } from '../../services/token';
+import { convertTime } from '../../utils/convert';
+import AnlysisHotel from './AnalysisHotel';
+import DescriptionHotel from './DescriptionHotel';
+import ImageHotel from './ImageHotel';
+import ServicesHotel from './ServicesHotel';
+import { A11y, Navigation, Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from "swiper/react";
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -61,7 +65,7 @@ const getLabel = (value: number): string => {
     if (value >= 4 && value < 4.5) return 'Tốt';
     if (value >= 4.5 && value <= 5) return 'Rất tốt';
     return '';
-  };
+};
 
 const Image = styled.img`
     width: 100%;
@@ -354,73 +358,11 @@ export default function DetailHotel() {
             <Box bgcolor="#ECF6F8" >
                 <Box width="92%" bgcolor="#ECF6F8" maxWidth="1224px" m="30px auto" display="flex" gap={5} padding="50px 0">
                     <Box flex="2" >
-                        <Box sx={{
-                            display: "flex",
-                            flexWrap: "wrap",
-                            justifyContent: "space-between"
-                        }}>
-                            {data?.images.map((image, index) => (
-                                <Box
-                                    sx={{
-                                        width: "33%"
-                                    }}
-                                    key={index}
-                                >
-                                    <img
-                                        src={image}
-                                        alt=""
-                                        style={{
-                                            width: "100%",
-                                            height: "250px",
-                                            objectFit: "cover",
-                                            cursor: "pointer"
-                                        }}
-                                    />
-                                </Box>
-                            ))}
-                        </Box>
-                        <Box display="flex" flexDirection="row" bgcolor="#FFF" height="105px" mt="50px" justifyContent="space-between" alignItems="center" borderRadius="5px">
-                            <Box flex={1} height="100%" justifyContent="center" alignItems="center" display="flex" flexDirection="column">
-                                <HotelOutlinedIcon sx={{ color: "#3AACED", width: "60px", height: "50px", opacity: 0.7, mb: "10px" }} />
-                                <Typography color="#999EA5" fontSize="12px" fontWeight="600">{data?.roomIds.length} Phòng</Typography>
-                            </Box>
-                            <Box borderLeft="#E2E2E2 solid 1px" flex={1} height="100%" justifyContent="center" alignItems="center" display="flex" flexDirection="column">
-                                <GroupsOutlinedIcon sx={{ color: "#3AACED", width: "60px", height: "50px", opacity: 0.7, mb: "10px" }} />
-                                <Typography color="#999EA5" fontSize="12px" fontWeight="600">{data?.forms.length.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} Lượt đặt phòng</Typography>
-                            </Box>
-                            <Box borderLeft="#E2E2E2 solid 1px" flex={1} height="100%" justifyContent="center" alignItems="center" display="flex" flexDirection="column">
-                                <DirectionsCarOutlinedIcon sx={{ color: "#3AACED", width: "60px", height: "50px", opacity: 0.7, mb: "10px" }} />
-                                <Typography color="#999EA5" fontSize="12px" fontWeight="600">Cách Trung Tâm Thành Phố {data?.distance} Km</Typography>
-                            </Box>
-                        </Box>
-                        <Box bgcolor="white" mt="30px" borderRadius="5px">
-                            <Box m="0px 30px" borderBottom="#EEE 1px solid">
-                                <Typography fontWeight="600" color="#183C7D" fontSize="18px" padding="25px 0">
-                                    Về khách sạn
-                                </Typography>
-                            </Box>
-                            <Box m="0px 30px" >
-                                <Typography color="#878C9F" fontSize="13px" padding="25px 0">
-                                    {data?.description}
-                                </Typography>
+                        {data && <ImageHotel images={data.images} />}
+                        {data && <AnlysisHotel totalRooms={data.roomIds.length} countForms={data.countForms} distance={data.distance} />}
+                        {data && <DescriptionHotel description={data.description} />}
+                        {data && <ServicesHotel services={data.services} />}
 
-                            </Box>
-                        </Box>
-                        <Box bgcolor="white" mt="30px" borderRadius="5px">
-                            <Box m="0px 30px" borderBottom="#EEE 1px solid">
-                                <Typography fontWeight="600" color="#183C7D" fontSize="18px" padding="25px 0">
-                                    Dịch vụ
-                                </Typography>
-                            </Box>
-                            <Box m="30px" display="flex" justifyContent="start" alignItems="center" pb="30px" flexWrap="wrap" gap={3}>
-                                {data?.services && data?.services.map((item, key) => (
-                                    <Box display="flex" flexDirection="row" lineHeight="1.3" alignItems="center" key={key}>
-                                        <CheckOutlinedIcon sx={{ color: "#3AACEE", fontSize: "16px" }} />
-                                        <Typography fontSize="14px" fontWeight="600" color="#8894B5" ml="10px" >{item}</Typography>
-                                    </Box>
-                                ))}
-                            </Box>
-                        </Box>
                         {roomsSuggest.length > 0 ?
                             <Box bgcolor="white" mt="30px" borderRadius="5px" pb="30px">
                                 <Box m="0px 30px">
@@ -632,8 +574,8 @@ export default function DetailHotel() {
                             </Box>
                         </Box>
 
-                        <Box bgcolor="white" mt="30px" borderRadius="5px" pb="30px">
-                            <Box m="0px 30px" borderBottom="#EEE 1px solid" display="flex" flexDirection="row" gap={1}>
+                        <Box width="100%" bgcolor="white" mt="30px" borderRadius="5px" pb="30px">
+                            <Box m="0px 30px" width="100%" borderBottom="#EEE 1px solid" display="flex" flexDirection="row" gap={1}>
                                 <Typography fontWeight="600" color="#183C7D" fontSize="18px" padding="25px 0">
                                     Nhận xét từ người dùng
                                 </Typography>
@@ -645,7 +587,6 @@ export default function DetailHotel() {
                                 </Typography>
                             </Box>
                             <Box m="30px" display="flex" justifyContent="center" alignItems="center" flexDirection="column" >
-
                                 <Box borderBottom="#EEE 1px solid" width="100%" paddingBottom="25px" flexDirection="row" gap={1} display="flex">
                                     <Box display="flex" flex={1} flexDirection="column" justifyContent="center"  >
                                         <Box sx={{ display: "flex", flexDirection: "column", margin: "5px", fontSize: "13px", textTransform: "unset", textWrap: "nowrap", borderRadius: "10px 10px 0px 10px", height: "130px", backgroundColor: "#18458B", width: "160px", alignItems: "center", justifyContent: "center" }} >
@@ -660,28 +601,28 @@ export default function DetailHotel() {
                                         <Box sx={{ display: "flex", flexDirection: "column", mt: "5px" }}>
                                             <Typography sx={{ fontSize: "12px", color: "#666", fontWeight: "600" }}>Vệ sinh</Typography>
                                             <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "20px" }}>
-                                                <Slider value={data?.cleanlinessAvg || 0} style={{ pointerEvents: 'none' }} aria-label="Default" valueLabelDisplay="auto" min={1} max={5} sx={{ height: "8px", color: "#3AACED", p: "0" }} />
+                                                <Slider value={data?.cleanlinessAvg || 0} style={{ pointerEvents: 'none' }} aria-label="Default" valueLabelDisplay="auto" step={0.1} min={0} max={5} sx={{ height: "8px", color: "#3AACED", p: "0" }} />
                                                 <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", mb: "6px" }}>{data?.cleanlinessAvg.toFixed(2)}</Typography>
                                             </Box>
                                         </Box>
                                         <Box sx={{ display: "flex", flexDirection: "column", mt: "5px" }}>
                                             <Typography sx={{ fontSize: "12px", color: "#666", fontWeight: "600" }}>Độ thoải mái</Typography>
                                             <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "20px" }}>
-                                                <Slider value={data?.comfortableAvg || 0} style={{ pointerEvents: 'none' }} aria-label="Default" valueLabelDisplay="auto" min={1} max={5} sx={{ height: "8px", color: "#3AACED", p: "0" }} />
+                                                <Slider value={data?.comfortableAvg || 0} style={{ pointerEvents: 'none' }} aria-label="Default" valueLabelDisplay="auto" step={0.1} min={0} max={5} sx={{ height: "8px", color: "#3AACED", p: "0" }} />
                                                 <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", mb: "6px" }}>{data?.comfortableAvg.toFixed(2)}</Typography>
                                             </Box>
                                         </Box>
                                         <Box sx={{ display: "flex", flexDirection: "column", mt: "5px" }}>
                                             <Typography sx={{ fontSize: "12px", color: "#666", fontWeight: "600" }}>Thái độ nhân viên</Typography>
                                             <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "20px" }}>
-                                                <Slider value={data?.serviceAvg || 0} style={{ pointerEvents: 'none' }} min={1} max={5} sx={{ height: "8px", color: "#3AACED", p: "0" }} />
+                                                <Slider value={data?.serviceAvg || 0} style={{ pointerEvents: 'none' }} step={0.1} min={0} max={5} sx={{ height: "8px", color: "#3AACED", p: "0" }} />
                                                 <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", mb: "6px" }}>{data?.serviceAvg.toFixed(2)}</Typography>
                                             </Box>
                                         </Box>
                                         <Box sx={{ display: "flex", flexDirection: "column", mt: "5px" }}>
                                             <Typography sx={{ fontSize: "12px", color: "#666", fontWeight: "600" }}>Cơ sở vật chất</Typography>
                                             <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "20px" }}>
-                                                <Slider value={data?.facilitiesAvg || 0} style={{ pointerEvents: 'none' }} aria-label="Default" valueLabelDisplay="auto" min={1} max={5} sx={{ height: "8px", color: "#3AACED", p: "0" }} />
+                                                <Slider value={data?.facilitiesAvg || 0} style={{ pointerEvents: 'none' }} step={0.1} aria-label="Default" valueLabelDisplay="auto" min={0} max={5} sx={{ height: "8px", color: "#3AACED", p: "0" }} />
                                                 <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", mb: "6px" }}>{data?.facilitiesAvg.toFixed(2)}</Typography>
                                             </Box>
                                         </Box>
@@ -689,76 +630,156 @@ export default function DetailHotel() {
 
                                     </Box>
                                 </Box>
-                                {data && data.forms.map(form =>
-                                    <Box borderBottom="#CCC 1px dashed" width="100%">
-                                        <Box display="flex" flexDirection="row" m="30px 0px" width="100%" padding="20px 0px" bgcolor="#ECF6F8" borderRadius="10px">
-                                            <Box flex={1} display="flex" flexDirection="column" justifyContent="start" alignItems="center" gap={2}>
-                                                <Avatar sx={{ width: "80px", height: "80px", m: "5px" }} />
-                                                <Typography sx={{ fontSize: "18px", color: "#333", fontWeight: "600", }}>{form.username}</Typography>
-                                                <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", }}>{convertTime(form.comment.created)}</Typography>
-                                            </Box>
-                                            <Box flex={3} display="flex" flexDirection="column" >
-                                                <Box display="flex" flexDirection="row" alignItems="start" justifyContent="space-between">
-
-
-                                                    <Box display="flex" flex={1}>
-                                                        {form.comment.content &&
-                                                            <Typography sx={{ fontSize: "14px", color: "#878CB8", mt: "5px" }}>{form.comment.content} </Typography>}
-                                                    </Box>
-
-
-                                                    <Box display="flex" justifyContent="end">
-                                                        <Box sx={{ display: "flex", flexDirection: "column", margin: "5px 30px", fontSize: "13px", textTransform: "unset", textWrap: "nowrap", borderRadius: "10px 10px 10px 0px", height: "60px", backgroundColor: "#18458B", width: "60px", alignItems: "center", justifyContent: "center" }} >
-                                                            <Typography sx={{ fontSize: "18px", color: "white", fontWeight: "600", }}>{form.rating}</Typography>
-                                                            <Typography sx={{ fontSize: "12px", color: "white", fontWeight: "600", mt: "5px" }}>{getLabel(form.rating.toFixed(2))}</Typography>
+                                
+                                <Swiper
+                                    modules={[Navigation, Pagination, A11y]}
+                                    spaceBetween={50}
+                                    slidesPerView={3}
+                                    navigation={{ prevEl: '.swiper-button-prev', nextEl: '.swiper-button-next' }}
+                                    pagination={{ clickable: true }}
+                                    onSwiper={(swiper) => { }}
+                                    onSlideChange={() => { }}
+                                    style={{ display: "flex", width: "100%", maxWidth:"1224px", justifyContent: "space-between", alignItems: "center", marginTop:"30px" }}
+                                >
+                                    <SwiperSlide style={{ marginBottom: "10px", marginTop: "30px" }}>
+                                        <Card sx={{ ml: .5, boxShadow: "none", border: "1px solid #EEE", mr: .5 }} >
+                                            <CardActionArea sx={{}} >
+                                                <CardContent>
+                                                    <Box flex={1} display="flex" flexDirection="row" justifyContent="start" alignItems="center" gap={2}>
+                                                        <Box flex={1} display="flex" flexDirection="row" gap={1}>
+                                                            <Avatar sx={{ width: "45px", height: "45px", m: "5px" }} />
+                                                            <Box display="flex" flexDirection="column">
+                                                                <Typography sx={{ fontSize: "18px", color: "#333", fontWeight: "600", }}>Thu Hà</Typography>
+                                                                <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", }}>27/06/2024</Typography>
+                                                            </Box>
+                                                        </Box>
+                                                        <Box display="flex" justifyContent="end">
+                                                            <Box sx={{ display: "flex", flexDirection: "column", fontSize: "13px", textTransform: "unset", textWrap: "nowrap", borderRadius: "10px 10px 10px 0px", height: "60px", backgroundColor: "#18458B", width: "60px", alignItems: "center", justifyContent: "center" }} >
+                                                                <Typography sx={{ fontSize: "18px", color: "white", fontWeight: "600", }}>4.5</Typography>
+                                                                <Typography sx={{ fontSize: "12px", color: "white", fontWeight: "600", mt: "5px" }}>Tốt</Typography>
+                                                            </Box>
                                                         </Box>
                                                     </Box>
+                                                    <Box sx={{ border: ".5px  #CCC dashed", mt: "15px" }} />
+                                                    <Typography sx={{ color: "#666", fontSize: "14px", mt: "15px", mb: "12px" }}>Khách sạn rất đẹp, dịch vụ tốt Khách sạn rất đẹp, dịch vụ tốt Khách sạn rất đẹp, dịch vụ tốt Khách sạn rất đẹp, dịch vụ tốt Khách sạn rất đẹp, dịch vụ tốt Khách sạn rất đẹp, dịch vụ tốt</Typography>
+                                                    <Box sx={{ border: ".5px  #CCC dashed", mt: "15px" }} />
+
+                                                </CardContent>
+                                                <Box  display="flex" justifyContent="center" alignItems="center">
+                                                    <Box overflow="hidden" borderRadius="5px" width="95%" height="50%" mb="10px">
+                                                        <Image src={"https://cdn.britannica.com/96/115096-050-5AFDAF5D/Bellagio-Hotel-Casino-Las-Vegas.jpg"} />
+                                                    </Box>
                                                 </Box>
-                                                {
-                                                    form.comment.image &&
-                                                    <Box display="flex" justifyContent="start" alignItems="center" mt="20px">
-                                                        <Box width="200px" overflow="hidden" borderRadius="10px" >
-                                                            <Image src={form.comment.image} alt="image-comment" />
+
+
+                                            </CardActionArea>
+                                        </Card>
+                                    </SwiperSlide>
+
+                                    <SwiperSlide style={{  marginBottom: "10px", marginTop: "30px" }}>
+                                        <Card sx={{ ml: .5, boxShadow: "none", border: "1px solid #EEE", mr: .5 }} >
+                                            <CardActionArea sx={{}} >
+                                                <CardContent>
+                                                    <Box flex={1} display="flex" flexDirection="row" justifyContent="start" alignItems="center" gap={2}>
+                                                        <Box flex={1} display="flex" flexDirection="row" gap={1}>
+                                                            <Avatar sx={{ width: "45px", height: "45px", m: "5px" }} />
+                                                            <Box display="flex" flexDirection="column">
+                                                                <Typography sx={{ fontSize: "18px", color: "#333", fontWeight: "600", }}>Thu Hà</Typography>
+                                                                <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", }}>27/06/2024</Typography>
+                                                            </Box>
+                                                        </Box>
+                                                        <Box display="flex" justifyContent="end">
+                                                            <Box sx={{ display: "flex", flexDirection: "column", fontSize: "13px", textTransform: "unset", textWrap: "nowrap", borderRadius: "10px 10px 10px 0px", height: "60px", backgroundColor: "#18458B", width: "60px", alignItems: "center", justifyContent: "center" }} >
+                                                                <Typography sx={{ fontSize: "18px", color: "white", fontWeight: "600", }}>4.5</Typography>
+                                                                <Typography sx={{ fontSize: "12px", color: "white", fontWeight: "600", mt: "5px" }}>Tốt</Typography>
+                                                            </Box>
                                                         </Box>
                                                     </Box>
-                                                }
+                                                    <Box sx={{ border: ".5px  #CCC dashed", mt: "15px" }} />
+                                                    <Typography sx={{ color: "#666", fontSize: "14px", mt: "15px", mb: "12px" }}>Khách sạn rất đẹp, dịch vụ tốt Khách sạn rất đẹp, dịch vụ tốt Khách sạn rất đẹp, dịch vụ tốt Khách sạn rất đẹp, dịch vụ tốt Khách sạn rất đẹp, dịch vụ tốt Khách sạn rất đẹp, dịch vụ tốt</Typography>
+                                                    <Box sx={{ border: ".5px  #CCC dashed", mt: "15px" }} />
 
+                                                </CardContent>
+                                            </CardActionArea>
+                                        </Card>
+                                    </SwiperSlide>
 
-                                            </Box>
-                                        </Box>
-                                    </Box>
-                                )}
+                                    <SwiperSlide style={{  marginBottom: "10px", marginTop: "30px" }}>
+                                        <Card sx={{ ml: .5, boxShadow: "none", border: "1px solid #EEE", mr: .5 }} >
+                                            <CardActionArea sx={{}} >
+                                                <CardContent>
+                                                    <Box flex={1} display="flex" flexDirection="row" justifyContent="start" alignItems="center" gap={2}>
+                                                        <Box flex={1} display="flex" flexDirection="row" gap={1}>
+                                                            <Avatar sx={{ width: "45px", height: "45px", m: "5px" }} />
+                                                            <Box display="flex" flexDirection="column">
+                                                                <Typography sx={{ fontSize: "18px", color: "#333", fontWeight: "600", }}>Thu Hà</Typography>
+                                                                <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", }}>27/06/2024</Typography>
+                                                            </Box>
+                                                        </Box>
+                                                        <Box display="flex" justifyContent="end">
+                                                            <Box sx={{ display: "flex", flexDirection: "column", fontSize: "13px", textTransform: "unset", textWrap: "nowrap", borderRadius: "10px 10px 10px 0px", height: "60px", backgroundColor: "#18458B", width: "60px", alignItems: "center", justifyContent: "center" }} >
+                                                                <Typography sx={{ fontSize: "18px", color: "white", fontWeight: "600", }}>4.5</Typography>
+                                                                <Typography sx={{ fontSize: "12px", color: "white", fontWeight: "600", mt: "5px" }}>Tốt</Typography>
+                                                            </Box>
+                                                        </Box>
+                                                    </Box>
+                                                    <Box sx={{ border: ".5px  #CCC dashed", mt: "15px" }} />
+                                                    <Typography sx={{ color: "#666", fontSize: "14px", mt: "15px", mb: "12px" }}>Khách sạn rất đẹp, dịch vụ tốt Khách sạn rất đẹp, dịch vụ tốt Khách sạn rất đẹp, dịch vụ tốt Khách sạn rất đẹp, dịch vụ tốt Khách sạn rất đẹp, dịch vụ tốt Khách sạn rất đẹp, dịch vụ tốt</Typography>
+                                                    <Box sx={{ border: ".5px  #CCC dashed", mt: "15px" }} />
 
-
-                                {/* <Box borderBottom="#CCC 1px dashed" width="100%">
-                                    <Box display="flex" flexDirection="row" m="30px 0px" width="100%" padding="20px 0px" bgcolor="#ECF6F8" borderRadius="10px">
-                                        <Box flex={1} display="flex" flexDirection="column" justifyContent="start" alignItems="center" gap={2}>
-                                            <Avatar sx={{ width: "80px", height: "80px", m: "5px" }} />
-                                            <Typography sx={{ fontSize: "18px", color: "#333", fontWeight: "600", }}>Thu Hà</Typography>
-                                            <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", }}>27/06/2024</Typography>
-                                        </Box>
-                                        <Box flex={3} display="flex" flexDirection="column" >
-                                            <Box display="flex" flexDirection="row" alignItems="start" justifyContent="space-between">
-                                                <Box>
-                                                    <Typography sx={{ fontSize: "14px", color: "#878CB8", mt: "5px" }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc posuere convallis purus non cursus. Cras metus neque, gravida sodales massa ut. </Typography>
-                                                </Box>
-                                                <Box display="flex" justifyContent="end">
-                                                    <Box sx={{ display: "flex", flexDirection: "column", margin: "5px 30px", fontSize: "13px", textTransform: "unset", textWrap: "nowrap", borderRadius: "10px 10px 10px 0px", height: "60px", backgroundColor: "#18458B", width: "60px", alignItems: "center", justifyContent: "center" }} >
-                                                        <Typography sx={{ fontSize: "18px", color: "white", fontWeight: "600", }}>4.5</Typography>
-                                                        <Typography sx={{ fontSize: "12px", color: "white", fontWeight: "600", mt: "5px" }}>Tốt</Typography>
+                                                </CardContent>
+                                                <Box  display="flex" justifyContent="center" alignItems="center">
+                                                    <Box overflow="hidden" borderRadius="5px" width="95%" height="200px" mb="10px" sx={{objectFit:"contain"}}>
+                                                        <Image src={"https://t3.ftcdn.net/jpg/00/29/13/38/360_F_29133877_bfA2n7cWV53fto2BomyZ6pyRujJTBwjd.jpg"} />
                                                     </Box>
                                                 </Box>
-                                            </Box>
 
-                                            <Box display="flex" justifyContent="start" alignItems="center" mt="20px">
-                                                <Box width="200px" overflow="hidden" borderRadius="10px" >
-                                                    <Image src="https://static.vecteezy.com/system/resources/previews/023/506/852/non_2x/cute-kawaii-mushroom-chibi-mascot-cartoon-style-vector.jpg" alt="image-comment" />
+
+                                            </CardActionArea>
+                                        </Card>
+                                    </SwiperSlide>
+
+                                    <SwiperSlide style={{  marginBottom: "10px", marginTop: "30px" }}>
+                                        <Card sx={{ ml: .5, boxShadow: "none", border: "1px solid #EEE", mr: .5 }} >
+                                            <CardActionArea sx={{}} >
+                                                <CardContent>
+                                                    <Box flex={1} display="flex" flexDirection="row" justifyContent="start" alignItems="center" gap={2}>
+                                                        <Box flex={1} display="flex" flexDirection="row" gap={1}>
+                                                            <Avatar sx={{ width: "45px", height: "45px", m: "5px" }} />
+                                                            <Box display="flex" flexDirection="column">
+                                                                <Typography sx={{ fontSize: "18px", color: "#333", fontWeight: "600", }}>Thu Hà</Typography>
+                                                                <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", }}>27/06/2024</Typography>
+                                                            </Box>
+                                                        </Box>
+                                                        <Box display="flex" justifyContent="end">
+                                                            <Box sx={{ display: "flex", flexDirection: "column", fontSize: "13px", textTransform: "unset", textWrap: "nowrap", borderRadius: "10px 10px 10px 0px", height: "60px", backgroundColor: "#18458B", width: "60px", alignItems: "center", justifyContent: "center" }} >
+                                                                <Typography sx={{ fontSize: "18px", color: "white", fontWeight: "600", }}>4.5</Typography>
+                                                                <Typography sx={{ fontSize: "12px", color: "white", fontWeight: "600", mt: "5px" }}>Tốt</Typography>
+                                                            </Box>
+                                                        </Box>
+                                                    </Box>
+                                                    <Box sx={{ border: ".5px  #CCC dashed", mt: "15px" }} />
+                                                    <Typography sx={{ color: "#666", fontSize: "14px", mt: "15px", mb: "12px" }}>Khách sạn rất đẹp, dịch vụ tốt Khách sạn rất đẹp, dịch vụ tốt Khách sạn rất đẹp, dịch vụ tốt Khách sạn rất đẹp, dịch vụ tốt Khách sạn rất đẹp, dịch vụ tốt Khách sạn rất đẹp, dịch vụ tốt</Typography>
+                                                    <Box sx={{ border: ".5px  #CCC dashed", mt: "15px" }} />
+
+                                                </CardContent>
+                                                <Box  display="flex" justifyContent="center" alignItems="center">
+                                                    <Box  overflow="hidden" borderRadius="5px" width="95%" height="200px" mb="10px" sx={{objectFit:"contain"}}>
+                                                        <Image src={"https://cdn.pixabay.com/photo/2014/07/21/19/20/lobby-398845_640.jpg"} />
+                                                    </Box>
                                                 </Box>
-                                            </Box>
 
-                                        </Box>
+
+                                            </CardActionArea>
+                                        </Card>
+                                    </SwiperSlide>
+
+                                    <Box className="swiper-button-prev" style={{ color: '#18458B' }}>
                                     </Box>
-                                </Box> */}
+                                    <Box className="swiper-button-next" style={{ color: '#18458B' }}>
+                                    </Box>
+                                </Swiper>
+
                             </Box>
 
                         </Box>

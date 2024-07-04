@@ -1,4 +1,4 @@
-const convertPrice = (price: number) => {
+const convertNumber = (price: number) => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 }
 
@@ -19,4 +19,4 @@ const convertRoomToString = (rooms: RoomChooseName[]) => {
     return rooms.map(room => (`${room.quantity} x ${room.roomName}`)).join('')
 }
 
-export { convertPrice, convertDate, convertRoomToString, convertTime }
+export { convertNumber, convertDate, convertRoomToString, convertTime }
