@@ -587,7 +587,7 @@ export default function DetailHotel() {
                                 </Typography>
                             </Box>
                             <Box m="30px" display="flex" justifyContent="center" alignItems="center" flexDirection="column" >
-                                <Box borderBottom="#EEE 1px solid" width="100%" paddingBottom="25px" flexDirection="row" gap={1} display="flex">
+                                <Box borderBottom="#EEE 1px solid" width="100%" paddingBottom="25px" flexDirection="row" display="flex">
                                     <Box display="flex" flex={1} flexDirection="column" justifyContent="center"  >
                                         <Box sx={{ display: "flex", flexDirection: "column", margin: "5px", fontSize: "13px", textTransform: "unset", textWrap: "nowrap", borderRadius: "10px 10px 0px 10px", height: "130px", backgroundColor: "#18458B", width: "160px", alignItems: "center", justifyContent: "center" }} >
                                             <Typography sx={{ fontSize: "34px", color: "white", fontWeight: "600", }}>{data?.ratingAvg.toFixed(2)}</Typography>
@@ -597,40 +597,46 @@ export default function DetailHotel() {
                                             <Button variant="contained" sx={{ width: "100%", backgroundColor: "#F9C941", fontWeight: "600", boxShadow: "none", "&:hover": { boxShadow: "none", opacity: "0.8", backgroundColor: "#F9C941" } }} >Nhận xét</Button>
                                         </Box>
                                     </Box>
-                                    <Box flex={2.8}>
-                                        <Box sx={{ display: "flex", flexDirection: "column", mt: "5px" }}>
-                                            <Typography sx={{ fontSize: "12px", color: "#666", fontWeight: "600" }}>Vệ sinh</Typography>
-                                            <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "20px" }}>
-                                                <Slider value={data?.cleanlinessAvg || 0} style={{ pointerEvents: 'none' }} aria-label="Default" valueLabelDisplay="auto" step={0.1} min={0} max={5} sx={{ height: "8px", color: "#3AACED", p: "0" }} />
-                                                <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", mb: "6px" }}>{data?.cleanlinessAvg.toFixed(2)}</Typography>
+                                    <Box flex={4} display={'flex'} gap={3} flexDirection={"column"} justifyContent={'start'}>
+                                        <Box display="flex" flexDirection="row" justifyContent="space-between" gap={10}>
+                                            <Box sx={{ display: "flex", flexDirection: "column", mt: "5px", flex: "1" }}>
+                                                <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600" }}>Vệ sinh</Typography>
+                                                <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "20px" }}>
+                                                    <Slider value={data?.cleanlinessAvg || 0} style={{ pointerEvents: 'none' }} aria-label="Default" valueLabelDisplay="auto" step={0.1} min={0} max={5} sx={{ height: "12px", color: "#3AACED", p: "0" }} />
+                                                    <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", mb: "6px" }}>{data?.cleanlinessAvg.toFixed(2)}</Typography>
+                                                </Box>
+                                            </Box>
+                                            <Box sx={{ display: "flex", flexDirection: "column", mt: "5px", flex: "1" }} >
+                                                <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600" }}>Độ thoải mái</Typography>
+                                                <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "20px" }}>
+                                                    <Slider value={data?.comfortableAvg || 0} style={{ pointerEvents: 'none' }} aria-label="Default" valueLabelDisplay="auto" step={0.1} min={0} max={5} sx={{ height: "12px", color: "#3AACED", p: "0" }} />
+                                                    <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", mb: "6px" }}>{data?.comfortableAvg.toFixed(2)}</Typography>
+                                                </Box>
                                             </Box>
                                         </Box>
-                                        <Box sx={{ display: "flex", flexDirection: "column", mt: "5px" }}>
-                                            <Typography sx={{ fontSize: "12px", color: "#666", fontWeight: "600" }}>Độ thoải mái</Typography>
-                                            <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "20px" }}>
-                                                <Slider value={data?.comfortableAvg || 0} style={{ pointerEvents: 'none' }} aria-label="Default" valueLabelDisplay="auto" step={0.1} min={0} max={5} sx={{ height: "8px", color: "#3AACED", p: "0" }} />
-                                                <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", mb: "6px" }}>{data?.comfortableAvg.toFixed(2)}</Typography>
+                                        <Box display="flex" flexDirection="row" width="100%" justifyContent="space-between" gap={10}>
+                                            <Box sx={{ display: "flex", flexDirection: "column", mt: "5px", flex: "1" }}>
+                                                <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600" }}>Thái độ nhân viên</Typography>
+                                                <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "20px" }}>
+                                                    <Slider value={data?.serviceAvg || 0} style={{ pointerEvents: 'none' }} step={0.1} min={0} max={5} sx={{ height: "12px", color: "#3AACED", p: "0" }} />
+                                                    <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", mb: "6px" }}>{data?.serviceAvg.toFixed(2)}</Typography>
+                                                </Box>
+                                            </Box>
+                                            <Box sx={{ display: "flex", flexDirection: "column", mt: "5px", flex: "1" }}>
+                                                <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600" }}>Cơ sở vật chất</Typography>
+                                                <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "20px" }}>
+                                                    <Slider value={data?.facilitiesAvg || 0} style={{ pointerEvents: 'none' }} step={0.1} aria-label="Default" valueLabelDisplay="auto" min={0} max={5} sx={{ height: "12px", color: "#3AACED", p: "0" }} />
+                                                    <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", mb: "6px" }}>{data?.facilitiesAvg.toFixed(2)}</Typography>
+                                                </Box>
                                             </Box>
                                         </Box>
-                                        <Box sx={{ display: "flex", flexDirection: "column", mt: "5px" }}>
-                                            <Typography sx={{ fontSize: "12px", color: "#666", fontWeight: "600" }}>Thái độ nhân viên</Typography>
-                                            <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "20px" }}>
-                                                <Slider value={data?.serviceAvg || 0} style={{ pointerEvents: 'none' }} step={0.1} min={0} max={5} sx={{ height: "8px", color: "#3AACED", p: "0" }} />
-                                                <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", mb: "6px" }}>{data?.serviceAvg.toFixed(2)}</Typography>
-                                            </Box>
-                                        </Box>
-                                        <Box sx={{ display: "flex", flexDirection: "column", mt: "5px" }}>
-                                            <Typography sx={{ fontSize: "12px", color: "#666", fontWeight: "600" }}>Cơ sở vật chất</Typography>
-                                            <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "20px" }}>
-                                                <Slider value={data?.facilitiesAvg || 0} style={{ pointerEvents: 'none' }} step={0.1} aria-label="Default" valueLabelDisplay="auto" min={0} max={5} sx={{ height: "8px", color: "#3AACED", p: "0" }} />
-                                                <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", mb: "6px" }}>{data?.facilitiesAvg.toFixed(2)}</Typography>
-                                            </Box>
-                                        </Box>
+
+
 
 
                                     </Box>
                                 </Box>
-                                
+
                                 <Swiper
                                     modules={[Navigation, Pagination, A11y]}
                                     spaceBetween={50}
@@ -639,7 +645,7 @@ export default function DetailHotel() {
                                     pagination={{ clickable: true }}
                                     onSwiper={(swiper) => { }}
                                     onSlideChange={() => { }}
-                                    style={{ display: "flex", width: "100%", maxWidth:"1224px", justifyContent: "space-between", alignItems: "center", marginTop:"30px" }}
+                                    style={{ display: "flex", width: "100%", maxWidth: "1224px", justifyContent: "space-between", alignItems: "center", marginTop: "30px" }}
                                 >
                                     <SwiperSlide style={{ marginBottom: "10px", marginTop: "30px" }}>
                                         <Card sx={{ ml: .5, boxShadow: "none", border: "1px solid #EEE", mr: .5 }} >
@@ -665,7 +671,7 @@ export default function DetailHotel() {
                                                     <Box sx={{ border: ".5px  #CCC dashed", mt: "15px" }} />
 
                                                 </CardContent>
-                                                <Box  display="flex" justifyContent="center" alignItems="center">
+                                                <Box display="flex" justifyContent="center" alignItems="center">
                                                     <Box overflow="hidden" borderRadius="5px" width="95%" height="50%" mb="10px">
                                                         <Image src={"https://cdn.britannica.com/96/115096-050-5AFDAF5D/Bellagio-Hotel-Casino-Las-Vegas.jpg"} />
                                                     </Box>
@@ -676,7 +682,7 @@ export default function DetailHotel() {
                                         </Card>
                                     </SwiperSlide>
 
-                                    <SwiperSlide style={{  marginBottom: "10px", marginTop: "30px" }}>
+                                    <SwiperSlide style={{ marginBottom: "10px", marginTop: "30px" }}>
                                         <Card sx={{ ml: .5, boxShadow: "none", border: "1px solid #EEE", mr: .5 }} >
                                             <CardActionArea sx={{}} >
                                                 <CardContent>
@@ -704,7 +710,7 @@ export default function DetailHotel() {
                                         </Card>
                                     </SwiperSlide>
 
-                                    <SwiperSlide style={{  marginBottom: "10px", marginTop: "30px" }}>
+                                    <SwiperSlide style={{ marginBottom: "10px", marginTop: "30px" }}>
                                         <Card sx={{ ml: .5, boxShadow: "none", border: "1px solid #EEE", mr: .5 }} >
                                             <CardActionArea sx={{}} >
                                                 <CardContent>
@@ -728,8 +734,8 @@ export default function DetailHotel() {
                                                     <Box sx={{ border: ".5px  #CCC dashed", mt: "15px" }} />
 
                                                 </CardContent>
-                                                <Box  display="flex" justifyContent="center" alignItems="center">
-                                                    <Box overflow="hidden" borderRadius="5px" width="95%" height="200px" mb="10px" sx={{objectFit:"contain"}}>
+                                                <Box display="flex" justifyContent="center" alignItems="center">
+                                                    <Box overflow="hidden" borderRadius="5px" width="95%" height="200px" mb="10px" sx={{ objectFit: "contain" }}>
                                                         <Image src={"https://t3.ftcdn.net/jpg/00/29/13/38/360_F_29133877_bfA2n7cWV53fto2BomyZ6pyRujJTBwjd.jpg"} />
                                                     </Box>
                                                 </Box>
@@ -739,7 +745,7 @@ export default function DetailHotel() {
                                         </Card>
                                     </SwiperSlide>
 
-                                    <SwiperSlide style={{  marginBottom: "10px", marginTop: "30px" }}>
+                                    <SwiperSlide style={{ marginBottom: "10px", marginTop: "30px" }}>
                                         <Card sx={{ ml: .5, boxShadow: "none", border: "1px solid #EEE", mr: .5 }} >
                                             <CardActionArea sx={{}} >
                                                 <CardContent>
@@ -763,8 +769,8 @@ export default function DetailHotel() {
                                                     <Box sx={{ border: ".5px  #CCC dashed", mt: "15px" }} />
 
                                                 </CardContent>
-                                                <Box  display="flex" justifyContent="center" alignItems="center">
-                                                    <Box  overflow="hidden" borderRadius="5px" width="95%" height="200px" mb="10px" sx={{objectFit:"contain"}}>
+                                                <Box display="flex" justifyContent="center" alignItems="center">
+                                                    <Box overflow="hidden" borderRadius="5px" width="95%" height="200px" mb="10px" sx={{ objectFit: "contain" }}>
                                                         <Image src={"https://cdn.pixabay.com/photo/2014/07/21/19/20/lobby-398845_640.jpg"} />
                                                     </Box>
                                                 </Box>
