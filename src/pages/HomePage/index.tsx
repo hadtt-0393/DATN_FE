@@ -19,8 +19,8 @@ const HomePage = () => {
       <HeaderComponent />
       <SliderComponent display={true} />
       <PopularPlacesComponent />
-      <HighestScoreHotelComponent />
-      <NewestHotelComponent />
+      {/* <HighestScoreHotelComponent /> */}
+      {/* <NewestHotelComponent /> */}
       <BecomeOwnerComponent />
       <FooterComponent />
     </Box>

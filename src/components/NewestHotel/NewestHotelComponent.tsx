@@ -64,7 +64,7 @@ export default function NewestHotelComponent() {
                 <Typography sx={{ color: "#878C9F", mb: "30px", fontSize: "13px" }}>Hãy trải nghiệm những địa điểm nổi bật này cùng EasyBook</Typography>
             </Box>
             <Swiper
-                modules={[ Pagination, A11y, Scrollbar, Navigation]}
+                modules={[Pagination, A11y, Scrollbar, Navigation]}
                 spaceBetween={50}
                 slidesPerView={4}
                 navigation={{ prevEl: '.swiper-button-prev', nextEl: '.swiper-button-next' }}
@@ -75,13 +75,13 @@ export default function NewestHotelComponent() {
                 onSlideChange={() => { }}
                 style={{ display: "flex", width: "95%", height: "50%", justifyContent: "space-between", alignItems: "center", }}
             >
-               
+
                 {data && data.map((item, key) => (
                     <SwiperSlide style={{ height: "580px", marginBottom: "10px" }} key={key}>
                         <Card sx={{ ml: .5, boxShadow: "none", border: "1px solid #EEE", mr: .5 }} >
                             <CardActionArea sx={{}} >
                                 <Box overflow="hidden" borderRadius="5px" position="relative" height="300px" sx={{ objectFit: "contain" }}>
-                                    <Image src={item.images[0]} />
+                                    {/* <Image src={item.images[0]} /> */}
                                     <Box sx={{
                                         position: "absolute",
                                         top: 0,
@@ -138,7 +138,7 @@ export default function NewestHotelComponent() {
                                                             </Box>
                                                             <Box bgcolor="rgba(255, 255, 255, 0.25)" borderRadius="10px 10px 10px 0px" margin="5px" flex={1}>
                                                                 <Box sx={{ display: "flex", margin: "5px", fontSize: "13px", textTransform: "unset", textWrap: "nowrap", borderRadius: "10px 10px 10px 0px", height: "50px", backgroundColor: "#18458B", width: "50px", alignItems: "center", justifyContent: "center" }} >
-                                                                    <Typography sx={{ fontSize: "13px", color: "white", fontWeight: "600", }}>{item.ratingAvg.toFixed(2)}</Typography>
+                                                                    <Typography sx={{ fontSize: "13px", color: "white", fontWeight: "600", }}>{Number.isInteger(item.ratingAvg) ? item.ratingAvg : item.ratingAvg.toFixed(2)}</Typography>
                                                                 </Box>
                                                             </Box>
                                                         </Box>
@@ -195,7 +195,7 @@ export default function NewestHotelComponent() {
                         </Card>
                     </SwiperSlide>
                 ))}
-               
+
                 <Box className="swiper-button-prev" style={{ color: '#18458B' }}>
                     {/* <ArrowCircleLeftIcon /> */}
                 </Box>

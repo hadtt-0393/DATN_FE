@@ -33,7 +33,7 @@ const getLabel = (value: number): string => {
     if (value >= 4 && value < 4.5) return 'Tốt';
     if (value >= 4.5 && value <= 5) return 'Rất tốt';
     return '';
-  };
+};
 
 const Image = styled.img`
     width: 100%;
@@ -77,8 +77,8 @@ export default function HighestScoreHotelComponent() {
                     <SwiperSlide style={{ height: "580px", marginBottom: "10px" }} key={key}>
                         <Card sx={{ ml: .5, boxShadow: "none", border: "1px solid #EEE", mr: .5 }} >
                             <CardActionArea sx={{}} >
-                                <Box overflow="hidden" borderRadius="5px" position="relative" height="300px" sx={{objectFit:"contain"}}>
-                                    <Image src={item.images[0]} />
+                                <Box overflow="hidden" borderRadius="5px" position="relative" height="300px" sx={{ objectFit: "contain" }}>
+                                    {/* <Image src={item.images[0]} /> */}
                                     <Box sx={{
                                         position: "absolute",
                                         top: 0,
@@ -129,7 +129,7 @@ export default function HighestScoreHotelComponent() {
                                                 </Box>
                                                 <Box bgcolor="rgba(255, 255, 255, 0.25)" borderRadius="10px 10px 10px 0px" margin="5px" flex={1}>
                                                     <Box sx={{ display: "flex", margin: "5px", fontSize: "13px", textTransform: "unset", textWrap: "nowrap", borderRadius: "10px 10px 10px 0px", height: "50px", backgroundColor: "#18458B", width: "50px", alignItems: "center", justifyContent: "center" }} >
-                                                        <Typography sx={{ fontSize: "13px", color: "white", fontWeight: "600", }}>{item.ratingAvg.toFixed(2)}</Typography>
+                                                        <Typography sx={{ fontSize: "13px", color: "white", fontWeight: "600", }}>{Number.isInteger(item.ratingAvg) ? item.ratingAvg : item.ratingAvg.toFixed(2)}</Typography>
                                                     </Box>
                                                 </Box>
                                             </Box>
@@ -148,9 +148,9 @@ export default function HighestScoreHotelComponent() {
                                     <Typography sx={{ color: "#999", fontSize: "13px", mt: "15px", mb: "12px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item.description}</Typography>
                                     <Box display="flex" alignItems="center" justifyContent="start" mb="12px">
                                         <SupportAgentRoundedIcon sx={{ color: "red", fontSize: "16px" }} />
-                                        <ul style={{ listStyleType: "none", padding: "0px", marginLeft: "10px", color: "#3AACED" , overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                                        <ul style={{ listStyleType: "none", padding: "0px", marginLeft: "10px", color: "#3AACED", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                                             {item && item.services.map((service, key) => (
-                                                <li style={{ display: "inline-block", marginRight: "10px"}} key={key}>{service}</li>
+                                                <li style={{ display: "inline-block", marginRight: "10px" }} key={key}>{service}</li>
                                             ))}
                                         </ul>
                                     </Box>

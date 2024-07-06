@@ -34,7 +34,7 @@ import DescriptionHotel from './DescriptionHotel';
 import ImageHotel from './ImageHotel';
 import ServicesHotel from './ServicesHotel';
 import SubHeaderHotel from './SubHeaderHotel';
-import { convertDate } from '../../utils/convert';
+import { convertDate, convertTime } from '../../utils/convert';
 
 interface FeedBackProps {
   data: Hotel;
@@ -143,7 +143,7 @@ export default function FeedBack({ data }: FeedBackProps) {
                     fontWeight: '600',
                   }}
                 >
-                  {data?.ratingAvg.toFixed(2)}
+                  {Number.isInteger(data?.ratingAvg) ? data?.ratingAvg : data?.ratingAvg.toFixed(2)}
                 </Typography>
                 {data?.ratingAvg && (
                   <Typography
@@ -235,9 +235,10 @@ export default function FeedBack({ data }: FeedBackProps) {
                         color: '#666',
                         fontWeight: '600',
                         mb: '6px',
+                        width: "25px"
                       }}
                     >
-                      {data.cleanlinessAvg.toFixed(2)}
+                      {Number.isInteger(data.cleanlinessAvg) ? data.cleanlinessAvg : data.cleanlinessAvg.toFixed(2)}
                     </Typography>
                   </Box>
                 </Box>
@@ -286,9 +287,10 @@ export default function FeedBack({ data }: FeedBackProps) {
                         color: '#666',
                         fontWeight: '600',
                         mb: '6px',
+                        width: "25px"
                       }}
                     >
-                      {data.comfortableAvg.toFixed(2)}
+                      {Number.isInteger(data.comfortableAvg) ? data.comfortableAvg : data.comfortableAvg.toFixed(2)}
                     </Typography>
                   </Box>
                 </Box>
@@ -343,9 +345,10 @@ export default function FeedBack({ data }: FeedBackProps) {
                         color: '#666',
                         fontWeight: '600',
                         mb: '6px',
+                        width: "25px"
                       }}
                     >
-                      {data.serviceAvg.toFixed(2)}
+                      {Number.isInteger(data.serviceAvg) ? data.serviceAvg : data.serviceAvg.toFixed(2)}
                     </Typography>
                   </Box>
                 </Box>
@@ -394,9 +397,10 @@ export default function FeedBack({ data }: FeedBackProps) {
                         color: '#666',
                         fontWeight: '600',
                         mb: '6px',
+                        width: "25px"
                       }}
                     >
-                      {data.facilitiesAvg.toFixed(2)}
+                      {Number.isInteger(data.facilitiesAvg) ? data.facilitiesAvg : data.facilitiesAvg.toFixed(2)}
                     </Typography>
                   </Box>
                 </Box>
@@ -413,8 +417,8 @@ export default function FeedBack({ data }: FeedBackProps) {
               nextEl: '.swiper-button-next',
             }}
             pagination={{ clickable: true }}
-            onSwiper={(swiper) => {}}
-            onSlideChange={() => {}}
+            onSwiper={(swiper) => { }}
+            onSlideChange={() => { }}
             style={{
               display: 'flex',
               width: '100%',
@@ -478,7 +482,7 @@ export default function FeedBack({ data }: FeedBackProps) {
                                   fontWeight: '600',
                                 }}
                               >
-                                {convertDate(feedback.comment.created)}
+                                {convertTime(feedback.comment.created)}
                               </Typography>
                             </Box>
                           </Box>
@@ -505,7 +509,7 @@ export default function FeedBack({ data }: FeedBackProps) {
                                   fontWeight: '600',
                                 }}
                               >
-                                {feedback.rating.toFixed(2)}
+                                {Number.isInteger(feedback.rating) ? feedback.rating : feedback.rating.toFixed(2)}
                               </Typography>
                               <Typography
                                 sx={{

@@ -254,7 +254,7 @@ export default function SubHeaderHotel({ data }: SubHeaderHotelProps) {
                           fontWeight: '600',
                         }}
                       >
-                        {data.ratingAvg.toFixed(2)}
+                        {Number.isInteger(data.ratingAvg) ? data.ratingAvg : data.ratingAvg.toFixed(2)}
                       </Typography>
                     </Box>
                   </Box>
