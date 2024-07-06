@@ -18,7 +18,7 @@ export interface Hotel {
   email: string;
   hotline: string;
   images: string[];
-  forms: any[];
+  formsFeedback: any[];
   cleanlinessAvg: number;
   facilitiesAvg: number;
   countComments: number;

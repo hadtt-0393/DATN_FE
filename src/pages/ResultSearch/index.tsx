@@ -20,6 +20,7 @@ import { Service } from '../../models/Service';
 import SearchBarFlexColumn from '../../pages/ResultSearch/SearchBarFlexColumn';
 import { previousDay } from 'date-fns';
 import { devNull } from 'os';
+import { convertNumber } from '../../utils/convert';
 
 const Image = styled.img`
     width: 100%;
@@ -377,11 +378,11 @@ export default function SearchResultsPage() {
                                                             <Box display="flex" flex={1} flexDirection="column" justifyContent="start" alignItems="start">
                                                                 <Box width="110px" height="35px" sx={{ display: "flex", backgroundColor: "#5ECFB1", margin: "20px 20px 10px 0px", alignSelf: "end", alignItems: "center", justifyContent: "center" }}>
                                                                     <Typography sx={{ fontSize: "13px", color: "white", fontWeight: "600", }}>Giảm giá {item.discount}%</Typography>
-                                                                </Box>
+                                                                </Box>  
                                                             </Box>
                                                         )}
                                                         {
-                                                            item.ratingAvg !== 0 ? (
+                                                            item?.ratingAvg  ? (
                                                                 <Box
                                                                     sx={{
                                                                         display: 'flex',
@@ -458,7 +459,7 @@ export default function SearchResultsPage() {
                                                         <Box display="flex" alignItems="center" justifyContent="space-between" mt="10px" >
                                                             <Box bgcolor="#F9B90F" sx={{ fontSize: "13px", textTransform: "unset", boxShadow: "none", border: "0.5px solid #EEE", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: "5px 10px", borderRadius: "5px" }}>
                                                                 <Typography sx={{ fontSize: "13px", textTransform: "uppercase", color: "white" }} >Giá Rẻ Nhẩt/Đêm</Typography>
-                                                                <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", marginLeft: "5px" }}>{(item.cheapestPrice).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}VND</Typography>
+                                                                <Typography sx={{ fontSize: "14px", color: "#666", fontWeight: "600", marginLeft: "5px" }}>{convertNumber(item.cheapestPrice)}VND</Typography>
                                                             </Box>
                                                             <Button variant="contained" sx={{ fontSize: "13px", textTransform: "unset" }} onClick={() => openDetailHotel(item)}>Xem chi tiết</Button>
                                                         </Box>

@@ -12,14 +12,22 @@ export interface Form {
   name: string;
   email: string;
   hotel: any
-  whoBookingFor: number; 
-  specialRequest: string;
   country: string;
   phoneNumber: string;
   price: number;
   hotelId: string;
   roomIds: string;
-  isComment: boolean;
+  comment?: Comment;
+  rating?: number;
+}
+
+interface Comment {
+  service: number,
+  cleanliness: number,
+  comfortable: number,
+  facilities: number,
+  content: string,
+  image: string
 }
 
 interface RoomName {

@@ -35,7 +35,7 @@ export interface SearchBarProps {
 const SearchBar = ({ component, display, handleChangeData, destinations, onSearch }: SearchBarProps) => {
   const { data: cityData } = useFetch<City[]>(
     `${process.env.REACT_APP_API_ENDPOINT}/city/getAllCity`,
-  );
+  );  
   const navigate = useNavigate();
   const currentDate = new Date();
   const [destination, setDestination] = useState(destinations ? destinations : '');

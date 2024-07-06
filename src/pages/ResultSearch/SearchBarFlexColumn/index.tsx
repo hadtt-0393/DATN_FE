@@ -4,8 +4,10 @@ import {
     faPerson,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Box, Typography } from '@mui/material';
 import { format } from 'date-fns';
-import { useContext, useEffect, useState } from 'react';
+import { vi } from 'date-fns/locale';
+import { useEffect, useState } from 'react';
 import { DateRange } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file
@@ -13,9 +15,6 @@ import SearchInput, { createFilter } from 'react-search-input';
 import useFetch from '../../../hooks/useFetch';
 import { City } from '../../../models/City';
 import styles from './SearchBarFlexColumn.module.scss';
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import { Box, Button, Typography } from '@mui/material';
-import { vi } from 'date-fns/locale';
 
 
 export interface DatesInterface {
@@ -42,7 +41,6 @@ const SearchBarFlexColumn = ({ city, startDate, endDate, option, handleChangedat
     const { data: cityData } = useFetch<City[]>(
         `${process.env.REACT_APP_API_ENDPOINT}/city/getAllCity`,
     );
-    const currentDate = new Date();
     const [destination, setDestination] = useState(city);
     const [dates, setDates] = useState<DatesInterface[]>([
         {
