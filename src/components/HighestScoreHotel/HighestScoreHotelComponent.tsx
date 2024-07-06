@@ -33,7 +33,7 @@ const getLabel = (value: number): string => {
     if (value >= 4 && value < 4.5) return 'Tốt';
     if (value >= 4.5 && value <= 5) return 'Rất tốt';
     return '';
-  };
+};
 
 const Image = styled.img`
     width: 100%;
@@ -77,7 +77,7 @@ export default function HighestScoreHotelComponent() {
                     <SwiperSlide style={{ height: "580px", marginBottom: "10px" }} key={key}>
                         <Card sx={{ ml: .5, boxShadow: "none", border: "1px solid #EEE", mr: .5 }} >
                             <CardActionArea sx={{}} >
-                                <Box overflow="hidden" borderRadius="5px" position="relative" height="300px" sx={{objectFit:"contain"}}>
+                                <Box overflow="hidden" borderRadius="5px" position="relative" height="300px" sx={{ objectFit: "contain" }}>
                                     <Image src={item.images[0]} />
                                     <Box sx={{
                                         position: "absolute",
@@ -100,40 +100,58 @@ export default function HighestScoreHotelComponent() {
                                                 </Box>
                                             )
                                         }
-                                        <Box
-                                            sx={{
-                                                display: 'flex',
-                                                alignItems: 'start',
-                                                height: "30%",
-                                                m: 2,
-                                                justifyContent: "space-between",
-                                            }}
-                                        >
-                                            <Rating
-                                                name="text-feedback"
-                                                value={item.ratingAvg}
-                                                readOnly
-                                                precision={0.5}
-                                                emptyIcon={<StarBorderOutlinedIcon style={{ color: "#FAC73F", fontSize: "18px" }} />}
-                                                sx={{ fontSize: "18px", color: "#FAC73F" }}
-                                            />
-                                            <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-                                                <Box sx={{
-                                                    display: 'flex',
-                                                    alignItems: 'end',
-                                                    m: 1,
-                                                    flexDirection: "column"
-                                                }}>
-                                                    <Typography sx={{ color: "#FEFEFE", fontSize: "13px", fontWeight: "600" }}>{getLabel(item.ratingAvg)}</Typography>
-                                                    {/* <Typography sx={{ color: "#FEFEFE", fontSize: "11px" }}>{item.forms.length} bình luận</Typography> */}
-                                                </Box>
-                                                <Box bgcolor="rgba(255, 255, 255, 0.25)" borderRadius="10px 10px 10px 0px" margin="5px" flex={1}>
-                                                    <Box sx={{ display: "flex", margin: "5px", fontSize: "13px", textTransform: "unset", textWrap: "nowrap", borderRadius: "10px 10px 10px 0px", height: "50px", backgroundColor: "#18458B", width: "50px", alignItems: "center", justifyContent: "center" }} >
-                                                        <Typography sx={{ fontSize: "13px", color: "white", fontWeight: "600", }}>{item.ratingAvg.toFixed(2)}</Typography>
+                                        {
+                                            item.ratingAvg !== 0 ?
+                                                (<Box
+                                                    sx={{
+                                                        display: 'flex',
+                                                        alignItems: 'start',
+                                                        height: "30%",
+                                                        m: 2,
+                                                        justifyContent: "space-between",
+                                                    }}
+                                                >
+                                                    <Rating
+                                                        name="text-feedback"
+                                                        value={item.ratingAvg}
+                                                        readOnly
+                                                        precision={0.5}
+                                                        emptyIcon={<StarBorderOutlinedIcon style={{ color: "#FAC73F", fontSize: "18px" }} />}
+                                                        sx={{ fontSize: "18px", color: "#FAC73F" }}
+                                                    />
+                                                    <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+                                                        <Box sx={{
+                                                            display: 'flex',
+                                                            alignItems: 'end',
+                                                            m: 1,
+                                                            flexDirection: "column"
+                                                        }}>
+                                                            <Typography sx={{ color: "#FEFEFE", fontSize: "13px", fontWeight: "600" }}>{getLabel(item.ratingAvg)}</Typography>
+                                                            <Typography sx={{ color: "#FEFEFE", fontSize: "11px" }}>{item.countComments} bình luận</Typography>
+                                                        </Box>
+                                                        <Box bgcolor="rgba(255, 255, 255, 0.25)" borderRadius="10px 10px 10px 0px" margin="5px" flex={1}>
+                                                            <Box sx={{ display: "flex", margin: "5px", fontSize: "13px", textTransform: "unset", textWrap: "nowrap", borderRadius: "10px 10px 10px 0px", height: "50px", backgroundColor: "#18458B", width: "50px", alignItems: "center", justifyContent: "center" }} >
+                                                                <Typography sx={{ fontSize: "13px", color: "white", fontWeight: "600", }}>{item.ratingAvg.toFixed(2)}</Typography>
+                                                            </Box>
+                                                        </Box>
                                                     </Box>
-                                                </Box>
-                                            </Box>
-                                        </Box>
+                                                </Box>)
+                                                : (
+                                                    <Box
+                                                        sx={{
+                                                            display: 'flex',
+                                                            alignItems: 'center',
+                                                            height: "30%",
+                                                            m: 2,
+                                                            justifyContent: "space-between",
+                                                        }}
+                                                    >
+                                                        <Typography sx={{ color: "#CCC", fontSize: "15px", fontWeight: "600" }}>Chưa có đánh giá</Typography>
+
+                                                    </Box>
+                                                )
+                                        }
+
                                     </Box>
                                 </Box>
                                 <CardContent>
@@ -148,9 +166,9 @@ export default function HighestScoreHotelComponent() {
                                     <Typography sx={{ color: "#999", fontSize: "13px", mt: "15px", mb: "12px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item.description}</Typography>
                                     <Box display="flex" alignItems="center" justifyContent="start" mb="12px">
                                         <SupportAgentRoundedIcon sx={{ color: "red", fontSize: "16px" }} />
-                                        <ul style={{ listStyleType: "none", padding: "0px", marginLeft: "10px", color: "#3AACED" , overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                                        <ul style={{ listStyleType: "none", padding: "0px", marginLeft: "10px", color: "#3AACED", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                                             {item && item.services.map((service, key) => (
-                                                <li style={{ display: "inline-block", marginRight: "10px"}} key={key}>{service}</li>
+                                                <li style={{ display: "inline-block", marginRight: "10px" }} key={key}>{service}</li>
                                             ))}
                                         </ul>
                                     </Box>

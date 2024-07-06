@@ -133,7 +133,7 @@ export default function NewestHotelComponent() {
                                                                 flexDirection: "column"
                                                             }}>
                                                                 <Typography sx={{ color: "#FEFEFE", fontSize: "13px", fontWeight: "600" }}>{getLabel(item.ratingAvg)}</Typography>
-                                                                {/* <Typography sx={{ color: "#FEFEFE", fontSize: "11px" }}>{item.forms.length} bình luận</Typography> */}
+                                                                <Typography sx={{ color: "#FEFEFE", fontSize: "11px" }}>{item.countComments} bình luận</Typography>
 
                                                             </Box>
                                                             <Box bgcolor="rgba(255, 255, 255, 0.25)" borderRadius="10px 10px 10px 0px" margin="5px" flex={1}>

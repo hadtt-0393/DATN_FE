@@ -36,6 +36,6 @@ export interface Comment {
   image: string;
   cleanliness: number;
   comfort: number;
-  staff: number;
+  service: number;
   facilities: number;
 }

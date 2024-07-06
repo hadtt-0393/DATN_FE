@@ -41,7 +41,7 @@ const getLabel = (value: number): string => {
     if (value >= 4 && value < 4.5) return 'Tốt';
     if (value >= 4.5 && value <= 5) return 'Rất tốt';
     return '';
-  };
+};
 
 const theme = createTheme({
     palette: {
@@ -359,7 +359,7 @@ export default function SearchResultsPage() {
                                         <Card sx={{ ml: .5, border: "1px solid #A3D7FC", mr: .5, boxShadow: "none" }} >
                                             <CardActionArea sx={{ display: "flex", flexDirection: "row", alignItems: "start" }} >
                                                 <Box overflow="hidden" borderRadius="5px" position="relative" width="40%" m={1.5} >
-                                                    <Image src="https://cf2.bstatic.com/xdata/images/hotel/max1024x768/38508716.jpg?k=1a8ef3314a8e9737040c4703f2578943652112a45d6d1ab14cdfe9f3f54df55e&o=&hp=1" />
+                                                    <Image src={item.images[0]} />
                                                     <Box sx={{
                                                         position: "absolute",
                                                         top: 0,
@@ -412,7 +412,7 @@ export default function SearchResultsPage() {
                                                                         </Box>
                                                                         <Box bgcolor="rgba(255, 255, 255, 0.25)" borderRadius="10px 10px 10px 0px" margin="5px" flex={1}>
                                                                             <Box sx={{ display: "flex", margin: "5px", fontSize: "13px", textTransform: "unset", textWrap: "nowrap", borderRadius: "10px 10px 10px 0px", height: "50px", backgroundColor: "#18458B", width: "50px", alignItems: "center", justifyContent: "center" }} >
-                                                                                <Typography sx={{ fontSize: "13px", color: "white", fontWeight: "600", }}>{item.ratingAvg.toFixed(2)}</Typography>
+                                                                                <Typography sx={{ fontSize: "13px", color: "white", fontWeight: "600", }}>{Number.isInteger(item.ratingAvg) ? item.ratingAvg : item.ratingAvg.toFixed(2)}</Typography>
                                                                             </Box>
                                                                         </Box>
                                                                     </Box>
@@ -474,7 +474,7 @@ export default function SearchResultsPage() {
                 </Box>
             </Box>
             <LoadingComponent loading={loading} />
-            <FooterComponent/>
+            <FooterComponent />
         </Box >
     )
 }

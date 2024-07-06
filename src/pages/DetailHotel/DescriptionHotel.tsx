@@ -13,7 +13,7 @@ export default function DescriptionHotel({description} : DescriptionHotelProps) 
                 </Typography>
             </Box>
             <Box m="0px 30px" >
-                <Typography color="#878C9F" fontSize="13px" padding="25px 0">
+                <Typography color="#666" fontSize="15px" padding="25px 0">
                     {description}
                 </Typography>
 
