@@ -164,18 +164,19 @@ export default function Reservation({ form, refetch }: ReservationProps) {
                 Người lớn: {form.adults}
               </Typography>
             </Box>
-            <Box
-              display="flex"
-              flexDirection="row"
-              justifyContent="start"
-              ml="30px"
-              alignItems="center"
-            >
-              <ChildCareIcon sx={{ color: '#3AACED', fontSize: '30px' }} />
-              <Typography color="#999" fontSize="18px" ml="20px">
-                Trẻ em : {form.children}
-              </Typography>
-            </Box>
+            {( form.children !== 0) &&
+              <Box
+                display="flex"
+                flexDirection="row"
+                justifyContent="start"
+                ml="30px"
+                alignItems="center"
+              >
+                <ChildCareIcon sx={{ color: '#3AACED', fontSize: '30px' }} />
+                <Typography color="#999" fontSize="18px" ml="20px">
+                  Trẻ em : {form.children}
+                </Typography>
+              </Box>}
           </Box>
           <Box
             display="flex"

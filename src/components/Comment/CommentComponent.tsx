@@ -1,11 +1,11 @@
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import {
-    Box,
-    Button,
-    Modal,
-    Slider,
-    TextField,
-    Typography,
+  Box,
+  Button,
+  Modal,
+  Slider,
+  TextField,
+  Typography,
 } from '@mui/material';
 import axios from 'axios';
 import { useState } from 'react';
@@ -14,6 +14,8 @@ import styled from 'styled-components';
 import { REACT_APP_CLOUDINARY_ENDPOINT } from '../../constants';
 import { Form } from '../../models/Form';
 import { getToken } from '../../services/token';
+import PhotoSizeSelectActualOutlinedIcon from '@mui/icons-material/PhotoSizeSelectActualOutlined';
+
 interface CommentComponentProps {
   onClose: () => void;
   open: boolean;
@@ -21,9 +23,11 @@ interface CommentComponentProps {
   reFetch: () => void;
 }
 const Image = styled.img`
-    width: 30%;
-    objectFit: cover;
-    height: 30%;
+    margin-top: 20px;
+    width: 300px;
+    objectFit: contain;
+    border-radius: 20px;
+    heigh: 200px;
     transition: transform 0.5s ease-in-out;
     &:hover{
         transform: scale(1.1);
@@ -48,7 +52,7 @@ export default function CommentComponent({
     width: 1,
   });
 
-  
+
 
   const feedbackDefault = {
     service: 4,
@@ -90,7 +94,7 @@ export default function CommentComponent({
           return;
         }
         const image = await uploadImg(file);
-        handleChangeComment({image: image})
+        handleChangeComment({ image: image })
         const createComment = await axios.post(
           `${process.env.REACT_APP_API_ENDPOINT}/form/createComment/${form._id}`,
           {
@@ -115,8 +119,8 @@ export default function CommentComponent({
 
   const closeModal = () => {
     onClose();
-    if(!form.comment){
-        setFormComment(feedbackDefault)
+    if (!form.comment) {
+      setFormComment(feedbackDefault)
     }
   };
 
@@ -128,7 +132,7 @@ export default function CommentComponent({
         pb="30px"
         zIndex={100}
         width="50%"
-        m="120px auto"
+        m="50px auto"
       >
         <Box m="0px 30px" borderBottom="#EEE 1px solid">
           <Typography
@@ -179,7 +183,7 @@ export default function CommentComponent({
               </Typography>
               <Slider
                 value={FormComment.cleanliness}
-                disabled={form.comment ? true : false}
+                style={{ pointerEvents: form.comment ? 'none' : 'auto' }}
                 aria-label="Default"
                 valueLabelDisplay="auto"
                 onChange={(e: any) =>
@@ -213,7 +217,7 @@ export default function CommentComponent({
                 Độ thoải mái
               </Typography>
               <Slider
-                disabled={form.comment ? true : false}
+                style={{ pointerEvents: form.comment ? 'none' : 'auto' }}
                 value={FormComment.comfortable}
                 aria-label="Default"
                 valueLabelDisplay="auto"
@@ -248,7 +252,7 @@ export default function CommentComponent({
                 Thái độ nhân viên
               </Typography>
               <Slider
-                disabled={form.comment ? true : false}
+                style={{ pointerEvents: form.comment ? 'none' : 'auto' }}
                 value={FormComment.facilities}
                 onChange={(e: any) =>
                   handleChangeComment({ facilities: e.target.value })
@@ -283,7 +287,7 @@ export default function CommentComponent({
                 Cơ sở vật chất
               </Typography>
               <Slider
-                disabled={form.comment ? true : false}
+                style={{ pointerEvents: form.comment ? 'none' : 'auto' }}
                 value={FormComment.service}
                 onChange={(e: any) =>
                   handleChangeComment({ service: e.target.value })
@@ -312,14 +316,26 @@ export default function CommentComponent({
             >
               <Typography color="#3AACED" fontSize="25px" fontWeight="600">
                 {form.rating
-                  ? form.rating.toFixed(2)
-                  : (
-                      (FormComment.service +
-                        FormComment.cleanliness +
-                        FormComment.comfortable +
-                        FormComment.facilities) /
-                      4
-                    ).toFixed(2)}
+                  ? form.rating
+                  : Number.isInteger((
+                    (FormComment.service +
+                      FormComment.cleanliness +
+                      FormComment.comfortable +
+                      FormComment.facilities) /
+                    4
+                  )) ? (
+                    (FormComment.service +
+                      FormComment.cleanliness +
+                      FormComment.comfortable +
+                      FormComment.facilities) /
+                    4
+                  ) : (
+                    (FormComment.service +
+                      FormComment.cleanliness +
+                      FormComment.comfortable +
+                      FormComment.facilities) /
+                    4
+                  ).toFixed(2)}
               </Typography>
               <Typography
                 color="#66686B"
@@ -333,7 +349,7 @@ export default function CommentComponent({
           </Box>
         </Box>
         <Box
-          m="30px"
+          m="0px 30px"
           sx={{ textAlign: 'center' }}
           borderBottom="#DDD 1px dashed"
           pb="30px"
@@ -352,20 +368,18 @@ export default function CommentComponent({
         </Box>
         {!form.comment && (
           <Box display={'flex'} justifyContent="center" alignItems="center">
-            <img
-              src={
-                file
-                  ? URL.createObjectURL(file as any)
-                  : 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'
-              }
-              style={{
-                borderRadius: '20px',
-                marginTop: '20px',
-                width: '200px',
-                height: '200px',
-                objectFit: 'contain',
-              }}
-            />
+            {!file ?
+              <PhotoSizeSelectActualOutlinedIcon sx={{ color: "#91CB63", fontSize: "200px" }} /> :
+              <img
+                src={URL.createObjectURL(file as any)}
+                style={{
+                  borderRadius: '20px',
+                  marginTop: '20px',
+                  width: '300px',
+                  height: '200px',
+                  objectFit: 'contain',
+                }}
+              />}
           </Box>
         )}
         {!form.comment && (
@@ -382,7 +396,7 @@ export default function CommentComponent({
               startIcon={<CloudUploadIcon />}
               sx={{
                 mt: 2,
-                mb: 2,
+                mb: 1,
                 backgroundColor: '#3AACED',
                 fontWeight: 600,
                 fontSize: '14px',
@@ -397,14 +411,7 @@ export default function CommentComponent({
         )}
         {form.comment && (
           <Box
-            flex={1.5}
-            overflow="hidden"
-            borderRadius="10px"
-            margin="auto 15px"
-            borderRight="1px solid #DDD"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
+            display={'flex'} justifyContent="center" alignItems="center"
           >
             <Image src={FormComment.image} />
           </Box>
