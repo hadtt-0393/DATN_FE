@@ -16,9 +16,39 @@ export default function NavbarComponent() {
     const navigate = useNavigate()
     const handleLogout = () => {
         dispatch && dispatch({ type: 'LOGOUT' });
-        toast.success("Đăng xuất thành công", {autoClose:2000})
+        toast.success("Đăng xuất thành công", { autoClose: 2000 })
         navigate('/');
-      };
+    };
+
+    function stringToColor(string: string) {
+        let hash = 0;
+        let i;
+
+        /* eslint-disable no-bitwise */
+        for (i = 0; i < string.length; i += 1) {
+            hash = string.charCodeAt(i) + ((hash << 5) - hash);
+        }
+
+        let color = '#';
+
+        for (i = 0; i < 3; i += 1) {
+            const value = (hash >> (i * 8)) & 0xff;
+            color += `00${value.toString(16)}`.slice(-2);
+        }
+        /* eslint-enable no-bitwise */
+
+        return color;
+    }
+
+    function stringAvatar(name: string) {
+        return {
+            sx: {
+                bgcolor: stringToColor(name),
+                mr: 1, width: "30px", height: "30px", fontSize: "14px"
+            },
+            children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+        };
+    }
 
     return (
         <Box sx={{ backgroundColor: "#18458B", position: "fixed", zIndex: 10, top: 0, width: "100%" }}>
@@ -31,7 +61,7 @@ export default function NavbarComponent() {
                             Danh sách đặt phòng
                         </Fab>
                         <Box display="flex" flexDirection="row" alignItems="center" border=" 1px solid rgba(0, 0, 0, 0.21)" height="60px" p="0 25px" >
-                            <Avatar sx={{ mr: 1, width: "24px", height: "24px" }} />
+                            <Avatar  {...stringAvatar(user.username)} />
                             <Typography sx={{ color: "#fff", fontSize: "14px", fontFamily: "Nunito, sans-serif", fontWeight: "600", "&:hover": { color: "#F9B90F" } }}>{user.username}</Typography>
                         </Box>
                         <Box display="flex" flexDirection="row" alignItems="center" border="1px solid rgba(0, 0, 0, 0.21)" height="60px" p="0 25px" sx={{ borderLeft: 0 }}>
