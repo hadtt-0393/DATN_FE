@@ -450,7 +450,9 @@ export default function SearchResultsPage() {
                                                         <SupportAgentRoundedIcon sx={{ color: "red", fontSize: "16px", my: "5px" }} />
                                                         <ul style={{ listStyleType: "none", padding: "0px", marginLeft: "10px", color: "#3AACED", lineHeight: "30px" }}>
                                                             {item && item.services.map((service, key) => (
-                                                                <li style={{ display: "inline-block", marginRight: "5px", }} key={key}>{service},</li>
+                                                                <li style={{ display: "inline-block", marginRight: key < item.services.length - 1 ? "5px" : "0" }} key={key}>
+                                                                    {service}{key < item.services.length - 1 ? ',' : ''}
+                                                                </li>
                                                             ))}
                                                         </ul>
                                                     </Box>

@@ -175,9 +175,11 @@ export default function NewestHotelComponent() {
                                     <Typography sx={{ color: "#999", fontSize: "13px", mt: "15px", mb: "12px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item.description}</Typography>
                                     <Box display="flex" alignItems="center" justifyContent="start" mb="12px">
                                         <SupportAgentRoundedIcon sx={{ color: "red", fontSize: "16px" }} />
-                                        <ul style={{ listStyleType: "none", padding: "0px", marginLeft: "10px", color: "#3AACED", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                                        <ul style={{ listStyleType: "none", padding: "0px", marginLeft: "10px", color: "#3AACED", lineHeight: "30px" }}>
                                             {item && item.services.map((service, key) => (
-                                                <li style={{ display: "inline-block", marginRight: "10px" }} key={key}>{service}</li>
+                                                <li style={{ display: "inline-block", marginRight: key < item.services.length - 1 ? "5px" : "0" }} key={key}>
+                                                    {service}{key < item.services.length - 1 ? ',' : ''}
+                                                </li>
                                             ))}
                                         </ul>
                                     </Box>

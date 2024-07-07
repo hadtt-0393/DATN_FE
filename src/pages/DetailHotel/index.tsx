@@ -351,10 +351,10 @@ export default function DetailHotel() {
                                           fontSize="14px"
                                           key={key}
                                         >
-                                          {bed.quantity} {bed.bedName},
+                                          {bed.quantity} {bed.bedName}
                                         </Typography>
                                       );
-                                    })}
+                                    }).join (", ")}
                                 </Box>
                               </Box>
                               <Typography
@@ -439,9 +439,9 @@ export default function DetailHotel() {
                   >
                     <Typography fontSize="12px" color="#666" mb={1}>
                       {' '}
-                      1 đêm, {adultFilter} người lớn,{' '}
+                      1 đêm , {adultFilter} người lớn{' '}
                       {childrenFilter !== 0 ? childrenFilter : ''}{' '}
-                      {childrenFilter !== 0 ? 'Trẻ em' : ''}{' '}
+                      {childrenFilter !== 0 ? ', Trẻ em' : ''}{' '}
                     </Typography>
                     <Typography fontWeight={600} mb={2}>
                       {totalPriceSuggest
