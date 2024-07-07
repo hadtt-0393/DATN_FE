@@ -125,7 +125,10 @@ export default function CommentComponent({
   };
 
   return (
-    <Modal open={open} onClose={closeModal} disableScrollLock>
+    <Modal open={open} onClose={closeModal}
+      BackdropProps={{
+        onClick: (e) => e.stopPropagation(), // Ngăn không cho backdrop click đóng modal
+      }} disableScrollLock>
       <Box
         bgcolor="white"
         borderRadius="5px"
@@ -417,12 +420,12 @@ export default function CommentComponent({
           </Box>
         )}
         <Box display="flex" alignItems="center" justifyContent="center">
-          <Box width="200px" m="30px 0 0 0">
+          <Box width="100%" m="30px 0 0 0" display="flex" justifyContent="center">
             {form.comment ? (
               <Button
                 variant="contained"
                 sx={{
-                  width: '100%',
+                  width: '200px',
                   backgroundColor: '#F9C941',
                   fontWeight: '600',
                   fontSize: '16px',
@@ -438,24 +441,45 @@ export default function CommentComponent({
                 Đóng
               </Button>
             ) : (
-              <Button
-                variant="contained"
-                sx={{
-                  width: '100%',
-                  backgroundColor: '#F9C941',
-                  fontWeight: '600',
-                  fontSize: '16px',
-                  boxShadow: 'none',
-                  '&:hover': {
+              <Box display="flex" flexDirection="row" justifyContent="center" gap={5}>
+                <Button
+                  variant="contained"
+                  sx={{
+                    width: '200px',
+                    backgroundColor: "#3AACED",
+                    fontWeight: '600',
+                    fontSize: '16px',
                     boxShadow: 'none',
-                    opacity: '0.8',
+                    '&:hover': {
+                      boxShadow: 'none',
+                      opacity: '0.8',
+                      backgroundColor: "#3AACED",
+                    },
+                  }}
+                  onClick={onClose}
+                >
+                  Đóng
+                </Button>
+                <Button
+                  variant="contained"
+                  sx={{
+                    width: '200px',
                     backgroundColor: '#F9C941',
-                  },
-                }}
-                onClick={handleComment}
-              >
-                Gửi nhận xét
-              </Button>
+                    fontWeight: '600',
+                    fontSize: '16px',
+                    boxShadow: 'none',
+                    '&:hover': {
+                      boxShadow: 'none',
+                      opacity: '0.8',
+                      backgroundColor: '#F9C941',
+                    },
+                  }}
+                  onClick={handleComment}
+                >
+                  Gửi nhận xét
+                </Button>
+              </Box>
+
             )}
           </Box>
         </Box>
