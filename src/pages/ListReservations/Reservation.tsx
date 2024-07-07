@@ -226,7 +226,7 @@ export default function Reservation({ form, refetch }: ReservationProps) {
             <PaidIcon sx={{ color: '#3AACED', fontSize: '30px' }} />
             <Box
               bgcolor={
-                form.paymentStatus === 'Thanh toán khi trả phòng'
+                form.paymentStatus === 'Thanh toán khi nhận phòng'
                   ? '#F1C40F'
                   : '#3AACED'
               }
