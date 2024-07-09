@@ -18,8 +18,6 @@ import { FooterComponent, HeaderComponent, LoadingComponent, NavbarComponent, Sl
 import { Hotel } from '../../models/Hotel';
 import { Service } from '../../models/Service';
 import SearchBarFlexColumn from '../../pages/ResultSearch/SearchBarFlexColumn';
-import { previousDay } from 'date-fns';
-import { devNull } from 'os';
 import { convertNumber } from '../../utils/convert';
 
 const Image = styled.img`
@@ -61,6 +59,8 @@ const distanceOptions = {
 export default function SearchResultsPage() {
     const location = useLocation();
     const { state } = location
+    console.log("state: ", state);
+    
     let { city } = useParams();
 
     const currentDate = new Date();

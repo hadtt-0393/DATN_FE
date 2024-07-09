@@ -32,6 +32,7 @@ export default function PaymentMethod() {
     }, [])
 
     const { name, phoneNumber, address, note, option, hotel, room, email } = state || { name: '', phoneNumber: '', address: '', note: '', option: {}, hotel: {}, room: [], email: '' }
+    console.log(option)
     const roomChoose = room.filter(Room => Room.quantityChoose > 0)
     const startDate = option.startDate
     const endDate = option.endDate
@@ -56,7 +57,7 @@ export default function PaymentMethod() {
                 note,
                 cost: calTotalPrice(),
                 adults: option.adult,
-                chldren: option.chldren,
+                children: option.chldren,
                 rooms: roomChoose,
                 startDate,
                 endDate,

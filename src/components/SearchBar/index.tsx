@@ -17,6 +17,7 @@ import SearchInput, { createFilter } from 'react-search-input';
 import useFetch from '../../hooks/useFetch';
 import { City } from '../../models/City';
 import styles from './SearchBar.module.scss';
+import axios from 'axios';
 
 export interface DatesInterface {
   startDate: Date;
@@ -33,9 +34,16 @@ export interface SearchBarProps {
 }
 
 const SearchBar = ({ component, display, handleChangeData, destinations, onSearch }: SearchBarProps) => {
-  const { data: cityData } = useFetch<City[]>(
-    `${process.env.REACT_APP_API_ENDPOINT}/city/getAllCity`,
-  );  
+  const [cityData, setCityData] = useState([]);
+
+  useEffect(() => {
+    const callApi = async () => {
+      const res = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/city/getAllCity`)
+      setCityData(res.data);
+    }
+    callApi();
+  }, []);
+
   const navigate = useNavigate();
   const currentDate = new Date();
   const [destination, setDestination] = useState(destinations ? destinations : '');
@@ -155,7 +163,7 @@ const SearchBar = ({ component, display, handleChangeData, destinations, onSearc
                     </div>
                   ))
                 ) : (
-                  <div>Not found</div>
+                  <div>Không tìm thấy tỉnh/thành phố</div>
                 )}
               </div>
             )}

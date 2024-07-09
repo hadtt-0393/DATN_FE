@@ -77,11 +77,11 @@ export default function NewestHotelComponent() {
             >
 
                 {data && data.map((item, key) => (
-                    <SwiperSlide style={{ height: "580px", marginBottom: "10px" }} key={key}>
+                    <SwiperSlide style={{ marginBottom: "10px" }} key={key}>
                         <Card sx={{ ml: .5, boxShadow: "none", border: "1px solid #EEE", mr: .5 }} >
                             <CardActionArea sx={{}} >
                                 <Box overflow="hidden" borderRadius="5px" position="relative" height="300px" sx={{ objectFit: "contain" }}>
-                                    {/* <Image src={item.images[0]} /> */}
+                                    <Image src={item.images[0]} />
                                     <Box sx={{
                                         position: "absolute",
                                         top: 0,
@@ -105,7 +105,7 @@ export default function NewestHotelComponent() {
                                             )
                                         }
                                         {
-                                            item.ratingAvg !== 0 ?
+                                            item.ratingAvg ?
                                                 (
                                                     <Box
                                                         sx={{
@@ -138,7 +138,7 @@ export default function NewestHotelComponent() {
                                                             </Box>
                                                             <Box bgcolor="rgba(255, 255, 255, 0.25)" borderRadius="10px 10px 10px 0px" margin="5px" flex={1}>
                                                                 <Box sx={{ display: "flex", margin: "5px", fontSize: "13px", textTransform: "unset", textWrap: "nowrap", borderRadius: "10px 10px 10px 0px", height: "50px", backgroundColor: "#18458B", width: "50px", alignItems: "center", justifyContent: "center" }} >
-                                                                    <Typography sx={{ fontSize: "13px", color: "white", fontWeight: "600", }}>{Number.isInteger(item.ratingAvg) ? item.ratingAvg : item.ratingAvg.toFixed(2)}</Typography>
+                                                                 <Typography sx={{ fontSize: "13px", color: "white", fontWeight: "600", }}>{Number.isInteger(item.ratingAvg) ? item.ratingAvg : item.ratingAvg.toFixed(2)}</Typography>
                                                                 </Box>
                                                             </Box>
                                                         </Box>
@@ -173,7 +173,7 @@ export default function NewestHotelComponent() {
                                     </Box>
                                     <Box sx={{ border: ".5px  #CCC dashed" }} />
                                     <Typography sx={{ color: "#999", fontSize: "13px", mt: "15px", mb: "12px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item.description}</Typography>
-                                    <Box display="flex" alignItems="center" justifyContent="start" mb="12px">
+                                    <Box display="flex" alignItems="start" justifyContent="start" mb="12px">
                                         <SupportAgentRoundedIcon sx={{ color: "red", fontSize: "16px" }} />
                                         <ul style={{ listStyleType: "none", padding: "0px", marginLeft: "10px", color: "#3AACED", lineHeight: "30px" }}>
                                             {item && item.services.map((service, key) => (

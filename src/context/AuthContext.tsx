@@ -12,7 +12,7 @@ interface AuthContextProps {
 }
 
 const INITIAL_STATE: AuthContextProps = {
-  user: JSON.parse((localStorage as any).getItem('user')) || null,
+  user: null,
   loading: true,
   error: null,
 };

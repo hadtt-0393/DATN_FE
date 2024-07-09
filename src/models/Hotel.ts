@@ -25,6 +25,7 @@ export interface Hotel {
   serviceAvg: number;
   comfortableAvg: number;
   countForms: number
+  totalRooms: number;
 }
 
 

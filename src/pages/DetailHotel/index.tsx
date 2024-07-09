@@ -40,7 +40,7 @@ export interface DatesInterface {
 const getLabel = (value: number): string => {
   if (value >= 0 && value < 1) return 'Rất kém';
   if (value >= 1 && value < 2) return 'Kém';
-  if (value >= 2 && value < 3) return 'Trung bình';
+  if (value >= 2 && value < 3) return 'Tạm';
   if (value >= 3 && value < 4) return 'Khá';
   if (value >= 4 && value < 4.5) return 'Tốt';
   if (value >= 4.5 && value <= 5) return 'Rất tốt';
@@ -103,13 +103,12 @@ export default function DetailHotel() {
     : new Date(currentDate.getTime() + 86400000);
   const optionProp = state
     ? {
-        adult: state.adult,
-        children: state.children,
-        room: state.room,
-      }
+      adult: state.adult,
+      children: state.children,
+      room: state.room,
+    }
     : optionDefault;
 
-  console.log(startDateProp);
 
   const handleChangeData = (arg1, arg2) => {
     if (arg1 === 'date') {
@@ -263,7 +262,7 @@ export default function DetailHotel() {
             {data && <ImageHotel images={data.images} />}
             {data && (
               <AnlysisHotel
-                totalRooms={data.roomIds.length}
+                totalRooms={data.totalRooms}
                 countForms={data.countForms}
                 distance={data.distance}
               />
@@ -343,18 +342,17 @@ export default function DetailHotel() {
                                   Giường:{' '}
                                 </Typography>
                                 <Box display="flex" flexDirection="row">
-                                  {room.Beds.length > 0 &&
-                                    room.Beds.map((bed, key) => {
-                                      return (
-                                        <Typography
-                                          mr="5px"
-                                          fontSize="14px"
-                                          key={key}
-                                        >
-                                          {bed.quantity} {bed.bedName}
-                                        </Typography>
-                                      );
-                                    }).join (", ")}
+                                  {room.Beds.length > 0 && room.Beds.map((bed) => {
+                                    return (
+                                      <Typography
+                                        mr="5px"
+                                        fontSize="14px"
+                                        key={key}
+                                      >
+                                        {bed.quantity} x {bed.bedName}
+                                      </Typography>
+                                    )
+                                  })}
                                 </Box>
                               </Box>
                               <Typography
@@ -630,7 +628,7 @@ export default function DetailHotel() {
                                           fontSize="14px"
                                           key={key}
                                         >
-                                          {bed.quantity} {bed.bedName},
+                                          {bed.quantity} {bed.bedName}
                                         </Typography>
                                       );
                                     })}
@@ -732,11 +730,11 @@ export default function DetailHotel() {
                                           {num}
                                           {num > 0
                                             ? ` : ${(num * room.price)
-                                                .toString()
-                                                .replace(
-                                                  /\B(?=(\d{3})+(?!\d))/g,
-                                                  '.',
-                                                )} VND`
+                                              .toString()
+                                              .replace(
+                                                /\B(?=(\d{3})+(?!\d))/g,
+                                                '.',
+                                              )} VND`
                                             : ''}
                                         </MenuItem>
                                       ),
@@ -774,28 +772,28 @@ export default function DetailHotel() {
                         (total, room) => total + room.quantityChoose,
                         0,
                       ) > 0 && (
-                        <Box display="flex" flexDirection="column" gap={2}>
-                          <Typography fontWeight={600}>
-                            Giá tổng{' '}
-                            {rooms.reduce(
-                              (total, room) => total + room.quantityChoose,
-                              0,
-                            )}{' '}
-                            phòng
-                          </Typography>
-                          <Typography fontWeight={600} color="#18458B">
-                            {rooms
-                              .reduce(
-                                (total, room) =>
-                                  total + room.price * room.quantityChoose,
+                          <Box display="flex" flexDirection="column" gap={2}>
+                            <Typography fontWeight={600}>
+                              Giá tổng{' '}
+                              {rooms.reduce(
+                                (total, room) => total + room.quantityChoose,
                                 0,
-                              )
-                              .toString()
-                              .replace(/\B(?=(\d{3})+(?!\d))/g, '.')}{' '}
-                            VND
-                          </Typography>
-                        </Box>
-                      )}
+                              )}{' '}
+                              phòng
+                            </Typography>
+                            <Typography fontWeight={600} color="#18458B">
+                              {rooms
+                                .reduce(
+                                  (total, room) =>
+                                    total + room.price * room.quantityChoose,
+                                  0,
+                                )
+                                .toString()
+                                .replace(/\B(?=(\d{3})+(?!\d))/g, '.')}{' '}
+                              VND
+                            </Typography>
+                          </Box>
+                        )}
 
                       <Button
                         variant="contained"

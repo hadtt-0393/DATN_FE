@@ -15,6 +15,7 @@ import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 import { Button } from '@mui/material';
 import { useState } from 'react';
 import CommentComponent from '../../components/Comment/CommentComponent';
+import CancleForm from '../../components/CancleForm/CancleForm';
 
 interface ReservationProps {
   form: any;
@@ -31,12 +32,24 @@ const Image = styled.img`
 },`;
 export default function Reservation({ form, refetch }: ReservationProps) {
   const [openModal, setOpenModal] = useState(false);
+  const [isModalCancle, setIsModalCancle] = useState(false);
 
   const getIsEnableComment = () => {
     const current = new Date().getTime()
     const endForm = new Date(form.endDate).getTime()
-    return current - endForm > 0;
+    return current - endForm > 86400000;
   }
+
+  const getIsEnableCancle = () => {
+    const current = new Date().getTime()
+    const startForm = new Date(form.startDate).getTime()
+    return current - startForm < 86400000;
+  }
+
+  const openModalCancle = () => {
+    setIsModalCancle(true);
+  }
+
 
 
   const reFetch = () => {
@@ -164,7 +177,7 @@ export default function Reservation({ form, refetch }: ReservationProps) {
                 Người lớn: {form.adults}
               </Typography>
             </Box>
-            {( form.children !== 0) &&
+            {(form.children !== 0) &&
               <Box
                 display="flex"
                 flexDirection="row"
@@ -235,7 +248,7 @@ export default function Reservation({ form, refetch }: ReservationProps) {
               ml="20px"
             >
               <Typography color="#FFF" fontSize="18px" fontWeight="600">
-                {form.paymentStatus}
+                {form.paymentStatus === "Canceled" ? "Đã hủy đặt phòng" : form.paymentStatus}
               </Typography>
             </Box>
           </Box>
@@ -271,13 +284,24 @@ export default function Reservation({ form, refetch }: ReservationProps) {
                 Đánh giá tại đây
               </Button>
             )}
-
+            {getIsEnableCancle() && form.paymentStatus !== "Canceled" && (
+              <Button
+                variant="contained"
+                color="error"
+                sx={{ fontWeight: '600' }}
+                onClick={openModalCancle}
+              >
+                {' '}
+                Hủy đặt phòng
+              </Button>
+            )}
             <CommentComponent
               open={openModal}
               onClose={() => setOpenModal(false)}
               form={form}
               reFetch={reFetch}
             />
+            <CancleForm open={isModalCancle} onClose={() => setIsModalCancle(false)} form={form} reFetch={reFetch} />
           </Box>
         </Box>
       </Box>

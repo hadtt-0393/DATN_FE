@@ -48,7 +48,6 @@ const Image = styled.img`
 },`
 
 export default function HighestScoreHotelComponent() {
-    const value = 3.5;
     const navigate = useNavigate()
     const { data, loading, error } = useFetch<Hotel[]>(
         `${process.env.REACT_APP_API_ENDPOINT}/hotel/topTenRating`,
@@ -74,11 +73,11 @@ export default function HighestScoreHotelComponent() {
                 style={{ display: "flex", width: "95%", height: "50%", justifyContent: "space-between", alignItems: "center", }}
             >
                 {data && data.map((item, key) => (
-                    <SwiperSlide style={{ height: "580px", marginBottom: "10px" }} key={key}>
+                    <SwiperSlide style={{ marginBottom: "10px" }} key={key}>
                         <Card sx={{ ml: .5, boxShadow: "none", border: "1px solid #EEE", mr: .5 }} >
                             <CardActionArea sx={{}} >
                                 <Box overflow="hidden" borderRadius="5px" position="relative" height="300px" sx={{ objectFit: "contain" }}>
-                                    {/* <Image src={item.images[0]} /> */}
+                                    <Image src={item.images[0]} />
                                     <Box sx={{
                                         position: "absolute",
                                         top: 0,
@@ -146,7 +145,7 @@ export default function HighestScoreHotelComponent() {
                                     </Box>
                                     <Box sx={{ border: ".5px  #CCC dashed" }} />
                                     <Typography sx={{ color: "#999", fontSize: "13px", mt: "15px", mb: "12px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item.description}</Typography>
-                                    <Box display="flex" alignItems="center" justifyContent="start" mb="12px">
+                                    <Box display="flex" alignItems="start" justifyContent="start" mb="12px">
                                         <SupportAgentRoundedIcon sx={{ color: "red", fontSize: "16px" }} />
                                         <ul style={{ listStyleType: "none", padding: "0px", marginLeft: "10px", color: "#3AACED", lineHeight: "30px" }}>
                                             {item && item.services.map((service, key) => (

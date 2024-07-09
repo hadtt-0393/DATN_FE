@@ -17,7 +17,7 @@ const Signin = () => {
     const [password, setPassword] = useState("")
     const [errEmail, setErrEmail] = useState(false)
     const [errPassword, setErrPassword] = useState(false)
-    const { loading, error, dispatch } = useContext(AuthContext)
+    const {  dispatch } = useContext(AuthContext)
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate()
 
@@ -114,6 +114,7 @@ const Signin = () => {
                             name="email"
                             autoComplete="email"
                             autoFocus
+                            value={email}
                             onChange={handleChangeInputEmail}
                         />
                         <TextField
@@ -122,6 +123,7 @@ const Signin = () => {
                             fullWidth
                             error={errPassword}
                             name="password"
+                            value={password}
                             label="Mật khẩu"
                             type={showPassword ? 'text' : 'password'}
                             autoComplete="current-password"

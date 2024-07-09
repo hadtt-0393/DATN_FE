@@ -69,7 +69,7 @@ export default function SubHeaderHotel({ data }: SubHeaderHotelProps) {
             }}
           >
             <Box>
-              {data.ratingAvg !== 0 && (
+              {data.ratingAvg && (
                 <Rating
                   name="text-feedback"
                   value={4}
