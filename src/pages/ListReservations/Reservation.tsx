@@ -43,14 +43,12 @@ export default function Reservation({ form, refetch }: ReservationProps) {
   const getIsEnableCancle = () => {
     const current = new Date().getTime()
     const startForm = new Date(form.startDate).getTime()
-    return current - startForm < 86400000;
+    return startForm - current > 86400000;
   }
 
   const openModalCancle = () => {
     setIsModalCancle(true);
   }
-
-
 
   const reFetch = () => {
     refetch();
@@ -248,7 +246,7 @@ export default function Reservation({ form, refetch }: ReservationProps) {
               ml="20px"
             >
               <Typography color="#FFF" fontSize="18px" fontWeight="600">
-                {form.paymentStatus === "Canceled" ? "Đã hủy đặt phòng" : form.paymentStatus}
+                {form.paymentStatus}
               </Typography>
             </Box>
           </Box>
@@ -284,7 +282,7 @@ export default function Reservation({ form, refetch }: ReservationProps) {
                 Đánh giá tại đây
               </Button>
             )}
-            {getIsEnableCancle() && form.paymentStatus !== "Canceled" && (
+            {!form.comment && getIsEnableCancle() && form.status === true && (
               <Button
                 variant="contained"
                 color="error"
@@ -294,7 +292,19 @@ export default function Reservation({ form, refetch }: ReservationProps) {
                 {' '}
                 Hủy đặt phòng
               </Button>
-            )}
+            )}{
+              !form.comment && getIsEnableCancle() && form.status === false &&
+              (
+                <Button
+                  variant="outlined"
+                  color="error"
+                  sx={{ fontWeight: '600' }}
+                >
+                  {' '}
+                  Đã hủy
+                </Button>
+              )
+            }
             <CommentComponent
               open={openModal}
               onClose={() => setOpenModal(false)}

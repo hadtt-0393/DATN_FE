@@ -19,6 +19,7 @@ export interface Form {
   roomIds: string;
   comment?: Comment;
   rating?: number;
+  status: boolean;
 }
 
 interface Comment {

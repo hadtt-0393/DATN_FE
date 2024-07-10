@@ -40,7 +40,7 @@ const Image = styled.img`
 },`
 
 export default function CommentComponent({ onClose, open, form, reFetch }: CommentComponentProps) {
-    const handleCancle = () => {
+    const handleCancel = () => {
         const token = getToken();
         const cancleForm = async () => {
             try {
@@ -300,7 +300,7 @@ export default function CommentComponent({ onClose, open, form, reFetch }: Comme
                                     backgroundColor: 'green',
                                 },
                             }}
-                            onClick={handleCancle}
+                            onClick={handleCancel}
                         >
                             Xác nhận hủy
                         </Button>
