@@ -451,7 +451,7 @@ export default function DetailHotel() {
                       {childrenFilter !== 0 ? ' Trẻ em' : ''}{' '}
                     </Typography>
                     <Typography fontWeight={600} mb={2}>
-                      {(totalPriceSuggest*DateDiff)
+                      {(totalPriceSuggest * DateDiff)
                         .toString()
                         .replace(/\B(?=(\d{3})+(?!\d))/g, '.')}{' '}
                       VND
@@ -796,7 +796,7 @@ export default function DetailHotel() {
                                   (total, room) =>
                                     total + room.price * room.quantityChoose,
                                   0,
-                                )*DateDiff)
+                                ) * DateDiff)
                                 .toString()
                                 .replace(/\B(?=(\d{3})+(?!\d))/g, '.')}{' '}
                               VND
