@@ -45,6 +45,16 @@ export default function BookingPage() {
         })
     }
 
+    const calculateDate = (start: string, end: string) => {
+        let startDate = new Date(start);
+        let endDate = new Date(end);
+        let timeDiff = Math.abs(startDate.getTime() - endDate.getTime())
+        let diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+        return diffDays;
+    }
+
+    let DateDiff = calculateDate(option.startDate, option.endDate)
+
     return (
         <Box>
             <Navbar />
@@ -177,7 +187,7 @@ export default function BookingPage() {
                                     </Box>
                                     <Box mt="30px" display="flex" justifyContent="space-between" alignItems="center" >
                                         <Typography fontSize="16px" fontWeight="600" color="#878C9F">Tổng thanh toán</Typography>
-                                        <Typography color="#3AACED" fontWeight="600" fontSize="19px"> {roomChoose.reduce((total, room) => total + room.price * room.quantityChoose, 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} VND</Typography>
+                                        <Typography color="#3AACED" fontWeight="600" fontSize="19px"> {(roomChoose.reduce((total, room) => total + room.price * room.quantityChoose, 0)*DateDiff).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} VND</Typography>
                                     </Box>
                                 </Box>
                             </Box>

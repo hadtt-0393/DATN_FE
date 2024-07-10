@@ -109,7 +109,6 @@ export default function DetailHotel() {
     }
     : optionDefault;
 
-
   const handleChangeData = (arg1, arg2) => {
     if (arg1 === 'date') {
       const stFilter = arg2[0].startDate.toLocaleDateString('en-US');
@@ -243,6 +242,16 @@ export default function DetailHotel() {
     setCursor(totalRooms === 0 ? 'no-drop' : 'pointer');
   }, [rooms]);
 
+  const calculateDate = (start: string, end: string) => {
+    let startDate = new Date(start);
+    let endDate = new Date(end);
+    let timeDiff = Math.abs(startDate.getTime() - endDate.getTime())
+    let diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+    return diffDays;
+  }
+
+  let DateDiff = calculateDate(startDateFilter, endDateFilter)
+
   return (
     <Box>
       <Navbar />
@@ -280,7 +289,7 @@ export default function DetailHotel() {
                     padding="25px 0"
                   >
                     Được giới thiệu cho {adultFilter} người lớn
-                    {childrenFilter !== 0 ? `,${childrenFilter} trẻ em` : ''}
+                    {childrenFilter !== 0 ? `, ${childrenFilter} trẻ em` : ''}
                   </Typography>
                 </Box>
                 <Box
@@ -437,12 +446,12 @@ export default function DetailHotel() {
                   >
                     <Typography fontSize="12px" color="#666" mb={1}>
                       {' '}
-                      1 đêm , {adultFilter} người lớn{' '}
-                      {childrenFilter !== 0 ? childrenFilter : ''}{' '}
-                      {childrenFilter !== 0 ? ', Trẻ em' : ''}{' '}
+                      {DateDiff} đêm , {adultFilter} người lớn{' '}
+                      {childrenFilter !== 0 ? `, ${childrenFilter}` : ''}{' '}
+                      {childrenFilter !== 0 ? ' Trẻ em' : ''}{' '}
                     </Typography>
                     <Typography fontWeight={600} mb={2}>
-                      {totalPriceSuggest
+                      {(totalPriceSuggest*DateDiff)
                         .toString()
                         .replace(/\B(?=(\d{3})+(?!\d))/g, '.')}{' '}
                       VND
@@ -541,7 +550,7 @@ export default function DetailHotel() {
                       alignItems="center"
                       fontWeight={600}
                     >
-                      Giá phòng
+                      Giá phòng/Đêm
                     </Box>
                   </Box>
                   <Box flex={1} borderRight="1px solid #5BBAFF">
@@ -779,15 +788,15 @@ export default function DetailHotel() {
                                 (total, room) => total + room.quantityChoose,
                                 0,
                               )}{' '}
-                              phòng
+                              phòng/{DateDiff}{' '}đêm
                             </Typography>
                             <Typography fontWeight={600} color="#18458B">
-                              {rooms
+                              {(rooms
                                 .reduce(
                                   (total, room) =>
                                     total + room.price * room.quantityChoose,
                                   0,
-                                )
+                                )*DateDiff)
                                 .toString()
                                 .replace(/\B(?=(\d{3})+(?!\d))/g, '.')}{' '}
                               VND
