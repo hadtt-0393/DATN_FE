@@ -8,7 +8,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
@@ -19,7 +19,6 @@ import Footer from '../../components/Footer/FooterComponent';
 import Header from '../../components/Header/HeaderComponent';
 import Loading from '../../components/LoadingComponent/LoadingComponent';
 import Navbar from '../../components/Navbar/NavbarComponent';
-import { AuthContext } from '../../context/AuthContext';
 import useFetch from '../../hooks/useFetch';
 import { Hotel } from '../../models/Hotel';
 import { Room } from '../../models/Room';
@@ -37,16 +36,6 @@ export interface DatesInterface {
   key: string;
 }
 
-const getLabel = (value: number): string => {
-  if (value >= 0 && value < 1) return 'Rất kém';
-  if (value >= 1 && value < 2) return 'Kém';
-  if (value >= 2 && value < 3) return 'Tạm';
-  if (value >= 3 && value < 4) return 'Khá';
-  if (value >= 4 && value < 4.5) return 'Tốt';
-  if (value >= 4.5 && value <= 5) return 'Rất tốt';
-  return '';
-};
-
 const Image = styled.img`
     width: 100%;
     objectFit: cover;
@@ -60,11 +49,10 @@ const Image = styled.img`
 },`;
 
 export default function DetailHotel() {
-  const { user } = useContext(AuthContext);
   const location = useLocation();
   const { state } = location;
   const id = location.pathname.split('/')[2];
-  const { data, loading, error } = useFetch<Hotel>(
+  const { data } = useFetch<Hotel>(
     `${process.env.REACT_APP_API_ENDPOINT}/hotel/${id}`,
   );
 
@@ -152,7 +140,7 @@ export default function DetailHotel() {
       `${process.env.REACT_APP_API_ENDPOINT}/room/getAllRoomFilter/${id}?startDate=${startDateFilter}&endDate=${endDateFilter}&adult=${adultFilter}&children=${childrenFilter}&roomNumber=${roomNumberFilter}`,
     );
     const Rooms = await axios.get(
-      `${process.env.REACT_APP_API_ENDPOINT}/room/getAllRoomAvailable/${id}?startDate=${start}&endDate=${end}`,
+      `${process.env.REACT_APP_API_ENDPOINT}/room/getAllRoomAvailable/${id}?startDate=${startDateFilter}&endDate=${endDateFilter}`,
     );
     const updatedRooms = Rooms.data.map((room) => ({
       ...room,
@@ -175,7 +163,7 @@ export default function DetailHotel() {
     }
 
     try {
-      const authUser = await axios.get(
+      await axios.get(
         `${process.env.REACT_APP_API_ENDPOINT}/user/isLogin`,
         {
           headers: {

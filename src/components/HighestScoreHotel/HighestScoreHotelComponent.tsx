@@ -49,7 +49,7 @@ const Image = styled.img`
 
 export default function HighestScoreHotelComponent() {
     const navigate = useNavigate()
-    const { data, loading, error } = useFetch<Hotel[]>(
+    const { data} = useFetch<Hotel[]>(
         `${process.env.REACT_APP_API_ENDPOINT}/hotel/topTenRating`,
     );
     return (
