@@ -54,7 +54,7 @@ export default function PopularPlacesComponent() {
                 <Box sx={{ height: "900px", flex: 1, width: "95%", margin: "10px auto" }}>
                     <Grid container spacing={3}>
                         <Grid item xs={4}>
-                            <Box display="flex" alignItems="center" justifyContent="center" height="460px" overflow="hidden" borderRadius="10px" position="relative" onClick={() => navigate("/city/Đà Lạt")}>
+                            <Box display="flex" alignItems="center" justifyContent="center" height="460px" overflow="hidden" borderRadius="10px" position="relative" onClick={() => navigate("/city/Đà Nẵng")}>
                                 <Image src="https://wnfdiary.com/wp-content/uploads/2021/11/Dalat-vietnam-7.jpg" alt="da_lat" />
                                 <Box sx={{
                                     position: "absolute",
@@ -70,7 +70,7 @@ export default function PopularPlacesComponent() {
 
                                 }}>
                                     <Box marginLeft="20px" >
-                                        <Link sx={{ color: "white", fontWeight: "500", fontSize: "24px", textDecoration: "none" }}> Đà Lạt</Link>
+                                        <Link sx={{ color: "white", fontWeight: "500", fontSize: "24px", textDecoration: "none" }}> Đà Nẵng</Link>
                                         <Typography sx={{ color: "#F9F9FA", mb: "30px", fontSize: "13px", marginTop: "20px" }}>Hãy trải nghiệm những địa điểm nổi bật này cùng EasyBook</Typography>
                                     </Box>
 
