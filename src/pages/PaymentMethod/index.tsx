@@ -61,7 +61,7 @@ export default function PaymentMethod() {
                 rooms: roomChoose,
                 startDate,
                 endDate,
-                paymentStatus: 'Thanh toán khi trả phòng'
+                paymentStatus: 'Thanh toán khi nhận phòng'
             }, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -160,7 +160,7 @@ export default function PaymentMethod() {
 
                                         >
                                             <Box sx={{ display: "flex", gap: "3" }} mt="30px" pb="30px" borderBottom="1px #DDD dashed">
-                                                <FormControlLabel value="after" control={<Radio />} label="Thanh toán khi trả phòng" sx={{ minWidth: "250px" }} />
+                                                <FormControlLabel value="after" control={<Radio />} label="Thanh toán khi nhận phòng" sx={{ minWidth: "250px" }} />
                                                 <MoneyIcon sx={{ color: "#F9B90F", fontSize: "50px", ml: "30px" }} />
                                             </Box>
                                             <Box sx={{ display: "flex", gap: "3" }} mt="30px" pb="30px" borderBottom="1px #DDD solid" flexDirection="row" justifyContent="flex-start" alignItems="center">
