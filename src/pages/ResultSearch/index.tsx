@@ -356,7 +356,6 @@ export default function SearchResultsPage() {
                         <Box gap={2} sx={{ display: "flex", justifyContent: "space-between", alignItems: "start", flex: 1 }}>
                             <Grid container spacing={4}>
                                 {hotels.length > 0 && hotels.map((item) => (
-                                    item.hotelName !== "Gatsby Central Hotel" &&
                                     <Grid item xs={12} key={item._id}>
                                         <Card sx={{ ml: .5, border: "1px solid #A3D7FC", mr: .5, boxShadow: "none" }} >
                                             <CardActionArea sx={{ display: "flex", flexDirection: "row", alignItems: "start" }} >
