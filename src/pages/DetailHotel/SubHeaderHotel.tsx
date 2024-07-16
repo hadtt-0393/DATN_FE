@@ -72,7 +72,7 @@ export default function SubHeaderHotel({ data }: SubHeaderHotelProps) {
               {data.ratingAvg && (
                 <Rating
                   name="text-feedback"
-                  value={4}
+                  value={data.ratingAvg}
                   readOnly
                   precision={0.5}
                   emptyIcon={
